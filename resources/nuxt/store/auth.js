@@ -28,16 +28,18 @@ export const actions = {
         let access_token = localStorage.getItem('access_token');
         if (access_token) {
             this.$axios.setToken(access_token, 'Bearer');
-            try {
-                let resp = await this.$axios.$post('/api/auth/me');
-                commit('setToken', access_token);
-                commit('setUser', resp);
-            }
-            catch(err) {
+            
+            let resp = await this.$axios.$post('/api/auth/me');
+            
+            if (resp.error) {
                 commit('setToken', null);
                 commit('setUser', {});
                 location.reload();
+                return;
             }
+
+            commit('setToken', access_token);
+            commit('setUser', resp);
         }
     },
 
