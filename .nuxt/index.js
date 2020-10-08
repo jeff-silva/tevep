@@ -13,10 +13,10 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_184e744e from 'nuxt_plugin_plugin_184e744e' // Source: .\\components\\plugin.js (mode: 'all')
-import nuxt_plugin_workbox_033ffd98 from 'nuxt_plugin_workbox_033ffd98' // Source: .\\workbox.js (mode: 'client')
-import nuxt_plugin_axios_c1211108 from 'nuxt_plugin_axios_c1211108' // Source: .\\axios.js (mode: 'all')
-import nuxt_plugin_nuxtleaflet_0f2ff5c9 from 'nuxt_plugin_nuxtleaflet_0f2ff5c9' // Source: .\\nuxt-leaflet.js (mode: 'client')
+import nuxt_plugin_plugin_8a3c9902 from 'nuxt_plugin_plugin_8a3c9902' // Source: .\\components\\plugin.js (mode: 'all')
+import nuxt_plugin_workbox_2120a2be from 'nuxt_plugin_workbox_2120a2be' // Source: .\\workbox.js (mode: 'client')
+import nuxt_plugin_axios_2939a3bc from 'nuxt_plugin_axios_2939a3bc' // Source: .\\axios.js (mode: 'all')
+import nuxt_plugin_nuxtleaflet_6dc69863 from 'nuxt_plugin_nuxtleaflet_6dc69863' // Source: .\\nuxt-leaflet.js (mode: 'client')
 import nuxt_plugin_axios_397e53b5 from 'nuxt_plugin_axios_397e53b5' // Source: ..\\resources\\nuxt\\plugins\\axios.js (mode: 'all')
 import nuxt_plugin_utils_f95abccc from 'nuxt_plugin_utils_f95abccc' // Source: ..\\resources\\nuxt\\plugins\\utils.js (mode: 'all')
 
@@ -197,20 +197,20 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_184e744e === 'function') {
-    await nuxt_plugin_plugin_184e744e(app.context, inject)
+  if (typeof nuxt_plugin_plugin_8a3c9902 === 'function') {
+    await nuxt_plugin_plugin_8a3c9902(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_workbox_033ffd98 === 'function') {
-    await nuxt_plugin_workbox_033ffd98(app.context, inject)
+  if (process.client && typeof nuxt_plugin_workbox_2120a2be === 'function') {
+    await nuxt_plugin_workbox_2120a2be(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_c1211108 === 'function') {
-    await nuxt_plugin_axios_c1211108(app.context, inject)
+  if (typeof nuxt_plugin_axios_2939a3bc === 'function') {
+    await nuxt_plugin_axios_2939a3bc(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_nuxtleaflet_0f2ff5c9 === 'function') {
-    await nuxt_plugin_nuxtleaflet_0f2ff5c9(app.context, inject)
+  if (process.client && typeof nuxt_plugin_nuxtleaflet_6dc69863 === 'function') {
+    await nuxt_plugin_nuxtleaflet_6dc69863(app.context, inject)
   }
 
   if (typeof nuxt_plugin_axios_397e53b5 === 'function') {
