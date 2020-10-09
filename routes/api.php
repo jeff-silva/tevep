@@ -43,6 +43,16 @@ Route::post('/call', function() {
     return ['error' => 'Cant execute'];
 });
 
+
+Route::group(['prefix' => 'teveps'], function($router) {
+    Route::get('find', 'TevepController@find');
+    Route::get('search', 'TevepController@search');
+    Route::post('save', 'TevepController@save');
+    Route::post('delete', 'TevepController@delete');
+});
+
+
+return;
 foreach(\App\Utils::classes() as $model) {
     $instance = new $model;
     $table_name = $instance->getTable();

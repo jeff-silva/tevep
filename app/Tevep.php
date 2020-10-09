@@ -19,7 +19,6 @@ class Tevep extends Model
     ];
 
     protected $attributes = [
-        'id' => false,
         'user_id' => '',
         'title' => '',
         'divisor' => '',
@@ -50,9 +49,19 @@ class Tevep extends Model
         return $err;
     }
 
+
     public function store() {
-        // 
+        if ($this->id AND $save=static::find($this->id)) {
+            $save->fill($this->toArray())->update();
+            return $save;
+        }
+
+        $save = $this->toArray();
+        unset($save['id']);
+        $save = static::create($save);
+        return $save;
     }
+
 
     public function endpoints()
     {

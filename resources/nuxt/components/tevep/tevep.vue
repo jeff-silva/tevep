@@ -202,7 +202,6 @@ export default {
 
 		tevepSave() {
             this.error = {};
-            console.log(this.$user());
             this.props.value.user_id = this.$user('id');
 			this.$axios.post('/api/teveps/save/', this.props.value).then((resp) => {
                 if (resp.data.error) {
@@ -481,7 +480,7 @@ export default {
 	mounted() {
         this.$axios.get('/api/teveps/find', {params:{id:this.$route.params.id}}).then((resp) => {
             let tevep = resp.data.id? resp.data: {};
-            tevep.id = tevep.id||0;
+            tevep.id = tevep.id||'';
             this.tevepInit(tevep);
         });
 	},
