@@ -1,6 +1,6 @@
 <template><div class="ui-table">
 
-    <div v-if="props.items.length==0">
+    <div v-if="props.value.data.length==0">
         <slot name="empty">
             Nenhum dado encontrado
         </slot>
@@ -14,7 +14,7 @@
                 </tr>
             </thead> -->
             <tbody>
-                <template v-for="i in items">
+                <template v-for="i in props.value.data">
                     <tr>
                         <slot name="item" :item="i"></slot>
                         <td class="ui-table-td-actions">
@@ -33,14 +33,13 @@
         </table>
     </div>
 
-    <!-- <pre>$data: {{ $data }}</pre> -->
+    <pre>$data: {{ $data }}</pre>
 </div></template>
 
 
 <script>export default {
     props: {
-        value: {default: ()=>([])},
-        items: {default: ()=>([])},
+        value: {default: ()=>({})},
         loading: {default: false},
     },
 
@@ -51,9 +50,24 @@
     },
 
     data() {
-        return {
-            props: Object.assign({}, this.$props),
-        };
+        let data = {};
+
+        data.props = Object.assign({}, this.$props);
+        data.props.value = Object.assign({
+            current_page: 1,
+            data: [],
+            first_page_url: '',
+            from: '',
+            last_page: '',
+            last_page_url: '',
+            next_page_url: '',
+            path: '',
+            prev_page_url: '',
+            to: '',
+            total: '',
+        }, data.props.value);
+
+        return data;
     },
 };</script>
 

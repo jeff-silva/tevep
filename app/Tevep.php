@@ -79,7 +79,7 @@ class Tevep extends Model
             $query = $query->where('user_id', $params['user_id']);
         }
 
-        return $query->get();
+        return $query;
     }
 
 

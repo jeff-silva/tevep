@@ -89,6 +89,12 @@
   "LazyUiForm": {
     "description": "Auto imported from components/ui/ui-form.vue"
   },
+  "UiLaravelTable": {
+    "description": "Auto imported from components/ui/ui-laravel-table.vue"
+  },
+  "LazyUiLaravelTable": {
+    "description": "Auto imported from components/ui/ui-laravel-table.vue"
+  },
   "UiModal": {
     "description": "Auto imported from components/ui/ui-modal.vue"
   },

@@ -7,7 +7,7 @@
 		</template>
 	</app-footer> -->
 
-	<ui-table :items="teveps">
+    <ui-laravel-table v-model="tevep" resource="tevep" :search-params="{user_id:$user('id')}">
         <template #empty>Nenhum projeto encontrado</template>
 
         <template #item="{item}">
@@ -18,7 +18,7 @@
             <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-primary"><i class="fa fa-fw fa-pencil"></i></nuxt-link>
             <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-danger"><i class="fa fa-fw fa-remove"></i></nuxt-link>
         </template>
-    </ui-table>
+    </ui-laravel-table>
 </div></template>
 
 <script>
@@ -28,21 +28,8 @@ export default {
 
     data() {
         return {
-            teveps: [],
+            tevep: {},
         };
-    },
-
-    methods: {
-        tevepSearch() {
-            let query = {user_id:this.$user('id')};
-            this.$axios.get('/api/teveps/search', {params:query}).then((resp) => {
-                this.teveps = resp.data;
-            });
-        },
-    },
-
-    mounted() {
-        this.tevepSearch();
     },
 }
 </script>

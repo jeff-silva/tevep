@@ -44,6 +44,9 @@ Route::post('/call', function() {
 });
 
 
+Route::resource('tevep', 'TevepController');
+
+
 Route::group(['prefix' => 'teveps'], function($router) {
     Route::get('find', 'TevepController@find');
     Route::get('search', 'TevepController@search');

@@ -13,6 +13,7 @@ export { default as UiDatepicker } from '../..\\resources\\nuxt\\components\\ui\
 export { default as UiDatetime } from '../..\\resources\\nuxt\\components\\ui\\ui-datetime.vue'
 export { default as UiField } from '../..\\resources\\nuxt\\components\\ui\\ui-field.vue'
 export { default as UiForm } from '../..\\resources\\nuxt\\components\\ui\\ui-form.vue'
+export { default as UiLaravelTable } from '../..\\resources\\nuxt\\components\\ui\\ui-laravel-table.vue'
 export { default as UiModal } from '../..\\resources\\nuxt\\components\\ui\\ui-modal.vue'
 export { default as UiNavbar } from '../..\\resources\\nuxt\\components\\ui\\ui-navbar.vue'
 export { default as UiPasswordMeter } from '../..\\resources\\nuxt\\components\\ui\\ui-password-meter.vue'
@@ -37,6 +38,7 @@ export const LazyUiDatepicker = import('../..\\resources\\nuxt\\components\\ui\\
 export const LazyUiDatetime = import('../..\\resources\\nuxt\\components\\ui\\ui-datetime.vue' /* webpackChunkName: "components_ui/ui-datetime" */).then(c => c.default || c)
 export const LazyUiField = import('../..\\resources\\nuxt\\components\\ui\\ui-field.vue' /* webpackChunkName: "components_ui/ui-field" */).then(c => c.default || c)
 export const LazyUiForm = import('../..\\resources\\nuxt\\components\\ui\\ui-form.vue' /* webpackChunkName: "components_ui/ui-form" */).then(c => c.default || c)
+export const LazyUiLaravelTable = import('../..\\resources\\nuxt\\components\\ui\\ui-laravel-table.vue' /* webpackChunkName: "components_ui/ui-laravel-table" */).then(c => c.default || c)
 export const LazyUiModal = import('../..\\resources\\nuxt\\components\\ui\\ui-modal.vue' /* webpackChunkName: "components_ui/ui-modal" */).then(c => c.default || c)
 export const LazyUiNavbar = import('../..\\resources\\nuxt\\components\\ui\\ui-navbar.vue' /* webpackChunkName: "components_ui/ui-navbar" */).then(c => c.default || c)
 export const LazyUiPasswordMeter = import('../..\\resources\\nuxt\\components\\ui\\ui-password-meter.vue' /* webpackChunkName: "components_ui/ui-password-meter" */).then(c => c.default || c)
