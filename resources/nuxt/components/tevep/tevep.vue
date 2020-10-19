@@ -203,7 +203,7 @@ export default {
 		tevepSave() {
             this.error = {};
             this.props.value.user_id = this.$user('id');
-			this.$axios.post('/api/teveps/save/', this.props.value).then((resp) => {
+			this.$axios.post('/api/tevep/', this.props.value).then((resp) => {
                 if (resp.data.error) {
                     this.error = resp.data.error;
                 }
@@ -487,7 +487,7 @@ export default {
             });
         }
 
-        else { this.tevepInit(); }
+        // else { this.tevepInit(); }
 
 	},
 };</script>

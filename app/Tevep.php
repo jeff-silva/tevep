@@ -52,7 +52,7 @@ class Tevep extends Model
 
     public function store() {
         if ($this->id AND $save=static::find($this->id)) {
-            $save->fill($this->toArray())->update();
+            $save->fill($this->toArray())->save();
             return $save;
         }
 
