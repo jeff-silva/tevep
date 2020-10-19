@@ -45,7 +45,7 @@ class TevepController extends Controller
      */
     public function show($id)
     {
-        //
+        return \App\Tevep::find($id);
     }
 
     /**
@@ -56,7 +56,7 @@ class TevepController extends Controller
      */
     public function edit($id)
     {
-        //
+        return \App\Tevep::find($id);
     }
 
     /**

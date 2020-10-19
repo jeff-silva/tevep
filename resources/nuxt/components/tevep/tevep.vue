@@ -478,10 +478,16 @@ export default {
 	},
 
 	mounted() {
-        this.$axios.get('/api/teveps/find', {params:{id:this.$route.params.id}}).then((resp) => {
-            let tevep = resp.data.id? resp.data: {};
-            tevep.id = tevep.id||'';
-            this.tevepInit(tevep);
-        });
+
+        if (this.$route.params.id) {
+            this.$axios.get(`/api/tevep/${this.$route.params.id}`).then((resp) => {
+                let tevep = resp.data.id? resp.data: {};
+                tevep.id = tevep.id||'';
+                this.tevepInit(tevep);
+            });
+        }
+
+        else { this.tevepInit(); }
+
 	},
 };</script>

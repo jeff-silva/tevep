@@ -21,6 +21,13 @@
     "_name": "_19cee748"
   },
   {
+    "name": "dev",
+    "path": "/dev",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dev\\\\index.vue",
+    "chunkName": "pages/dev/index",
+    "_name": "_7a8d6085"
+  },
+  {
     "name": "search",
     "path": "/search",
     "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\search.vue",

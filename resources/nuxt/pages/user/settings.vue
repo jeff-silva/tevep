@@ -35,16 +35,6 @@
             </div>
         </fieldset>
     </form>
-
-    <hr>
-
-    <fieldset><legend>Meus endereços</legend>
-        <ui-addresses reference="users"
-            :ref-id="$store.state.auth.user.id"
-            :load-on-start="false"
-            ref="userAddresses"
-        ></ui-addresses>
-    </fieldset>
 </div></template>
 
 <script>

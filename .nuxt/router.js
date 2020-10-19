@@ -6,6 +6,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _51dd451c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\index.vue' /* webpackChunkName: "pages/auth/index" */))
 const _b19159b0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\business.vue' /* webpackChunkName: "pages/business" */))
 const _19cee748 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
+const _7a8d6085 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dev\\index.vue' /* webpackChunkName: "pages/dev/index" */))
 const _d5dc8de0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\search.vue' /* webpackChunkName: "pages/search" */))
 const _5dd1f20c = () => interopDefault(import('..\\resources\\nuxt\\pages\\test.vue' /* webpackChunkName: "pages/test" */))
 const _2da52e2a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\index.vue' /* webpackChunkName: "pages/tevep/index" */))
@@ -45,6 +46,10 @@ export const routerOptions = {
     path: "/dashboard",
     component: _19cee748,
     name: "dashboard"
+  }, {
+    path: "/dev",
+    component: _7a8d6085,
+    name: "dev"
   }, {
     path: "/search",
     component: _d5dc8de0,

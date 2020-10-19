@@ -18,6 +18,19 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::get('/', function() {
+    $routes = [];
+
+    foreach(\Route::getRoutes() as $route) {
+        $routes[] = [
+            'methods' => $route->methods(),
+            'uri' => $route->uri(),
+        ];
+    }
+
+    return $routes;
+});
+
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
@@ -53,6 +66,7 @@ Route::group(['prefix' => 'teveps'], function($router) {
     Route::post('save', 'TevepController@save');
     Route::post('delete', 'TevepController@delete');
 });
+
 
 
 return;
