@@ -52,6 +52,37 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    public function validate() {
+        $rules = [
+            'name' => 'required',
+            'email' => "email:rfc,dns|unique:users,email,{$this->id}",
+            'password' => 'required',
+        ];
+
+        $messages = [
+            'name.required' => 'Informe o nome',
+            'email.email' => 'E-mail inválido',
+            'email.unique' => 'E-mail já utilizado',
+            'password.required' => 'Informe a senha',
+        ];
+
+        $validator = \Validator::make($this->toArray(), $rules, $messages);
+        if ($validator->fails()) {
+            throw new \Exception(json_encode([
+                'error' => $validator->errors(),
+            ]));
+        }
+        
+        return false;
+    }
+
+
+    public function store() {
+        $this->validate();
+        return static::firstOrNew($this->toArray())->save();
+    }
+
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

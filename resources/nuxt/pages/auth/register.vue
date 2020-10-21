@@ -6,13 +6,13 @@
         <div class="form-group">
             <label>Informe seu nome</label>
             <input type="text" class="form-control input-lg" v-model="post.name" placeholder="Nome">
-            <small class="text-danger" v-html="error.name"></small>
+            <small class="text-danger" v-if="error.name" v-html="error.name.join('<br>')"></small>
         </div>
 
         <div class="form-group">
             <label>Qual seu email?</label>
             <input type="email" class="form-control input-lg" v-model="post.email" placeholder="Email">
-            <small class="text-danger" v-html="error.email"></small>
+            <small class="text-danger" v-if="error.email" v-html="error.email.join('<br>')"></small>
         </div>
 
         <div class="form-group">
@@ -21,11 +21,11 @@
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="password" class="form-control input-lg" v-model="post.password" placeholder="Senha">
                     <ui-password-meter v-model="post.password" class="mt-1"></ui-password-meter>
-                    <small class="text-danger" v-html="error.password"></small>
+                    <small class="text-danger" v-if="error.password" v-html="error.password.join('<br>')"></small>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <input type="password" class="form-control input-lg" v-model="post.password2" placeholder="Repita senha">
-                    <small class="text-danger" v-html="error.password2"></small>
+                    <small class="text-danger" v-if="error.password2" v-html="error.password2.join('<br>')"></small>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
     methods: {
         register() {
             this.error = {};
-            this.$axios.post('/api/user/register', this.post).then((resp) => {
+            this.$axios.post('/api/auth/register', this.post).then((resp) => {
                 if (resp.data.error) {
                     this.error = resp.data.error;
                     return;

@@ -31,7 +31,8 @@ Route::get('/', function() {
     return $routes;
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
+Route::post('/auth/register', 'UserController@register');
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
