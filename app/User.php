@@ -30,7 +30,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -44,7 +45,7 @@ class User extends Authenticatable implements JWTSubject
 
 
     public function setPasswordAttribute($value){
-        $this->attributes['password'] = \Hash::make($value);
+        $this->attributes['password'] = $value? \Hash::make($value): null;
     }
 
     public function setNameAttribute($value){
@@ -52,11 +53,13 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    // https://laravel.com/docs/8.x/validation#available-validation-rules
     public function validate() {
         $rules = [
             'name' => 'required',
             'email' => "email:rfc,dns|unique:users,email,{$this->id}",
-            'password' => 'required',
+            'password' => 'sometimes|required',
+            'password_confirmation' => 'required',
         ];
 
         $messages = [
@@ -66,7 +69,7 @@ class User extends Authenticatable implements JWTSubject
             'password.required' => 'Informe a senha',
         ];
 
-        $validator = \Validator::make($this->toArray(), $rules, $messages);
+        $validator = \Validator::make($this->attributes, $rules, $messages);
         if ($validator->fails()) {
             throw new \Exception(json_encode([
                 'error' => $validator->errors(),
@@ -79,7 +82,9 @@ class User extends Authenticatable implements JWTSubject
 
     public function store() {
         $this->validate();
-        return static::firstOrNew($this->toArray())->save();
+        $save = static::firstOrNew($this->toArray());
+        $save->save();
+        return $save;
     }
 
 

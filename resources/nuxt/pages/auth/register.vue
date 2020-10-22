@@ -24,8 +24,8 @@
                     <small class="text-danger" v-if="error.password" v-html="error.password.join('<br>')"></small>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6">
-                    <input type="password" class="form-control input-lg" v-model="post.password2" placeholder="Repita senha">
-                    <small class="text-danger" v-if="error.password2" v-html="error.password2.join('<br>')"></small>
+                    <input type="password" class="form-control input-lg" v-model="post.password_confirmation" placeholder="Repita senha">
+                    <small class="text-danger" v-if="error.password_confirmation" v-html="error.password_confirmation.join('<br>')"></small>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                 name: '',
                 email: '',
                 password: '',
-                password2: '',
+                password_confirmation: '',
             },
         };
     },

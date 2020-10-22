@@ -20,8 +20,6 @@ Artisan::command('inspire', function () {
 
 
 Artisan::command('app-deploy', function () {
-    \Artisan::call('cache:clear');
-    
     $this->comment('App Deploy');
     $this->comment('');
 
@@ -158,11 +156,17 @@ Artisan::command('app-deploy', function () {
         $this->comment('');
     }
 
-    if ('local'==env('APP_ENV')) {
-        $models_file = base_path(implode(DIRECTORY_SEPARATOR, ['resources', 'nuxt', 'plugins', 'models.json']));
-        file_put_contents($models_file, json_encode($models));
-        $this->comment('Models generated');
-    }
+    // if ('local'==env('APP_ENV')) {
+    //     $models_file = base_path(implode(DIRECTORY_SEPARATOR, ['resources', 'nuxt', 'plugins', 'models.json']));
+    //     file_put_contents($models_file, json_encode($models));
+    //     $this->comment('Models generated');
+    // }
+
+    \Artisan::call('config:cache');
+    \Artisan::call('config:clear');
+    \Artisan::call('view:clear');
+    \Artisan::call('route:clear');
+    \Artisan::call('optimize:clear');
     
     $this->comment('Finish');
 })->describe('App deploy');
