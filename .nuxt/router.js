@@ -3,20 +3,20 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _51dd451c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\index.vue' /* webpackChunkName: "pages/auth/index" */))
-const _b19159b0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\business.vue' /* webpackChunkName: "pages/business" */))
-const _19cee748 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard.vue' /* webpackChunkName: "pages/dashboard" */))
-const _7a8d6085 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dev\\index.vue' /* webpackChunkName: "pages/dev/index" */))
-const _d5dc8de0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\search.vue' /* webpackChunkName: "pages/search" */))
-const _5dd1f20c = () => interopDefault(import('..\\resources\\nuxt\\pages\\test.vue' /* webpackChunkName: "pages/test" */))
-const _2da52e2a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\index.vue' /* webpackChunkName: "pages/tevep/index" */))
-const _6bbd2b6f = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\index.vue' /* webpackChunkName: "pages/user/index" */))
-const _8265a0aa = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\password.vue' /* webpackChunkName: "pages/auth/password" */))
-const _37365fb3 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\register.vue' /* webpackChunkName: "pages/auth/register" */))
-const _c71470f6 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\notifications.vue' /* webpackChunkName: "pages/user/notifications" */))
-const _7c1b7bd4 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\settings.vue' /* webpackChunkName: "pages/user/settings" */))
-const _121cb312 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id.vue' /* webpackChunkName: "pages/tevep/_id" */))
-const _6a9f939a = () => interopDefault(import('..\\resources\\nuxt\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _22391c83 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\index.vue' /* webpackChunkName: "pages/auth/index" */))
+const _04eb2796 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\index.vue' /* webpackChunkName: "pages/dashboard/index" */))
+const _9c1e059a = () => interopDefault(import('..\\resources\\nuxt\\pages\\inspire.vue' /* webpackChunkName: "pages/inspire" */))
+const _bad42ab0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\settings\\index.vue' /* webpackChunkName: "pages/settings/index" */))
+const _1d761f59 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index.vue' /* webpackChunkName: "pages/test/index" */))
+const _47755139 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\index.vue' /* webpackChunkName: "pages/tevep/index" */))
+const _92362b00 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\index.vue' /* webpackChunkName: "pages/user/index" */))
+const _b5be6a0c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\password.vue' /* webpackChunkName: "pages/auth/password" */))
+const _1d89fb02 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\register.vue' /* webpackChunkName: "pages/auth/register" */))
+const _4311f8e0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\settings.vue' /* webpackChunkName: "pages/dashboard/settings" */))
+const _42f4466b = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\users.vue' /* webpackChunkName: "pages/dashboard/users" */))
+const _df2f643e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id.vue' /* webpackChunkName: "pages/tevep/_id" */))
+const _78a8e630 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\_id.vue' /* webpackChunkName: "pages/user/_id" */))
+const _bbf7992a = () => interopDefault(import('..\\resources\\nuxt\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -36,60 +36,64 @@ export const routerOptions = {
 
   routes: [{
     path: "/auth",
-    component: _51dd451c,
+    component: _22391c83,
     name: "auth"
   }, {
-    path: "/business",
-    component: _b19159b0,
-    name: "business"
-  }, {
     path: "/dashboard",
-    component: _19cee748,
+    component: _04eb2796,
     name: "dashboard"
   }, {
-    path: "/dev",
-    component: _7a8d6085,
-    name: "dev"
+    path: "/inspire",
+    component: _9c1e059a,
+    name: "inspire"
   }, {
-    path: "/search",
-    component: _d5dc8de0,
-    name: "search"
+    path: "/settings",
+    component: _bad42ab0,
+    name: "settings"
   }, {
     path: "/test",
-    component: _5dd1f20c,
+    component: _1d761f59,
     name: "test"
   }, {
     path: "/tevep",
-    component: _2da52e2a,
+    component: _47755139,
     name: "tevep"
   }, {
     path: "/user",
-    component: _6bbd2b6f,
+    component: _92362b00,
     name: "user"
   }, {
     path: "/auth/password",
-    component: _8265a0aa,
+    component: _b5be6a0c,
     name: "auth-password"
   }, {
     path: "/auth/register",
-    component: _37365fb3,
+    component: _1d89fb02,
     name: "auth-register"
   }, {
-    path: "/user/notifications",
-    component: _c71470f6,
-    name: "user-notifications"
+    path: "/dashboard/settings",
+    component: _4311f8e0,
+    name: "dashboard-settings"
   }, {
-    path: "/user/settings",
-    component: _7c1b7bd4,
-    name: "user-settings"
+    path: "/dashboard/users",
+    component: _42f4466b,
+    name: "dashboard-users"
   }, {
     path: "/tevep/:id",
-    component: _121cb312,
+    component: _df2f643e,
     name: "tevep-id"
   }, {
+    path: "/user/:id",
+    component: _78a8e630,
+    name: "user-id"
+  }, {
     path: "/",
-    component: _6a9f939a,
+    component: _bbf7992a,
     name: "index"
+  }, {
+    path: "/__nuxt_laravel",
+    component: _bbf7992a,
+    name: "__nuxt_laravel"
   }],
 
   fallback: false

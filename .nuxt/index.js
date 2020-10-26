@@ -5,7 +5,7 @@ import ClientOnly from 'vue-client-only'
 import NoSsr from 'vue-no-ssr'
 import { createRouter } from './router.js'
 import NuxtChild from './components/nuxt-child.js'
-import NuxtError from './components/nuxt-error.vue'
+import NuxtError from '..\\resources\\nuxt\\layouts\\error.vue'
 import Nuxt from './components/nuxt.js'
 import App from './App.js'
 import { setContext, getLocation, getRouteData, normalizeError } from './utils'
@@ -13,12 +13,10 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_8a3c9902 from 'nuxt_plugin_plugin_8a3c9902' // Source: .\\components\\plugin.js (mode: 'all')
-import nuxt_plugin_workbox_2120a2be from 'nuxt_plugin_workbox_2120a2be' // Source: .\\workbox.js (mode: 'client')
-import nuxt_plugin_axios_2939a3bc from 'nuxt_plugin_axios_2939a3bc' // Source: .\\axios.js (mode: 'all')
-import nuxt_plugin_nuxtleaflet_6dc69863 from 'nuxt_plugin_nuxtleaflet_6dc69863' // Source: .\\nuxt-leaflet.js (mode: 'client')
-import nuxt_plugin_axios_397e53b5 from 'nuxt_plugin_axios_397e53b5' // Source: ..\\resources\\nuxt\\plugins\\axios.js (mode: 'all')
+import nuxt_plugin_plugin_5ac5a034 from 'nuxt_plugin_plugin_5ac5a034' // Source: .\\components\\plugin.js (mode: 'all')
+import nuxt_plugin_axios_23e4c257 from 'nuxt_plugin_axios_23e4c257' // Source: .\\axios.js (mode: 'all')
 import nuxt_plugin_utils_f95abccc from 'nuxt_plugin_utils_f95abccc' // Source: ..\\resources\\nuxt\\plugins\\utils.js (mode: 'all')
+import nuxt_plugin_auth_fe7c800e from 'nuxt_plugin_auth_fe7c800e' // Source: .\\auth.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -68,7 +66,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"TEvEP","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""},{"hid":"mobile-web-app-capable","name":"mobile-web-app-capable","content":"yes"},{"hid":"apple-mobile-web-app-title","name":"apple-mobile-web-app-title","content":"TEvEP"},{"hid":"author","name":"author","content":"jeferson.i.silva@gmail.com"},{"hid":"theme-color","name":"theme-color","content":"black"},{"hid":"og:type","name":"og:type","property":"og:type","content":"website"},{"hid":"og:title","name":"og:title","property":"og:title","content":"TEvEP"},{"hid":"og:site_name","name":"og:site_name","property":"og:site_name","content":"TEvEP"},{"hid":"og:description","name":"og:description","property":"og:description","content":"TL;DR: Start server: `npm start`"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002Ffont-awesome@4.7.0\u002Fcss\u002Ffont-awesome.min.css"},{"rel":"stylesheet","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002Fanimate.css@4.1.0\u002Fanimate.min.css"},{"rel":"manifest","href":"\u002F_nuxt\u002Fmanifest.62227ddf.json"}],"script":[],"style":[],"htmlAttrs":{"lang":"pt-BR"}},
+    head: {"titleTemplate":"%s - ","title":"LaraNuxt","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"\u003Cp align=\"center\"\u003E\r   \u003Ca href=\"https:\u002F\u002Flaravel.com\"\u003E\u003Cimg alt=\"Laravel\" src=\"https:\u002F\u002Fupload.wikimedia.org\u002Fwikipedia\u002Fcommons\u002Fthumb\u002F9\u002F9a\u002FLaravel.svg\u002F1200px-Laravel.svg.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Fvuejs.org\"\u003E\u003Cimg alt=\"Vue.js\" src=\"https:\u002F\u002Fvuejs.org\u002Fimages\u002Flogo.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Fnuxtjs.org\u002F\"\u003E\u003Cimg alt=\"Nuxt.js\" src=\"https:\u002F\u002Fupload.wikimedia.org\u002Fwikipedia\u002Fcommons\u002F3\u002F3c\u002FNuxt-js.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Fvuetifyjs.com\u002F\"\u003E\u003Cimg alt=\"Vuetify\" src=\"https:\u002F\u002Fcdn.vuetifyjs.com\u002Fimages\u002Flogos\u002Fvuetify-logo-dark.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Feslint.org\u002F\"\u003E\u003Cimg alt=\"ESLint\" src=\"https:\u002F\u002Fd33wubrfki0l68.cloudfront.net\u002F204482ca413433c80cd14fe369e2181dd97a2a40\u002F092e2\u002Fassets\u002Fimg\u002Flogo.svg\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Fjestjs.io\u002F\"\u003E\u003Cimg alt=\"Jest\" src=\"https:\u002F\u002Fmiro.medium.com\u002Fmax\u002F600\u002F1*i37IyHf6vnhqWIA9osxU3w.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r \u003C\u002Fp\u003E"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
 
     store,
     router,
@@ -197,28 +195,20 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_8a3c9902 === 'function') {
-    await nuxt_plugin_plugin_8a3c9902(app.context, inject)
+  if (typeof nuxt_plugin_plugin_5ac5a034 === 'function') {
+    await nuxt_plugin_plugin_5ac5a034(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_workbox_2120a2be === 'function') {
-    await nuxt_plugin_workbox_2120a2be(app.context, inject)
-  }
-
-  if (typeof nuxt_plugin_axios_2939a3bc === 'function') {
-    await nuxt_plugin_axios_2939a3bc(app.context, inject)
-  }
-
-  if (process.client && typeof nuxt_plugin_nuxtleaflet_6dc69863 === 'function') {
-    await nuxt_plugin_nuxtleaflet_6dc69863(app.context, inject)
-  }
-
-  if (typeof nuxt_plugin_axios_397e53b5 === 'function') {
-    await nuxt_plugin_axios_397e53b5(app.context, inject)
+  if (typeof nuxt_plugin_axios_23e4c257 === 'function') {
+    await nuxt_plugin_axios_23e4c257(app.context, inject)
   }
 
   if (typeof nuxt_plugin_utils_f95abccc === 'function') {
     await nuxt_plugin_utils_f95abccc(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_auth_fe7c800e === 'function') {
+    await nuxt_plugin_auth_fe7c800e(app.context, inject)
   }
 
   // Lock enablePreview in context

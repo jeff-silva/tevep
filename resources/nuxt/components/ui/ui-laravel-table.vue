@@ -12,7 +12,7 @@
 
     <div v-else>
         <div class="bg-white shadow-sm">
-            <table class="table table-sm table-borderless m-0">
+            <table class="table table-sm table-hover table-borderless m-0">
                 <!-- <thead>
                     <tr>
                         <th class="text-right">Ações</th>
@@ -21,7 +21,11 @@
                 <tbody>
                     <template v-for="i in props.value.data">
                         <tr>
-                            <slot name="item" :item="i"></slot>
+                            <slot name="item" :item="i">
+                                &lt;template #item="{item}"&gt;<br>
+                                    &emsp;&lt;td&gt;<span v-pre>{{ item.name }}</span>&lt;/td&gt;<br>
+                                &lt;/template&gt;
+                            </slot>
                             <td class="ui-laravel-table-td-actions">
                                 <div class="ui-laravel-table-td-actions-aaa">
                                     <div class="btn-group">
@@ -54,31 +58,21 @@
             </div>
         </div>
     </div>
+
+    <pre>$data: {{ $data }}</pre>
 </div></template>
 
 
 <script>export default {
     props: {
         value: {default: ()=>({})},
-        searchParams: {default: ()=>({})},
         loading: {default: false},
-        resource: {default: 'undefined-resource'},
     },
 
     watch: {
         $props: {deep:true, handler(value) {
             this.props = Object.assign({}, value);
         }},
-    },
-
-    methods: {
-        search() {
-            this.props.loading = true;
-            this.$axios.get(`/api/${this.resource}`, {params:this.props.searchParams}).then((resp) => {
-                this.props.loading = false;
-                this.props.value = resp.data;
-            });
-        },
     },
 
     data() {
@@ -100,10 +94,6 @@
         }, data.props.value);
 
         return data;
-    },
-
-    mounted() {
-        this.search();
     },
 };</script>
 

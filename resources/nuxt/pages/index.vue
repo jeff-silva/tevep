@@ -1,13 +1,14 @@
-<template><div>
-    <div class="container">
-        Bem vindo.
-    </div>
+<template><div class="container">
+    <h1>Home</h1>
+    <pre>{{ $auth.user }}</pre>
 </div></template>
 
-<script>export default {
-    layout: 'site',
-
+<script>
+export default {
     data() {
-        return {};
-    },
-};</script>
+        return {
+            // 
+        }
+    }
+}
+</script>

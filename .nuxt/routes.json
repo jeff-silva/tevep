@@ -2,99 +2,106 @@
   {
     "name": "auth",
     "path": "/auth",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\index.vue",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\index.vue",
     "chunkName": "pages/auth/index",
-    "_name": "_51dd451c"
-  },
-  {
-    "name": "business",
-    "path": "/business",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\business.vue",
-    "chunkName": "pages/business",
-    "_name": "_b19159b0"
+    "_name": "_22391c83"
   },
   {
     "name": "dashboard",
     "path": "/dashboard",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard.vue",
-    "chunkName": "pages/dashboard",
-    "_name": "_19cee748"
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\index.vue",
+    "chunkName": "pages/dashboard/index",
+    "_name": "_04eb2796"
   },
   {
-    "name": "dev",
-    "path": "/dev",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dev\\\\index.vue",
-    "chunkName": "pages/dev/index",
-    "_name": "_7a8d6085"
+    "name": "inspire",
+    "path": "/inspire",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\inspire.vue",
+    "chunkName": "pages/inspire",
+    "_name": "_9c1e059a"
   },
   {
-    "name": "search",
-    "path": "/search",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\search.vue",
-    "chunkName": "pages/search",
-    "_name": "_d5dc8de0"
+    "name": "settings",
+    "path": "/settings",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\settings\\\\index.vue",
+    "chunkName": "pages/settings/index",
+    "_name": "_bad42ab0"
   },
   {
     "name": "test",
     "path": "/test",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test.vue",
-    "chunkName": "pages/test",
-    "_name": "_5dd1f20c"
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index.vue",
+    "chunkName": "pages/test/index",
+    "_name": "_1d761f59"
   },
   {
     "name": "tevep",
     "path": "/tevep",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\index.vue",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\index.vue",
     "chunkName": "pages/tevep/index",
-    "_name": "_2da52e2a"
+    "_name": "_47755139"
   },
   {
     "name": "user",
     "path": "/user",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\index.vue",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\user\\\\index.vue",
     "chunkName": "pages/user/index",
-    "_name": "_6bbd2b6f"
+    "_name": "_92362b00"
   },
   {
     "name": "auth-password",
     "path": "/auth/password",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\password.vue",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\password.vue",
     "chunkName": "pages/auth/password",
-    "_name": "_8265a0aa"
+    "_name": "_b5be6a0c"
   },
   {
     "name": "auth-register",
     "path": "/auth/register",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\register.vue",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\register.vue",
     "chunkName": "pages/auth/register",
-    "_name": "_37365fb3"
+    "_name": "_1d89fb02"
   },
   {
-    "name": "user-notifications",
-    "path": "/user/notifications",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\notifications.vue",
-    "chunkName": "pages/user/notifications",
-    "_name": "_c71470f6"
+    "name": "dashboard-settings",
+    "path": "/dashboard/settings",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\settings.vue",
+    "chunkName": "pages/dashboard/settings",
+    "_name": "_4311f8e0"
   },
   {
-    "name": "user-settings",
-    "path": "/user/settings",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\settings.vue",
-    "chunkName": "pages/user/settings",
-    "_name": "_7c1b7bd4"
+    "name": "dashboard-users",
+    "path": "/dashboard/users",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\users.vue",
+    "chunkName": "pages/dashboard/users",
+    "_name": "_42f4466b"
   },
   {
     "name": "tevep-id",
     "path": "/tevep/:id",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id.vue",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id.vue",
     "chunkName": "pages/tevep/_id",
-    "_name": "_121cb312"
+    "_name": "_df2f643e"
+  },
+  {
+    "name": "user-id",
+    "path": "/user/:id",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\user\\\\_id.vue",
+    "chunkName": "pages/user/_id",
+    "_name": "_78a8e630"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\index.vue",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_6a9f939a"
+    "_name": "_bbf7992a"
+  },
+  {
+    "name": "__nuxt_laravel",
+    "path": "/__nuxt_laravel",
+    "component": "E:\\\\@rede\\\\@git\\\\@repos\\\\LaraNuxt\\\\resources\\\\nuxt\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_bbf7992a"
   }
 ]

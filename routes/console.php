@@ -19,10 +19,27 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 
+Artisan::command('app-test-mail', function() {
+    $mail = \App\Utils::mail([
+        'to' => 'test@grr.la',
+        'subject' => 'E-mail de teste',
+        'body' => 'Lorem ipsum <strong>dolor sit amet</strong> consectetur adipisicing elit. Quas ea eos cumque aliquid distinctio amet,
+        <a href="https://google.com">esse obcaecati recusandae</a> exercitationem eligendi incidunt.
+        A <i>ipsam suscipit</i> ab odit dicta tempora ad dolor?',
+    ]);
+
+    $this->comment(json_encode($mail));
+});
+
+
 Artisan::command('app-deploy', function () {
     $this->comment('App Deploy');
     $this->comment('');
 
+    \Artisan::call('migrate');
+    \Artisan::call('db:seed');
+
+    /*
     $models = [];
     foreach(\App\Utils::classes() as $class) {
         $artisan = $this;
@@ -155,12 +172,7 @@ Artisan::command('app-deploy', function () {
 
         $this->comment('');
     }
-
-    // if ('local'==env('APP_ENV')) {
-    //     $models_file = base_path(implode(DIRECTORY_SEPARATOR, ['resources', 'nuxt', 'plugins', 'models.json']));
-    //     file_put_contents($models_file, json_encode($models));
-    //     $this->comment('Models generated');
-    // }
+    */
 
     \Artisan::call('config:cache');
     \Artisan::call('config:clear');

@@ -1,57 +1,112 @@
-const laravelNuxt = require("laravel-nuxt");
 require('dotenv').config();
 
-module.exports = laravelNuxt({
-    ssr: false,
-    head: {
-        title: process.env.APP_NAME || '',
-        meta: [
-            {charset: 'utf-8'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-            {hid: 'description', name: 'description', content: process.env.APP_DESCRIPTION || ''},
-        ],
-        link: [
-            {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
-            {rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css'},
-            {rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css'},
-        ],
-        script: [],
-    },
-
-    modules: [
-        '@nuxtjs/pwa',
-        // '@nuxtjs/axios',
-        // '@nuxtjs/dotenv',
-
-        ['nuxt-leaflet', { /* module options */ }],
+export default {
+  srcDir: 'resources/nuxt',
+  /*
+   ** Nuxt rendering mode
+   ** See https://nuxtjs.org/api/configuration-mode
+   */
+  ssr: false,
+  /*
+   ** Headers of the page
+   ** See https://nuxtjs.org/api/configuration-head
+   */
+  head: {
+    titleTemplate: '%s - ' + process.env.npm_package_name,
+    title: process.env.APP_NAME || '',
+    meta: [
+      { charset: 'utf-8' },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: process.env.npm_package_description || ''
+      }
     ],
-    
-    plugins: ['@/plugins/axios.js', '@/plugins/utils.js'],
-    css: ['@/assets/bootstrap.css'],
-    components: true,
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+  },
+  /*
+   ** Customize the progress-bar color
+   */
+  loading: { color: '#fff' },
+  /*
+   ** Global CSS
+   */
+  css: ['@/assets/variables.scss'],
+  /*
+   ** Plugins to load before mounting the App
+   ** https://nuxtjs.org/guide/plugins
+   */
+  plugins: ['@/plugins/utils.js'],
+  /*
+   ** Auto import components
+   ** See https://nuxtjs.org/api/configuration-components
+   */
+  components: true,
+  /*
+   ** Nuxt.js dev-modules
+   */
+  buildModules: [
+    // Doc: https://github.com/nuxt-community/eslint-module
+  ],
+  /*
+   ** Nuxt.js modules
+   */
+  modules: [
+    'nuxt-laravel',
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
 
-    pwa: {
-        meta: {
-            title: (process.env.APP_NAME||'APP_NAME'),
-            author: 'jeferson.i.silva@gmail.com',
-        },
-        manifest: {
-            name: (process.env.APP_NAME||'APP_NAME'),
-            short_name: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
-            lang: 'pt-BR',
+    // https://dev.auth.nuxtjs.org/guide/setup/
+    '@nuxtjs/auth-next'
+  ],
+
+    auth: {
+        // https://dev.auth.nuxtjs.org/api/options#redirect
+        redirect: false,
+
+        strategies: {
+            // https://dev.auth.nuxtjs.org/providers/laravel-jwt
+            // https://github.com/nuxt-community/auth-module/blob/dev/src/providers/laravel/jwt/index.ts
+            'jwt': {
+                provider: 'laravel/jwt',
+                url: '/',
+                name: 'jwt',
+                endpoints: {
+                    login: {method:'POST', url:'/api/auth/login'},
+                    refresh: {method:'POST', url:'/api/auth/refresh'},
+                    logout: {method:'POST', url:'/api/auth/logout'},
+                    user: {method:'POST', url:'/api/auth/me'},
+                },
+                token: {
+                    property: 'access_token',
+                    maxAge: (60 * 60),
+                },
+                refreshToken: {
+                    maxAge: (20160 * 60),
+                },
+            },
         },
     },
 
-    // auth: {
-    //     strategies: {
-    //         local: {
-    //             endpoints: {
-    //                 login: { url: '/api/auth/login', method: 'post', propertyName: 'access_token' },
-    //                 logout: { url: '/api/auth/logout', method: 'post' },
-    //                 user: { url: '/api/auth/user', method: 'post', propertyName: 'user' },
-    //             },
-    //         },
-    //     },
-    // },
-    
-});
+  /*
+   ** Axios module configuration
+   ** See https://axios.nuxtjs.org/options
+   */
+  axios: {
+    debug: true
+  },
+
+  router: {
+    // base: '/app/'
+  },
+
+  /*
+   ** Build configuration
+   ** See https://nuxtjs.org/api/configuration-build/
+   */
+  build: {}
+}

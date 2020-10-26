@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
+// Show all endpoints
 Route::get('/', function() {
     $routes = [];
 
@@ -31,127 +33,56 @@ Route::get('/', function() {
     return $routes;
 });
 
-Route::post('/auth/register', 'UserController@register');
+
+// Auth routes
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-});
-
-Route::post('/call', function() {
-    $class = '\App\\'. request()->input('class');
-    $method = request()->input('method');
-    $arguments = request()->input('arguments');
-    $attributes = request()->input('attributes');
-
-    $instance = call_user_func([$class, 'find'], $attributes['id']);
-    $instance = $instance? $instance: new $class();
-    $instance->fill($attributes);
-
-    $call = [$instance, $method];
-    if (is_callable($call) AND is_array($instance->jsMethods) AND isset($instance->jsMethods[$method])) {
-        return call_user_func_array($call, $arguments);
-    }
-
-    return ['error' => 'Cant execute'];
-});
-
-
-Route::resource('tevep', 'TevepController');
-
-
-Route::group(['prefix' => 'teveps'], function($router) {
-    Route::get('find', 'TevepController@find');
-    Route::get('search', 'TevepController@search');
-    Route::post('save', 'TevepController@save');
-    Route::post('delete', 'TevepController@delete');
-});
-
-
-
-return;
-foreach(\App\Utils::classes() as $model) {
-    $instance = new $model;
-    $table_name = $instance->getTable();
-    Route::group(['prefix' => $table_name], function($router) use($model, $instance, $table_name) {
-        $methods = get_class_methods($instance);
-
-        if (in_array('endpoints', $methods)) {
-            call_user_func([$instance, 'endpoints']);
-        }
+    Route::post('login', '\App\Http\Controllers\AuthController@login');
+    Route::post('logout', '\App\Http\Controllers\AuthController@logout');
+    Route::post('refresh', '\App\Http\Controllers\AuthController@refresh');
+    Route::post('me', '\App\Http\Controllers\AuthController@me');
     
-        // search
-        $call = function() use($instance) {
-            $input = request()->all();
-            return $instance->get();
-        };
-        
-        if (in_array('search', get_class_methods($instance))) {
-            $call = function() use($instance) {
-                return call_user_func([$instance, 'search'], request()->all());
-            };
-        }
-        
-        \Route::get('/search', $call);
-
-    
-        // find by id
-        \Route::get('/find', function() use($instance) {
-            $request = request();
-
-            if ($item = $instance->find($request->input('id'))) {
-                return $item;
-            }
-
-            throw new \Exception('Item não encontrado');
-        });
-    
-        //  save
-        \Route::post('/save', function() use($model, $instance, $methods) {
-            $request = request();
-
-            $all = array_merge($instance->ToArray(), $request->all());
-            if (isset($all['id'])) unset($all['id']);
-
-            $save = new $model;
-            if ($find = $instance->find($request->input('id'))) {
-                $save = $find;
-            }
-
-            $save = $save->fill($all);
-
-            if (in_array('validation', $methods)) {
-                $err = call_user_func([$save, 'validation']);
-                if ($err->hasError()) {
-                    return [
-                        'error' => $err->errors(),
-                    ];
-                }
-            }
-
-            $save->save();
-            return $save;
-        });
-    
-        //  delete
-        \Route::post('/delete', function() {
-            $request = request();
-            return $request->all();
-        });
+    Route::post('register', function() {
+        return (new \App\Models\User)->store(request()->all());
     });
-}
+    
+    Route::post('password-token', function() {
+        return \App\Models\User::passwordToken(request()->all());
+    })->name('password.reset');
+    
+    Route::post('password-reset', function() {
+        return \App\Models\User::passwordReset(request()->all());
+    });
+});
 
+Route::get('/user/find', function() {
+    return \App\Models\User::find(request()->input('id'));
+});
 
-Route::get('/', function() {
-    $routes = [];
+Route::get('/user/search', function() {
+    $params = (object) [
+        'search' => request()->input('search', ''),
+        'page' => request()->input('page', 1),
+        'perpage' => request()->input('perpage', 10),
+    ];
+    
+    $query = new \App\Models\User();
 
-    foreach(\Route::getRoutes() as $route) {
-        $routes[] = [
-            'methods' => $route->methods(),
-            'uri' => $route->uri(),
-        ];
+    if ($params->search) {
+        $query = $query->where(function($query) use($params) {
+            $query->where('name', 'like', "%{$params->search}%");
+            $query->orWhere('email', 'like', "%{$params->search}%");
+        });
     }
 
-    return $routes;
+    $query->params = $params;
+    return $query->paginate(10);
 });
+
+Route::post('/user/store', function() {
+    return (new \App\Models\User)->store(request()->all());
+});
+
+Route::post('/user/delete', function() {
+    return ['?'];
+});
+

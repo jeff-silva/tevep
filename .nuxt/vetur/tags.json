@@ -1,21 +1,15 @@
 {
-  "BusinessCategory": {
-    "description": "Auto imported from components/store/business-category.vue"
+  "Logo": {
+    "description": "Auto imported from components/Logo.vue"
   },
-  "LazyBusinessCategory": {
-    "description": "Auto imported from components/store/business-category.vue"
+  "LazyLogo": {
+    "description": "Auto imported from components/Logo.vue"
   },
-  "BusinessSearch": {
-    "description": "Auto imported from components/store/business-search.vue"
+  "VuetifyLogo": {
+    "description": "Auto imported from components/VuetifyLogo.vue"
   },
-  "LazyBusinessSearch": {
-    "description": "Auto imported from components/store/business-search.vue"
-  },
-  "BusinessType": {
-    "description": "Auto imported from components/store/business-type.vue"
-  },
-  "LazyBusinessType": {
-    "description": "Auto imported from components/store/business-type.vue"
+  "LazyVuetifyLogo": {
+    "description": "Auto imported from components/VuetifyLogo.vue"
   },
   "TevepDates": {
     "description": "Auto imported from components/tevep/tevep-dates.vue"
@@ -59,6 +53,24 @@
   "LazyUiAddresses": {
     "description": "Auto imported from components/ui/ui-addresses.vue"
   },
+  "UiAuthLogin": {
+    "description": "Auto imported from components/ui/ui-auth-login.vue"
+  },
+  "LazyUiAuthLogin": {
+    "description": "Auto imported from components/ui/ui-auth-login.vue"
+  },
+  "UiAuthPassword": {
+    "description": "Auto imported from components/ui/ui-auth-password.vue"
+  },
+  "LazyUiAuthPassword": {
+    "description": "Auto imported from components/ui/ui-auth-password.vue"
+  },
+  "UiAuthRegister": {
+    "description": "Auto imported from components/ui/ui-auth-register.vue"
+  },
+  "LazyUiAuthRegister": {
+    "description": "Auto imported from components/ui/ui-auth-register.vue"
+  },
   "UiBtnDropdown": {
     "description": "Auto imported from components/ui/ui-btn-dropdown.vue"
   },
@@ -89,6 +101,12 @@
   "LazyUiForm": {
     "description": "Auto imported from components/ui/ui-form.vue"
   },
+  "UiInput": {
+    "description": "Auto imported from components/ui/ui-input.vue"
+  },
+  "LazyUiInput": {
+    "description": "Auto imported from components/ui/ui-input.vue"
+  },
   "UiLaravelTable": {
     "description": "Auto imported from components/ui/ui-laravel-table.vue"
   },
@@ -113,6 +131,12 @@
   "LazyUiPasswordMeter": {
     "description": "Auto imported from components/ui/ui-password-meter.vue"
   },
+  "UiPassword": {
+    "description": "Auto imported from components/ui/ui-password.vue"
+  },
+  "LazyUiPassword": {
+    "description": "Auto imported from components/ui/ui-password.vue"
+  },
   "UiPhoto": {
     "description": "Auto imported from components/ui/ui-photo.vue"
   },
@@ -124,12 +148,6 @@
   },
   "LazyUiProductCategories": {
     "description": "Auto imported from components/ui/ui-product-categories.vue"
-  },
-  "UiProduct": {
-    "description": "Auto imported from components/ui/ui-product.vue"
-  },
-  "LazyUiProduct": {
-    "description": "Auto imported from components/ui/ui-product.vue"
   },
   "UiSelect": {
     "description": "Auto imported from components/ui/ui-select.vue"

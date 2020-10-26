@@ -1,0 +1,20 @@
+// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
+//
+// The variables you want to modify
+// $font-size-root: 20px;
+
+/* Font Awesome */
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+// $theme-colors: (
+//     "primary": #000000,
+//     "danger": #ff4136,
+//     "aaa": #00ffff
+// );
+
+@import "~bootstrap/scss/bootstrap";
+
+
+/* Bootstrap "fixes" */
+.btn, .form-control {height:auto; outline:none!important; box-shadow:none!important; border-radius:2px!important;}
+.form-control {border-color:#00000008;}

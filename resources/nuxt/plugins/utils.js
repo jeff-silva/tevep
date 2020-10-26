@@ -32,6 +32,14 @@ Vue.prototype.$swalSuccess = function(title, html) {
 	});
 };
 
+Vue.prototype.$swalError = function(title, html) {
+	this.$swal({
+		title: title||'',
+		html: html||'',
+		icon: 'error',
+	});
+};
+
 
 Vue.prototype.$swalPrompt = function(question, callback) {
     this.$swal({
@@ -73,10 +81,3 @@ Vue.filter('date', function(date) {
 	if (!d[1]) return '';
 	return `${d[2]}/${d[1]}/${d[0]} ${d[3]}:${d[4]}`;
 });
-
-
-Vue.prototype.modelDefault = function(name=false) {
-	let models = require('@/plugins/models.json');
-	if (name) return models[name]||{};
-	return models;
-};

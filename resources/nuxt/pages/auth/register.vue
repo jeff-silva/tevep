@@ -1,58 +1,14 @@
 <template><div>
-    <form @submit.prevent="register()">
-        <h2>Cadastre-se <small>e comece a vender imediatamente.</small></h2>
-        <div class="mb-3"></div>
-
-        <div class="form-group">
-            <label>Informe seu nome</label>
-            <input type="text" class="form-control input-lg" v-model="post.name" placeholder="Nome">
-            <small class="text-danger" v-if="error.name" v-html="error.name.join('<br>')"></small>
-        </div>
-
-        <div class="form-group">
-            <label>Qual seu email?</label>
-            <input type="email" class="form-control input-lg" v-model="post.email" placeholder="Email">
-            <small class="text-danger" v-if="error.email" v-html="error.email.join('<br>')"></small>
-        </div>
-
-        <div class="form-group">
-            <label>Crie uma senha</label>
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <input type="password" class="form-control input-lg" v-model="post.password" placeholder="Senha">
-                    <ui-password-meter v-model="post.password" class="mt-1"></ui-password-meter>
-                    <small class="text-danger" v-if="error.password" v-html="error.password.join('<br>')"></small>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <input type="password" class="form-control input-lg" v-model="post.password_confirmation" placeholder="Repita senha">
-                    <small class="text-danger" v-if="error.password_confirmation" v-html="error.password_confirmation.join('<br>')"></small>
-                </div>
+    <div class="card">
+        <div class="card-header">Cadastre</div>
+        <div class="card-body">
+            <ui-auth-register></ui-auth-register>
+            <div class="row mt-3">
+                <div class="col-12 col-md-6"><nuxt-link to="/auth/" class="btn btn-link btn-block">Login</nuxt-link></div>
+                <div class="col-12 col-md-6"><nuxt-link to="/auth/password" class="btn btn-link btn-block">Recuperar senha</nuxt-link></div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label>Qual a sua data de nasicmento?</label>
-            <ui-datetime v-model="post.birth" :time="false"></ui-datetime>
-            <small class="text-danger" v-html="error.birth"></small>
-        </div>
-
-        <div class="row align-items-center mb-3">
-            <div class="col-xs-4 col-md-4">
-                <label class="button-checkbox">
-                    <button type="button" class="btn">Aceitar</button>
-                    <input type="checkbox" value="1">
-                </label>
-            </div>
-            <div class="col-xs-8 col-md-8">
-                Clicando em <strong class="label label-primary">Cadastrar</strong>, você concorda com os <a href="javascript:;">Termos e condições</a> e uso de Cookies.
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7"></div>
-            <div class="col-xs-12 col-md-6"><a href="#" class="btn btn-success btn-block btn-lg">Sign In</a></div>
-        </div>
-    </form>
+    </div>
 </div></template>
 
 <script>export default {
@@ -61,23 +17,31 @@
     data() {
         return {
             error: {},
-            post: {
-                name: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-            },
+            success: false,
+            post: this.postDefault(),
         };
     },
 
     methods: {
+        postDefault() {
+            return {
+                name: '',
+                email: '',
+                password: '',
+                password_confirmation: '',
+            };
+        },
+
         register() {
             this.error = {};
+            this.false = {};
             this.$axios.post('/api/auth/register', this.post).then((resp) => {
                 if (resp.data.error) {
                     this.error = resp.data.error;
                     return;
                 }
+                this.post = this.postDefault();
+                this.success = resp.data.success;
             });
         },
     },

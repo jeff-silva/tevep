@@ -4,22 +4,23 @@ namespace App;
 
 class Utils
 {
-    static function classes()
-    {
-        $models = [];
-        $files = glob(base_path(implode(DIRECTORY_SEPARATOR, ['app', '*.php'])));
-        foreach($files as $file) {
-            $model = '\App\\'. pathinfo($file, PATHINFO_FILENAME);
-            if (class_exists($model) AND is_subclass_of($model, \Illuminate\Database\Eloquent\Model::class)) {
-                $models[] = $model;
-            }
+    static function validate($data=[], $rules=[], $messages=[]) {
+        $validator = \Validator::make($data, $rules, $messages);
+        if ($validator->fails()) {
+            throw new \Exception(json_encode([
+                'error' => $validator->errors(),
+            ]));
         }
-        return $models;
+        return false;
+    }
 
-        // return [
-        //     \App\Address::class,
-        //     \App\Product::class,
-        //     \App\User::class,
-        // ];
+    static function mail($data=[]) {
+        $data = array_merge([
+            'to' => '',
+            'subject' => '',
+            'body' => '',
+        ], $data);
+
+        return \Mail::to($data['to'])->send(new \App\Mail\Mail($data));
     }
 }

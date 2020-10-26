@@ -1,34 +1,81 @@
 {
+    "version": "1.0.0",
     "private": true,
     "scripts": {
-        "dev": "laravel-nuxt dev",
-        "dev_old": "/npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "npm run development -- --watch",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "start": "laravel-nuxt",
-        "build": "laravel-nuxt build"
+        "dev": "npm run mix:dev && npm run nuxt:dev",
+        "build": "npm run mix:build && npm run nuxt:build",
+        "lint": "eslint --ext .js,.vue .",
+        "lint:fix": "npm run lint -- --fix",
+        "lint:check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+        "test": "npm run mix:test && npm run nuxt:test",
+        "mix:dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "mix:watch": "npm run mix:dev -- --watch",
+        "mix:watch:poll": "npm run mix:watch -- --watch-poll",
+        "mix:hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "mix:build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "mix:test": "echo no test",
+        "nuxt:dev": "nuxt",
+        "nuxt:build": "nuxt build",
+        "nuxt:test": "jest",
+        "release": "standard-version"
     },
     "devDependencies": {
-        "axios": "^0.19",
+        "@commitlint/cli": "^11.0.0",
+        "@commitlint/config-conventional": "^11.0.0",
+        "@nuxtjs/axios": "^5.12.0",
+        "@nuxtjs/eslint-config": "^2.0.2",
+        "@nuxtjs/eslint-module": "^1.2.0",
+        "@vue/test-utils": "^1.1.0",
+        "axios": "^0.19.2",
+        "babel-core": "^7.0.0-bridge.0",
+        "babel-eslint": "^10.1.0",
+        "babel-jest": "^25.5.1",
         "cross-env": "^7.0",
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "^6.8.0",
+        "eslint-plugin-nuxt": "^0.5.2",
+        "husky": "^3.1.0",
+        "jest": "^25.5.4",
         "laravel-mix": "^5.0.5",
-        "lodash": "^4.17.13",
-        "resolve-url-loader": "^3.1.0",
-        "sass": "^1.15.2",
-        "sass-loader": "^8.0.0"
+        "lint-staged": "^9.5.0",
+        "lodash": "^4.17.20",
+        "nuxt": "^2.14.5",
+        "nuxt-laravel": "^4.2.9",
+        "resolve-url-loader": "^3.1.2",
+        "sass": "^1.26.10",
+        "sass-loader": "^8.0.0",
+        "standard-version": "^9.0.0",
+        "vue-jest": "^3.0.6"
     },
     "dependencies": {
-        "@nuxtjs/pwa": "^3.0.0-beta.20",
-        "laravel-nuxt": "^2.0.2",
-        "moment": "^2.29.0",
-        "nuxt-leaflet": "0.0.21",
-        "vue-flatpickr-component": "^8.1.6",
-        "vue-sweetalert2": "^3.0.6",
-        "vue-template-compiler": "^2.6.12",
-        "vuedraggable": "^2.24.1"
+        "@fortawesome/fontawesome-free": "^5.1.0-9",
+        "@fortawesome/fontawesome-free-brands": "^5.0.13",
+        "@fortawesome/fontawesome-free-regular": "^5.0.13",
+        "@fortawesome/fontawesome-free-solid": "^5.0.13",
+        "@nuxtjs/auth-next": "^5.0.0-1602966760.822bc05",
+        "bootstrap": "^4.5.3",
+        "moment": "^2.29.1",
+        "vue-flatpickr-component": "^9.0.2",
+        "vue-sweetalert2": "^4.1.1",
+        "vuedraggable": "^2.24.2"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "lint-staged": {
+        "*.{js,vue}": "eslint"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
     }
 }

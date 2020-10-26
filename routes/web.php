@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use M2S\LaravelNuxt\Facades\Nuxt;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,4 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('{uri}', '\\'.Pallares\LaravelNuxt\Controllers\NuxtController::class)->where('uri', '.*');
+// Route::get('/', function () { return view('welcome'); });
+
+// Nuxt::route('{path?}')->name('nuxt')->where('path', '.*');
+
+return Route::get('{path?}', '\\'.M2S\LaravelNuxt\Http\Controllers\NuxtController::class)->name('nuxt')->where('path', '^(?!api).*$');

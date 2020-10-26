@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
             $module->namespace = $module->filename;
             $module->service_provider = realpath("{$module->path}\Providers\{$module->namespace}ServiceProvider.php");
             $module->routes_api = realpath("{$module->path}\\routes\api.php");
+            $module->routes_console = realpath("{$module->path}\\routes\console.php");
             $this->modules[] = $module;
 
             if ($module->service_provider) {
@@ -47,3 +48,4 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 }
+
