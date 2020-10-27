@@ -1,4 +1,4 @@
-<template><div class="container">
+<template><div>
     <form @submit.prevent="userStore()">
         <ui-input v-model="user.name" label="Nome" :error="error.name"></ui-input>
         <ui-input v-model="user.email" label="E-mail" :error="error.email"></ui-input>
@@ -32,6 +32,7 @@ export default {
 
     data() {
         return {
+            loading: false,
             error: {},
             user: {},
         }

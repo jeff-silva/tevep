@@ -13,10 +13,10 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_5ac5a034 from 'nuxt_plugin_plugin_5ac5a034' // Source: .\\components\\plugin.js (mode: 'all')
-import nuxt_plugin_axios_23e4c257 from 'nuxt_plugin_axios_23e4c257' // Source: .\\axios.js (mode: 'all')
+import nuxt_plugin_plugin_5b813880 from 'nuxt_plugin_plugin_5b813880' // Source: .\\components\\plugin.js (mode: 'all')
+import nuxt_plugin_axios_559e77e3 from 'nuxt_plugin_axios_559e77e3' // Source: .\\axios.js (mode: 'all')
 import nuxt_plugin_utils_f95abccc from 'nuxt_plugin_utils_f95abccc' // Source: ..\\resources\\nuxt\\plugins\\utils.js (mode: 'all')
-import nuxt_plugin_auth_fe7c800e from 'nuxt_plugin_auth_fe7c800e' // Source: .\\auth.js (mode: 'all')
+import nuxt_plugin_auth_3515ae26 from 'nuxt_plugin_auth_3515ae26' // Source: .\\auth.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -66,7 +66,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"titleTemplate":"%s - ","title":"LaraNuxt","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"\u003Cp align=\"center\"\u003E\r   \u003Ca href=\"https:\u002F\u002Flaravel.com\"\u003E\u003Cimg alt=\"Laravel\" src=\"https:\u002F\u002Fupload.wikimedia.org\u002Fwikipedia\u002Fcommons\u002Fthumb\u002F9\u002F9a\u002FLaravel.svg\u002F1200px-Laravel.svg.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Fvuejs.org\"\u003E\u003Cimg alt=\"Vue.js\" src=\"https:\u002F\u002Fvuejs.org\u002Fimages\u002Flogo.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Fnuxtjs.org\u002F\"\u003E\u003Cimg alt=\"Nuxt.js\" src=\"https:\u002F\u002Fupload.wikimedia.org\u002Fwikipedia\u002Fcommons\u002F3\u002F3c\u002FNuxt-js.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Fvuetifyjs.com\u002F\"\u003E\u003Cimg alt=\"Vuetify\" src=\"https:\u002F\u002Fcdn.vuetifyjs.com\u002Fimages\u002Flogos\u002Fvuetify-logo-dark.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Feslint.org\u002F\"\u003E\u003Cimg alt=\"ESLint\" src=\"https:\u002F\u002Fd33wubrfki0l68.cloudfront.net\u002F204482ca413433c80cd14fe369e2181dd97a2a40\u002F092e2\u002Fassets\u002Fimg\u002Flogo.svg\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r   \u003Ca href=\"https:\u002F\u002Fjestjs.io\u002F\"\u003E\u003Cimg alt=\"Jest\" src=\"https:\u002F\u002Fmiro.medium.com\u002Fmax\u002F600\u002F1*i37IyHf6vnhqWIA9osxU3w.png\" width=\"92\" height=\"92\" \u002F\u003E\u003C\u002Fa\u003E\r \u003C\u002Fp\u003E"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
+    head: {"titleTemplate":"%s - ","title":"Laravel","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"``npm install``\r ``composer install``\r ``php artisan key:generate``\r ``php artisan jwt:secret``\r ``php artisan app-deploy``\r ``npm run dev``"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
 
     store,
     router,
@@ -195,20 +195,20 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_5ac5a034 === 'function') {
-    await nuxt_plugin_plugin_5ac5a034(app.context, inject)
+  if (typeof nuxt_plugin_plugin_5b813880 === 'function') {
+    await nuxt_plugin_plugin_5b813880(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_23e4c257 === 'function') {
-    await nuxt_plugin_axios_23e4c257(app.context, inject)
+  if (typeof nuxt_plugin_axios_559e77e3 === 'function') {
+    await nuxt_plugin_axios_559e77e3(app.context, inject)
   }
 
   if (typeof nuxt_plugin_utils_f95abccc === 'function') {
     await nuxt_plugin_utils_f95abccc(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_auth_fe7c800e === 'function') {
-    await nuxt_plugin_auth_fe7c800e(app.context, inject)
+  if (typeof nuxt_plugin_auth_3515ae26 === 'function') {
+    await nuxt_plugin_auth_3515ae26(app.context, inject)
   }
 
   // Lock enablePreview in context

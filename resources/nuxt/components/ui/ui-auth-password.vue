@@ -74,15 +74,15 @@
             this.$axios.post('/api/auth/password-token', this.post).then((resp) => {
                 if (resp.data.error) { return this.error = resp.data.error; }
                 this.tokenGenerated = true;
-                this.$emit('success', resp.data);
             });
         },
-
+        
         passwordReset() {
             this.error = {};
             this.$axios.post('/api/auth/password-reset', this.post).then((resp) => {
                 if (resp.data.error) { return this.error = resp.data.error; }
                 this.post = {email: '',password: '',password_confirmation: '',token: ''};
+                this.$emit('success', resp.data);
             });
         },
     },

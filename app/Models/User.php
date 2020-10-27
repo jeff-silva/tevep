@@ -74,7 +74,7 @@ class User extends Authenticatable implements JWTSubject
 
         $rules = [
             'name' => 'required',
-            'email' => "required|email:rfc,dns|unique:users,email,{$this->id}",
+            'email' => "required|email:rfc,dns|unique:users,email,{$data['id']}",
         ];
 
         $password_rules = [];
@@ -111,7 +111,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function store($data=[]) {
         $this->validate($data);
-        $save = static::firstOrNew($data);
+
+        $data = array_merge(['id'=>''], $data);
+        $save = static::firstOrNew(['id'=>$data['id']]);
+        $save->fill($data);
         $save->save();
 
         if ($save->wasRecentlyCreated) {

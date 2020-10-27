@@ -1,3 +1,12 @@
+# Installation
+``npm install``
+``composer install``
+``php artisan key:generate``
+``php artisan jwt:secret``
+``php artisan app-deploy``
+``npm run dev``
+
+
 # Laranuxt
 
 <p align="center">

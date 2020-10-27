@@ -16,11 +16,12 @@ class Utils
 
     static function mail($data=[]) {
         $data = array_merge([
+            'from' => config('mail.from'),
             'to' => '',
             'subject' => '',
             'body' => '',
         ], $data);
-
+        
         return \Mail::to($data['to'])->send(new \App\Mail\Mail($data));
     }
 }

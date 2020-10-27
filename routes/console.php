@@ -19,7 +19,7 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 
-Artisan::command('app-test-mail', function() {
+Artisan::command('app-mail', function() {
     $mail = \App\Utils::mail([
         'to' => 'test@grr.la',
         'subject' => 'E-mail de teste',
@@ -34,7 +34,9 @@ Artisan::command('app-test-mail', function() {
 
 Artisan::command('app-deploy', function () {
     $this->comment('App Deploy');
-    $this->comment('');
+
+    $database_file = database_path('database.sqlite');
+    if (! file_exists($database_file)) { file_put_contents($database_file, ''); }
 
     \Artisan::call('migrate');
     \Artisan::call('db:seed');

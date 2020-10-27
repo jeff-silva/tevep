@@ -143,7 +143,7 @@ export default {
                         <li class="profile dropdown" :class="{show:profileOpen}">
                             <a class="nav-link dropdown-toggle" href="javascript:;" @click="profileOpen=!profileOpen">
                                 <!-- <div class="img" :style="`background-image: url(${$store.user.photo})`"></div> -->
-                                <!-- <span class="name"> {{ $store.user.name }} </span> -->
+                                <span class="name"> {{ $store.state.auth.user.name }} </span>
                             </a>
                             <div class="dropdown-menu profile-dropdown-menu" :class="{show:profileOpen}">
                                 <nuxt-link to="/user/" class="dropdown-item" @click.native="profileOpen=false">

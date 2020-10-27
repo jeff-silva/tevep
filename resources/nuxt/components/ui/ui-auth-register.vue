@@ -35,21 +35,18 @@
         value: {default:false},
     },
 
-    // watch: {
-    //     $props: {
-    //         deep: true,
-    //         handler(value) {
-    //             this.props = Object.assign({}, value);
-    //         },
-    //     },
-    // },
+    watch: {
+        $props: {deep: true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
+    },
 
     methods: {
         submit() {
             this.error = {};
             this.$axios.post('/api/auth/register/', this.post).then((resp) => {
                 if (resp.data.error) { return this.error = resp.data.error; }
-                if (resp.data.id) { this.post = {name: '', email: '', password: '', password_confirmation: ''}; }
+                this.post = {name: '', email: '', password: '', password_confirmation: ''};
                 this.$emit('success', resp.data);
             });
         },

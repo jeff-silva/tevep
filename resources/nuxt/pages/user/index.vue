@@ -1,6 +1,6 @@
-<template><div class="container">
+<template><div>
     <h1>Usuários</h1>
-    <ui-laravel-table v-model="user.resp">
+    <ui-laravel-table v-model="user.resp" v-bind="{loading:user.loading}">
         <template #item="{item}">
             <td>
                 <div><strong>{{ item.name }}</strong></div>
@@ -14,7 +14,6 @@
             </nuxt-link>
         </template>
     </ui-laravel-table>
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>
@@ -23,7 +22,9 @@ export default {
 
     methods: {
         userSearch() {
+            this.user.loading = true;
             this.$axios.get('/api/user/search').then((resp) => {
+                this.user.loading = false;
                 this.user.resp = resp.data;
             });
         },
@@ -32,6 +33,7 @@ export default {
     data() {
         return {
             user: {
+                loading: false,
                 params: {},
                 resp: {},
             },
