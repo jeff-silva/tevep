@@ -41,6 +41,10 @@ Artisan::command('app-deploy', function () {
     \Artisan::call('migrate');
     \Artisan::call('db:seed');
 
+    foreach(\App\Providers\AppServiceProvider::modules() as $module) {
+        if ($module->install) { include $module->install; }
+    }
+
     /*
     $models = [];
     foreach(\App\Utils::classes() as $class) {

@@ -106,9 +106,9 @@ export default {
         },
 
 		toggleDropdownHandle(ev) {
-            if (document.activeElement.closest('.flatpickr-calendar')) return;
+            // this.screenSide = (ev.target.getBoundingClientRect().x > (window.innerWidth/2))? 'right': 'left';
+            if (ev.target.closest('.vdatetime')) return;
 			this.dropdown = this.$el.contains(document.activeElement);
-            this.screenSide = (ev.target.getBoundingClientRect().x > (window.innerWidth/2))? 'right': 'left';
 		},
 	},
 

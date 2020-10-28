@@ -53,10 +53,12 @@
         "@fortawesome/fontawesome-free-solid": "^5.0.13",
         "@nuxtjs/auth-next": "^5.0.0-1602966760.822bc05",
         "bootstrap": "^4.5.3",
+        "luxon": "^1.25.0",
         "moment": "^2.29.1",
-        "vue-flatpickr-component": "^9.0.2",
+        "vue-datetime": "^1.0.0-beta.14",
         "vue-sweetalert2": "^4.1.1",
-        "vuedraggable": "^2.24.2"
+        "vuedraggable": "^2.24.2",
+        "weekstart": "^1.0.1"
     },
     "config": {
         "commitizen": {

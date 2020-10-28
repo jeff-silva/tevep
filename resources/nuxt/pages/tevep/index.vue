@@ -7,11 +7,11 @@
 		</template>
 	</app-footer> -->
 
-    <ui-laravel-table v-model="tevep" resource="tevep" :search-params="{user_id:$user('id')}">
+    <ui-laravel-table v-model="tevep">
         <template #empty>Nenhum projeto encontrado</template>
 
         <template #item="{item}">
-            <td>{{ item.title||item.id }}</td>
+            <td>{{ item.id }}</td>
         </template>
 
         <template #actions="{item}">
@@ -30,6 +30,18 @@ export default {
         return {
             tevep: {},
         };
+    },
+
+    methods: {
+        tevepsSearch() {
+            this.$axios.get('/api/teveps/search').then(resp => {
+                this.tevep = resp.data;
+            });
+        },
+    },
+
+    mounted() {
+        this.tevepsSearch();
     },
 }
 </script>

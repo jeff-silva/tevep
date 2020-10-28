@@ -4,7 +4,7 @@ namespace App\Mod\Tevep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tevep extends Model
+class Tevep extends \App\Models\Model
 {
     use \Illuminate\Database\Eloquent\SoftDeletes;
     
@@ -72,15 +72,15 @@ class Tevep extends Model
     }
 
 
-    public function search($params=[]) {
-        $query = $this;
+    // public function search($params=[]) {
+    //     $query = $this;
 
-        if (isset($params['user_id']) AND $params['user_id']) {
-            $query = $query->where('user_id', $params['user_id']);
-        }
+    //     if (isset($params['user_id']) AND $params['user_id']) {
+    //         $query = $query->where('user_id', $params['user_id']);
+    //     }
 
-        return $query;
-    }
+    //     return $query;
+    // }
 
 
     public function deployMigration($artisan, $table, $fields)

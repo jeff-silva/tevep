@@ -202,8 +202,9 @@ export default {
 
 		tevepSave() {
             this.error = {};
-            this.props.value.user_id = this.$user('id');
-			this.$axios.post('/api/tevep/', this.props.value).then((resp) => {
+            this.props.value.user_id = this.$auth.user.id;
+
+			this.$axios.post('/api/tevep/store', this.props.value).then((resp) => {
                 if (resp.data.error) {
                     this.error = resp.data.error;
                 }

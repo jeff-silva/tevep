@@ -4,7 +4,7 @@
         <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:100%;"></div>
     </div>
 
-    <div v-if="props.loading==false && props.value.data && props.value.data.length==0">
+    <div class="bg-white p-3 text-muted shadow-sm" v-if="props.loading==false && props.value.data && props.value.data.length==0">
         <slot name="empty">
             Nenhum dado encontrado
         </slot>
