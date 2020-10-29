@@ -7,6 +7,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-mode
    */
   ssr: false,
+
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
@@ -102,7 +103,13 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    debug: true
+    debug: true,
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: '',
+    },
   },
 
   router: {
