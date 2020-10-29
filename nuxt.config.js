@@ -41,7 +41,10 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['@/plugins/utils.js'],
+  plugins: [
+    '@/plugins/axios.js',
+    '@/plugins/utils.js',
+  ],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -104,12 +107,6 @@ export default {
    */
   axios: {
     debug: true,
-  },
-
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: '',
-    },
   },
 
   router: {
