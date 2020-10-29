@@ -1,101 +1,68 @@
 <template><div class="tevep">
-    <div v-for="t in tabs"  v-if="t.id==$route.query.tab">
-        <div class="d-flex">
-
-            <!-- Left -->
-            <div class="bg-dark">
-                <ul class="tevep-nav">
-                    <li v-for="n in navs" :class="{active:compSlotBind.tabId==n.tab}">
-                        <nuxt-link :to="{query:{node:compSlotBind.nodeId, tab:n.tab}}">
-                            <img :src="n.icon" :alt="n.title" v-if="n.icon" style="width:100%;">
-                            <span v-else>{{ n.title }}</span>
-                        </nuxt-link>
-                        <ul class="bg-dark" v-if="n.children.length>0">
-                            <li v-for="nn in n.children" :class="{active:compSlotBind.tabId==nn.tab}">
-                                <nuxt-link :to="{query:{node:compSlotBind.nodeId, tab:nn.tab}}">{{ nn.title }}</nuxt-link>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Right -->
-            <div class="flex-grow-1">
-                <div class="bg-dark py-1">
-                    <slot name="header" v-bind="compSlotBind"></slot>
+    <form @submit.prevent="tevepSave()">
+        <div v-for="t in tabs"  v-if="t.id==$route.query.tab">
+            <div class="d-flex">
+    
+                <!-- Left -->
+                <div class="bg-dark">
+                    <ul class="tevep-nav">
+                        <li v-for="n in navs" :class="{active:compSlotBind.tabId==n.tab}">
+                            <nuxt-link :to="{query:{node:compSlotBind.nodeId, tab:n.tab}}">
+                                <img :src="n.icon" :alt="n.title" v-if="n.icon" style="width:100%;">
+                                <span v-else>{{ n.title }}</span>
+                            </nuxt-link>
+                            <ul class="bg-dark" v-if="n.children.length>0">
+                                <li v-for="nn in n.children" :class="{active:compSlotBind.tabId==nn.tab}">
+                                    <nuxt-link :to="{query:{node:compSlotBind.nodeId, tab:nn.tab}}">{{ nn.title }}</nuxt-link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="p-2 shadow-sm font-weight-bold text-uppercase">{{ compSlotBind.tab.title }}</div>
-                <div style="position:relative; overflow-x:auto; max-width:100%;">
-                    <div class="p-2">
-                        <slot :name="t.id" v-bind="compSlotBind">
-                            <div class="bg-gray text-muted text-center p-3 m-0">{{ t.title }} em construção</div>
-                        </slot>
+    
+                <!-- Right -->
+                <div class="flex-grow-1">
+                    <div class="bg-dark py-1">
+                        <slot name="header" v-bind="compSlotBind"></slot>
+                    </div>
+    
+                    <div class="p-2 shadow-sm font-weight-bold text-uppercase">{{ compSlotBind.tab.title }}</div>
+                    <div style="position:relative; overflow-x:auto; max-width:100%;">
+                        <div class="p-2">
+                            <slot :name="t.id" v-bind="compSlotBind">
+                                <div class="bg-gray text-muted text-center p-3 m-0">{{ t.title }} em construção</div>
+                            </slot>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="bg-dark p-2">
+                <slot name="footer" v-bind="compSlotBind"></slot>
+            </div>
         </div>
-        
-        <div class="bg-dark p-2">
-            <slot name="footer" v-bind="compSlotBind"></slot>
-        </div>
-    </div>
+    </form>
 
-    <style>
-    ul.tevep-nav {list-style-type:none; padding:0px; margin:0px; width:130px;}
-    ul.tevep-nav > li {position:relative; height:100px; display:flex; align-items:center; justify-content:center; border:solid 1px transparent;}
-    ul.tevep-nav > li > a {display:block; color:#fff!important; padding:10px; text-decoration:none!important;}
-    ul.tevep-nav > li:hover {border-color:#ffffff66;}
-    ul.tevep-nav > li:hover > a,
-    ul.tevep-nav > li.active > a {}
-    ul.tevep-nav > li > a > img {width:80px!important;}
-    ul.tevep-nav > li > ul {list-style-type:none; padding:0px; margin:0px; position:absolute; top:0px; left:100%; width:200px; z-index:9; visibility:hidden; opacity:0; transition: all 300ms ease;}
-    ul.tevep-nav > li:hover > ul,
-    ul.tevep-nav > li > a:active ~ ul {visibility:visible; opacity:1;}
-    ul.tevep-nav > li > ul > li {}
-    ul.tevep-nav > li > ul > li > a {display:block; color:#fff; padding:5px; text-decoration:none!important;}
-    ul.tevep-nav > li > ul > li:hover > a,
-    ul.tevep-nav > li > ul > li.active > a {background:#fff; color:#444;}
-    </style>
-
-	<!--
-	<div class="p-1" style="max-height:300px; overflow:auto;">
-		<table class="table table-borderless table-sm m-0">
-			<colgroup>
-				<col width="150px">
-				<col width="150px">
-				<col width="50px">
-				<col width="50px">
-				<col width="*">
-				<col width="*">
-			</colgroup>
-			<thead>
-				<tr class="bg-dark text-white">
-					<th>id</th>
-					<th>parent</th>
-					<th>order</th>
-					<th>type</th>
-					<th>title</th>
-					<th>date_start</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="n in props.value.nodes">
-					<td>{{ n.id }}</td>
-					<td>{{ n.parent }}</td>
-					<td>{{ n.order }}</td>
-					<td>{{ n.type }}</td>
-					<td class="p-0"><input type="text" class="form-control form-control-sm" v-model="n.title"></td>
-					<td class="p-0"><input-datetime v-model="n.date_start" @input="emit()"></input-datetime></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-    <pre>compSlotBind.rut: {{ compSlotBind.rut }}</pre>
-	<pre>compSlotBind: {{ compSlotBind }}</pre>
-	<pre>$data: {{ $data }}</pre>
-	-->
 </div></template>
+
+
+<style>
+ul.tevep-nav {list-style-type:none; padding:0px; margin:0px; width:130px;}
+ul.tevep-nav > li {position:relative; height:100px; display:flex; align-items:center; justify-content:center; border:solid 1px transparent;}
+ul.tevep-nav > li > a {display:block; color:#fff!important; padding:10px; text-decoration:none!important;}
+ul.tevep-nav > li:hover {border-color:#ffffff66;}
+ul.tevep-nav > li:hover > a,
+ul.tevep-nav > li.active > a {}
+ul.tevep-nav > li > a > img {width:80px!important;}
+ul.tevep-nav > li > ul {list-style-type:none; padding:0px; margin:0px; position:absolute; top:0px; left:100%; width:200px; z-index:9; visibility:hidden; opacity:0; transition: all 300ms ease;}
+ul.tevep-nav > li:hover > ul,
+ul.tevep-nav > li > a:active ~ ul {visibility:visible; opacity:1;}
+ul.tevep-nav > li > ul > li {}
+ul.tevep-nav > li > ul > li > a {display:block; color:#fff; padding:5px; text-decoration:none!important;}
+ul.tevep-nav > li > ul > li:hover > a,
+ul.tevep-nav > li > ul > li.active > a {background:#fff; color:#444;}
+</style>
+
 
 <script>
 const moment = require('moment');
@@ -209,13 +176,8 @@ export default {
                     this.error = resp.data.error;
                 }
 
-                if (resp.data.id) {
-                    this.$router.push({
-                        path: `/tevep/${resp.data.id}/`,
-                        query: this.$route.query,
-                    });
-                    this.$swalSuccess('Projeto salvo');
-                }
+                this.tevepInit(resp.data);
+                this.$swalSuccess('Projeto salvo');
             });
 		},
 
@@ -391,11 +353,7 @@ export default {
 
 
         tevepInit(tevep={}) {
-
-            if (!tevep.id) {
-                tevep = this.tevepDefault(tevep);
-            }
-
+            tevep = this.tevepDefault(tevep);
             this.$set(this.props, 'value', tevep);
 
             if (this.props.value.nodes.length==0) {
@@ -481,9 +439,8 @@ export default {
 	mounted() {
 
         if (this.$route.params.id) {
-            this.$axios.get(`/api/tevep/${this.$route.params.id}`).then((resp) => {
+            this.$axios.get(`/api/tevep/find/${this.$route.params.id}`).then((resp) => {
                 let tevep = resp.data.id? resp.data: {};
-                tevep.id = tevep.id||'';
                 this.tevepInit(tevep);
             });
         }

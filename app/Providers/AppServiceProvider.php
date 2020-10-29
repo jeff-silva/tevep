@@ -10,7 +10,10 @@ class AppServiceProvider extends ServiceProvider
 
     static function modules() {
         if (empty(self::$modules)) {
-            foreach(glob(__DIR__ .'/../Mod/*') as $path) {
+            // $modules_path = realpath(__DIR__ .'/../Mod');
+            $modules_path = base_path('module');
+
+            foreach(glob("{$modules_path}/*") as $path) {
                 $path = realpath($path);
                 $module = (object) pathinfo($path);
                 $module->path = $path;
@@ -19,9 +22,15 @@ class AppServiceProvider extends ServiceProvider
                 $module->routes_api = realpath("{$module->path}\\routes\api.php");
                 $module->routes_console = realpath("{$module->path}\\routes\console.php");
                 $module->install = realpath("{$module->path}\\install.php");
+                
+                // Register namespace
+                $loader = require base_path(implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']));
+                $loader->addPsr4("{$module->namespace}\\", $module->path);
+
                 self::$modules[] = $module;
             }
         }
+        
         return self::$modules;
     }
     

@@ -11,12 +11,12 @@
         <template #empty>Nenhum projeto encontrado</template>
 
         <template #item="{item}">
-            <td>{{ item.id }}</td>
+            <td>{{ item.title||item.id }}</td>
         </template>
 
         <template #actions="{item}">
-            <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-primary"><i class="fa fa-fw fa-pencil"></i></nuxt-link>
-            <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-danger"><i class="fa fa-fw fa-remove"></i></nuxt-link>
+            <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-primary"><i class="fas fa-edit"></i></nuxt-link>
+            <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-danger"><i class="fas fa-times"></i></nuxt-link>
         </template>
     </ui-laravel-table>
 </div></template>
@@ -34,7 +34,7 @@ export default {
 
     methods: {
         tevepsSearch() {
-            this.$axios.get('/api/teveps/search').then(resp => {
+            this.$axios.get('/api/tevep/search').then(resp => {
                 this.tevep = resp.data;
             });
         },

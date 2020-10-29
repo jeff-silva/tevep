@@ -22,31 +22,41 @@ class Model extends \Illuminate\Database\Eloquent\Model
         // return \Utils::validate($data, $rules, $messages);
     }
 
+
     public function store() {
-        // 
+        $save = $this;
+
+        if ($this->id) {
+            $save = self::find($this->id)->fill($this->attributes);
+        }
+
+        $save->save();
+        return $save;
     }
 
+
     public function search($params=[]) {
+        
         $params = (object) array_merge([
             'page' => 1,
             'search' => '',
-            'perpage' => 20,
         ], $params);
 
-        $attrs = $this->attributes;
+        return $this;
+
+        // $attrs = $this->attributes;
         
-        $query = new static;
+        // $query = new static;
 
-        if ($params->search) {
-            $query = $query->where(function($query) use($attrs) {
-                foreach($attrs as $key=>$val) {
-                    if (is_array($val)) continue;
-                    $query->orWhere($key, 'like', "%{$val}%");
-                }
-            });
-        }
+        // if ($params->search) {
+        //     $query = $query->where(function($query) use($attrs) {
+        //         foreach($attrs as $key=>$val) {
+        //             if (is_array($val)) continue;
+        //             $query->orWhere($key, 'like', "%{$val}%");
+        //         }
+        //     });
+        // }
 
-        // return $query->toSql();
-        return $query->paginate($params->perpage);
+        // return $query;
     }
 }

@@ -2,7 +2,6 @@
 	<datetime v-model="props.value"
 		type="datetime"
 		input-class="form-control"
-		:minute-step="5"
 		@input="$emit('input', props.value)"
 	></datetime>
 </div></template>
@@ -27,7 +26,7 @@ export default {
 	},
 	
 	watch: {
-		$props: {deep:true, handler(val, old) {
+		$props: {deep:true, handler(val) {
 			this.props = Object.assign({}, val);
         }},
 	},

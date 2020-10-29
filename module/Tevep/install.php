@@ -3,6 +3,8 @@
 if (! Schema::hasTable('teveps')) {
     Schema::create('teveps', function($table) {
         $table->increments('id');
+        $table->dateTime('created_at')->nullable();
+        $table->dateTime('updated_at')->nullable();
     });
 }
 

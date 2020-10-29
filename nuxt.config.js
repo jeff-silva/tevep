@@ -106,7 +106,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    debug: true,
+    debug: false,
   },
 
   router: {
