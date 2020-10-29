@@ -6,6 +6,9 @@
 ``php artisan app-deploy``
 ``npm run dev``
 
+# Build
+``npm run build``
+
 
 # Laranuxt
 

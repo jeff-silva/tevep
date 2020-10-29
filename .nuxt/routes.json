@@ -96,12 +96,5 @@
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
     "_name": "_4c6fd2aa"
-  },
-  {
-    "name": "__nuxt_laravel",
-    "path": "/__nuxt_laravel",
-    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_4c6fd2aa"
   }
 ]
