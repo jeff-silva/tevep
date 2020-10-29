@@ -66,7 +66,12 @@ export default {
 
     auth: {
         // https://dev.auth.nuxtjs.org/api/options#redirect
-        redirect: false,
+        redirect: {
+          login: '/auth',
+          logout: '/',
+          callback: '/login',
+          home: '/',
+        },
 
         strategies: {
             // https://dev.auth.nuxtjs.org/providers/laravel-jwt
