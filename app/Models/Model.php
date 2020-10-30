@@ -59,4 +59,40 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
         // return $query;
     }
+
+    static function fieldCreate($field, $callback) {
+        $table_name = (new static)->getTable();
+
+        if (! \Schema::hasTable($table_name)) {
+            \Schema::create($table_name, function($table) {
+                $table->increments('id');
+                $table->dateTime('created_at')->nullable();
+                $table->dateTime('updated_at')->nullable();
+            });
+        }
+
+        if (\Schema::hasColumn($table_name, $field)) return;
+
+        \Schema::table($table_name, function($table) use($callback) {
+            call_user_func($callback, $table);
+        });
+    }
+
+    static function fieldExists($field, $callback) {
+        $table_name = (new static)->getTable();
+
+        if (! \Schema::hasTable($table_name)) {
+            \Schema::create($table_name, function($table) {
+                $table->increments('id');
+                $table->dateTime('created_at')->nullable();
+                $table->dateTime('updated_at')->nullable();
+            });
+        }
+
+        if (! \Schema::hasColumn($table_name, $field)) return;
+
+        \Schema::table($table_name, function($table) use($callback) {
+            call_user_func($callback, $table);
+        });
+    }
 }
