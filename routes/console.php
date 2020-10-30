@@ -44,6 +44,7 @@ Artisan::command('app-deploy', function () {
     foreach(\App\Providers\AppServiceProvider::modules() as $module) {
         if ($module->install) {
             $this->comment("Configuring {$module->namespace}");
+            $this->comment("Path: {$module->install}");
             include $module->install;
         }
     }
