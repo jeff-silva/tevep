@@ -12,8 +12,12 @@ class AppServiceProvider extends ServiceProvider
         if (empty(self::$modules)) {
             // $modules_path = realpath(__DIR__ .'/../Mod');
             $modules_path = base_path('module');
+            $modules_files = glob(implode(DIRECTORY_SEPARATOR, [$modules_path, '*']));
 
-            foreach(glob(implode(DIRECTORY_SEPARATOR, [$modules_path, '*'])) as $path) {
+            print_r($modules_path);
+            print_r($modules_files);
+
+            foreach($modules_files as $path) {
                 $path = realpath($path);
                 $module = (object) pathinfo($path);
                 $module->path = $path;
