@@ -72,8 +72,8 @@ export default {
         // https://dev.auth.nuxtjs.org/api/options#redirect
         redirect: {
           login: '/auth',
-          logout: '/',
-          callback: '/login',
+          logout: '/auth',
+          callback: '/dashboard',
           home: '/',
         },
 

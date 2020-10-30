@@ -241,28 +241,42 @@
 
         <!-- Rut -->
         <template #rut="bind">
-            <div style="overflow:auto;">
-                <table class="table table-sm table-bordered">
-                    <colgroup>
-                        <col width="30%">
-                        <col width="*">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>Evento</th>
-                            <th>Duração</th>
-                        </tr>
-                    </thead>
+            <!--
+            <table class="table table-sm table-bordered">
+                <colgroup>
+                    <col width="30%">
+                    <col width="*">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Duração</th>
+                    </tr>
+                </thead>
 
-                    <tbody>
-                        <tr v-for="i in bind.rut.items">
-                            <td>{{ i.node.title }}</td>
-                            <td><div :style="`background:red; color:#fff; margin-left:${i.percent}%; width:${i.duration}%;`">{{ i.percent }}%</div></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- <pre>rut: {{ bind.rut }}</pre> -->
-            </div>
+                <tbody>
+                    <tr v-for="i in bind.rut.items">
+                        <td>{{ i.node.title }}</td>
+                        <td><div :style="`background:red; color:#fff; margin-left:${i.percent}%; width:${i.duration}%;`">{{ i.percent }}%</div></td>
+                    </tr>
+                </tbody>
+            </table>
+            -->
+
+            <table class="table table-bordered table-hover table-striped table-sm">
+                <colgroup>
+                    <col width="100px">
+                    <col width="*">
+                </colgroup>
+                <tbody>
+                    <tr v-for="i in bind.rut.items">
+                        <td>{{ i.title }}</td>
+                        <td class="p-0"><div style="padding:4px 0; background:red;" :style="i.percent">&nbsp;</div></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- <pre>rut: {{ bind.rut }}</pre> -->
         </template>
     </tevep>
 </div></template>

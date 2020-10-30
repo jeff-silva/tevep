@@ -16,7 +16,7 @@
 
         <template #actions="{item}">
             <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-primary"><i class="fas fa-edit"></i></nuxt-link>
-            <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-danger"><i class="fas fa-times"></i></nuxt-link>
+            <a href="javascript:;" class="btn btn-danger" @click="tevepsDelete(item)"><i class="fas fa-times"></i></a>
         </template>
     </ui-laravel-table>
 </div></template>
@@ -36,6 +36,14 @@ export default {
         tevepsSearch() {
             this.$axios.get('/api/tevep/search').then(resp => {
                 this.tevep = resp.data;
+            });
+        },
+
+        tevepsDelete(tevep) {
+            if (!confirm('Deseja deletar?')) return;
+            this.$axios.post(`/api/tevep/delete/${tevep.id}`).then(resp => {
+                this.$swalSuccess('Sucesso', 'Projeto deletado');
+                this.tevepsSearch();
             });
         },
     },

@@ -303,28 +303,61 @@ export default {
 		},
 
         getRut() {
-            let rut = {};
+            let divisor = this.props.value.divisor;
+
+            let rut = {
+                date_start: 0,
+                date_final: 0,
+                diff: 0,
+            };
 
             let node = this.getNode({id:this.$route.query.node});
 
-            rut.date_start = node.date_start;
-            rut.date_final = node.date_final;
-
-            rut.items = this.getNodes({type:"time", parent:node.id});
-
-            rut.items = rut.items.filter((item) => {
+            let items = this.getNodes({type:"time", parent:node.id}).filter((item) => {
                 return !!item.date_start;
             });
+
+            let dates = items.map(item => { return moment(item.date_start); });
+            rut.date_start = moment.min(dates).format();
+            rut.date_final = moment.max(dates).format();
+            rut.diff = moment(rut.date_start).diff(moment(rut.date_final), divisor);
+            rut.diff = rut.diff>=0? rut.diff: rut.diff*-1;
+
+            items = items.map((item, index) => {
+                item.date_final = items[index+1]? items[index+1].date_start: rut.date_final;
+                return item;
+            });
+
+            let getPercent = function(start=false, d=false, final=false) {
+                d = parseInt(moment(d).format('X'));
+                start = parseInt(moment(rut.date_start).format('X'));
+                final = parseInt(moment(rut.date_final).format('X'));
+
+                let percent = (100 * (d-start)) / (final-start);
+
+                // let percent = (d-start) / (final-start) * 100;
+                // percent = (Math.round(percent * 100) / 100);
+                return percent;
+            };
+
+            rut.items = items.map(item => {
+                // let start = getPercent(rut.date_start, item.date_start, rut.date_final);
+                // let final = getPercent(rut.date_start, item.date_start, item.date_final);
+
+                // item.percent = {
+                //     marginLeft: start+'%',
+                //     width: final+'%',
+                // };
+                return item;
+            });
+
+            /*
+
+
             
             let date_start = moment(rut.date_start);
             let date_final = moment(rut.date_final);
-            let getPercent = function(d, start=false, final=false) {
-                start = start? moment(start): date_start;
-                final = final? moment(final): date_final;
-
-                let percent = (moment(d) - start) / (final - start) * 100;
-                return (Math.round(percent * 100) / 100);
-            };
+            
 
             rut.items = rut.items.map((node, index) => {
                 let item = {};
@@ -342,6 +375,7 @@ export default {
                 else if (a.percent<b.percent) return -1;
                 return 0;
             });
+            */
 
             return rut;
         },
