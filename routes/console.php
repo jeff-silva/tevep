@@ -33,6 +33,8 @@ Artisan::command('app-mail', function() {
 
 
 Artisan::command('app-deploy', function () {
+    $separator = '-------------------------------------------------';
+    $this->comment($separator);
     $this->comment('Deploy start');
 
     $database_file = database_path('database.sqlite');
@@ -43,12 +45,14 @@ Artisan::command('app-deploy', function () {
 
     foreach(\App\Providers\AppServiceProvider::modules() as $module) {
         if ($module->install) {
+            $this->comment($separator);
             $this->comment("Configuring {$module->namespace}");
             $this->comment("Path: {$module->install}");
             include $module->install;
         }
     }
 
+    $this->comment($separator);
     $this->comment('Clearing caches');
     \Artisan::call('config:cache');
     \Artisan::call('config:clear');
@@ -57,4 +61,5 @@ Artisan::command('app-deploy', function () {
     \Artisan::call('optimize:clear');
     
     $this->comment('Finish');
+    $this->comment($separator);
 })->describe('App deploy');

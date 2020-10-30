@@ -24,4 +24,12 @@ class Utils
         
         return \Mail::to($data['to'])->send(new \App\Mail\Mail($data));
     }
+
+    static function path($path) {
+        return implode(DIRECTORY_SEPARATOR, preg_split('/\\\|\//', $path));
+    }
+
+    static function realpath($path) {
+        return realpath(self::path($path));
+    }
 }

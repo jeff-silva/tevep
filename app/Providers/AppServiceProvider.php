@@ -12,23 +12,20 @@ class AppServiceProvider extends ServiceProvider
         if (empty(self::$modules)) {
             // $modules_path = realpath(__DIR__ .'/../Mod');
             $modules_path = base_path('module');
-            $modules_files = glob(implode(DIRECTORY_SEPARATOR, [$modules_path, '*']));
-
-            print_r($modules_path);
-            print_r($modules_files);
-
+            
+            $modules_files = glob(\App\Utils::path("{$modules_path}/*"));
             foreach($modules_files as $path) {
                 $path = realpath($path);
                 $module = (object) pathinfo($path);
                 $module->path = $path;
                 $module->namespace = $module->filename;
-                $module->service_provider = realpath("{$module->path}\Providers\{$module->namespace}ServiceProvider.php");
-                $module->routes_api = realpath("{$module->path}\\routes\api.php");
-                $module->routes_console = realpath("{$module->path}\\routes\console.php");
-                $module->install = realpath("{$module->path}\\install.php");
+                $module->service_provider = \App\Utils::realpath("{$module->path}\Providers\{$module->namespace}ServiceProvider.php");
+                $module->routes_api = \App\Utils::realpath("{$module->path}\\routes\api.php");
+                $module->routes_console = \App\Utils::realpath("{$module->path}\\routes\console.php");
+                $module->install = \App\Utils::realpath("{$module->path}\\install.php");
                 
                 // Register namespace
-                $loader = require base_path(implode(DIRECTORY_SEPARATOR, ['vendor', 'autoload.php']));
+                $loader = require \App\Utils::realpath(base_path('/vendor/autoload.php'));
                 $loader->addPsr4("{$module->namespace}\\", $module->path);
 
                 self::$modules[] = $module;
