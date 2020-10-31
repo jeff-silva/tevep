@@ -15,15 +15,6 @@
 export default {
     layout: 'auth',
 
-    data() {
-        return {
-            user: {
-                email: '',
-                password: '',
-            },
-        };
-    },
-
     methods: {
         onSuccess() {
             let redirect = this.$route.query.redirect||'/dashboard';

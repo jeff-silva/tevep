@@ -50,6 +50,8 @@
 
 <script>
 export default {
+    layout: 'coreui/admin',
+
     data() {
         return {
             endpoints: [],

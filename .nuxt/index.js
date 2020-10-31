@@ -15,6 +15,8 @@ import { createStore } from './store.js'
 
 import nuxt_plugin_plugin_5b813880 from 'nuxt_plugin_plugin_5b813880' // Source: .\\components\\plugin.js (mode: 'all')
 import nuxt_plugin_axios_559e77e3 from 'nuxt_plugin_axios_559e77e3' // Source: .\\axios.js (mode: 'all')
+import nuxt_plugin_workbox_2c9eff82 from 'nuxt_plugin_workbox_2c9eff82' // Source: .\\workbox.js (mode: 'client')
+import nuxt_plugin_meta_225f31ce from 'nuxt_plugin_meta_225f31ce' // Source: .\\pwa\\meta.js (mode: 'all')
 import nuxt_plugin_axios_397e53b5 from 'nuxt_plugin_axios_397e53b5' // Source: ..\\resources\\nuxt\\plugins\\axios.js (mode: 'all')
 import nuxt_plugin_utils_f95abccc from 'nuxt_plugin_utils_f95abccc' // Source: ..\\resources\\nuxt\\plugins\\utils.js (mode: 'all')
 import nuxt_plugin_auth_3515ae26 from 'nuxt_plugin_auth_3515ae26' // Source: .\\auth.js (mode: 'all')
@@ -67,7 +69,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"titleTemplate":"%s - ","title":"Laravel","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"``npm install``\r ``composer install``\r ``php artisan key:generate``\r ``php artisan jwt:secret``\r ``php artisan app-deploy``\r ``npm run dev``"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},
+    head: {"titleTemplate":"%s - ","title":"Laravel","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"``npm install``\r ``composer install``\r ``php artisan key:generate``\r ``php artisan jwt:secret``\r ``php artisan app-deploy``\r ``npm run dev``"},{"hid":"charset","charset":"utf-8"},{"hid":"mobile-web-app-capable","name":"mobile-web-app-capable","content":"yes"},{"hid":"og:type","name":"og:type","property":"og:type","content":"website"},{"hid":"og:description","name":"og:description","property":"og:description","content":"``npm install``\r ``composer install``\r ``php artisan key:generate``\r ``php artisan jwt:secret``\r ``php artisan app-deploy``\r ``npm run dev``"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"shortcut icon","href":"\u002Ffavicon.ico"},{"rel":"manifest","href":"\u002F_nuxt\u002Fmanifest.81defe45.json","hid":"manifest"}],"style":[],"script":[],"htmlAttrs":{"lang":"en"}},
 
     store,
     router,
@@ -202,6 +204,14 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_axios_559e77e3 === 'function') {
     await nuxt_plugin_axios_559e77e3(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_workbox_2c9eff82 === 'function') {
+    await nuxt_plugin_workbox_2c9eff82(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_meta_225f31ce === 'function') {
+    await nuxt_plugin_meta_225f31ce(app.context, inject)
   }
 
   if (typeof nuxt_plugin_axios_397e53b5 === 'function') {

@@ -81,3 +81,20 @@ Vue.filter('date', function(date) {
 	if (!d[1]) return '';
 	return `${d[2]}/${d[1]}/${d[0]} ${d[3]}:${d[4]}`;
 });
+
+
+
+Vue.prototype.$adminMenu = function() {
+	return [
+		{to:"/dashboard", title:"Dashboard", icon:"fas fa-home", children:[]},
+		{to:"", title:"Tevep", icon:"fas fa-shopping-bag", children:[
+			{to:"/tevep", title:"Projetos", icon:"fas fa-shopping-bag", children:[]},
+			{to:"/tevep/0", title:"Novo", icon:"fas fa-shopping-bag", children:[]},
+		]},
+		{to:"/user/", title:"Usuários", icon:"fas fa-user", children:[]},
+		{to:"", title:"Configurações", icon:"fas fa-cog", children:[
+			// {to:"/dashboard/settings/", title:"Dados", icon:"fas fa-cog", children:[]},
+			{to:"/dashboard/settings-user", title:"Meus dados", icon:"fas fa-cog", children:[]},
+		]},
+	];
+};

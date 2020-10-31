@@ -9,19 +9,21 @@ export default {
             });
         },
 
-        toggleSet(name) {
-            this.toggle = (this.toggle==name? false: name);
-        },
-
-        toggleNav(value=null) {
-            this.showNav = (value===null)? !this.showNav: value;
-        },
-
         toggleClass(ev, params={}) {
             params = Object.assign({
                 target: ev.target,
                 class: 'test',
+                hide: false,
+                closeOutsideClick: false,
             }, params);
+
+            let coreuiAdminCloseOutsideClickHandler = (evv) => {
+                for(let parent in window.coreuiAdminCloseOutsideClick) {
+                    parent = window.coreuiAdminCloseOutsideClick[parent];
+                    if (ev.target==evv.target || parent.contains(evv.target)) return;
+                    parent.classList.remove(params.class);
+                }
+            };
 
             let element = (evv, target) => {
                 return new Promise((resolve, reject) => {
@@ -35,44 +37,53 @@ export default {
             };
 
             element(ev, params.target).then(target => {
+                if (params.closeOutsideClick) {
+                    if (!window.coreuiAdminCloseOutsideClick) {
+                        window.coreuiAdminCloseOutsideClick = window.coreuiAdminCloseOutsideClick||[];
+                        document.addEventListener('click', coreuiAdminCloseOutsideClickHandler);
+                    }
+
+                    window.coreuiAdminCloseOutsideClick.push(target);
+                    window.coreuiAdminCloseOutsideClick = [...new Set(window.coreuiAdminCloseOutsideClick)];
+                }
+
+                if (params.hide) {
+                    target.classList.toggle(params.class);
+                    element(ev, params.hide).then(hide => {
+                        if (target==hide) return;
+                        hide.classList.remove(params.class);
+                    });
+                    return;
+                }
+
                 target.classList.toggle(params.class);
             });
-        },
-
-        clickListener(ev) {
-            // if (! this.toggle) return;
-            // let parent = this.$refs[this.toggle]||false;
-            // if (! parent) return;
-            // // if (ev.target==parent || parent.contains(ev.target)) return;
-            // setTimeout(() => {
-            //     this.toggle = this.toggle? false: this.toggle;
-            // }, 500);
         },
     },
 
     data() {
         return {
-            toggle: false,
-            showNav: false,
-
-            adminMenuIndex: null,
-            adminMenu: this.$adminMenu(),
+            navItems: [
+                {to:"/dashboard", title:"Dashboard", icon:"fas fa-home", children:[]},
+                {to:"", title:"Tevep", icon:"fas fa-shopping-bag", children:[
+                    {to:"/tevep", title:"Projetos", icon:"fas fa-shopping-bag", children:[]},
+                    {to:"/tevep/0", title:"Novo", icon:"fas fa-shopping-bag", children:[]},
+                ]},
+                {to:"/user/", title:"Usuários", icon:"fas fa-user", children:[]},
+                {to:"/dashboard/settings/", title:"Configurações", icon:"fas fa-cog", children:[]},
+            ],
         };
     },
 
-    mounted() {
-        document.addEventListener('click', this.clickListener);
-    },
-
-    beforeDestroy() {
-        document.removeEventListener('click', this.clickListener);
-    },
+    // mounted() {
+    //     document.body.classList.add('c-app');
+    // },
 };</script>
 
 
 <!-- https://modularcode.io/modular-admin-html/ -->
 <template><div class="layout-admin">
-    <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar" :class="{'c-sidebar-unfoldable':showNav, 'c-sidebar-show':showNav}">
+    <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
         <div class="c-sidebar-brand d-md-down-none">
             <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
                 <use xlink:href="assets/brand/coreui-pro.svg#full"></use>
@@ -82,40 +93,35 @@ export default {
             </svg>
         </div>
         <ul class="c-sidebar-nav">
-            <li class="c-sidebar-nav-title">Menu</li>
-            
-            <template v-for="(m,i) in adminMenu">
-                <li class="c-sidebar-nav-item" v-if="m.children.length==0">
-                    <nuxt-link :to="m.to" class="c-sidebar-nav-dropdown-toggle" :class="{'c-active':i==adminMenuIndex}" @click.native="adminMenuIndex=null">
-                        <span class="c-sidebar-nav-icon">
-                            <i :class="m.icon"></i>
-                        </span> {{ m.title }}
-                    </nuxt-link>
-                </li>
-                
-                <li class="c-sidebar-nav-dropdown" :class="{'c-show':i==adminMenuIndex}" v-else>
-                    <a href="javascript:;" class="c-sidebar-nav-dropdown-toggle" :class="{'c-active':i==adminMenuIndex}" @click="adminMenuIndex=i">
+            <li class="c-sidebar-nav-title">Theme</li>
+            <li class="c-sidebar-nav-dropdown" :class="{cShow:m.show}" v-for="(m,i) in navItems" :key="i">
+                <template v-if="m.children.length>0">
+                    <a href="javascript:;" class="c-sidebar-nav-dropdown-toggle" @click="toggleClass($event, {target:'parent', class:'c-show'})">
                         <span class="c-sidebar-nav-icon">
                             <i :class="m.icon"></i>
                         </span> {{ m.title }}
                     </a>
-
-                    <ul class="c-sidebar-nav-dropdown-items">
+                    <ul class="c-sidebar-nav-dropdown-items" v-if="m.children && m.children.length>0">
                         <li class="c-sidebar-nav-item" v-for="(mm,ii) in m.children">
                             <nuxt-link :to="mm.to" class="c-sidebar-nav-link"> {{ mm.title }}</nuxt-link>
                         </li>
                     </ul>
-                </li>
-            </template>
-            
+                </template>
+                
+                <nuxt-link :to="m.to" class="c-sidebar-nav-dropdown-toggle" v-else>
+                    <span class="c-sidebar-nav-icon">
+                        <i :class="m.icon"></i>
+                    </span> {{ m.title }}
+                </nuxt-link>
+            </li>
             <li class="c-sidebar-nav-divider"></li>
         </ul>
 
-        <button class="c-sidebar-minimizer c-class-toggler" type="button" @click="toggleNav();"></button>
+        <button class="c-sidebar-minimizer c-class-toggler" type="button" @click="toggleClass($event, {target:'parent', 'class':'c-sidebar-unfoldable'});"></button>
     </div>
 
-    <div class="c-sidebar c-sidebar-lg c-sidebar-light c-sidebar-right c-sidebar-overlaid" id="aside" ref="aside" :class="{'c-sidebar-show':toggle=='aside'}">
-        <button class="c-sidebar-close c-class-toggler" type="button" @click="toggleSet(false)" responsive="true">
+    <div class="c-sidebar c-sidebar-lg c-sidebar-light c-sidebar-right c-sidebar-overlaid" id="aside">
+        <button class="c-sidebar-close c-class-toggler" type="button" @click="toggleClass($event, {target:'#aside', class:'c-sidebar-show'})" responsive="true">
             <div class="c-icon"><i class="fas fa-times"></i></div>
         </button>
         <ul class="nav nav-tabs nav-underline nav-underline-primary" role="tablist">
@@ -346,12 +352,14 @@ export default {
     </div>
     <div class="c-wrapper">
         <header class="c-header c-header-light c-header-fixed align-items-center">
-            <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" @click="toggleNav();">
+            <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto border" type="button" @click="toggleClass($event, {target:'#sidebar', class:'c-sidebar-show'})">
                 <div class="c-icon c-icon-lg"><i class="fas fa-bars"></i></div>
             </button>
-
+            <a class="c-header-brand d-lg-none c-header-brand-sm-up-center" href="#">
+                <i class="fas fa-globe"></i>
+            </a>
             <!-- @click="toggleClass($event, {target:'parent', 'class':'c-sidebar-unfoldable'});" -->
-            <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" responsive="true" @click="toggleNav();">
+            <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" responsive="true" @click="toggleClass($event, {target:'#sidebar', class:'c-sidebar-lg-show'})">
                 <div class="c-icon c-icon-lg"><i class="fas fa-bars"></i></div>
             </button>
             
@@ -377,14 +385,12 @@ export default {
             </ul>
 
             <ul class="c-header-nav">
-
-                <!-- Notifications
                 <li class="c-header-nav-item dropdown d-md-down-none mx-2">
-                    <a href="javascript:;" class="c-header-nav-link" role="button" @click="toggleSet('notifications')">
+                    <a href="javascript:;" class="c-header-nav-link" role="button" @click="toggleClass($event, {target:'#header-nav-bell-content', class:'show', hide:'.c-header .dropdown-menu', closeOutsideClick:true})">
                         <div class="c-icon"><i class="fas fa-bell"></i></div>
                         <span class="badge badge-pill badge-danger">5</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" style="margin-top:20px;" ref="notifications" :class="{show:toggle=='notifications'}">
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" id="header-nav-bell-content" style="margin-top:20px;">
                         <div class="dropdown-header bg-light"><strong>You have 5 notifications</strong></div>
                         <a class="dropdown-item" href="#">
                             <svg class="c-icon mfe-2 text-success">
@@ -402,26 +408,21 @@ export default {
                         </a>
                     </div>
                 </li>
-                -->
 
                 <li class="c-header-nav-item dropdown">
-                    <a href="javascript:;" class="c-header-nav-link" role="button" @click="toggleSet('userOptions')">
+                    <a href="javascript:;" class="c-header-nav-link" role="button" @click="toggleClass($event, {target:'#header-nav-user-content', class:'show', hide:'.c-header .dropdown-menu', closeOutsideClick:true})">
                         <div class="c-avatar"><img class="c-avatar-img" src="https://randomuser.me/api/portraits/men/16.jpg" alt="user@email.com"></div>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right pt-0" style="margin-top:10px;" ref="userOptions" :class="{show:toggle=='userOptions'}" @click="toggleSet(false)">
-                        <div class="dropdown-header bg-light py-2"><strong>Tevep</strong></div>
-                        <nuxt-link to="/tevep" class="dropdown-item">
-                            <div class="c-icon mfe-2"><i class="fas fa-search"></i></div>
-                            Meus projetos
-                        </nuxt-link>
-                        <nuxt-link to="/tevep/0" class="dropdown-item">
-                            <div class="c-icon mfe-2"><i class="fas fa-plus"></i></div>
-                            Criar novo
-                        </nuxt-link>
-                        <div class="dropdown-header bg-light py-2"><strong>Conta</strong></div>
+                    <div class="dropdown-menu dropdown-menu-right pt-0" id="header-nav-user-content" style="margin-top:10px;">
+                        <div class="dropdown-header bg-light py-2"><strong>Account</strong></div>
                         <a class="dropdown-item" href="#">
-                            <div class="c-icon mfe-2"><i class="fas fa-user"></i></div>
-                            Meus dados
+                            <div class="c-icon mfe-2"><i class="fas fa-globe"></i></div>
+                            Updates<span class="badge badge-info mfs-auto">42</span>
+                        </a>
+                        <div class="dropdown-header bg-light py-2"><strong>Settings</strong></div>
+                        <a class="dropdown-item" href="#">
+                            <div class="c-icon mfe-2"><i class="fas fa-globe"></i></div>
+                            Updates<span class="badge badge-info mfs-auto">42</span>
                         </a>
                         <a href="javascript:;" class="dropdown-item" @click="logout()">
                             <div class="c-icon mfe-2"><i class="fas fa-power-off"></i></div>
@@ -429,12 +430,9 @@ export default {
                         </a>
                     </div>
                 </li>
-
-                <!-- Right sidenav
-                <button class="c-header-toggler c-class-toggler mfe-md-3" type="button" @click="toggleSet('aside')">
+                <button class="c-header-toggler c-class-toggler mfe-md-3" type="button" @click="toggleClass($event, {target:'#aside', class:'c-sidebar-show', closeOutsideClick:true});">
                     <div class="c-icon c-icon-lg"><i class="fas fa-ellipsis-v"></i></div>
                 </button>
-                -->
             </ul>
 
             <!-- <div class="c-subheader justify-content-between px-3">
