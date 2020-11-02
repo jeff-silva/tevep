@@ -43,6 +43,7 @@ Artisan::command('app-deploy', function () {
     \Artisan::call('migrate');
     \Artisan::call('db:seed');
 
+    include \App\Utils::path(base_path('/app/install.php'));
     foreach(\App\Providers\AppServiceProvider::modules() as $module) {
         if ($module->install) {
             $this->comment($separator);
