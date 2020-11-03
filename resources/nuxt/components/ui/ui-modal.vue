@@ -3,7 +3,7 @@
         enter-active-class="animate__animated animate__fadeIn"
         leave-active-class="animate__animated animate__fadeOut"
     >
-        <div v-if="props.value" class="ui-modal" @click.self="props.value=false; emit();" style="animation-duration:300ms;">
+        <div v-if="props.value" class="ui-modal" @click.self="props.value=false; $emit('input', props.value);" style="animation-duration:300ms;">
             <component :is="tag" @submit.prevent="$emit('submit', $event)">
                 <div class="card">
                     <div class="card-header" v-if="$slots.header">
@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="card-footer text-right">
-                        <button type="button" class="btn pull-left" @click="props.value=false; emit();">
+                        <button type="button" class="btn pull-left" @click="props.value=false; $emit('input', props.value);">
                             Ok
                         </button>
                         <slot name="footer"></slot>
@@ -33,23 +33,15 @@
     },
 
     watch: {
-        $props: {
-            deep: true,
-            handler(value) {
-                this.props = Object.assign({}, value);
-            },
-        },
+        $props: {deep: true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
     },
 
     methods: {
-        emit() {
-            this.$emit('input', this.props.value);
-            this.$emit('value', this.props.value);
-            this.$emit('change', this.props.value);
-        },
-
         toggle() {
             this.props.value = !this.props.value;
+            this.$emit('value', this.props.value);
         },
     },
 
@@ -68,7 +60,7 @@
     width: 100vw;
     height: 100vh;
     background: #00000033;
-    z-index: 99 !important;
+    z-index: 9999 !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,5 +68,7 @@
 .ui-modal .card {
     width: 600px;
     max-width: 90% !important;
+    margin: 0px !important;
+    overflow: auto !important;
 }
 </style>

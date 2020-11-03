@@ -58,6 +58,10 @@ Route::get('/user/find', function() {
     return \App\Models\User::find(request()->input('id'));
 });
 
+Route::post('/user/save', function() {
+    return (new \App\Models\User)->store(request()->all());
+});
+
 Route::get('/user/search', function() {
     $params = (object) [
         'search' => request()->input('search', ''),

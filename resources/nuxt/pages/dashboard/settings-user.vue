@@ -1,8 +1,8 @@
 <template><div>
-    <form action="" @submit.prevent="submit()">
+    <form action="" @submit.prevent="submit()" style="max-width:800px;">
         <div class="row">
             <div class="col-3">
-                <ui-photo v-model="user.photo" style="width:100%; height:142px;"></ui-photo>
+                <ui-photo v-model="user.photo"></ui-photo>
             </div>
     
             <div class="col-9">
@@ -45,7 +45,9 @@ export default {
 
     methods: {
         submit() {
-            alert('Em desenvolvimento');
+            this.$axios.post('/api/user/save', this.user).then(resp => {
+                location.reload();
+            });
         },
     },
 
