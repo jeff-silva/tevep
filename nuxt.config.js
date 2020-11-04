@@ -101,8 +101,14 @@ export default {
 			},
 	},
 
+	/*
+	** PWA module configuration
+	** See https://pwa.nuxtjs.org/
+	*/
 	pwa: {
-		// icon: false // disables the icon module
+		icon: {
+			// https://pwa.nuxtjs.org/icon
+		},
 	},
 
 	/*

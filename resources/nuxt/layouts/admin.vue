@@ -2,6 +2,12 @@
 
 <script>
 export default {
+    watch: {
+        $route: {deep:true, handler(value) {
+            this.showNav = false;
+        }},
+    },
+
     methods: {
         logout() {
             this.$auth.logout().then((resp) => {
@@ -81,6 +87,7 @@ export default {
                 <use xlink:href="assets/brand/coreui-pro.svg#signet"></use>
             </svg>
         </div>
+
         <ul class="c-sidebar-nav">
             <li class="c-sidebar-nav-title">Menu</li>
             
@@ -113,6 +120,7 @@ export default {
 
         <button class="c-sidebar-minimizer c-class-toggler" type="button" @click="toggleNav();"></button>
     </div>
+    <div class="c-sidebar-backdrop c-fade c-show" v-if="showNav" @click="showNav=false"></div>
 
     <div class="c-sidebar c-sidebar-lg c-sidebar-light c-sidebar-right c-sidebar-overlaid" id="aside" ref="aside" :class="{'c-sidebar-show':toggle=='aside'}">
         <button class="c-sidebar-close c-class-toggler" type="button" @click="toggleSet(false)" responsive="true">
