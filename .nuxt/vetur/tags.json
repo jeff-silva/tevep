@@ -17,30 +17,6 @@
   "LazyVuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-  "TevepDates": {
-    "description": "Auto imported from components/tevep/tevep-dates.vue"
-  },
-  "LazyTevepDates": {
-    "description": "Auto imported from components/tevep/tevep-dates.vue"
-  },
-  "TevepList": {
-    "description": "Auto imported from components/tevep/tevep-list.vue"
-  },
-  "LazyTevepList": {
-    "description": "Auto imported from components/tevep/tevep-list.vue"
-  },
-  "TevepPrincipios": {
-    "description": "Auto imported from components/tevep/tevep-principios.vue"
-  },
-  "LazyTevepPrincipios": {
-    "description": "Auto imported from components/tevep/tevep-principios.vue"
-  },
-  "Tevep": {
-    "description": "Auto imported from components/tevep/tevep.vue"
-  },
-  "LazyTevep": {
-    "description": "Auto imported from components/tevep/tevep.vue"
-  },
   "UiAddressOld": {
     "description": "Auto imported from components/ui/ui-address-old.vue"
   },
@@ -166,5 +142,29 @@
   },
   "LazyUiTable": {
     "description": "Auto imported from components/ui/ui-table.vue"
+  },
+  "TevepDates": {
+    "description": "Auto imported from components/tevep/tevep-dates.vue"
+  },
+  "LazyTevepDates": {
+    "description": "Auto imported from components/tevep/tevep-dates.vue"
+  },
+  "TevepList": {
+    "description": "Auto imported from components/tevep/tevep-list.vue"
+  },
+  "LazyTevepList": {
+    "description": "Auto imported from components/tevep/tevep-list.vue"
+  },
+  "TevepPrincipios": {
+    "description": "Auto imported from components/tevep/tevep-principios.vue"
+  },
+  "LazyTevepPrincipios": {
+    "description": "Auto imported from components/tevep/tevep-principios.vue"
+  },
+  "Tevep": {
+    "description": "Auto imported from components/tevep/tevep.vue"
+  },
+  "LazyTevep": {
+    "description": "Auto imported from components/tevep/tevep.vue"
   }
 }
