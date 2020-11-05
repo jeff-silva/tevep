@@ -35,6 +35,16 @@ class Tevep extends \App\Models\Model
         $this->attributes['nodes'] = (is_array($value)? json_encode($value): $value);
     }
 
+    public function search($params=[]) {
+        $query = $this;
+        
+        if (isset($params['user_id']) AND !empty($params['user_id'])) {
+            $query = $query->where('user_id', $params['user_id']);
+        }
+
+        return $query;
+    }
+
     // public function deployMigration($artisan, $table, $fields)
     // {
     //     return [

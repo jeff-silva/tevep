@@ -130,11 +130,7 @@ class User extends Authenticatable implements JWTSubject
         $save->save();
 
         if ($save->wasRecentlyCreated) {
-            \App\Utils::mail([
-                'to' => $save->email,
-                'subject' => "Bem vindo {$save->name}!",
-                'body' => "Bem vindo {$save->name}! <br>Seu cadastro acaba de ser efetuado, é um prazer ter você conosco.",
-            ]);
+            \App\Models\Email::send($save->email, "Bem vindo {$save->name}!", "Bem vindo {$save->name}! <br>Seu cadastro acaba de ser efetuado, é um prazer ter você conosco.");
         }
 
 
@@ -156,12 +152,8 @@ class User extends Authenticatable implements JWTSubject
         });
 
         if ($reset = \DB::table('password_resets')->where('email', '=', $data['email'])->first()) {
-            \App\Utils::mail([
-                'to' => $data['email'],
-                'subject' => 'Recuperação de senha',
-                'body' => "Informe seu código de recuperação de senha para prosseguir com a alteração: <br>
-                <div style='padding:15px; background:#eee;'>{$reset->token}</div>",
-            ]);
+            \App\Models\Email::send($data['email'], 'Recuperação de senha', "Informe seu código de recuperação de senha para prosseguir com a alteração: <br>
+                <div style='padding:15px; background:#eee;'>{$reset->token}</div>");
         }
 
         return $set;

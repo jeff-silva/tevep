@@ -34,7 +34,8 @@ export default {
 
     methods: {
         tevepsSearch() {
-            this.$axios.get('/api/tevep/search').then(resp => {
+            let user_id = this.$route.query.user || this.$auth.user.id;
+            this.$axios.get('/api/tevep/search', {params:{user_id}}).then(resp => {
                 this.tevep = resp.data;
             });
         },
