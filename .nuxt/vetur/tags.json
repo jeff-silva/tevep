@@ -5,6 +5,12 @@
   "LazyLogo": {
     "description": "Auto imported from components/Logo.vue"
   },
+  "UserCard": {
+    "description": "Auto imported from components/user-card.vue"
+  },
+  "LazyUserCard": {
+    "description": "Auto imported from components/user-card.vue"
+  },
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },

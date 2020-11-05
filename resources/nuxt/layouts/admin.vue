@@ -427,10 +427,10 @@ export default {
                             Criar novo
                         </nuxt-link>
                         <div class="dropdown-header bg-light py-2"><strong>Conta</strong></div>
-                        <a class="dropdown-item" href="#">
+                        <nuxt-link to="/dashboard/settings-user" class="dropdown-item">
                             <div class="c-icon mfe-2"><i class="fas fa-user"></i></div>
                             Meus dados
-                        </a>
+                        </nuxt-link>
                         <a href="javascript:;" class="dropdown-item" @click="logout()">
                             <div class="c-icon mfe-2"><i class="fas fa-power-off"></i></div>
                             Logout

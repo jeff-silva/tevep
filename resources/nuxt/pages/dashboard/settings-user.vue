@@ -1,11 +1,18 @@
 <template><div>
     <form action="" @submit.prevent="submit()" style="max-width:800px;">
         <div class="row">
-            <div class="col-3">
-                <ui-photo v-model="user.photo"></ui-photo>
+            <div class="col-12 col-md-4 mb-4">
+                <user-card v-model="user">
+                    <template #image>
+                        <ui-photo v-model="user.photo">
+                            <template #has-image><i class="fas fa-times"></i></template>
+                            <template #no-image><i class="fas fa-camera-retro"></i></template>
+                        </ui-photo>
+                    </template>
+                </user-card>
             </div>
     
-            <div class="col-9">
+            <div class="col-12 col-md-8">
                 <div class="form-group">
                     <label>Nome</label>
                     <input type="text" class="form-control" v-model="user.name">

@@ -1,4 +1,4 @@
-<template><div class="ui-photo" dropzone="copy" @drop="onDrop($event);" @dragover="$event.preventDefault()" style="position:relative;">
+<template><div class="ui-photo" dropzone="copy" @drop="onDrop($event);" @dragover="$event.preventDefault()">
     <ui-modal v-model="props.modal" ref="modal">
         <template #body>
             <div class="form-group">
@@ -17,16 +17,25 @@
         </template>
     </ui-modal>
 
-    <img :src="compUrl" alt="" style="width:100%; margin:0px!important;">
 
-    <a href="javascript:;" v-if="props.value" class="btn btn-outline-danger btn-block" @click="props.value=''; $emit('input', '');">
-        <i class="fas fa-times"></i> Remover
-    </a>
+    <div style="cursor:pointer;" v-if="props.value" @click="props.value=''; $emit('input', '');">
+        <slot name="has-image">
+            <img :src="compUrl" alt="" style="width:100%; margin:0px!important;">
+            <a href="javascript:;" class="btn btn-outline-danger btn-block" @click="props.value=''; $emit('input', '');">
+                <i class="fas fa-times"></i> Remover
+            </a>
+        </slot>
+    </div>
 
-    <div v-else class="m-0">
-        <div class="btn btn-outline-primary btn-block" @click="props.modal=true">
-            <i class="fas fa-upload"></i> Upload
-        </div>
+    <div style="cursor:pointer;" v-else @click="props.modal=true">
+        <slot name="no-image">
+            <img :src="compUrl" alt="" style="width:100%; margin:0px!important;">
+            <div class="m-0">
+                <div class="btn btn-outline-primary btn-block" @click="props.modal=true">
+                    <i class="fas fa-upload"></i> Upload
+                </div>
+            </div>
+        </slot>
     </div>
 </div></template>
 

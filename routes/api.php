@@ -41,10 +41,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {
     Route::post('refresh', '\App\Http\Controllers\AuthController@refresh');
     Route::post('me', '\App\Http\Controllers\AuthController@me');
     
-    Route::post('register', function() {
-        return (new \App\Models\User)->store(request()->all());
-    });
-    
     Route::post('password-token', function() {
         return \App\Models\User::passwordToken(request()->all());
     })->name('password.reset');
@@ -58,9 +54,13 @@ Route::get('/user/find', function() {
     return \App\Models\User::find(request()->input('id'));
 });
 
-Route::post('/user/save', function() {
-    return (new \App\Models\User)->store(request()->all());
-});
+// User register/save
+foreach(['/user/save', '/auth/register'] as $path) {
+    Route::post($path, function() {
+        return (new \App\Models\User)->store(request()->all());
+    });
+}
+
 
 Route::get('/user/search', function() {
     $params = (object) [
