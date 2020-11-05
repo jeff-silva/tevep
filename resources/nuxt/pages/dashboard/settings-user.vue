@@ -1,13 +1,21 @@
 <template><div>
     <form action="" @submit.prevent="submit()" style="max-width:800px;">
+        <ui-photo v-model="user.photo" ref="userPhoto">
+            <template #has-image>&nbsp;</template>
+            <template #no-image>&nbsp;</template>
+        </ui-photo>
+
+        <ui-photo v-model="user.background" ref="userBackground">
+            <template #has-image>&nbsp;</template>
+            <template #no-image>&nbsp;</template>
+        </ui-photo>
+
         <div class="row">
             <div class="col-12 col-md-4 mb-4">
                 <user-card v-model="user">
-                    <template #image>
-                        <ui-photo v-model="user.photo">
-                            <template #has-image><i class="fas fa-times"></i></template>
-                            <template #no-image><i class="fas fa-camera-retro"></i></template>
-                        </ui-photo>
+                    <template #actions>
+                        <a href="javascript:;" class="btn btn-light" @click="$refs.userPhoto.toggle()">Foto</a>
+                        <a href="javascript:;" class="btn btn-light" @click="$refs.userBackground.toggle()">Background</a>
                     </template>
                 </user-card>
             </div>

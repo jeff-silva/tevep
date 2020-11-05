@@ -22,6 +22,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'photo',
+        'background',
     ];
 
     /**
@@ -70,6 +71,14 @@ class User extends Authenticatable implements JWTSubject
         $this->attributes['name'] = ucwords(mb_strtolower($value));
     }
 
+    public function getBackgroundAttribute($value){
+        return $value? $value: 'https://source.unsplash.com/random/800x300/';
+    }
+
+    public function getPhotoAttribute($value){
+        return $value? $value: 'https://www.flaticon.com/svg/static/icons/svg/847/847969.svg';
+    }
+
 
     // https://laravel.com/docs/8.x/validation#available-validation-rules
     public function validate($data=[]) {
@@ -115,7 +124,7 @@ class User extends Authenticatable implements JWTSubject
     public function store($data=[]) {
         $this->validate($data);
 
-        $data = array_merge(['id'=>''], $data);
+        $data = array_merge(['id'=>'', 'email'=>''], $this->attributes, $data);
         $save = static::firstOrNew(['id'=>$data['id']]);
         $save->fill($data);
         $save->save();

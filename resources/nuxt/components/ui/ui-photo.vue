@@ -51,12 +51,9 @@
     },
 
     watch: {
-        $props: {
-            deep: true,
-            handler(value) {
-                this.props = Object.assign({}, value);
-            },
-        },
+        $props: {deep:true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
     },
 
     computed: {
@@ -68,6 +65,10 @@
     methods: {
         emit() {
             this.$emit('input', this.props.value);
+        },
+
+        toggle() {
+            this.props.modal = !this.props.modal;
         },
 
         getFile(file) {

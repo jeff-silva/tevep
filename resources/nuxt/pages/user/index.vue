@@ -1,5 +1,6 @@
 <template><div>
-    <h1>Usuários</h1>
+    
+    <!--
     <ui-laravel-table v-model="user.resp" v-bind="{loading:user.loading}">
         <template #item="{item}">
             <td>
@@ -14,6 +15,38 @@
             </nuxt-link>
         </template>
     </ui-laravel-table>
+    -->
+
+    <div class="text-right mb-3">
+        <button type="button" class="btn btn-primary" @click="user.edit={}">
+            <i class="fa fa-fw fa-plus"></i> Novo usuário
+        </button>
+    </div>
+
+    <ui-modal v-model="user.edit">
+        <template #header>
+            {{ user.edit.name || 'Criar'}}
+        </template>
+        <template #body>
+            <ui-auth-register v-model="user.edit" @success="user.edit=false; userSearch();"></ui-auth-register>
+        </template>
+    </ui-modal>
+
+    <div class="text-center" v-if="user.loading">
+        Carregando...
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-4" v-for="u in user.resp.data" :key="u.id">
+            <user-card :value="u">
+                <template #actions>
+                    <button type="button" class="btn btn-light" @click="user.edit=u">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                </template>
+            </user-card>
+        </div>
+    </div>
 </div></template>
 
 <script>
@@ -34,6 +67,7 @@ export default {
         return {
             user: {
                 loading: false,
+                edit: false,
                 params: {},
                 resp: {},
             },
