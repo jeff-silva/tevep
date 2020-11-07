@@ -118,6 +118,7 @@ export default {
             short_name: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
 			background_color: '#222222',
 			lang: 'pt-BR',
+			useWebmanifestExtension: false,
 		},
 	},
 
