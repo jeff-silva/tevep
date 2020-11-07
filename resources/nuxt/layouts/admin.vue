@@ -414,7 +414,7 @@ export default {
 
                 <li class="c-header-nav-item dropdown">
                     <a href="javascript:;" class="c-header-nav-link" role="button" @click="toggleSet('userOptions')" style="text-decoration:none;">
-                        {{ $auth.user.name }} &nbsp; <div class="c-avatar" :title="$auth.user.name"><img class="c-avatar-img" :src="$auth.user.photo" :alt="$auth.user.name"></div>
+                        {{ $auth.user.name }} &nbsp; <div class="c-avatar" :title="$auth.user.name"><img class="c-avatar-img" :src="$auth.user.meta.photo" :alt="$auth.user.name"></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right pt-0" style="margin-top:10px;" ref="userOptions" :class="{show:toggle=='userOptions'}" @click="toggleSet(false)">
                         <div class="dropdown-header bg-light py-2"><strong>Tevep</strong></div>

@@ -1,18 +1,18 @@
-<template><div>
+<template><div v-if="userData && userData.id">
     <form action="" @submit.prevent="submit()" style="max-width:800px;">
-        <ui-photo v-model="user.photo" ref="userPhoto">
+        <ui-photo v-model="userData.meta.photo" ref="userPhoto">
             <template #has-image>&nbsp;</template>
             <template #no-image>&nbsp;</template>
         </ui-photo>
 
-        <ui-photo v-model="user.background" ref="userBackground">
+        <ui-photo v-model="userData.meta.background" ref="userBackground">
             <template #has-image>&nbsp;</template>
             <template #no-image>&nbsp;</template>
         </ui-photo>
 
         <div class="row">
             <div class="col-12 col-md-4 mb-4">
-                <user-card v-model="user">
+                <user-card v-model="userData">
                     <template #actions>
                         <a href="javascript:;" class="btn btn-light" @click="$refs.userPhoto.toggle()">Foto</a>
                         <a href="javascript:;" class="btn btn-light" @click="$refs.userBackground.toggle()">Background</a>
@@ -23,12 +23,17 @@
             <div class="col-12 col-md-8">
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" class="form-control" v-model="user.name">
+                    <input type="text" class="form-control" v-model="userData.name">
                 </div>
     
                 <div class="form-group">
                     <label>E-mail</label>
-                    <input type="text" class="form-control" v-model="user.email">
+                    <input type="text" class="form-control" v-model="userData.email">
+                </div>
+
+                <div class="form-group">
+                    <label>Sobre mim</label>
+                    <textarea class="form-control" v-model="userData.meta.description"></textarea>
                 </div>
             </div>
     
@@ -54,20 +59,16 @@ export default {
 
     data() {
         return {
-            user: Object.assign({}, this.$auth.user),
+            userData: JSON.parse(JSON.stringify(this.$auth.user)),
         }
     },
 
     methods: {
         submit() {
-            this.$axios.post('/api/user/save', this.user).then(resp => {
+            this.$axios.post('/api/user/save', this.userData).then(resp => {
                 location.reload();
             });
         },
-    },
-
-    mounted() {
-        // console.log(this.$root);
     },
 }
 </script>

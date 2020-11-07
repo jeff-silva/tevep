@@ -20,6 +20,8 @@ Artisan::command('inspire', function () {
 
 
 Artisan::command('app-mail', function() {
+    \Artisan::call('config:cache');
+    
     $mail = \App\Models\Email::send('test@grr.la', 'E-mail de teste', '<h1>Isto é um e-mail de teste</h1>Lorem ipsum <strong>dolor sit amet</strong> consectetur adipisicing elit. Quas ea eos cumque aliquid distinctio amet,
     <a href="https://google.com">esse obcaecati recusandae</a> exercitationem eligendi incidunt.
     A <i>ipsam suscipit</i> ab odit dicta tempora ad dolor?');

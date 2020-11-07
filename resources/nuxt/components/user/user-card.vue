@@ -1,12 +1,14 @@
 <template><div class="user-card bg-white shadow-sm rounded">
-	<div :style="`background:url(${props.value.background}) center center no-repeat; background-size:cover; height:200px;`"></div>
-	<div class="user-card-image shadow-sm" :style="`background-image:url(${props.value.photo});`">
+	<div class="user-card-bg" :style="`background-image:url(${props.value.meta.background});`" v-if="props.value.meta.background"></div>
+	<div class="user-card-bg user-card-pattern" v-else></div>
+	<div class="user-card-image shadow-sm" :style="`background-image:url(${props.value.meta.photo});`">
 		<slot name="image"></slot>
 	</div>
 	<div class="text-center font-weight-bold text-uppercase mt-2">
 		<nuxt-link to="">{{ props.value.name }}</nuxt-link>
 	</div>
-	<div class="text-center">{{ props.value.email }}</div>
+	<div class="text-center text-muted">{{ props.value.meta.description }}</div>
+	<div class="text-center text-muted">{{ props.value.email }}</div>
 	<div class="pb-4"></div>
 
 	<div class="btn-group user-card-actions">
@@ -29,6 +31,25 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.user-card-bg {
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	height: 200px;
+}
+
+.user-card-pattern {
+	--stripe: #f5f5f5;
+	--bg: #eee;
+
+	background: linear-gradient(135deg, var(--bg) 25%, transparent 25%) -50px 0,
+	linear-gradient(225deg, var(--bg) 25%, transparent 25%) -50px 0,
+	linear-gradient(315deg, var(--bg) 25%, transparent 25%),
+	linear-gradient(45deg, var(--bg) 25%, transparent 25%);
+	background-size: 100px 100px;
+	background-color: var(--stripe);
 }
 </style>
 

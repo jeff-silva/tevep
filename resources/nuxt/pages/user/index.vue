@@ -37,7 +37,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-md-4" v-for="u in user.resp.data" :key="u.id">
+        <div class="col-12 col-md-4 mb-5" v-for="u in user.resp.data" :key="u.id">
             <user-card :value="u">
                 <template #actions>
                     <button type="button" class="btn btn-light" @click="user.edit=u">Editar</button>

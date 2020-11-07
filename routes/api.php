@@ -55,9 +55,9 @@ Route::get('/user/find', function() {
 });
 
 // User register/save
-foreach(['/user/save', '/auth/register'] as $path) {
+foreach(['/user/save', '/user/store', '/auth/register'] as $path) {
     Route::post($path, function() {
-        return (new \App\Models\User)->store(request()->all());
+        return (new \App\Models\User)->fill(request()->all())->store();
     });
 }
 
@@ -82,9 +82,6 @@ Route::get('/user/search', function() {
     return $query->paginate(10);
 });
 
-Route::post('/user/store', function() {
-    return (new \App\Models\User)->store(request()->all());
-});
 
 Route::post('/user/delete', function() {
     return ['?'];

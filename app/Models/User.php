@@ -18,11 +18,13 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
         'photo',
         'background',
+        'meta',
     ];
 
     /**
@@ -63,20 +65,35 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function setPasswordAttribute($value){
+    public function setPasswordAttribute($value) {
         $this->attributes['password'] = $value? \Hash::make($value): null;
     }
 
-    public function setNameAttribute($value){
+    public function setNameAttribute($value) {
         $this->attributes['name'] = ucwords(mb_strtolower($value));
     }
 
-    public function getBackgroundAttribute($value){
+    public function getBackgroundAttribute($value) {
         return $value? $value: 'https://source.unsplash.com/random/800x300/';
     }
 
-    public function getPhotoAttribute($value){
+    public function getPhotoAttribute($value) {
         return $value? $value: 'https://www.flaticon.com/svg/static/icons/svg/847/847969.svg';
+    }
+
+    public function getMetaAttribute($value) {
+        $value = json_decode($value, true);
+        $value = is_array($value)? $value: [];
+        return array_merge([
+            'photo' => 'https://www.flaticon.com/svg/static/icons/svg/847/847969.svg',
+            'background' => '',
+            'description' => '',
+        ], $value);
+    }
+
+    public function setMetaAttribute($value) {
+        if (is_array($value)) { $value = json_encode($value); }
+        $this->attributes['meta'] = $value;
     }
 
 
@@ -121,21 +138,22 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function store($data=[]) {
-        $this->validate($data);
-
-        $data = array_merge(['id'=>'', 'email'=>''], $this->attributes, $data);
-        $save = static::firstOrNew(['id'=>$data['id']]);
-        $save->fill($data);
+    public function store() {
+        $save = $this;
+        
+        if ($save->id) {
+            $save = self::find($save->id)->fill($save->attributes);
+        }
+        
         $save->save();
 
         if ($save->wasRecentlyCreated) {
             \App\Models\Email::send($save->email, "Bem vindo {$save->name}!", "Bem vindo {$save->name}! <br>Seu cadastro acaba de ser efetuado, é um prazer ter você conosco.");
         }
-
-
+        
         return $save;
     }
+
 
     static function passwordToken($data=[]) {
         $data = array_merge(['email'=>''], $data);

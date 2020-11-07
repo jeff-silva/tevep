@@ -18,7 +18,8 @@ class Email extends \App\Models\Model
             'body' => $body,
         ], $data);
 
-        
+        // dd($data);
+
         \Mail::send('emails.mail', $data, function($mail) use($data) {
             $sent = $mail->from($data['from']['address'], $data['from']['name'])
                 ->subject($data['subject'])->to($data['to']);
