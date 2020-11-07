@@ -109,6 +109,16 @@ export default {
 		icon: {
 			// https://pwa.nuxtjs.org/icon
 		},
+		meta: {
+			title: (process.env.APP_NAME||'APP_NAME'),
+			author: 'jeferson.i.silva@gmail.com',
+		},
+		manifest: {
+			name: (process.env.APP_NAME||'APP_NAME'),
+            short_name: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
+			background_color: '#222222',
+			lang: 'pt-BR',
+		},
 	},
 
 	/*

@@ -3,105 +3,90 @@
     "name": "auth",
     "path": "/auth",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\index.vue",
-    "chunkName": "pages/auth/index",
-    "_name": "_c854e07a"
+    "chunkName": "pages/auth/index"
   },
   {
     "name": "dashboard",
     "path": "/dashboard",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\index.vue",
-    "chunkName": "pages/dashboard/index",
-    "_name": "_6017fe16"
+    "chunkName": "pages/dashboard/index"
   },
   {
     "name": "inspire",
     "path": "/inspire",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\inspire.vue",
-    "chunkName": "pages/inspire",
-    "_name": "_08491073"
+    "chunkName": "pages/inspire"
   },
   {
     "name": "settings",
     "path": "/settings",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\settings\\\\index.vue",
-    "chunkName": "pages/settings/index",
-    "_name": "_4646bde8"
+    "chunkName": "pages/settings/index"
   },
   {
     "name": "test",
     "path": "/test",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index.vue",
-    "chunkName": "pages/test/index",
-    "_name": "_d1dadace"
+    "chunkName": "pages/test/index"
   },
   {
     "name": "tevep",
     "path": "/tevep",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\index.vue",
-    "chunkName": "pages/tevep/index",
-    "_name": "_016745f9"
+    "chunkName": "pages/tevep/index"
   },
   {
     "name": "user",
     "path": "/user",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\index.vue",
-    "chunkName": "pages/user/index",
-    "_name": "_30815dc0"
+    "chunkName": "pages/user/index"
   },
   {
     "name": "auth-password",
     "path": "/auth/password",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\password.vue",
-    "chunkName": "pages/auth/password",
-    "_name": "_ab2ee08c"
+    "chunkName": "pages/auth/password"
   },
   {
     "name": "auth-register",
     "path": "/auth/register",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\register.vue",
-    "chunkName": "pages/auth/register",
-    "_name": "_22d1bfc2"
+    "chunkName": "pages/auth/register"
   },
   {
     "name": "dashboard-settings",
     "path": "/dashboard/settings",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\settings.vue",
-    "chunkName": "pages/dashboard/settings",
-    "_name": "_69e79260"
+    "chunkName": "pages/dashboard/settings"
   },
   {
     "name": "dashboard-settings-user",
     "path": "/dashboard/settings-user",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\settings-user.vue",
-    "chunkName": "pages/dashboard/settings-user",
-    "_name": "_6580a2d8"
+    "chunkName": "pages/dashboard/settings-user"
   },
   {
     "name": "dashboard-users",
     "path": "/dashboard/users",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\users.vue",
-    "chunkName": "pages/dashboard/users",
-    "_name": "_155ddb2b"
+    "chunkName": "pages/dashboard/users"
   },
   {
     "name": "tevep-id",
     "path": "/tevep/:id",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id.vue",
-    "chunkName": "pages/tevep/_id",
-    "_name": "_f85f1abe"
+    "chunkName": "pages/tevep/_id"
   },
   {
     "name": "user-id",
     "path": "/user/:id",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\_id.vue",
-    "chunkName": "pages/user/_id",
-    "_name": "_37685fb0"
+    "chunkName": "pages/user/_id"
   },
   {
     "name": "index",
     "path": "/",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_4c6fd2aa"
+    "chunkName": "pages/index"
   }
 ]
