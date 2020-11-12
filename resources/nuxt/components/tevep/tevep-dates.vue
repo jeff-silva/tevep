@@ -1,17 +1,18 @@
 <template><div>
-    <draggable v-model="compItems" v-bind="{animation:200, handle:'._handle'}" tag="div" class="row no-gutters" @end="setOrders()">
-        <div class="tevep-dates-each pb-1 pr-1" :class="col" v-for="n in compItems" :key="n.id" :title="n.title">
+    <draggable v-model="compItems" v-bind="{animation:200, handle:'._handle'}" tag="div" class="row no-gutters" @end="onNodeChange()">
+        <div class="tevep-dates-each pb-1 pr-1" :class="col" v-for="n in compItems" :key="n.id" v-tooltip="n.title">
             <div class="input-group">
                 <div class="input-group-prepend _handle"><div class="input-group-text">
                     <i class="fa fa-fw fa-bars"></i>
                 </div></div>
-                <input type="text" class="form-control" v-model="n.title" @focus="focus=n" :placeholder="placeholder">
+                <input type="text" class="form-control" v-model="n.title" @focus="focus=n" :placeholder="placeholder" @change="onNodeChange(n)">
             </div>
             <div class="tevep-dates-dropdown bg-white shadow-sm" :class="'tevep-dates-dropdown-'+dropdownPosition+' tevep-dates-dropdown-screen-'+screenSide" v-if="dropdown && focus==n">
                 <div class="p-1">
-                    <div>{{ n.title }}</div>
+                    <div class="mb-2">{{ n.title }}</div>
                     <small class="text-muted font-weight-bold">Data</small>
-                    <ui-datepicker v-model="n.date_start" @input="$emit('input', props.value);"></ui-datepicker>
+                    <ui-datepicker v-model="n.date_start" @input="onNodeChange(n)"></ui-datepicker>
+                    <small class="p-2">Final: {{ n.date_final|date }}</small>
                 </div>
                 <button type="button" class="btn btn-primary btn-sm btn-block rounded-0" @click="nodeGoto(n.id)">
                     Acessar filho
@@ -53,10 +54,9 @@ export default {
 	},
 
 	watch: {
-		$props: {
-			deep: true,
-			handler(value) { this.props = Object.assign({}, value); },
-        },
+		$props: {deep:true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
     },
 
     computed: {
@@ -90,15 +90,19 @@ export default {
     },
 
 	methods: {
-		setOrders() {
-			// let order = 0;
-			// this.props.value.forEach((node) => {
-			// 	if (node.type==this.type) {
-			// 		node.order = order;
-			// 		order++;
-			// 	}
-			// });
-			// this.$emit('input', this.props.value);
+		onNodeChange(node) {
+            let nodes = this.getNodes({type:'time'});
+            nodes.forEach((n, index) => {
+                if (n.id==node.id) {
+                    node.date_final = (nodes[index+1]? nodes[index+1].date_start: false);
+
+                    if (nodes[index-1]) {
+                        this.onNodeChange(nodes[index-1]);
+                    }
+                }
+            });
+            
+            this.$emit('input', this.props.value);
 		},
 
         emit() {

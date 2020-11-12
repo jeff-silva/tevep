@@ -37,11 +37,11 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-md-4 mb-5" v-for="u in user.resp.data" :key="u.id">
-            <user-card :value="u">
+        <div class="col-6 col-md-3 mb-5" v-for="u in user.resp.data" :key="u.id" style="position:relative;">
+            <user-card :value="u" style="position:relative; height:100%;">
                 <template #actions>
-                    <button type="button" class="btn btn-light" @click="user.edit=u">Editar</button>
-                    <nuxt-link :to="`/tevep/?user=${u.id}`" class="btn btn-light">Projetos</nuxt-link>
+                    <nuxt-link :to="`/user/${u.id}`" class="btn btn-light" v-tooltip.top-center="'Editar'"><i class="fas fa-edit"></i></nuxt-link>
+                    <nuxt-link :to="`/tevep/?user=${u.id}`" class="btn btn-light" v-tooltip.top-center="'Projetos'"><i class="fas fa-shopping-bag"></i></nuxt-link>
                 </template>
             </user-card>
         </div>

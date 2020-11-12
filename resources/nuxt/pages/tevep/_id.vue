@@ -12,12 +12,12 @@
     <tevep v-model="tevep"
         @init="initHandler($event)"
         @change="changeHandler($event)"
-        style="margin:-16px;"
+        style="margin:-32px -25px 0px -30px;"
     >
         <template #header="bind">
             <div class="row align-items-center">
-                <div class="col-12 col-md-6">
-                    <label class="input-group border-0 bg-white m-0">
+                <div class="col-12 col-md-6 mb-2 mb-md-0">
+                    <label class="input-group border-0 bg-white m-0" style="max-width:500px;">
                         <div class="input-group-prepend"><div class="input-group-text border-0">
                             Nome do projeto:
                         </div></div>
@@ -26,8 +26,8 @@
                     <small class="text-danger" v-if="bind.error.title" v-html="bind.error.title"></small>
                 </div>
 
-                <div class="col-12 col-md-3">
-                    <div class="input-group bg-white m-0">
+                <!-- <div class="col-12 col-md-3 mb-1 mb-md-0">
+                    <div class="input-group bg-white m-0" style="max-width:500px;">
                         <div class="input-group-prepend bg-transparent"><div class="input-group-text">
                             Divisor
                         </div></div>
@@ -40,12 +40,12 @@
                             <option value="years">Anos</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="col-12 col-md-3 px-2 text-white" v-if="bind.tevep.nodes">
+                <!-- <div class="col-12 col-md-3 px-2 text-white" v-if="bind.tevep.nodes">
                     {{ bind.tevep.nodes.length }} itens - 
                     Nível {{ bind.node.level }}
-                </div>
+                </div> -->
             </div>
         </template>
 
@@ -241,40 +241,9 @@
 
         <!-- Rut -->
         <template #rut="bind">
-            <!--
-            <table class="table table-sm table-bordered">
-                <colgroup>
-                    <col width="30%">
-                    <col width="*">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>Evento</th>
-                        <th>Duração</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr v-for="i in bind.rut.items">
-                        <td>{{ i.node.title }}</td>
-                        <td><div :style="`background:red; color:#fff; margin-left:${i.percent}%; width:${i.duration}%;`">{{ i.percent }}%</div></td>
-                    </tr>
-                </tbody>
-            </table>
-            -->
-
-            <table class="table table-bordered table-hover table-striped table-sm">
-                <colgroup>
-                    <col width="100px">
-                    <col width="*">
-                </colgroup>
-                <tbody>
-                    <tr v-for="i in bind.rut.items">
-                        <td>{{ i.title }}</td>
-                        <td class="p-0"><div style="padding:4px 0; background:red;" :style="i.percent">&nbsp;</div></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div v-for="i in bind.rut.items" class="p-2" :style="i.style">
+                {{ i.node.title }}
+            </div>
 
             <!-- <pre>rut: {{ bind.rut }}</pre> -->
         </template>

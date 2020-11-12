@@ -1,37 +1,39 @@
 <template><div class="tevep">
     <form @submit.prevent="tevepSave()">
         <div v-for="t in tabs"  v-if="t.id==$route.query.tab">
-            <div class="d-flex">
-    
-                <!-- Left -->
-                <div class="bg-dark">
-                    <ul class="tevep-nav">
-                        <li v-for="n in navs" :class="{active:compSlotBind.tabId==n.tab}">
-                            <nuxt-link :to="{query:{node:compSlotBind.nodeId, tab:n.tab}}">
-                                <img :src="n.icon" :alt="n.title" v-if="n.icon" style="width:100%;">
-                                <span v-else>{{ n.title }}</span>
-                            </nuxt-link>
-                            <ul class="bg-dark" v-if="n.children.length>0">
-                                <li v-for="nn in n.children" :class="{active:compSlotBind.tabId==nn.tab}">
-                                    <nuxt-link :to="{query:{node:compSlotBind.nodeId, tab:nn.tab}}">{{ nn.title }}</nuxt-link>
+            <div style="max-width:100%; overflow:auto;">
+                <div style="min-width:1300px;">
+                    <div class="d-flex">
+            
+                        <!-- Left -->
+                        <div class="bg-dark">
+                            <ul class="tevep-nav">
+                                <li v-for="n in navs" :class="{active:compSlotBind.tabId==n.tab}">
+                                    <nuxt-link :to="{query:{node:compSlotBind.nodeId, tab:n.tab}}">
+                                        <img :src="n.icon" :alt="n.title" v-if="n.icon" style="width:100%;">
+                                        <span v-else>{{ n.title }}</span>
+                                    </nuxt-link>
+                                    <ul class="bg-dark" v-if="n.children.length>0">
+                                        <li v-for="nn in n.children" :class="{active:compSlotBind.tabId==nn.tab}">
+                                            <nuxt-link :to="{query:{node:compSlotBind.nodeId, tab:nn.tab}}">{{ nn.title }}</nuxt-link>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-                </div>
-    
-                <!-- Right -->
-                <div class="flex-grow-1">
-                    <div class="bg-dark py-1">
-                        <slot name="header" v-bind="compSlotBind"></slot>
-                    </div>
-    
-                    <div class="p-2 shadow-sm font-weight-bold text-uppercase">{{ compSlotBind.tab.title }}</div>
-                    <div style="position:relative; overflow-x:auto; max-width:100%;">
-                        <div class="p-2">
-                            <slot :name="t.id" v-bind="compSlotBind">
-                                <div class="bg-gray text-muted text-center p-3 m-0">{{ t.title }} em construção</div>
-                            </slot>
+                        </div>
+            
+                        <!-- Right -->
+                        <div class="flex-grow-1">
+                            <div class="bg-dark py-1">
+                                <slot name="header" v-bind="compSlotBind"></slot>
+                            </div>
+            
+                            <div class="p-2 shadow-sm font-weight-bold text-uppercase">{{ compSlotBind.tab.title }}</div>
+                            <div class="p-2">
+                                <slot :name="t.id" v-bind="compSlotBind">
+                                    <div class="bg-gray text-muted text-center p-3 m-0">{{ t.title }} em construção</div>
+                                </slot>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -304,6 +306,7 @@ export default {
 
         getRut() {
             let divisor = this.props.value.divisor;
+            let node = this.getNode({id:this.$route.query.node});
 
             let rut = {
                 date_start: 0,
@@ -311,47 +314,90 @@ export default {
                 diff: 0,
             };
 
-            let node = this.getNode({id:this.$route.query.node});
 
             let items = this.getNodes({type:"time", parent:node.id}).filter((item) => {
-                return !!item.date_start;
+                return !!item.date_start && !!item.date_final;
+            });
+            
+            let dates = [];
+            items = items.map(item => {
+                item = {
+                    date_start: parseInt(moment(item.date_start).format('x'))||0,
+                    date_final: parseInt(moment(item.date_final).format('x'))||0,
+                    date_duration: 0,
+                    percent: {start:0, duration:0},
+                    style: {},
+                    node: item,
+                };
+
+                item.date_duration = item.date_final - item.date_start;
+
+                if (item.date_start>0) dates.push(item.date_start);
+                if (item.date_final>0) dates.push(item.date_final);
+                return item;
             });
 
-            let dates = items.map(item => { return moment(item.date_start); });
+            // Get date start and final
+            rut.date_start = Math.min.apply(null, dates);
+            rut.date_final = Math.max.apply(null, dates);
+
+            // Get percents
+            let _percent = (start, middle, final) => {
+                let percent = (100 * (middle-start)) / (final-start);
+                return Math.round(Math.max(percent, percent*-1));
+            };
+
+            items = items.map(item => {
+                let start = _percent(rut.date_start, item.date_start, rut.date_final);
+                let duration = _percent(rut.date_start, item.date_final, rut.date_final);
+
+                item.percent.start = start;
+                item.percent.duration = duration;
+
+                let color = '#969fb6';
+                item.style = `outline:solid 1px ${color}; background-image:linear-gradient(to right, transparent ${start}%, ${color} ${start}%, ${color} ${duration}%, transparent ${duration}%);`;
+                return item;
+            });
+
+            // background-image:linear-gradient(to right, transparent 20%, #ddd 20%, #ddd 60%, transparent 60%);
+
+
+
+            
+            // items = items.map((item, index) => {
+            //     item.node.date_final = items[index+1]? items[index+1].node.date_start: rut.date_final;
+            //     return item;
+            // });
+
+            // let getPercent = function(start=false, d=false, final=false) {
+            //     d = parseInt(moment(d).format('X'));
+            //     start = parseInt(moment(rut.date_start).format('X'));
+            //     final = parseInt(moment(rut.date_final).format('X'));
+
+            //     let percent = (100 * (d-start)) / (final-start);
+
+            //     // let percent = (d-start) / (final-start) * 100;
+            //     // percent = (Math.round(percent * 100) / 100);
+            //     return percent;
+            // };
+
+            rut.items = items;
+
+            /*
+            let dates = [];
+            items.forEach(item => {
+                dates.push(item.node.date_start);
+                dates.push(item.node.date_final);
+            });
+            console.log(dates);
+
             rut.date_start = moment.min(dates).format();
             rut.date_final = moment.max(dates).format();
             rut.diff = moment(rut.date_start).diff(moment(rut.date_final), divisor);
             rut.diff = rut.diff>=0? rut.diff: rut.diff*-1;
 
-            items = items.map((item, index) => {
-                item.date_final = items[index+1]? items[index+1].date_start: rut.date_final;
-                return item;
-            });
 
-            let getPercent = function(start=false, d=false, final=false) {
-                d = parseInt(moment(d).format('X'));
-                start = parseInt(moment(rut.date_start).format('X'));
-                final = parseInt(moment(rut.date_final).format('X'));
 
-                let percent = (100 * (d-start)) / (final-start);
-
-                // let percent = (d-start) / (final-start) * 100;
-                // percent = (Math.round(percent * 100) / 100);
-                return percent;
-            };
-
-            rut.items = items.map(item => {
-                // let start = getPercent(rut.date_start, item.date_start, rut.date_final);
-                // let final = getPercent(rut.date_start, item.date_start, item.date_final);
-
-                // item.percent = {
-                //     marginLeft: start+'%',
-                //     width: final+'%',
-                // };
-                return item;
-            });
-
-            /*
 
 
             

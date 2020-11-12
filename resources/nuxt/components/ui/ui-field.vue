@@ -1,5 +1,7 @@
 <template><div class="form-group">
-    <div class="row">
+
+    <!-- layout:horizontal -->
+    <div class="row" v-if="layout=='horizontal'">
         <div class="col-12 col-md-4 col-lg-3 p-2">
             <div>{{ label }}</div>
         </div>
@@ -19,6 +21,25 @@
             <small class="text-muted" v-if="$slots.hint"><slot name="hint"></slot></small>
         </div>
     </div>
+
+    <!-- layout:full -->
+    <div class="form-group" v-else-if="layout=='full'">
+        <label v-html="label"></label>
+
+        <template v-if="$slots.field"><slot name="field"></slot></template>
+
+        <template v-else-if="type=='textarea'">
+            <textarea class="form-control" v-model="props.value" @keyup="emit()"></textarea>
+        </template>
+
+        <template v-else>
+            <input :type="type" class="form-control"
+                :placeholder="placeholder" v-model="props.value" @keyup="emit()" >
+        </template>
+
+        <small class="d-block text-danger" v-if="props.error" v-html="props.error"></small>
+        <small class="text-muted" v-if="$slots.hint"><slot name="hint"></slot></small>
+    </div>
 </div></template>
 
 <script>export default {
@@ -30,15 +51,13 @@
         imgMaxWidth: {default: 800},
         imgMaxHeight: {default: 600},
         error: {default: ''},
+        layout: {default: 'horizontal'}, // horizontal|full
     },
 
     watch: {
-        $props: {
-            deep: true,
-            handler(value) {
-                this.props = Object.assign({}, value);
-            },
-        },
+        $props: {deep: true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
     },
 
     methods: {

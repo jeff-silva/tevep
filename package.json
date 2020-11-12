@@ -57,6 +57,7 @@
         "bootstrap": "^4.5.3",
         "luxon": "^1.25.0",
         "moment": "^2.29.1",
+        "v-tooltip": "^2.0.3",
         "vue-datetime": "^1.0.0-beta.14",
         "vue-sweetalert2": "^4.1.1",
         "vuedraggable": "^2.24.2",

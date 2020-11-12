@@ -4,19 +4,24 @@
 	<div class="user-card-image shadow-sm" :style="`background-image:url(${props.value.meta.photo});`">
 		<slot name="image"></slot>
 	</div>
-	<div class="text-center font-weight-bold text-uppercase mt-2">
-		<nuxt-link to="">{{ props.value.name }}</nuxt-link>
+	<div class="user-card-content">
+		<div>
+			<div class="text-center font-weight-bold text-uppercase mt-2">
+				<nuxt-link to="">{{ props.value.name }}</nuxt-link>
+			</div>
+			<div class="text-center text-muted">{{ props.value.meta.description }}</div>
+			<div class="text-center text-muted">{{ props.value.email }}</div>
+			<div class="pb-4"></div>
+		</div>
 	</div>
-	<div class="text-center text-muted">{{ props.value.meta.description }}</div>
-	<div class="text-center text-muted">{{ props.value.email }}</div>
-	<div class="pb-4"></div>
-
 	<div class="btn-group user-card-actions">
 		<slot name="actions"></slot>
 	</div>
 </div></template>
 
 <style>
+.user-card {}
+.user-card-content {height:90px; display:flex; align-items:center; justify-content:center;}
 .user-card-actions {display:flex;}
 .user-card-actions .btn {margin:0px;}
 .user-card-image {
@@ -24,7 +29,7 @@
 	background-size: cover;
 	width: 100px;
 	height: 100px;
-	margin: -50px auto 0 auto;
+	margin: -50px auto 0px auto;
 	border-radius: 50%;
 	border: solid 4px #fff;
 	overflow: hidden;

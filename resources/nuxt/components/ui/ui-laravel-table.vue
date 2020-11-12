@@ -12,7 +12,7 @@
 
     <div v-else>
         <div class="bg-white shadow-sm">
-            <table class="table table-sm table-hover table-borderless m-0">
+            <table class="table table-sm table-hover table-striped table-borderless m-0">
                 <!-- <thead>
                     <tr>
                         <th class="text-right">Ações</th>
@@ -29,10 +29,12 @@
                             <td class="ui-laravel-table-td-actions">
                                 <div class="ui-laravel-table-td-actions-aaa">
                                     <div class="btn-group">
-                                        <slot name="actions" :item="i"></slot>
-                                        <!-- <a href="javascript:;" class="btn btn-dark">
-                                            <i class="fa fa-fw fa-plus"></i>
-                                        </a> -->
+                                        <div class="btn-group m-0 d-md-flex" :class="{'d-none':show!=i}">
+                                            <slot name="actions" :item="i"></slot>
+                                        </div>
+                                        <a href="javascript:;" class="btn d-md-none" @click="show = (show==i? false: i)">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </td>
@@ -76,6 +78,8 @@
     data() {
         let data = {};
 
+        data.show = false;
+
         data.props = Object.assign({}, this.$props);
         data.props.value = Object.assign({
             current_page: 1,
@@ -96,6 +100,11 @@
 };</script>
 
 <style>
-.ui-laravel-table-td-actions {text-align:right; border:solid 1px red;}
+.ui-laravel-table td {padding:15px;}
+.ui-laravel-table-td-actions {text-align:right; padding:5px !important;}
+.ui-laravel-table-td-actions .btn {margin:0px;}
 .ui-laravel-table-td-actions-aaa {position:relative;}
+@media (max-width: 768px) {
+    .ui-laravel-table-td-actions-aaa .btn-group .btn-group {position:absolute; right:45px;}
+}
 </style>

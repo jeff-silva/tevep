@@ -1,7 +1,44 @@
 <template><div>
-    <form @submit.prevent="userStore()">
-        <ui-input v-model="user.name" label="Nome" :error="error.name"></ui-input>
-        <ui-input v-model="user.email" label="E-mail" :error="error.email"></ui-input>
+
+    <div v-if="loading">Carregando...</div>
+
+    <form @submit.prevent="userStore()" v-if="user.id">
+        <ui-photo v-model="user.meta.photo" ref="userPhoto">
+            <template #has-image>&nbsp;</template>
+            <template #no-image>&nbsp;</template>
+        </ui-photo>
+
+        <ui-photo v-model="user.meta.background" ref="userBackground">
+            <template #has-image>&nbsp;</template>
+            <template #no-image>&nbsp;</template>
+        </ui-photo>
+
+        <div class="row">
+            <div class="col-4">
+                <user-card v-model="user">
+                    <template #actions>
+                        <a href="javascript:;" class="btn btn-light" @click="$refs.userPhoto.toggle()">Foto</a>
+                        <a href="javascript:;" class="btn btn-light" @click="$refs.userBackground.toggle()">Background</a>
+                    </template>
+                </user-card>
+            </div>
+            <div class="col-8">
+                <ui-field v-model="user.name" label="Nome" v-bind="{type:'text', layout:'full', error:error.name}"></ui-field>
+                <ui-field v-model="user.email" label="E-mail" v-bind="{type:'email', layout:'full', error:error.email}"></ui-field>
+                <ui-field v-model="user.meta.description" label="Descrição" v-bind="{type:'text', layout:'full'}"></ui-field>
+                <ui-field label="Senha" v-bind="{layout:'full', error:error.password}">
+                    <template #field>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="password" class="form-control" v-model="user.password">
+                                <ui-password-meter v-model="user.password"></ui-password-meter>
+                            </div>
+                            <div class="col-6"><input type="password" class="form-control"></div>
+                        </div>
+                    </template>
+                </ui-field>
+            </div>
+        </div>
 
         <div class="mt-2 text-right">
             <button type="submit" class="btn btn-primary">
@@ -17,7 +54,9 @@ export default {
 
     methods: {
         userFind() {
+            this.loading = true;
             this.$axios.get('/api/user/find', {params:{id:this.$route.params.id}}).then((resp) => {
+                this.loading = false;
                 this.user = resp.data;
             });
         },

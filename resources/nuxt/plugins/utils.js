@@ -1,5 +1,10 @@
 import Vue from 'vue';
 
+// https://github.com/Akryum/v-tooltip
+import VTooltip from 'v-tooltip'
+Vue.use(VTooltip);
+
+// https://github.com/avil13/vue-sweetalert2
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2);
@@ -76,13 +81,6 @@ Vue.prototype.$geolocation = function() {
 };
 
 
-Vue.filter('date', function(date) {
-	let d = (date||'').split(/[^0-9a-zA-Z]/g);
-	if (!d[1]) return '';
-	return `${d[2]}/${d[1]}/${d[0]} ${d[3]}:${d[4]}`;
-});
-
-
 
 Vue.prototype.$adminMenu = function() {
 	return [
@@ -98,3 +96,20 @@ Vue.prototype.$adminMenu = function() {
 		]},
 	];
 };
+
+
+// Filters
+
+import moment from 'moment';
+
+Vue.filter('date', function(value, format='DD/MM/YYYY') {
+	let d = moment(value);
+	return d.isValid()? d.format(format): '';
+});
+
+
+Vue.filter('timeago', function(date) {
+	return 'time ago';
+});
+
+// Directives
