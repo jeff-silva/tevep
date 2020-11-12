@@ -1,6 +1,11 @@
 require('dotenv').config();
 
 export default {
+	server: {
+		host: '0.0.0.0',
+		port: 3000,
+	},
+
 	srcDir: 'resources/nuxt',
 	/*
 	** Nuxt rendering mode
@@ -69,36 +74,36 @@ export default {
 	],
 
 	auth: {
-			// https://dev.auth.nuxtjs.org/api/options#redirect
-			redirect: {
-				login: '/auth',
-				logout: '/auth',
-				callback: '/dashboard',
-				home: '/dashboard',
-			},
+		// https://dev.auth.nuxtjs.org/api/options#redirect
+		redirect: {
+			login: '/auth',
+			logout: '/auth',
+			callback: '/dashboard',
+			home: '/dashboard',
+		},
 
-			strategies: {
-					// https://dev.auth.nuxtjs.org/providers/laravel-jwt
-					// https://github.com/nuxt-community/auth-module/blob/dev/src/providers/laravel/jwt/index.ts
-					'jwt': {
-							provider: 'laravel/jwt',
-							url: '/',
-							name: 'jwt',
-							endpoints: {
-									login: {method:'POST', url:'/api/auth/login'},
-									refresh: {method:'POST', url:'/api/auth/refresh'},
-									logout: {method:'POST', url:'/api/auth/logout'},
-									user: {method:'POST', url:'/api/auth/me'},
-							},
-							token: {
-									property: 'access_token',
-									maxAge: (60 * 60),
-							},
-							refreshToken: {
-									maxAge: (20160 * 60),
-							},
-					},
-			},
+		strategies: {
+				// https://dev.auth.nuxtjs.org/providers/laravel-jwt
+				// https://github.com/nuxt-community/auth-module/blob/dev/src/providers/laravel/jwt/index.ts
+				'jwt': {
+						provider: 'laravel/jwt',
+						url: '/',
+						name: 'jwt',
+						endpoints: {
+								login: {method:'POST', url:'/api/auth/login'},
+								refresh: {method:'POST', url:'/api/auth/refresh'},
+								logout: {method:'POST', url:'/api/auth/logout'},
+								user: {method:'POST', url:'/api/auth/me'},
+						},
+						token: {
+								property: 'access_token',
+								maxAge: (60 * 60),
+						},
+						refreshToken: {
+								maxAge: (20160 * 60),
+						},
+				},
+		},
 	},
 
 	/*
@@ -117,14 +122,21 @@ export default {
 			name: (process.env.APP_NAME||'APP_NAME'),
 			short_name: (process.env.APP_NAME||'APP_NAME'),
 			description: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
-			display: "fullscreen",
+			display: "standalone",
 			background_color: '#222222',
 			lang: 'pt-BR',
 			useWebmanifestExtension: true,
 		},
 		workbox: {
 			enabled: true,
-			autoRegister: true,
+			runtimeCaching: [
+				{
+					urlPattern: 'https://fonts.googleapis.com/.*',
+					handler: 'cacheFirst',
+					method: 'GET',
+					strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+				},
+			]
 		},
 	},
 
