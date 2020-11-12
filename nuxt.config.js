@@ -13,14 +13,14 @@ export default {
 	** See https://nuxtjs.org/api/configuration-head
 	*/
 	head: {
-		titleTemplate: '%s - ' + process.env.npm_package_name,
+		titleTemplate: '%s - ' + (process.env.APP_NAME || ''),
 		title: process.env.APP_NAME || '',
+		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
 		meta: [
 			{charset: 'utf-8'},
 			{name: 'viewport', content: 'width=device-width, initial-scale=1'},
 			{hid: 'description', name: 'description', content: process.env.npm_package_description || ''},
 		],
-		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
 	},
 
 	/*
@@ -74,7 +74,7 @@ export default {
 				login: '/auth',
 				logout: '/auth',
 				callback: '/dashboard',
-				home: '/',
+				home: '/dashboard',
 			},
 
 			strategies: {
@@ -115,10 +115,12 @@ export default {
 		},
 		manifest: {
 			name: (process.env.APP_NAME||'APP_NAME'),
-            short_name: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
+			short_name: (process.env.APP_NAME||'APP_NAME'),
+			description: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
+			display: "fullscreen",
 			background_color: '#222222',
 			lang: 'pt-BR',
-			useWebmanifestExtension: false,
+			useWebmanifestExtension: true,
 		},
 	},
 

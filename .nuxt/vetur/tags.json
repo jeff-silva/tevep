@@ -11,12 +11,6 @@
   "LazyVuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
-  "UserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
-  "LazyUserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
   "TevepDates": {
     "description": "Auto imported from components/tevep/tevep-dates.vue"
   },
@@ -40,6 +34,12 @@
   },
   "LazyTevep": {
     "description": "Auto imported from components/tevep/tevep.vue"
+  },
+  "UserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
+  "LazyUserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
   },
   "UiAddressOld": {
     "description": "Auto imported from components/ui/ui-address-old.vue"
