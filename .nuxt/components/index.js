@@ -4,7 +4,6 @@ export { default as TevepDates } from '../..\\resources\\nuxt\\components\\tevep
 export { default as TevepList } from '../..\\resources\\nuxt\\components\\tevep\\tevep-list.vue'
 export { default as TevepPrincipios } from '../..\\resources\\nuxt\\components\\tevep\\tevep-principios.vue'
 export { default as Tevep } from '../..\\resources\\nuxt\\components\\tevep\\tevep.vue'
-export { default as UserCard } from '../..\\resources\\nuxt\\components\\user\\user-card.vue'
 export { default as UiAddressOld } from '../..\\resources\\nuxt\\components\\ui\\ui-address-old.vue'
 export { default as UiAddress } from '../..\\resources\\nuxt\\components\\ui\\ui-address.vue'
 export { default as UiAddresses } from '../..\\resources\\nuxt\\components\\ui\\ui-addresses.vue'
@@ -26,6 +25,7 @@ export { default as UiPhoto } from '../..\\resources\\nuxt\\components\\ui\\ui-p
 export { default as UiProductCategories } from '../..\\resources\\nuxt\\components\\ui\\ui-product-categories.vue'
 export { default as UiSelect } from '../..\\resources\\nuxt\\components\\ui\\ui-select.vue'
 export { default as UiTable } from '../..\\resources\\nuxt\\components\\ui\\ui-table.vue'
+export { default as UserCard } from '../..\\resources\\nuxt\\components\\user\\user-card.vue'
 
 export const LazyLogo = import('../..\\resources\\nuxt\\components\\Logo.vue' /* webpackChunkName: "components_Logo" */).then(c => c.default || c)
 export const LazyVuetifyLogo = import('../..\\resources\\nuxt\\components\\VuetifyLogo.vue' /* webpackChunkName: "components_VuetifyLogo" */).then(c => c.default || c)
@@ -33,7 +33,6 @@ export const LazyTevepDates = import('../..\\resources\\nuxt\\components\\tevep\
 export const LazyTevepList = import('../..\\resources\\nuxt\\components\\tevep\\tevep-list.vue' /* webpackChunkName: "components_tevep/tevep-list" */).then(c => c.default || c)
 export const LazyTevepPrincipios = import('../..\\resources\\nuxt\\components\\tevep\\tevep-principios.vue' /* webpackChunkName: "components_tevep/tevep-principios" */).then(c => c.default || c)
 export const LazyTevep = import('../..\\resources\\nuxt\\components\\tevep\\tevep.vue' /* webpackChunkName: "components_tevep/tevep" */).then(c => c.default || c)
-export const LazyUserCard = import('../..\\resources\\nuxt\\components\\user\\user-card.vue' /* webpackChunkName: "components_user/user-card" */).then(c => c.default || c)
 export const LazyUiAddressOld = import('../..\\resources\\nuxt\\components\\ui\\ui-address-old.vue' /* webpackChunkName: "components_ui/ui-address-old" */).then(c => c.default || c)
 export const LazyUiAddress = import('../..\\resources\\nuxt\\components\\ui\\ui-address.vue' /* webpackChunkName: "components_ui/ui-address" */).then(c => c.default || c)
 export const LazyUiAddresses = import('../..\\resources\\nuxt\\components\\ui\\ui-addresses.vue' /* webpackChunkName: "components_ui/ui-addresses" */).then(c => c.default || c)
@@ -55,3 +54,4 @@ export const LazyUiPhoto = import('../..\\resources\\nuxt\\components\\ui\\ui-ph
 export const LazyUiProductCategories = import('../..\\resources\\nuxt\\components\\ui\\ui-product-categories.vue' /* webpackChunkName: "components_ui/ui-product-categories" */).then(c => c.default || c)
 export const LazyUiSelect = import('../..\\resources\\nuxt\\components\\ui\\ui-select.vue' /* webpackChunkName: "components_ui/ui-select" */).then(c => c.default || c)
 export const LazyUiTable = import('../..\\resources\\nuxt\\components\\ui\\ui-table.vue' /* webpackChunkName: "components_ui/ui-table" */).then(c => c.default || c)
+export const LazyUserCard = import('../..\\resources\\nuxt\\components\\user\\user-card.vue' /* webpackChunkName: "components_user/user-card" */).then(c => c.default || c)

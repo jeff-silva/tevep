@@ -122,6 +122,10 @@ export default {
 			lang: 'pt-BR',
 			useWebmanifestExtension: true,
 		},
+		workbox: {
+			enabled: true,
+			autoRegister: true,
+		},
 	},
 
 	/*
