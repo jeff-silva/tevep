@@ -1,11 +1,14 @@
 import axios from 'axios';
 
-if (process.browser) {
-    axios.defaults.baseURL = `${window.location.protocol}//${window.location.host}`;
-}
+// if (process.browser) {
+//     axios.defaults.baseURL = `${window.location.protocol}//${window.location.host}`;
+// }
 
 
 // https://axios.nuxtjs.org/
-export default function ({ $axios, redirect }) {
-    // 
-}
+export default function ({ $axios }) {
+    $axios.onRequest ((config) => {
+        config.baseURL = `${window.location.protocol}//${window.location.host}`;
+        return config;
+    });
+};
