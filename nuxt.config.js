@@ -146,6 +146,7 @@ export default {
 	*/
 	axios: {
 		debug: false,
+		baseURL: ((typeof window!='undefined' && window.location)? `${window.location.protocol}//${window.location.host}`: null),
 	},
 
 	router: {
