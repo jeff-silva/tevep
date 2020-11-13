@@ -1,4 +1,6 @@
 // https://axios.nuxtjs.org/
 export default function ({ $axios, redirect }) {
-    // $axios.setBaseURL(`${location.protocol}//${location.host}`);
+    if (process.client) {
+        $axios.defaults.baseURL = `${window.location.protocol}//${window.location.host}:${port}`;
+    }
 }
