@@ -18,10 +18,9 @@ class Email extends \App\Models\Model
             'body' => $body,
         ], $data);
 
-        // dd($data);
-
         \Mail::send('emails.mail', $data, function($mail) use($data) {
             $sent = $mail->from($data['from']['address'], $data['from']['name'])
+            // $sent = $mail->from('MAIL_FROM_NAME', $data['from']['name'])
                 ->subject($data['subject'])->to($data['to']);
         });
             
@@ -29,7 +28,6 @@ class Email extends \App\Models\Model
             $data['to'] = json_encode($data['to']);
             return (new self)->fill($data)->store();
         }
-
 
         return false;
     }

@@ -118,26 +118,26 @@ export default {
 			title: (process.env.APP_NAME||'APP_NAME'),
 			author: 'jeferson.i.silva@gmail.com',
 		},
-		manifest: {
-			name: (process.env.APP_NAME||'APP_NAME'),
-			short_name: (process.env.APP_NAME||'APP_NAME'),
-			description: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
-			display: "standalone",
-			background_color: '#222222',
-			lang: 'pt-BR',
-			useWebmanifestExtension: true,
-		},
-		workbox: {
-			enabled: true,
-			runtimeCaching: [
-				{
-					urlPattern: 'https://fonts.googleapis.com/.*',
-					handler: 'cacheFirst',
-					method: 'GET',
-					strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
-				},
-			]
-		},
+	},
+	manifest: {
+		name: (process.env.APP_NAME||'APP_NAME'),
+		short_name: (process.env.APP_NAME||'APP_NAME'),
+		description: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
+		display: "fullscreen",
+		background_color: '#222222',
+		lang: 'pt-BR',
+		useWebmanifestExtension: true,
+	},
+	workbox: {
+		enabled: true,
+		runtimeCaching: [
+			{
+				urlPattern: 'https://fonts.googleapis.com/.*',
+				handler: 'cacheFirst',
+				method: 'GET',
+				strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+			},
+		]
 	},
 
 	/*

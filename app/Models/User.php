@@ -201,4 +201,14 @@ class User extends Authenticatable implements JWTSubject
         
         throw new \Exception('Token ou email inválido');
     }
+
+    public function notify($data=[]) {
+        return \App\Models\UserNotification::create(array_merge([
+            'user_id' => $this->id,
+            'title' => '',
+            'body' => '',
+            'image' => '',
+            'seen' => '0',
+        ], $data));
+    }
 }

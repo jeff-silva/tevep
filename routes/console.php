@@ -19,14 +19,25 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 
-Artisan::command('app-mail', function() {
-    \Artisan::call('config:cache');
-    
-    $mail = \App\Models\Email::send('test@grr.la', 'E-mail de teste', '<h1>Isto é um e-mail de teste</h1>Lorem ipsum <strong>dolor sit amet</strong> consectetur adipisicing elit. Quas ea eos cumque aliquid distinctio amet,
-    <a href="https://google.com">esse obcaecati recusandae</a> exercitationem eligendi incidunt.
-    A <i>ipsam suscipit</i> ab odit dicta tempora ad dolor?');
+Artisan::command('app:test', function() {
 
-    $this->comment(json_encode($mail));
+    // Notification
+    // dd( \App\Models\User::find(1)->notify([
+    //     'title' => 'Veja aqui',
+    //     'body' => 'Olhe essa pessoa',
+    //     'image' => 'https://randomuser.me/api/portraits/women/56.jpg',
+    // ]) );
+
+
+    // Email
+    // \Artisan::call('config:cache');
+    // $mailers = env('MAIL_DRIVER');
+    // $mailers = config("mail.mailers.{$mailers}");
+    // $this->comment(json_encode($mailers));
+    // $mail = \App\Models\Email::send('test@grr.la', 'E-mail de teste', '<h1>Isto é um e-mail de teste</h1>Lorem ipsum <strong>dolor sit amet</strong> consectetur adipisicing elit. Quas ea eos cumque aliquid distinctio amet,
+    // <a href="https://google.com">esse obcaecati recusandae</a> exercitationem eligendi incidunt.
+    // A <i>ipsam suscipit</i> ab odit dicta tempora ad dolor?');
+    // $this->comment(json_encode($mail));
 });
 
 

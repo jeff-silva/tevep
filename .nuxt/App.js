@@ -3,18 +3,15 @@ import Vue from 'vue'
 import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch, promisify, globalHandleError, urlJoin, sanitizeComponent } from './utils'
 import NuxtError from '..\\resources\\nuxt\\layouts\\error.vue'
 import NuxtLoading from './components/nuxt-loading.vue'
+import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
 import '..\\resources\\nuxt\\assets\\variables.scss'
 
 import _77068119 from '..\\resources\\nuxt\\layouts\\admin.vue'
 import _2d217e9e from '..\\resources\\nuxt\\layouts\\auth.vue'
-import _1bb883a9 from '..\\resources\\nuxt\\layouts\\coreui\\admin.vue'
 import _6f6c098b from '..\\resources\\nuxt\\layouts\\default.vue'
-import _553d3dcb from '..\\resources\\nuxt\\layouts\\default\\admin.vue'
-import _c0b138a8 from '..\\resources\\nuxt\\layouts\\default\\auth.vue'
-import _ca333c86 from '..\\resources\\nuxt\\layouts\\default\\default.vue'
 
-const layouts = { "_admin": sanitizeComponent(_77068119),"_auth": sanitizeComponent(_2d217e9e),"_coreui/admin": sanitizeComponent(_1bb883a9),"_default": sanitizeComponent(_6f6c098b),"_default/admin": sanitizeComponent(_553d3dcb),"_default/auth": sanitizeComponent(_c0b138a8),"_default/default": sanitizeComponent(_ca333c86) }
+const layouts = { "_admin": sanitizeComponent(_77068119),"_auth": sanitizeComponent(_2d217e9e),"_default": sanitizeComponent(_6f6c098b) }
 
 export default {
   render (h, props) {
@@ -49,7 +46,7 @@ export default {
       }
     }, [
       loadingEl,
-
+      h(NuxtBuildIndicator),
       transitionEl
     ])
   },
@@ -99,10 +96,6 @@ export default {
 
     isFetching () {
       return this.nbFetching > 0
-    },
-
-    isPreview () {
-      return Boolean(this.$options.previewData)
     },
   },
 
@@ -188,6 +181,10 @@ export default {
     },
 
     setLayout (layout) {
+      if(layout && typeof layout !== 'string') {
+        throw new Error('[nuxt] Avoid using non-string value as layout property.')
+      }
+
       if (!layout || !layouts['_' + layout]) {
         layout = 'default'
       }

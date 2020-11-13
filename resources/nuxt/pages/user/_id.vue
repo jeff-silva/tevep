@@ -13,38 +13,43 @@
             <template #no-image>&nbsp;</template>
         </ui-photo>
 
-        <div class="row">
-            <div class="col-4">
-                <user-card v-model="user">
-                    <template #actions>
-                        <a href="javascript:;" class="btn btn-light" @click="$refs.userPhoto.toggle()">Foto</a>
-                        <a href="javascript:;" class="btn btn-light" @click="$refs.userBackground.toggle()">Background</a>
-                    </template>
-                </user-card>
-            </div>
-            <div class="col-8">
-                <ui-field v-model="user.name" label="Nome" v-bind="{type:'text', layout:'full', error:error.name}"></ui-field>
-                <ui-field v-model="user.email" label="E-mail" v-bind="{type:'email', layout:'full', error:error.email}"></ui-field>
-                <ui-field v-model="user.meta.description" label="Descrição" v-bind="{type:'text', layout:'full'}"></ui-field>
-                <ui-field label="Senha" v-bind="{layout:'full', error:error.password}">
-                    <template #field>
-                        <div class="row">
-                            <div class="col-6">
-                                <input type="password" class="form-control" v-model="user.password">
-                                <ui-password-meter v-model="user.password"></ui-password-meter>
-                            </div>
-                            <div class="col-6"><input type="password" class="form-control"></div>
-                        </div>
-                    </template>
-                </ui-field>
-            </div>
-        </div>
+        <form @submit.prevent="userStore($event)">
+            <div class="row">
+                <div class="col-12 col-md-4 mb-4">
+                    <user-card v-model="user">
+                        <template #actions>
+                            <a href="javascript:;" class="btn btn-light" @click="$refs.userPhoto.toggle()">Foto</a>
+                            <a href="javascript:;" class="btn btn-light" @click="$refs.userBackground.toggle()">Background</a>
+                        </template>
+                    </user-card>
+                </div>
+                <div class="col-12 col-md-8">
+                    <div class="bg-white shadow-sm p-3">
+                        <ui-field v-model="user.name" label="Nome" v-bind="{type:'text', layout:'full', error:error.name}"></ui-field>
+                        <ui-field v-model="user.email" label="E-mail" v-bind="{type:'email', layout:'full', error:error.email}"></ui-field>
+                        <ui-field v-model="user.meta.description" label="Descrição" v-bind="{type:'text', layout:'full'}"></ui-field>
+                        <ui-field label="Senha" v-bind="{layout:'full', error:error.password}">
+                            <template #field>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="password" class="form-control" v-model="user.password">
+                                        <ui-password-meter v-model="user.password"></ui-password-meter>
+                                    </div>
+                                    <div class="col-6"><input type="password" class="form-control"></div>
+                                </div>
+                            </template>
+                        </ui-field>
 
-        <div class="mt-2 text-right">
-            <button type="submit" class="btn btn-primary">
-                Salvar
-            </button>
-        </div>
+                        <div class="pt-3 text-right">
+                            <button type="submit" class="btn btn-primary">
+                                Salvar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     </form>
 </div></template>
 
