@@ -54,6 +54,19 @@ Route::get('/user/find', function() {
     return \App\Models\User::find(request()->input('id'));
 });
 
+Route::get('/user/notifications', function() {
+    if ($user = auth()->user()) {
+        return \App\Models\User::find($user->id)->notifications(['seen'=>0])->get();
+    }
+    return [];
+});
+
+Route::post('/user/notification/{id}', function($id) {
+    if ($notif = \App\Models\UserNotification::find($id)) {
+        $notif->update(['seen'=>1]);
+    }
+});
+
 // User register/save
 foreach(['/user/save', '/user/store', '/auth/register'] as $path) {
     Route::post($path, function() {

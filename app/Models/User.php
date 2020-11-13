@@ -211,4 +211,18 @@ class User extends Authenticatable implements JWTSubject
             'seen' => '0',
         ], $data));
     }
+
+    public function notifications($data=[]) {
+        $data = (object) array_merge([
+            'seen' => null,
+        ], $data);
+
+        $query = new \App\Models\UserNotification;
+
+        if ($data->seen!==null) {
+            $query = $query->where('seen', $data->seen);
+        }
+
+        return $query;
+    }
 }

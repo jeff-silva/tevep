@@ -23,9 +23,9 @@ Artisan::command('app:test', function() {
 
     // Notification
     // dd( \App\Models\User::find(1)->notify([
-    //     'title' => 'Veja aqui',
-    //     'body' => 'Olhe essa pessoa',
-    //     'image' => 'https://randomuser.me/api/portraits/women/56.jpg',
+    //     'title' => 'Usuário',
+    //     'body' => 'Este é um outro usuário',
+    //     'image' => 'https://randomuser.me/api/portraits/men/65.jpg',
     // ]) );
 
 

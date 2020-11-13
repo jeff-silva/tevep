@@ -15,6 +15,8 @@ const _22d1bfc2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\
 const _69e79260 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\settings.vue' /* webpackChunkName: "pages/dashboard/settings" */))
 const _6580a2d8 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\settings-user.vue' /* webpackChunkName: "pages/dashboard/settings-user" */))
 const _155ddb2b = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\users.vue' /* webpackChunkName: "pages/dashboard/users" */))
+const _b6e1ce54 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\notifications.vue' /* webpackChunkName: "pages/user/notifications" */))
+const _5346e758 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\notifications\\_id.vue' /* webpackChunkName: "pages/user/notifications/_id" */))
 const _f85f1abe = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id.vue' /* webpackChunkName: "pages/tevep/_id" */))
 const _37685fb0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\_id.vue' /* webpackChunkName: "pages/user/_id" */))
 const _4c6fd2aa = () => interopDefault(import('..\\resources\\nuxt\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
@@ -84,6 +86,15 @@ export const routerOptions = {
     component: _155ddb2b,
     name: "dashboard-users"
   }, {
+    path: "/user/notifications",
+    component: _b6e1ce54,
+    name: "user-notifications",
+    children: [{
+      path: ":id?",
+      component: _5346e758,
+      name: "user-notifications-id"
+    }]
+  }, {
     path: "/tevep/:id",
     component: _f85f1abe,
     name: "tevep-id"
@@ -95,10 +106,6 @@ export const routerOptions = {
     path: "/",
     component: _4c6fd2aa,
     name: "index"
-  }, {
-    path: "/__nuxt_laravel",
-    component: _4c6fd2aa,
-    name: "__nuxt_laravel"
   }],
 
   fallback: false
