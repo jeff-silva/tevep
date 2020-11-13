@@ -18,7 +18,7 @@
 });
 
 \App\Utils::fieldCreate('user_notifications', 'seen', function($table) {
-    $table->text('seen')->default(0)->nullable();
+    $table->integer('seen')->default(0)->nullable();
 });
 
 
