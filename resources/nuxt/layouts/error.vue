@@ -1,13 +1,13 @@
 <template><div>
-  <h1 v-if="error.statusCode === 404">
-    {{ pageNotFound }}
-  </h1>
-
-  <h1 v-else>
-    {{ otherError }}
-  </h1>
-  
-  <NuxtLink to="/"> Home page </NuxtLink>
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-header text-uppercase font-weight-bold">Error: {{ error.statusCode }}</div>
+      <div class="card-body">{{ error.message }}</div>
+      <div class="card-footer">
+        <nuxt-link to="/" class="btn btn-primary">Home</nuxt-link>
+      </div>
+    </div>
+  </div>
 </div></template>
 
 <script>

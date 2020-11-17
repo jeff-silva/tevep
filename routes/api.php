@@ -68,7 +68,7 @@ Route::post('/user/notification/{id}', function($id) {
 });
 
 // User register/save
-foreach(['/user/save', '/user/store', '/auth/register'] as $path) {
+foreach(['/user/save', '/user/store', '/user/register'] as $path) {
     Route::post($path, function() {
         return (new \App\Models\User)->fill(request()->all())->store();
     });

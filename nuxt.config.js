@@ -1,10 +1,10 @@
 require('dotenv').config();
 
 export default {
-	server: {
-		host: '0.0.0.0',
-		port: 3000,
-	},
+	// server: {
+	// 	host: '0.0.0.0',
+	// 	port: 3000,
+	// },
 
 	srcDir: 'resources/nuxt',
 	/*
@@ -78,7 +78,7 @@ export default {
 		redirect: {
 			login: '/auth',
 			logout: '/auth',
-			callback: '/dashboard',
+			// callback: '/dashboard',
 			home: '/dashboard',
 		},
 

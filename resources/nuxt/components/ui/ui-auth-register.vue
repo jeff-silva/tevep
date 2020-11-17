@@ -44,7 +44,7 @@
     methods: {
         submit() {
             this.error = {};
-            this.$axios.post('/api/auth/register/', this.props.value).then((resp) => {
+            this.$axios.post('/api/user/register/', this.props.value).then((resp) => {
                 if (resp.data.error) { return this.error = resp.data.error; }
                 this.props.value = {name: '', email: '', password: '', password_confirmation: ''};
                 this.$emit('success', resp.data);

@@ -1,24 +1,27 @@
 <template><div>
-    <button type="button" class="btn btn-primary btn-block mb-2" @click="listAdd()">
-        Inserir
+    <button type="button" class="btn btn-outline-primary btn-block mb-2" @click="listAdd()">
+        Inserir {{ singular }}
     </button>
 
     <div class="text-center text-muted mb-2" v-if="props.value.length==0">
-        Nenhum item	
+        Nenhum(a) {{ singular }}
     </div>
 
     <draggable v-model="props.value" v-bind="{animation:200, handle:'._handle'}" @end="emit()">
         <div v-for="n in props.value" :key="n.id" class="mb-1">
             <div class="input-group">
                 <div class="input-group-prepend _handle"><div class="input-group-text">
-                    <i class="fa fa-fw fa-bars"></i>
+                    <i class="fas fa-bars"></i>
                 </div></div>
 
-                <input type="text" class="form-control" v-model="n[h.id]" v-for="h in headers">
+                <slot name="fields" :item="n">
+                    <input type="text" class="form-control" v-model="n[h.id]" v-for="h in headers">
+                </slot>
+
 
                 <div class="input-group-append"><div class="input-group-btn">
-                    <button type="button" class="btn btn-danger">
-                        <i class="fa fa-fw fa-remove"></i>	
+                    <button type="button" class="btn btn-danger" @click="listRemove(n)">
+                        <i class="fas fa-times"></i>	
                     </button>
                 </div></div>
             </div>
@@ -36,7 +39,8 @@ export default {
 
 	props: {
 		value: {default:()=>([])},
-		headers: {default:()=>([{id:"medida", name:"Medida"}])},
+        headers: {default:()=>([{id:"medida", name:"Medida"}])},
+        singular: {default:'Item'},
     },
     
     watch: {
@@ -67,7 +71,13 @@ export default {
 
             this.props.value.push(add);
             this.emit();
-		},
+        },
+        
+        listRemove(item) {
+            console.log(item);
+            let index = this.props.value.indexOf(item);
+            this.props.value.splice(index, 1);
+        },
 	},
 
 	data() {

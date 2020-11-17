@@ -69,6 +69,8 @@
                 v-model="bind.node.utilities"
                 :headers="[{id:'name', name:'Nome'}]"
                 @input="bind.emit()"
+                singular="Utilidade"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -76,8 +78,19 @@
         <!-- Inerências -->
         <template #inerencias="bind">
             <div class="row no-gutters">
-                <div class="col-4">Aaaa</div>
-                <div class="col-8">
+                <div class="col-5 pr-3">
+                    <tevep-list v-model="bind.node.inherences" singular="Inerência">
+                        <template #fields="{item}">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name" style="width:150px;">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                        </template>
+                    </tevep-list>
+                </div>
+                <div class="col-7">
                     <tevep-principios v-bind="bind"></tevep-principios>
                 </div>
             </div>
@@ -87,8 +100,19 @@
         <!-- Expectativas -->
         <template #expectativas="bind">
             <div class="row no-gutters">
-                <div class="col-4">Aaaa</div>
-                <div class="col-8">
+                <div class="col-5 pr-3">
+                    <tevep-list v-model="bind.node.expectations" singular="Expectativa">
+                        <template #fields="{item}">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name" style="width:150px;">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                        </template>
+                    </tevep-list>
+                </div>
+                <div class="col-7">
                     <tevep-principios v-bind="bind"></tevep-principios>
                 </div>
             </div>
@@ -98,8 +122,19 @@
         <!-- Inovações -->
         <template #inovacoes="bind">
             <div class="row no-gutters">
-                <div class="col-4">Aaaa</div>
-                <div class="col-8">
+                <div class="col-5 pr-3">
+                    <tevep-list v-model="bind.node.innovations" singular="Inovação">
+                        <template #fields="{item}">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name" style="width:150px;">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                        </template>
+                    </tevep-list>
+                </div>
+                <div class="col-7">
                     <tevep-principios v-bind="bind"></tevep-principios>
                 </div>
             </div>
@@ -109,8 +144,19 @@
         <!-- Logística -->
         <template #logistica="bind">
             <div class="row no-gutters">
-                <div class="col-4">Aaaa</div>
-                <div class="col-8">
+                <div class="col-5 pr-3">
+                    <tevep-list v-model="bind.node.logistics" singular="Logística">
+                        <template #fields="{item}">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name" style="width:150px;">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                        </template>
+                    </tevep-list>
+                </div>
+                <div class="col-7">
                     <tevep-principios v-bind="bind"></tevep-principios>
                 </div>
             </div>
@@ -120,8 +166,19 @@
         <!-- Relevância -->
         <template #relevancia="bind">
             <div class="row no-gutters">
-                <div class="col-4">Aaaa</div>
-                <div class="col-8">
+                <div class="col-5 pr-3">
+                    <tevep-list v-model="bind.node.relevance" singular="Relevância">
+                        <template #fields="{item}">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name" style="width:150px;">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                        </template>
+                    </tevep-list>
+                </div>
+                <div class="col-7">
                     <tevep-principios v-bind="bind"></tevep-principios>
                 </div>
             </div>
@@ -131,8 +188,19 @@
         <!-- Complexidade -->
         <template #complexidade="bind">
             <div class="row no-gutters">
-                <div class="col-4">Aaaa</div>
-                <div class="col-8">
+                <div class="col-5 pr-3">
+                    <tevep-list v-model="bind.node.complexity" singular="Complexidade">
+                        <template #fields="{item}">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name" style="width:150px;">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                            <input type="text" class="form-control" v-model="item.name">
+                        </template>
+                    </tevep-list>
+                </div>
+                <div class="col-7">
                     <tevep-principios v-bind="bind"></tevep-principios>
                 </div>
             </div>
@@ -145,6 +213,8 @@
                 v-model="bind.node.costs"
                 :headers="[{id:'name', name:'Nome'}]"
                 @input="bind.emit()"
+                singular="Custo"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -155,6 +225,8 @@
                 v-model="bind.node.delivery"
                 :headers="[{id:'name', name:'Nome'}]"
                 @input="bind.emit()"
+                singular="Entrega"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -165,6 +237,8 @@
                 v-model="bind.node.safety"
                 :headers="[{id:'name', name:'Nome'}]"
                 @input="bind.emit()"
+                singular="Segurança"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -175,6 +249,8 @@
                 v-model="bind.node.attendance"
                 :headers="[{id:'name', name:'Nome'}]"
                 @input="bind.emit()"
+                singular="Atendimento"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -185,6 +261,8 @@
                 v-model="bind.node.quality"
                 :headers="[{id:'name', name:'Nome'}]"
                 @input="bind.emit()"
+                singular="Qualidade"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -195,6 +273,8 @@
                 v-model="bind.node.machine"
                 :headers="[{id:'name', name:'Medida'}, {id:'machine', name:'Máquina'}]"
                 @input="bind.emit()"
+                singular="Máquina"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -205,6 +285,8 @@
                 v-model="bind.node.material"
                 :headers="[{id:'name', name:'Nome'}, {id:'material', name:'Material'}]"
                 @input="bind.emit()"
+                singular="Material"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -215,6 +297,8 @@
                 v-model="bind.node.labor"
                 :headers="[{id:'name', name:'Nome'}, {id:'labor', name:'Mão de obra'}]"
                 @input="bind.emit()"
+                singular="Mão de obra"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -225,6 +309,8 @@
                 v-model="bind.node.environment"
                 :headers="[{id:'name', name:'Nome'}, {id:'environment', name:'Meio ambiente'}]"
                 @input="bind.emit()"
+                singular="Meio ambiente"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
@@ -235,6 +321,8 @@
                 v-model="bind.node.methods"
                 :headers="[{id:'name', name:'Nome'}, {id:'method', name:'Método'}]"
                 @input="bind.emit()"
+                singular="Método"
+                style="max-width:600px;"
             ></tevep-list>
         </template>
 
