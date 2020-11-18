@@ -70,7 +70,24 @@ export default {
 		'@nuxtjs/axios',
 
 		// https://dev.auth.nuxtjs.org/guide/setup/
-		'@nuxtjs/auth-next'
+		'@nuxtjs/auth-next',
+
+		// https://firebase.nuxtjs.org/guide/getting-started
+		['@nuxtjs/firebase', {
+			config: {
+				apiKey: (process.env.FIREBASE_APIKEY || false),
+				authDomain: (process.env.FIREBASE_AUTHDOMAIN || false),
+				databaseURL: (process.env.FIREBASE_DATABASEURL || false),
+				projectId: (process.env.FIREBASE_PROJECTID || false),
+				storageBucket: (process.env.FIREBASE_STORAGEBUCKET || false),
+				messagingSenderId: (process.env.FIREBASE_MESSAGINGSENDERID || false),
+				appId: (process.env.FIREBASE_APPID || false),
+				measurementId: (process.env.FIREBASE_MEASUREMENTID || false),
+			},
+			services: {
+				database: true,
+			},
+		}],
 	],
 
 	auth: {

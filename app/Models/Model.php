@@ -24,13 +24,17 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
 
     public function store() {
+        $table_name = $this->getTable();
         $save = $this;
 
         if ($this->id) {
             $save = self::find($this->id)->fill($this->attributes);
         }
-
+        
         $save->save();
+        
+        self::pushNotification("{$table_name}", $save);
+        self::pushNotification("{$table_name}-{$save->id}", $save);
         return $save;
     }
 
@@ -94,5 +98,12 @@ class Model extends \Illuminate\Database\Eloquent\Model
         \Schema::table($table_name, function($table) use($callback) {
             call_user_func($callback, $table);
         });
+    }
+
+    static function pushNotification($key, $data=[]) {
+        $credentials = json_decode(base64_decode(env('FIREBASE_CREDENTIALS_BASE64_JSON')), true);
+        if (! is_array($credentials)) return;
+        $database = (new \Kreait\Firebase\Factory)->withServiceAccount($credentials)->createDatabase();
+        return $database->getReference($key)->set($data);
     }
 }

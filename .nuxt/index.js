@@ -14,6 +14,7 @@ import { createStore } from './store.js'
 /* Plugins */
 
 import nuxt_plugin_plugin_5b813880 from 'nuxt_plugin_plugin_5b813880' // Source: .\\components\\plugin.js (mode: 'all')
+import nuxt_plugin_index_6fab7238 from 'nuxt_plugin_index_6fab7238' // Source: .\\firebase\\index.js (mode: 'all')
 import nuxt_plugin_axios_559e77e3 from 'nuxt_plugin_axios_559e77e3' // Source: .\\axios.js (mode: 'all')
 import nuxt_plugin_workbox_2c9eff82 from 'nuxt_plugin_workbox_2c9eff82' // Source: .\\workbox.js (mode: 'client')
 import nuxt_plugin_meta_225f31ce from 'nuxt_plugin_meta_225f31ce' // Source: .\\pwa\\meta.js (mode: 'all')
@@ -201,6 +202,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_plugin_5b813880 === 'function') {
     await nuxt_plugin_plugin_5b813880(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_index_6fab7238 === 'function') {
+    await nuxt_plugin_index_6fab7238(app.context, inject)
   }
 
   if (typeof nuxt_plugin_axios_559e77e3 === 'function') {

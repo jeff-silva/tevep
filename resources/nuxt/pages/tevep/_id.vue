@@ -376,6 +376,12 @@ export default {
 			tevep: {},
 			tabs: [],
 		};
-	},
+    },
+    
+    mounted() {
+        // this.$fire.database.ref('teveps').on('value', (snap) => {
+        //     console.log(snap.val());
+        // });
+    },
 }
 </script>
