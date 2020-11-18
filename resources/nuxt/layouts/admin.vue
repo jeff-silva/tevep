@@ -19,9 +19,16 @@ export default {
             this.toggle = (this.toggle==name? false: name);
         },
 
-        toggleNav(value=null) {
-            this.showNav = (value===null)? !this.showNav: value;
-            localStorage.setItem('coreUiShowNav', JSON.stringify(this.showNav));
+        toggleNav(params={}) {
+            this.showNav = !this.showNav;
+
+            params = Object.assign({
+                save: true,
+            }, params);
+
+            if (params.save) {
+                localStorage.setItem('coreUiShowNav', JSON.stringify(this.showNav));
+            }
         },
 
         toggleClass(ev, params={}) {
@@ -363,11 +370,10 @@ export default {
     </div>
     <div class="c-wrapper">
         <header class="c-header c-header-light c-header-fixed align-items-center">
-            <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" @click="toggleNav();">
+            <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" @click="toggleNav({save:false});">
                 <div class="c-icon c-icon-lg"><i class="fas fa-bars"></i></div>
             </button>
 
-            <!-- @click="toggleClass($event, {target:'parent', 'class':'c-sidebar-unfoldable'});" -->
             <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" responsive="true" @click="toggleNav();">
                 <div class="c-icon c-icon-lg"><i class="fas fa-bars"></i></div>
             </button>

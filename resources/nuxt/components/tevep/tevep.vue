@@ -28,7 +28,7 @@
                                 <slot name="header" v-bind="compSlotBind"></slot>
                             </div>
             
-                            <div class="p-2 shadow-sm font-weight-bold text-uppercase">{{ compSlotBind.tab.title }}</div>
+                            <div class="p-2 shadow-sm font-weight-bold text-uppercase mb-3">{{ compSlotBind.tab.title }}</div>
                             <div class="p-2">
                                 <slot :name="t.id" v-bind="compSlotBind">
                                     <div class="bg-gray text-muted text-center p-3 m-0">{{ t.title }} em construção</div>
@@ -355,73 +355,14 @@ export default {
                 item.percent.duration = duration;
 
                 let color = '#969fb6';
-                item.style = `outline:solid 1px ${color}; background-image:linear-gradient(to right, transparent ${start}%, ${color} ${start}%, ${color} ${duration}%, transparent ${duration}%);`;
+                item.style = `min-height:10px!important; background-color:${color}33; background-image:linear-gradient(to right, transparent ${start}%, ${color} ${start}%, ${color} ${duration}%, transparent ${duration}%);`;
                 return item;
             });
-
-            // background-image:linear-gradient(to right, transparent 20%, #ddd 20%, #ddd 60%, transparent 60%);
-
-
-
-            
-            // items = items.map((item, index) => {
-            //     item.node.date_final = items[index+1]? items[index+1].node.date_start: rut.date_final;
-            //     return item;
-            // });
-
-            // let getPercent = function(start=false, d=false, final=false) {
-            //     d = parseInt(moment(d).format('X'));
-            //     start = parseInt(moment(rut.date_start).format('X'));
-            //     final = parseInt(moment(rut.date_final).format('X'));
-
-            //     let percent = (100 * (d-start)) / (final-start);
-
-            //     // let percent = (d-start) / (final-start) * 100;
-            //     // percent = (Math.round(percent * 100) / 100);
-            //     return percent;
-            // };
 
             rut.items = items;
 
-            /*
-            let dates = [];
-            items.forEach(item => {
-                dates.push(item.node.date_start);
-                dates.push(item.node.date_final);
-            });
-            console.log(dates);
-
-            rut.date_start = moment.min(dates).format();
-            rut.date_final = moment.max(dates).format();
-            rut.diff = moment(rut.date_start).diff(moment(rut.date_final), divisor);
-            rut.diff = rut.diff>=0? rut.diff: rut.diff*-1;
-
-
-
-
-
-            
-            let date_start = moment(rut.date_start);
-            let date_final = moment(rut.date_final);
-            
-
-            rut.items = rut.items.map((node, index) => {
-                let item = {};
-                item.date_start = node.date_start||'';
-                item.date_final = (rut.items[index+1]? rut.items[index+1].date_start: rut.date_final);
-                item.percent = getPercent(item.date_start);
-                item.duration = getPercent(item.date_final);
-                item.node = node;
-
-                return item;
-            });
-
-            rut.items = rut.items.sort((a, b) => {
-                if (a.percent>b.percent) return 1;
-                else if (a.percent<b.percent) return -1;
-                return 0;
-            });
-            */
+            rut.date_start = moment(rut.date_start).format();
+            rut.date_final = moment(rut.date_final).format();
 
             return rut;
         },

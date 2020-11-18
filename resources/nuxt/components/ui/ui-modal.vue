@@ -14,10 +14,7 @@
                         <slot name="body"></slot>
                     </div>
 
-                    <div class="card-footer text-right">
-                        <button type="button" class="btn pull-left" @click="props.value=false; $emit('input', props.value);">
-                            Ok
-                        </button>
+                    <div class="card-footer text-right" v-if="$slots && $slots.footer">
                         <slot name="footer"></slot>
                     </div>
                 </div>
@@ -64,11 +61,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 !important;
 }
 .ui-modal .card {
     width: 600px;
-    max-width: 90% !important;
-    margin: 0px !important;
+    max-width: 90vw !important;
+    max-height: 90vh;
+    margin: 0 !important;
     overflow: auto !important;
 }
 </style>

@@ -29,23 +29,27 @@
 				</div></div>
 				<input type="text" class="form-control" v-model="node.title">
 				<div class="input-group-append"><div class="input-group-btn" v-if="nodeParent.id">
-					<nuxt-link :to="{query:{node:nodeParent.id, tab:$route.query.tab}}" class="btn btn-primary">
-                        <i class="fa fa-level-up"></i>
+					<nuxt-link :to="{query:{node:nodeParent.id, tab:$route.query.tab}}" class="btn btn-primary" v-tooltip="'Voltar um nível'">
+						<i class="fas fa-level-up-alt"></i>
                     </nuxt-link>
 				</div></div>
 			</div>
+
+			<!--
             <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text" style="width:70px;">
                     Início
                 </div></div>
                 <ui-datepicker v-model="props.node.date_start" class="form-control p-0 border-0"></ui-datepicker>
             </div>
+
             <div class="input-group">
                 <div class="input-group-prepend"><div class="input-group-text" style="width:70px;">
                     Fim
                 </div></div>
                 <ui-datepicker v-model="props.node.date_final" class="form-control p-0 border-0"></ui-datepicker>
             </div>
+			-->
 		</div>
 
 		<div class="col-4">
@@ -60,13 +64,15 @@
 	</div>
 
 	<div class="row no-gutters mt-3">
-		<tevep-dates v-model="props.nodeChildren"
-            col="col"
-            type="space"
-            dropdown-position="top"
-            placeholder="Espaço"
-            v-bind="props"
-        ></tevep-dates>
+		<div class="col-12">
+			<tevep-dates v-model="props.nodeChildren"
+                col="col"
+                type="space"
+                dropdown-position="bottom"
+                placeholder="Espaço"
+                v-bind="props"
+            ></tevep-dates>
+		</div>
 	</div>
 </div></template>
 

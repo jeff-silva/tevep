@@ -107,6 +107,16 @@ Vue.filter('date', function(value, format='DD/MM/YYYY') {
 	return d.isValid()? d.format(format): '';
 });
 
+Vue.filter('time', function(value, format='hh:mm') {
+	let d = moment(value);
+	return d.isValid()? d.format(format): '';
+});
+
+Vue.filter('datetime', function(value, format='DD/MM/YYYY à\\s hh:mm') {
+	let d = moment(value);
+	return d.isValid()? d.format(format): '';
+});
+
 
 Vue.filter('timeago', function(date) {
 	return 'time ago';

@@ -1,37 +1,43 @@
 <template><div>
     <draggable v-model="compItems" v-bind="{animation:200, handle:'._handle'}" tag="div" class="row no-gutters" @end="onNodeChange()">
-        <div class="tevep-dates-each pb-1 pr-1" :class="col" v-for="n in compItems" :key="n.id" v-tooltip="n.title">
+        <div class="tevep-dates-each pb-1 pr-1" :class="col" v-for="n in compItems" :key="n.id">
             <div class="input-group">
                 <div class="input-group-prepend _handle"><div class="input-group-text">
                     <i class="fa fa-fw fa-bars"></i>
                 </div></div>
-                <input type="text" class="form-control" v-model="n.title" @focus="focus=n" :placeholder="placeholder" @change="onNodeChange(n)">
+                <div class="form-control" @click="focus=n" style="white-space:pre; overflow:hidden; cursor:pointer;">{{ n.title||placeholder }}</div>
             </div>
-            <div class="tevep-dates-dropdown bg-white shadow-sm" :class="'tevep-dates-dropdown-'+dropdownPosition+' tevep-dates-dropdown-screen-'+screenSide" v-if="dropdown && focus==n">
-                <div class="p-1">
-                    <div class="mb-2">{{ n.title }}</div>
-                    <small class="text-muted font-weight-bold">Data</small>
-                    <ui-datepicker v-model="n.date_start" @input="onNodeChange(n)"></ui-datepicker>
-                    <small class="p-2">Final: {{ n.date_final|date }}</small>
-                </div>
-                <button type="button" class="btn btn-primary btn-sm btn-block rounded-0" @click="nodeGoto(n.id)">
-                    Acessar filho
-                </button>
-            </div>
+
+            <!-- Modal -->
+            <ui-modal v-model="focus">
+                <template #body>
+                    <div class="form-group">
+                        <label>{{ placeholder }}</label>
+                        <input type="text" class="form-control" v-model="focus.title" @change="onNodeChange(focus)" autocomplete="chrome-off">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Data de início</label>
+                        <ui-datepicker v-model="focus.date_start" @input="onNodeChange(focus)"></ui-datepicker>
+                    </div>
+                </template>
+
+                <template #footer>
+                    <button type="button" class="btn btn-primary float-left" @click="nodeGoto(focus.id); focus=false;">
+                        Acessar filho
+                    </button>
+
+                    <button type="button" class="btn" @click="focus=false">
+                        Ok
+                    </button>
+                </template>
+            </ui-modal>
         </div>
     </draggable>
 </div></template>
 
 <style>
 .tevep-dates-each {position:relative;}
-.tevep-dates-dropdown {position:absolute; width:250px; z-index:9;}
-.tevep-dates-dropdown-top {bottom:100%; left:0px;}
-.tevep-dates-dropdown-right {top:0px; left:100%;}
-.tevep-dates-dropdown-bottom {top:100%; left:0px;}
-.tevep-dates-dropdown-left {top:0px; right:100%;}
-.tevep-dates-dropdown-screen-left {}
-.tevep-dates-dropdown-screen-right {left:auto; right:0px;}
-.tevep-dates-dropdown-screen-right.tevep-dates-dropdown-left {right:100%;}
 </style>
 
 <script>
@@ -46,7 +52,6 @@ export default {
 		value: {default:()=>([])},
 		col: {default:'col-12'},
 		type: {default:''},
-		dropdownPosition: {default:'bottom'},
 		placeholder: {default:''},
         nodeId: {default:false},
         nodeGoto: Function,
@@ -108,12 +113,6 @@ export default {
         emit() {
             this.$emit('input', this.props.value);
         },
-
-		toggleDropdownHandle(ev) {
-            // this.screenSide = (ev.target.getBoundingClientRect().x > (window.innerWidth/2))? 'right': 'left';
-            if (ev.target.closest('.vdatetime')) return;
-			this.dropdown = this.$el.contains(document.activeElement);
-		},
 	},
 
 	data() {
@@ -123,17 +122,5 @@ export default {
             dropdown: false,
             screenSide: 'left',
 		};
-	},
-
-	mounted() {
-		['tap', 'click', 'keyup'].forEach((evt) => {
-			window.addEventListener(evt, this.toggleDropdownHandle);
-		});
-	},
-
-	beforeDestroy() {
-		['tap', 'click', 'keyup'].forEach((evt) => {
-			window.removeEventListener(evt, this.toggleDropdownHandle);
-		});
 	},
 };</script>

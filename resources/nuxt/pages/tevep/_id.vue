@@ -329,11 +329,20 @@
 
         <!-- Rut -->
         <template #rut="bind">
-            <div v-for="i in bind.rut.items" class="p-2" :style="i.style">
-                {{ i.node.title }}
-            </div>
-
-            <!-- <pre>rut: {{ bind.rut }}</pre> -->
+            <table class="table table-borderless table-striped bg-white shadow-sm">
+                <tbody>
+                    <tr v-for="i in bind.rut.items">
+                        <td>
+                            <div class="mb-2">
+                                <strong>{{ i.node.title }}</strong> - 
+                                <small>{{ i.node.date_start|datetime }} ~ {{ i.node.date_final|datetime }}</small>
+                            </div>
+                            <div :style="i.style"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <pre>{{ bind.rut }}</pre> -->
         </template>
     </tevep>
 </div></template>
