@@ -35,7 +35,11 @@ class Handler extends ExceptionHandler
         if (\Request::is('api/*')) {
             $this->renderable(function (\Exception $e, $request) {
                 $error = json_decode($e->getMessage(), true);
-                $error = is_array($error)? $error: ['error'=>$e->getMessage()];
+                $error = is_array($error)? $error: [
+                    'error' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ];
                 return response()->json($error);
             });
         }

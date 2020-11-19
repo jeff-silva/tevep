@@ -14,9 +14,7 @@ export default {
 
     methods: {
         notificationsRead(notif) {
-            this.$axios.post(`/api/user/notification/${notif.id}/`).then(resp => {
-                console.log(resp);
-            });
+            this.$axios.post(`/api/user/notification/${notif.id}/`).then(resp => { });
         },
     },
 

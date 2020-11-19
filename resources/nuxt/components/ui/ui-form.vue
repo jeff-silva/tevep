@@ -35,7 +35,6 @@
                 this.$emit('saved', this.props.value);
             }).catch((err, a, b, c, d) => {
                 this.loading = false;
-                console.log(err, a, b, c, d);
             });
         },
     },

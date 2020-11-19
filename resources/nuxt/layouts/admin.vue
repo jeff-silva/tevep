@@ -76,7 +76,6 @@ export default {
             toggle: false,
             showNav: JSON.parse(localStorage.getItem('coreUiShowNav')||'false'),
             adminMenuIndex: null,
-            adminMenu: this.$adminMenu(),
         };
     },
 
@@ -107,7 +106,7 @@ export default {
         <ul class="c-sidebar-nav">
             <li class="c-sidebar-nav-title">Menu</li>
             
-            <template v-for="(m,i) in adminMenu">
+            <template v-for="(m,i) in $auth.user.groupInfo.menu" v-if="$auth && $auth.user && $auth.user.groupInfo && $auth.user.groupInfo.menu">
                 <li class="c-sidebar-nav-item" v-if="m.children.length==0">
                     <nuxt-link :to="m.to" class="c-sidebar-nav-dropdown-toggle" :class="{'c-active':i==adminMenuIndex}" @click.native="adminMenuIndex=null">
                         <span class="c-sidebar-nav-icon">
@@ -405,7 +404,7 @@ export default {
                 <li class="c-header-nav-item dropdown">
                     <a href="javascript:;" class="c-header-nav-link" role="button" @click="toggleSet('notifications')">
                         <div class="c-icon"><i class="fas fa-bell"></i></div>
-                        <span class="badge badge-pill badge-danger" v-html="$store.state.notifications.items.length" v-if="$store.state.notifications.items.length>0"></span>
+                        <span class="badge badge-pill badge-danger" v-html="$store.state.notifications.items.length" v-if="$store.state && $store.state.notifications && $store.state.notifications.items.length>0"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" style="margin-top:20px; width:300px;" ref="notifications" :class="{show:toggle=='notifications'}" v-if="$store.state.notifications.items.length>0">
                         <div class="dropdown-header bg-light"><strong>Você tem {{ $store.state.notifications.items.length }} {{ $store.state.notifications.items.length==1? 'notificação': 'notificações' }}</strong></div>
@@ -428,7 +427,7 @@ export default {
 
                 <li class="c-header-nav-item dropdown">
                     <a href="javascript:;" class="c-header-nav-link" role="button" @click="toggleSet('userOptions')" style="text-decoration:none;">
-                        {{ $auth.user.name }} &nbsp; <div class="c-avatar" :title="$auth.user.name"><img class="c-avatar-img" :src="$auth.user.meta.photo" :alt="$auth.user.name"></div>
+                        {{ $auth.user.name }} &nbsp; <div class="c-avatar" :title="$auth.user.name"><img class="c-avatar-img" :src="$auth.user.meta.photo" :alt="$auth.user.name" v-if="$auth.user.meta"></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right pt-0" style="margin-top:10px;" ref="userOptions" :class="{show:toggle=='userOptions'}" @click="toggleSet(false)">
                         <div class="dropdown-header bg-light py-2"><strong>Tevep</strong></div>

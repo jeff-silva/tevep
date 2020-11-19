@@ -276,7 +276,6 @@ export default {
 
             // setTimeout(() => {
             //     let nodeId = this.$route.query.node;
-            //     console.log(nodeId, this.props.value.nodes);
             //     let children = this.getNodes({parent:nodeId});
             //     if (children.length==0) {
             //         let node = this.getNode({id:nodeId});

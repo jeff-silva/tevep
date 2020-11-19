@@ -74,7 +74,6 @@ export default {
         },
         
         listRemove(item) {
-            console.log(item);
             let index = this.props.value.indexOf(item);
             this.props.value.splice(index, 1);
         },

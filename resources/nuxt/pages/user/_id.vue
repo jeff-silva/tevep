@@ -85,7 +85,6 @@ export default {
 
     mounted() {
         this.userFind();
-        console.log(this.$user());
     },
 }
 </script>
