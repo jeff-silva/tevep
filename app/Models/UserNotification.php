@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-class UserNotification extends \App\Models\Model
+class UserNotification extends \Illuminate\Database\Eloquent\Model
 {
+    use \App\Traits\Model;
+    
     protected $fillable = [
         'id',
         'created_at',

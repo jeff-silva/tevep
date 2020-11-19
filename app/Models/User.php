@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, \App\Traits\Model;
 
     /**
      * The attributes that are mass assignable.

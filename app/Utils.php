@@ -40,7 +40,9 @@ class Utils
 
 
 
-    static function fieldCreate($table_name, $field_name, $callback) {
+    static function fieldCreate($className, $field_name, $callback) {
+        $table_name = (new $className)->getTable();
+
         if (! \Schema::hasTable($table_name)) {
             \Schema::create($table_name, function($table) {
                 $table->increments('id');
@@ -58,7 +60,9 @@ class Utils
     
     
 
-    static function fieldUpdate($table_name, $field_name, $callback) {
+    static function fieldUpdate($className, $field_name, $callback) {
+        $table_name = (new $className)->getTable();
+
         if (! \Schema::hasTable($table_name)) {
             \Schema::create($table_name, function($table) {
                 $table->increments('id');
@@ -72,5 +76,12 @@ class Utils
         \Schema::table($table_name, function($table) use($callback) {
             call_user_func($callback, $table);
         });
+    }
+
+
+    static function dbSeed($class, $id, $callback) {
+        if (! $model = (new $class)->find($id)) {
+            call_user_func($callback);
+        }
     }
 }

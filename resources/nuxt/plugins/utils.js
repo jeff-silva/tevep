@@ -60,10 +60,9 @@ Vue.prototype.$swalPrompt = function(question, callback) {
 };
 
 
-Vue.prototype.$user = function(attr) {
-	let user = JSON.parse(localStorage.getItem('user'));
-	if (attr) return user[attr]||false;
-    console.log(user);
+Vue.prototype.$user = function(attr=null) {
+	let user = this.$auth.user||{};
+	if (attr!==null) return user[attr]||false;
 	return user;
 };
 
@@ -92,7 +91,7 @@ Vue.prototype.$adminMenu = function() {
 		{to:"/user/", title:"Usuários", icon:"fas fa-user", children:[]},
 		{to:"", title:"Configurações", icon:"fas fa-cog", children:[
 			// {to:"/dashboard/settings/", title:"Dados", icon:"fas fa-cog", children:[]},
-			{to:"/dashboard/settings-user", title:"Meus dados", icon:"fas fa-cog", children:[]},
+			{to:"/user/me/", title:"Meus dados", icon:"fas fa-cog", children:[]},
 		]},
 	];
 };

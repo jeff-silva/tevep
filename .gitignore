@@ -99,5 +99,3 @@ dist
 
 # Vim swap files
 *.swp
-
-firebase-credentials.json

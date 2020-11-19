@@ -4,7 +4,7 @@
       <div class="card-header text-uppercase font-weight-bold">Error: {{ error.statusCode }}</div>
       <div class="card-body">{{ error.message }}</div>
       <div class="card-footer">
-        <nuxt-link to="/" class="btn btn-primary">Home</nuxt-link>
+        <a href="" class="btn btn-primary">Recarregar</a>
       </div>
     </div>
   </div>

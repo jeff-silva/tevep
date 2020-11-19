@@ -64,9 +64,9 @@ export default {
         },
 
         notificationsLoad() {
-            this.$axios.get('/api/user/notifications').then(resp => {
+            this.$axios.get('/api/user/notifications', {params:{seen:0}}).then(resp => {
                 if (resp.data.error) return;
-                this.$store.commit('notifications/set', resp.data);
+                this.$store.commit('notifications/set', resp.data.data);
             });
         },
     },
@@ -409,14 +409,16 @@ export default {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" style="margin-top:20px; width:300px;" ref="notifications" :class="{show:toggle=='notifications'}" v-if="$store.state.notifications.items.length>0">
                         <div class="dropdown-header bg-light"><strong>Você tem {{ $store.state.notifications.items.length }} {{ $store.state.notifications.items.length==1? 'notificação': 'notificações' }}</strong></div>
-                        <nuxt-link :to="`/user/notifications/${n.id}`" class="dropdown-item" v-for="n in $store.state.notifications.items" :key="n.id">
-                            <div class="d-flex align-items-center">
-                                <div><div :style="`width:35px; height:35px; background:url(${n.image}) center center no-repeat; background-size:cover; border-radius:4px;`"></div></div>
-                                <div class="pl-2">
-                                    <div v-html="n.title" style="white-space:initial!important;"></div>
+                        <div style="max-height:300px; overflow:auto;">
+                            <nuxt-link :to="`/user/notifications/${n.id}`" class="dropdown-item" v-for="n in $store.state.notifications.items" :key="n.id">
+                                <div class="d-flex align-items-center">
+                                    <div><div :style="`width:35px; height:35px; background:url(${n.image}) center center no-repeat; background-size:cover; border-radius:4px;`"></div></div>
+                                    <div class="pl-2">
+                                        <div v-html="n.title" style="white-space:initial!important;"></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </nuxt-link>
+                            </nuxt-link>
+                        </div>
                         <!-- <div class="dropdown-header bg-light"><strong>Server</strong></div> -->
                         <nuxt-link :to="`/user/notifications/`" class="dropdown-item font-weight-bold">
                             Ver todas as notificações
@@ -439,7 +441,7 @@ export default {
                             Criar novo
                         </nuxt-link>
                         <div class="dropdown-header bg-light py-2"><strong>Conta</strong></div>
-                        <nuxt-link to="/dashboard/settings-user" class="dropdown-item">
+                        <nuxt-link to="/user/me/" class="dropdown-item">
                             <div class="c-icon mfe-2"><i class="fas fa-user"></i></div>
                             Meus dados
                         </nuxt-link>

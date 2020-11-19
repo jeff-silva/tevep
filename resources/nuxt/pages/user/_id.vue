@@ -60,7 +60,8 @@ export default {
     methods: {
         userFind() {
             this.loading = true;
-            this.$axios.get('/api/user/find', {params:{id:this.$route.params.id}}).then((resp) => {
+            let userId = this.$route.params.id=='me'? this.$auth.user.id: this.$route.params.id;
+            this.$axios.get('/api/user/find', {params:{id:userId}}).then((resp) => {
                 this.loading = false;
                 this.user = resp.data;
             });
@@ -84,6 +85,7 @@ export default {
 
     mounted() {
         this.userFind();
+        console.log(this.$user());
     },
 }
 </script>

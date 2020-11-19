@@ -329,7 +329,7 @@
 
         <!-- Rut -->
         <template #rut="bind">
-            <table class="table table-borderless table-striped bg-white shadow-sm">
+            <table class="table table-borderless bg-white shadow-sm">
                 <tbody>
                     <tr v-for="i in bind.rut.items">
                         <td>

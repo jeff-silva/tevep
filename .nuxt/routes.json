@@ -70,13 +70,6 @@
     "_name": "_69e79260"
   },
   {
-    "name": "dashboard-settings-user",
-    "path": "/dashboard/settings-user",
-    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\settings-user.vue",
-    "chunkName": "pages/dashboard/settings-user",
-    "_name": "_6580a2d8"
-  },
-  {
     "name": "dashboard-users",
     "path": "/dashboard/users",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\users.vue",

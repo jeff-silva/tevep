@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-class Email extends \App\Models\Model
+class Email extends \Illuminate\Database\Eloquent\Model
 {
+    use \App\Traits\Model;
+
     protected $fillable = [
         'to',
         'subject',

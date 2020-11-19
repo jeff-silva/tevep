@@ -4,9 +4,9 @@ namespace Tevep\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tevep extends \App\Models\Model
+class Tevep extends \Illuminate\Database\Eloquent\Model
 {
-    use \Illuminate\Database\Eloquent\SoftDeletes;
+    use \App\Traits\Model;
     
     protected $fillable = [
         'id',

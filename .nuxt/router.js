@@ -13,7 +13,6 @@ const _30815dc0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\
 const _ab2ee08c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\password.vue' /* webpackChunkName: "pages/auth/password" */))
 const _22d1bfc2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\register.vue' /* webpackChunkName: "pages/auth/register" */))
 const _69e79260 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\settings.vue' /* webpackChunkName: "pages/dashboard/settings" */))
-const _6580a2d8 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\settings-user.vue' /* webpackChunkName: "pages/dashboard/settings-user" */))
 const _155ddb2b = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\users.vue' /* webpackChunkName: "pages/dashboard/users" */))
 const _b6e1ce54 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\notifications.vue' /* webpackChunkName: "pages/user/notifications" */))
 const _5346e758 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\notifications\\_id.vue' /* webpackChunkName: "pages/user/notifications/_id" */))
@@ -77,10 +76,6 @@ export const routerOptions = {
     path: "/dashboard/settings",
     component: _69e79260,
     name: "dashboard-settings"
-  }, {
-    path: "/dashboard/settings-user",
-    component: _6580a2d8,
-    name: "dashboard-settings-user"
   }, {
     path: "/dashboard/users",
     component: _155ddb2b,

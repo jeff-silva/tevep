@@ -56,7 +56,16 @@ Route::get('/user/find', function() {
 
 Route::get('/user/notifications', function() {
     if ($user = auth()->user()) {
-        return \App\Models\User::find($user->id)->notifications(['seen'=>0])->get();
+        return (new \App\Models\UserNotification)->search(function($query, $request) use($user) {
+            $query = $query->where('user_id', $user->id);
+
+            $seen = $request->input('seen');
+            if (is_numeric($seen)) {
+                $query = $query->where('seen', $seen);
+            }
+
+            return $query;
+        });
     }
     return [];
 });
@@ -64,7 +73,10 @@ Route::get('/user/notifications', function() {
 Route::post('/user/notification/{id}', function($id) {
     if ($notif = \App\Models\UserNotification::find($id)) {
         $notif->update(['seen'=>1]);
+        return $notif;
     }
+
+    return false;
 });
 
 // User register/save
