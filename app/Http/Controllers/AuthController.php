@@ -26,7 +26,8 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth()->attempt($credentials)) {
+        $ttl = \App\Settings::get('jwt-ttl');
+        if (! $token = auth()->setTTL($ttl)->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

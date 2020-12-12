@@ -215,7 +215,12 @@
                 @input="bind.emit()"
                 singular="Custo"
                 style="max-width:600px;"
-            ></tevep-list>
+                :default-value="{name:'', price:0}"
+            >
+                <template #field-before="{item}">
+                    <ui-money class="form-control" v-model="item.price"></ui-money>
+                </template>
+            </tevep-list>
         </template>
 
 
@@ -275,7 +280,11 @@
                 @input="bind.emit()"
                 singular="Máquina"
                 style="max-width:600px;"
-            ></tevep-list>
+            >
+                <template #fields-after="{item}">
+                    <input type="text" class="form-control" v-model="item.medida" placeholder="Medida">
+                </template>
+            </tevep-list>
         </template>
 
 
@@ -329,6 +338,10 @@
 
         <!-- Rut -->
         <template #rut="bind">
+            <div class="p-2 bg-white shadow-sm text-muted" v-if="bind.rut.items.length==0">
+                Prencha os eventos para obter os dados da régua única do tempo
+            </div>
+
             <table class="table table-borderless bg-white shadow-sm">
                 <tbody>
                     <tr v-for="i in bind.rut.items">
@@ -345,6 +358,8 @@
             <!-- <pre>{{ bind.rut }}</pre> -->
         </template>
     </tevep>
+
+    <pre>tevep: {{ tevep }}</pre>
 </div></template>
 
 <script>

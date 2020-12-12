@@ -35,12 +35,6 @@
   "LazyTevep": {
     "description": "Auto imported from components/tevep/tevep.vue"
   },
-  "UserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
-  "LazyUserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
   "UiAddressOld": {
     "description": "Auto imported from components/ui/ui-address-old.vue"
   },
@@ -131,6 +125,12 @@
   "LazyUiModal": {
     "description": "Auto imported from components/ui/ui-modal.vue"
   },
+  "UiMoney": {
+    "description": "Auto imported from components/ui/ui-money.vue"
+  },
+  "LazyUiMoney": {
+    "description": "Auto imported from components/ui/ui-money.vue"
+  },
   "UiNavbar": {
     "description": "Auto imported from components/ui/ui-navbar.vue"
   },
@@ -172,5 +172,11 @@
   },
   "LazyUiTable": {
     "description": "Auto imported from components/ui/ui-table.vue"
+  },
+  "UserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
+  "LazyUserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
   }
 }

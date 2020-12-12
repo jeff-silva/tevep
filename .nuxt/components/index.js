@@ -4,7 +4,6 @@ export { default as TevepDates } from '../..\\resources\\nuxt\\components\\tevep
 export { default as TevepList } from '../..\\resources\\nuxt\\components\\tevep\\tevep-list.vue'
 export { default as TevepPrincipios } from '../..\\resources\\nuxt\\components\\tevep\\tevep-principios.vue'
 export { default as Tevep } from '../..\\resources\\nuxt\\components\\tevep\\tevep.vue'
-export { default as UserCard } from '../..\\resources\\nuxt\\components\\user\\user-card.vue'
 export { default as UiAddressOld } from '../..\\resources\\nuxt\\components\\ui\\ui-address-old.vue'
 export { default as UiAddress } from '../..\\resources\\nuxt\\components\\ui\\ui-address.vue'
 export { default as UiAddresses } from '../..\\resources\\nuxt\\components\\ui\\ui-addresses.vue'
@@ -20,6 +19,7 @@ export { default as UiInput } from '../..\\resources\\nuxt\\components\\ui\\ui-i
 export { default as UiLaravelPagination } from '../..\\resources\\nuxt\\components\\ui\\ui-laravel-pagination.vue'
 export { default as UiLaravelTable } from '../..\\resources\\nuxt\\components\\ui\\ui-laravel-table.vue'
 export { default as UiModal } from '../..\\resources\\nuxt\\components\\ui\\ui-modal.vue'
+export { default as UiMoney } from '../..\\resources\\nuxt\\components\\ui\\ui-money.vue'
 export { default as UiNavbar } from '../..\\resources\\nuxt\\components\\ui\\ui-navbar.vue'
 export { default as UiPasswordMeter } from '../..\\resources\\nuxt\\components\\ui\\ui-password-meter.vue'
 export { default as UiPassword } from '../..\\resources\\nuxt\\components\\ui\\ui-password.vue'
@@ -27,6 +27,7 @@ export { default as UiPhoto } from '../..\\resources\\nuxt\\components\\ui\\ui-p
 export { default as UiProductCategories } from '../..\\resources\\nuxt\\components\\ui\\ui-product-categories.vue'
 export { default as UiSelect } from '../..\\resources\\nuxt\\components\\ui\\ui-select.vue'
 export { default as UiTable } from '../..\\resources\\nuxt\\components\\ui\\ui-table.vue'
+export { default as UserCard } from '../..\\resources\\nuxt\\components\\user\\user-card.vue'
 
 export const LazyLogo = import('../..\\resources\\nuxt\\components\\Logo.vue' /* webpackChunkName: "components_Logo" */).then(c => c.default || c)
 export const LazyVuetifyLogo = import('../..\\resources\\nuxt\\components\\VuetifyLogo.vue' /* webpackChunkName: "components_VuetifyLogo" */).then(c => c.default || c)
@@ -34,7 +35,6 @@ export const LazyTevepDates = import('../..\\resources\\nuxt\\components\\tevep\
 export const LazyTevepList = import('../..\\resources\\nuxt\\components\\tevep\\tevep-list.vue' /* webpackChunkName: "components_tevep/tevep-list" */).then(c => c.default || c)
 export const LazyTevepPrincipios = import('../..\\resources\\nuxt\\components\\tevep\\tevep-principios.vue' /* webpackChunkName: "components_tevep/tevep-principios" */).then(c => c.default || c)
 export const LazyTevep = import('../..\\resources\\nuxt\\components\\tevep\\tevep.vue' /* webpackChunkName: "components_tevep/tevep" */).then(c => c.default || c)
-export const LazyUserCard = import('../..\\resources\\nuxt\\components\\user\\user-card.vue' /* webpackChunkName: "components_user/user-card" */).then(c => c.default || c)
 export const LazyUiAddressOld = import('../..\\resources\\nuxt\\components\\ui\\ui-address-old.vue' /* webpackChunkName: "components_ui/ui-address-old" */).then(c => c.default || c)
 export const LazyUiAddress = import('../..\\resources\\nuxt\\components\\ui\\ui-address.vue' /* webpackChunkName: "components_ui/ui-address" */).then(c => c.default || c)
 export const LazyUiAddresses = import('../..\\resources\\nuxt\\components\\ui\\ui-addresses.vue' /* webpackChunkName: "components_ui/ui-addresses" */).then(c => c.default || c)
@@ -50,6 +50,7 @@ export const LazyUiInput = import('../..\\resources\\nuxt\\components\\ui\\ui-in
 export const LazyUiLaravelPagination = import('../..\\resources\\nuxt\\components\\ui\\ui-laravel-pagination.vue' /* webpackChunkName: "components_ui/ui-laravel-pagination" */).then(c => c.default || c)
 export const LazyUiLaravelTable = import('../..\\resources\\nuxt\\components\\ui\\ui-laravel-table.vue' /* webpackChunkName: "components_ui/ui-laravel-table" */).then(c => c.default || c)
 export const LazyUiModal = import('../..\\resources\\nuxt\\components\\ui\\ui-modal.vue' /* webpackChunkName: "components_ui/ui-modal" */).then(c => c.default || c)
+export const LazyUiMoney = import('../..\\resources\\nuxt\\components\\ui\\ui-money.vue' /* webpackChunkName: "components_ui/ui-money" */).then(c => c.default || c)
 export const LazyUiNavbar = import('../..\\resources\\nuxt\\components\\ui\\ui-navbar.vue' /* webpackChunkName: "components_ui/ui-navbar" */).then(c => c.default || c)
 export const LazyUiPasswordMeter = import('../..\\resources\\nuxt\\components\\ui\\ui-password-meter.vue' /* webpackChunkName: "components_ui/ui-password-meter" */).then(c => c.default || c)
 export const LazyUiPassword = import('../..\\resources\\nuxt\\components\\ui\\ui-password.vue' /* webpackChunkName: "components_ui/ui-password" */).then(c => c.default || c)
@@ -57,3 +58,4 @@ export const LazyUiPhoto = import('../..\\resources\\nuxt\\components\\ui\\ui-ph
 export const LazyUiProductCategories = import('../..\\resources\\nuxt\\components\\ui\\ui-product-categories.vue' /* webpackChunkName: "components_ui/ui-product-categories" */).then(c => c.default || c)
 export const LazyUiSelect = import('../..\\resources\\nuxt\\components\\ui\\ui-select.vue' /* webpackChunkName: "components_ui/ui-select" */).then(c => c.default || c)
 export const LazyUiTable = import('../..\\resources\\nuxt\\components\\ui\\ui-table.vue' /* webpackChunkName: "components_ui/ui-table" */).then(c => c.default || c)
+export const LazyUserCard = import('../..\\resources\\nuxt\\components\\user\\user-card.vue' /* webpackChunkName: "components_user/user-card" */).then(c => c.default || c)

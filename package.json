@@ -59,6 +59,7 @@
         "firebase": "^8.0.2",
         "luxon": "^1.25.0",
         "moment": "^2.29.1",
+        "v-money": "^0.8.1",
         "v-tooltip": "^2.0.3",
         "vue-datetime": "^1.0.0-beta.14",
         "vue-sweetalert2": "^4.1.1",

@@ -1,7 +1,7 @@
-<template><div class="form-control p-0">
-    <div class="input-group m-0">
+<template><div class="form-control p-0 bg-white">
+    <div class="input-group">
         <input :type="props.type"
-            class="form-control border-0"
+            class="form-control border-0 bg-transparent"
             v-model="props.value"
             @keyup="$emit('input', props.value)"
             :placeholder="props.placeholder">

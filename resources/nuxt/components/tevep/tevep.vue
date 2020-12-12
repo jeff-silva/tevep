@@ -1,5 +1,11 @@
 <template><div class="tevep">
-    <form @submit.prevent="tevepSave()">
+    <div class="p-3" v-if="loading">
+        <div class="p-3 bg-white shadow-sm">
+            <i class="fas fa-circle-notch fa-spin"></i> &nbsp; Carregando...
+        </div>
+    </div>
+
+    <form v-else @submit.prevent="tevepSave()">
         <div v-for="t in tabs"  v-if="t.id==$route.query.tab">
             <div style="max-width:100%; overflow:auto;">
                 <div style="min-width:1300px;">
@@ -135,6 +141,8 @@ export default {
 			// Methods
 			slotBind.nodeAdd = this.nodeAdd;
 			slotBind.nodeGoto = this.nodeGoto;
+			slotBind.nodeRemove = this.nodeRemove;
+			slotBind.nodeChangeDate = this.nodeChangeDate;
 			slotBind.tevepSave = this.tevepSave;
 			slotBind.getNode = this.getNode;
 			slotBind.getNodes = this.getNodes;
@@ -145,7 +153,7 @@ export default {
 	},
 
 	methods: {
-		uuid(prefix='node', format='xxxxxxxxxx') {
+		uuid(prefix='node-', format='xxxxxxxxxx') {
 			return prefix+format.replace(/[xy]/g, function(c) {
 				var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
 				return v.toString(16);
@@ -189,8 +197,9 @@ export default {
 				title: "",
 				parent: '',
 				level: 0,
-				type: '',
+                type: '',
 				order: 0,
+                show: 0, // 0:name, 1:name+dates, 2:name+dates+times, 3:name+dates+times+places, 4:name+dates+times+places+owners+people, 5:3:name+dates+times+places+owners+people+times
 				date_start: "",
 				date_final: "",
 				utilities: [],
@@ -214,14 +223,17 @@ export default {
 		},
 
 		nodeAdd(node={}, addChildren=true) {
-			node = this.nodeDefault(node);
-			this.props.value.nodes.push(node);
-			if (addChildren) { this.nodeAddChildren(node); }
+            if (this.props.value && this.props.value.nodes) {
+                node = this.nodeDefault(node);
+                this.props.value.nodes.push(node);
+                if (addChildren) { this.nodeAddChildren(node); }
+            }
             this.$emit('input', this.props.value);
 			return node;
 		},
 
         nodeAddChildren(node) {
+            return;
             let level = 1+(node.level||0);
             for(let i=0; i<7; i++) {
                 this.nodeAdd({
@@ -264,6 +276,36 @@ export default {
                     order: i,
                 }, false);
             }
+        },
+
+        nodeChangeDate(node) {
+            let brothers = this.getNodes({parent: node.parent, type: node.type});
+
+            /* Roda em todos os irmãos do evento corrigindo brechas entre datas */
+            brothers.forEach((item, index) => {
+                let prev = brothers[index-1]||false;
+                let next = brothers[index+1]||false;
+
+                /* Se o item atual é sobre o node atual */
+                if (item.id==node.id) {
+                    if (item.date_start && prev) {
+                        prev.date_final = item.date_start;
+                    }
+
+                    if (item.date_final && next) {
+                        next.date_start = item.date_final;
+                    }
+                }
+
+                /* Se o item for outro dos irmãos */
+                else {
+                    // 
+                }
+            });
+        },
+
+        nodeRemove(node) {
+            alert('Remove');
         },
 
         nodeGoto(nodeId) {
@@ -379,7 +421,12 @@ export default {
             if (this.props.value.nodes.length==0) {
                 this.nodeAdd({}, true);
             }
+            
+            this.props.value.nodes = this.props.value.nodes.map(node => {
+                return this.nodeDefault(node);
+            });
 
+            this.$emit('input', this.props.value);
             this.$emit('init', this.compSlotBind);
 
             this.$router.push({
@@ -396,6 +443,7 @@ export default {
 		return {
 			props: Object.assign({}, this.$props),
             error: {},
+            loading: false,
 			tabs: [
 				{id: "principios", title: "Princípios"},
 
@@ -459,13 +507,15 @@ export default {
 	mounted() {
 
         if (this.$route.params.id) {
+            this.loading = true;
             this.$axios.get(`/api/tevep/find/${this.$route.params.id}`).then((resp) => {
+                this.loading = false;
                 let tevep = resp.data.id? resp.data: {};
                 this.tevepInit(tevep);
             });
         }
 
-        // else { this.tevepInit(); }
+        else { this.tevepInit(); }
 
 	},
 };</script>

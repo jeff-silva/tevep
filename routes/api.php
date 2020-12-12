@@ -33,6 +33,10 @@ Route::get('/', function() {
     return $routes;
 });
 
+Route::get('/settings', function() {
+    return \App\Settings::all();
+});
+
 
 // Auth routes
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {

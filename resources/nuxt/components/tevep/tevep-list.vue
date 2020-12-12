@@ -14,10 +14,9 @@
                     <i class="fas fa-bars"></i>
                 </div></div>
 
-                <slot name="fields" :item="n">
-                    <input type="text" class="form-control" v-model="n[h.id]" v-for="h in headers">
-                </slot>
-
+                <slot name="fields" :item="n"></slot>
+                <input type="text" class="form-control" v-model="n.name" :placeholder="singular">
+                <slot name="fields-after" :item="n"></slot>
 
                 <div class="input-group-append"><div class="input-group-btn">
                     <button type="button" class="btn btn-danger" @click="listRemove(n)">
@@ -39,6 +38,7 @@ export default {
 
 	props: {
 		value: {default:()=>([])},
+        defaultValue: {default:()=>({name:""})},
         headers: {default:()=>([{id:"medida", name:"Medida"}])},
         singular: {default:'Item'},
     },
@@ -63,11 +63,10 @@ export default {
         },
 
 		listAdd() {
-			let add = {id:this.uuid()};
-			for(var i in this.headers) {
-				let head = this.headers[i];
-				add[head.id] = '';
-			}
+            let add = Object.assign({
+                id: this.uuid(),
+                name: '',
+            }, this.defaultValue);
 
             this.props.value.push(add);
             this.emit();

@@ -8,6 +8,19 @@ export default {
         }},
     },
 
+    data() {
+        return {
+            toggle: false,
+            showNav: JSON.parse(localStorage.getItem('coreUiShowNav')||'false'),
+            adminMenuIndex: null,
+            notifications: [],
+        };
+    },
+
+    async fetch() {
+        this.notifications = await this.$axios.get('/api/user/notifications?seen=0').then(res => res.data);
+    },
+
     methods: {
         logout() {
             this.$auth.logout().then((resp) => {
@@ -52,41 +65,10 @@ export default {
                 target.classList.toggle(params.class);
             });
         },
-
-        clickListener(ev) {
-            // if (! this.toggle) return;
-            // let parent = this.$refs[this.toggle]||false;
-            // if (! parent) return;
-            // // if (ev.target==parent || parent.contains(ev.target)) return;
-            // setTimeout(() => {
-            //     this.toggle = this.toggle? false: this.toggle;
-            // }, 500);
-        },
-
-        notificationsLoad() {
-            this.$axios.get('/api/user/notifications', {params:{seen:0}}).then(resp => {
-                if (resp.data.error) return;
-                this.$store.commit('notifications/set', resp.data.data);
-            });
-        },
-    },
-
-    data() {
-        return {
-            toggle: false,
-            showNav: JSON.parse(localStorage.getItem('coreUiShowNav')||'false'),
-            adminMenuIndex: null,
-        };
     },
 
     mounted() {
-        this.notificationsLoad();
-        setInterval(() => { this.notificationsLoad(); }, 30000);
-        document.addEventListener('click', this.clickListener);
-    },
-
-    beforeDestroy() {
-        document.removeEventListener('click', this.clickListener);
+        setInterval(() => { this.$fetch(); }, 60000);
     },
 };</script>
 
