@@ -436,7 +436,7 @@ export default {
             this.$router.push({
                 path: `/tevep/${tevep.id||0}/`,
                 query: {
-                    node: this.props.value.nodes[0].id,
+                    node: (this.$route.query.node||this.props.value.nodes[0].id),
                     tab: (this.$route.query.tab||this.tabs[0].id),
                 },
             });

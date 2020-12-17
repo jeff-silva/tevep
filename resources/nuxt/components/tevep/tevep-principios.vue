@@ -2,12 +2,11 @@
 	<div class="row no-gutters mb-3">
 		<div class="col-12" v-if="node.show>=4">
 			<tevep-dates v-model="props.nodeChildren"
-                col="col"
                 type="time"
-                dropdown-position="bottom"
+				:horizontal="true"
                 placeholder="Tempo"
                 v-bind="props"
-				@input="node.show=5"
+				@input="node.show=(node.show==4? 5: node.show)"
             ></tevep-dates>
 		</div>
 	</div>
@@ -15,19 +14,18 @@
 	<br><br>
 
 	<div class="row no-gutters align-items-center">
-		<div class="col-4">
+		<div class="col-3">
             <tevep-dates v-model="props.nodeChildren"
-				v-if="node.show>=3"
-                col="col-12"
                 type="user"
-                dropdown-position="right"
+				:horizontal="false"
                 placeholder="Piloto"
                 v-bind="props"
-				@input="node.show=4"
+				@input="node.show=(node.show==3? 4: node.show)"
+				v-if="node.show>=3"
             ></tevep-dates>
 		</div>
 
-		<div class="col-4 p-2">
+		<div class="col-6 p-2">
 			<div class="input-group mb-2" v-if="node.show>=1">
 				<ui-datepicker v-model="node.date_start" placeholder="Início"></ui-datepicker>
 				<ui-datepicker v-model="node.date_final" placeholder="Fim"></ui-datepicker>
@@ -51,22 +49,21 @@
 				</div></div>
 
 				<div class="input-group-append" v-if="node.show==0"><div class="input-group-btn">
-					<button type="button" class="btn btn-primary" @click="node.show+=1">
+					<button type="button" class="btn btn-primary" @click="node.show=1">
 						<i class="fas fa-save"></i>
 					</button>
 				</div></div>
 			</div>
 		</div>
 
-		<div class="col-4">
+		<div class="col-3">
 			<tevep-dates v-model="props.nodeChildren"
-				v-if="node.show>=3"
-                col="col-12"
                 type="target"
-                dropdown-position="left"
+				:horizontal="false"
                 placeholder="Pessoas"
                 v-bind="props"
-				@input="node.show=4"
+				@input="node.show=(node.show==3? 4: node.show)"
+				v-if="node.show>=3"
             ></tevep-dates>
 		</div>
 	</div>
@@ -76,12 +73,11 @@
 	<div class="row no-gutters mt-3" v-if="node.show>=2">
 		<div class="col-12">
 			<tevep-dates v-model="props.nodeChildren"
-                col="col"
                 type="space"
-                dropdown-position="bottom"
+				:horizontal="true"
                 placeholder="Espaço"
                 v-bind="props"
-				@input="node.show=3"
+				@input="node.show=(node.show==2? 3: node.show)"
             ></tevep-dates>
 		</div>
 	</div>

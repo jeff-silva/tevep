@@ -1,6 +1,6 @@
-<template><div>
-    <draggable v-model="compItems" v-bind="{animation:200, handle:'._handle'}" tag="div" class="row no-gutters" @end="onNodeChange()">
-        <div class="tevep-dates-each pb-1 pr-1" :class="col" v-for="n in compItems" :key="n.id" v-tooltip="titleResume(n)">
+<template><div class="tevep-dates">
+    <draggable v-model="compItems" v-bind="{animation:200, handle:'._handle'}" tag="div" @end="onNodeChange()" :class="{'tevep-dates-horizontal':horizontal, 'tevep-dates-vertical':!horizontal}">
+        <div class="tevep-dates-each" v-for="n in compItems" :key="n.id" v-tooltip="titleResume(n)">
             <div class="input-group">
                 <div class="input-group-prepend _handle"><div class="input-group-text">
                     <i class="fa fa-fw fa-bars"></i>
@@ -47,7 +47,7 @@
             </ui-modal>
         </div>
 
-        <div :class="props.col" v-if="compItems.length<=6">
+        <div class="tevep-dates-each" v-if="compItems.length<=6">
             <button type="button" class="btn btn-block bg-gray-200" style="padding:5px 5px;" @click="nodeAddBrother()">
                 <i class="fas fa-plus"></i> &nbsp; Adicionar {{ placeholder }}
             </button>
@@ -56,7 +56,12 @@
 </div></template>
 
 <style>
-.tevep-dates-each {position:relative;}
+.tevep-dates {}
+.tevep-dates-horizontal {display:flex;}
+.tevep-dates-horizontal .tevep-dates-each {width:14.28%!important; padding-right:5px;}
+.tevep-dates-vertical {}
+.tevep-dates-vertical .tevep-dates-each {padding-bottom:7px;}
+.tevep-dates-each {}
 </style>
 
 <script>
@@ -69,7 +74,7 @@ export default {
     
 	props: {
 		value: {default:()=>([])},
-		col: {default:'col-12'},
+        horizontal: {default:true},
 		type: {default:''},
 		placeholder: {default:''},
         nodeId: {default:false},
@@ -144,9 +149,10 @@ export default {
 
         nodeAddBrother() {
             let brothers = this.getNodes({type:this.type});
-            if (brothers.length==7) { this.$swalError('Máximo de 7 itens'); return; }
-            this.nodeAdd({type:this.type, parent:this.$props.node.id}, false);
+            if (brothers.length>7) { this.$swalError('Máximo de 7 itens'); return; }
+            let node = this.nodeAdd({type:this.type, parent:this.$props.node.id}, false);
             this.$emit('input', this.props.value);
+            this.focus = node;
         },
 
         titleResume(node) {
@@ -164,7 +170,6 @@ export default {
 		return {
 			props: Object.assign({}, this.$props),
 			focus: false,
-            dropdown: false,
             screenSide: 'left',
 		};
 	},

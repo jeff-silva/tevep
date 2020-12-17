@@ -1,4 +1,4 @@
-<template><div class="form-control border-0 bg-transparent p-0">
+<template><div class="ui-datepicker form-control border-0 bg-transparent p-0">
 	<datetime v-model="props.value"
 		:type="type"
 		input-class="form-control"
@@ -48,3 +48,8 @@ export default {
 	},
 }
 </script>
+
+
+<style>
+.ui-datepicker .vdatetime-popup {user-select:none; -moz-user-select:none; -khtml-user-select:none; -webkit-user-select:none; -o-user-select:none;}
+</style>
