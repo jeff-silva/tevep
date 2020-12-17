@@ -36,7 +36,7 @@
                         Acessar filho
                     </button>
 
-                    <button type="button" class="btn text-danger" @click="nodeRemove(n);">
+                    <button type="button" class="btn text-danger" @click="focus=false; nodeRemove(n);">
                         <i class="fas fa-times"></i> Remover
                     </button>
 

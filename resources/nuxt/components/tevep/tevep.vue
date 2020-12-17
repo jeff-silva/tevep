@@ -305,7 +305,11 @@ export default {
         },
 
         nodeRemove(node) {
-            alert('Remove');
+            this.$swalConfirm('Deseja deletar este item?', () => {
+                let index = this.props.value.nodes.indexOf(node);
+                this.props.value.nodes.splice(index, 1);
+                this.emit();
+            });
         },
 
         nodeGoto(nodeId) {

@@ -9,6 +9,28 @@
         </div>
         <div class="col">
             
+            <div class="row no-gutters">
+                <div class="col-6">
+                    <ui-carousel v-model="carouselIndex">
+                        <template #sliders>
+                            <div v-for="n in 10" style="width:100%;">
+                                <img :src="'https://source.unsplash.com/random/200x200/?r='+n" alt="" width="100%">
+                            </div>
+                        </template>
+                    </ui-carousel>
+                </div>
+
+                <div class="col-6">
+                    <ui-carousel v-model="carouselIndex">
+                        <template #sliders>
+                            <div v-for="n in 10" style="width:100%;">
+                                <img :src="'https://source.unsplash.com/random/200x200/?r='+n" alt="" width="100%">
+                            </div>
+                        </template>
+                    </ui-carousel>
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-12 bg-primary mb-4 text-white">
                     <div class="d-flex p-3" v-if="$store.$auth.user">
@@ -55,6 +77,7 @@ export default {
     data() {
         return {
             endpoints: [],
+            carouselIndex: 0,
         }
     },
 

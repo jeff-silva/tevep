@@ -47,6 +47,7 @@
         "vue-jest": "^3.0.6"
     },
     "dependencies": {
+        "@egjs/vue-flicking": "^3.5.1",
         "@fortawesome/fontawesome-free": "^5.15.1",
         "@fortawesome/fontawesome-free-brands": "^5.0.13",
         "@fortawesome/fontawesome-free-regular": "^5.0.13",

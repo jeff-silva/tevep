@@ -355,11 +355,8 @@
                     </tr>
                 </tbody>
             </table>
-            <!-- <pre>{{ bind.rut }}</pre> -->
         </template>
     </tevep>
-
-    <pre>tevep: {{ tevep }}</pre>
 </div></template>
 
 <script>
