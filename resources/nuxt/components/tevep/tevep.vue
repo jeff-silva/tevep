@@ -233,7 +233,6 @@ export default {
 		},
 
         nodeAddChildren(node) {
-            return;
             let level = 1+(node.level||0);
             for(let i=0; i<7; i++) {
                 this.nodeAdd({
@@ -279,12 +278,23 @@ export default {
         },
 
         nodeChangeDate(node) {
+            let parent = this.getNode({id: node.parent});
             let brothers = this.getNodes({parent: node.parent, type: node.type});
 
             /* Roda em todos os irmãos do evento corrigindo brechas entre datas */
             brothers.forEach((item, index) => {
                 let prev = brothers[index-1]||false;
                 let next = brothers[index+1]||false;
+
+                /* Se for primeiro item, pegar date_start do pai caso campo esteja vazio */
+                if (index==0 && parent && parent.date_start) {
+                    item.date_start = parent.date_start;
+                }
+
+                /* Se for último item, pegar date_final do pai caso campo esteja vazio */
+                if (index==6 && parent && parent.date_final) {
+                    item.date_final = parent.date_final;
+                }
 
                 /* Se o item atual é sobre o node atual */
                 if (item.id==node.id) {

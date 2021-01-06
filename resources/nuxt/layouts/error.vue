@@ -2,7 +2,10 @@
   <div class="container mt-4">
     <div class="card">
       <div class="card-header text-uppercase font-weight-bold">Error: {{ error.statusCode }}</div>
-      <div class="card-body">{{ error.message }}</div>
+      <div class="card-body">
+        {{ error.message }}
+        <pre class="bg-dark p-2 mt-3" style="color:lime;">Details: {{ error }}</pre>
+      </div>
       <div class="card-footer">
         <a href="" class="btn btn-primary">Recarregar</a>
       </div>

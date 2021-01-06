@@ -1,6 +1,6 @@
 <template><div>
 	<div class="row no-gutters mb-3">
-		<div class="col-12" v-if="node.show>=4">
+		<div class="col-12" v-if="node.show>=4 || node.level>0">
 			<tevep-dates v-model="props.nodeChildren"
                 type="time"
 				:horizontal="true"
@@ -21,15 +21,15 @@
                 placeholder="Piloto"
                 v-bind="props"
 				@input="node.show=(node.show==3? 4: node.show)"
-				v-if="node.show>=3"
+				v-if="node.show>=3 || node.level>0"
             ></tevep-dates>
 		</div>
 
 		<div class="col-6 p-2">
-			<div class="input-group mb-2" v-if="node.show>=1">
+			<div class="input-group mb-2" v-if="node.show>=1 || node.level>0">
 				<ui-datepicker v-model="node.date_start" placeholder="Início"></ui-datepicker>
 				<ui-datepicker v-model="node.date_final" placeholder="Fim"></ui-datepicker>
-				<div class="input-group-append" v-if="node.show==1"><div class="input-group-btn">
+				<div class="input-group-append" v-if="node.show==1 || node.level>0"><div class="input-group-btn">
 					<button type="button" class="btn btn-primary" @click="node.show+=1">
 						<i class="fas fa-save"></i>
 					</button>
@@ -48,7 +48,7 @@
 					</nuxt-link>
 				</div></div>
 
-				<div class="input-group-append" v-if="node.show==0"><div class="input-group-btn">
+				<div class="input-group-append" v-if="node.show==0 || node.level>0"><div class="input-group-btn">
 					<button type="button" class="btn btn-primary" @click="node.show=1">
 						<i class="fas fa-save"></i>
 					</button>
@@ -63,14 +63,14 @@
                 placeholder="Pessoas"
                 v-bind="props"
 				@input="node.show=(node.show==3? 4: node.show)"
-				v-if="node.show>=3"
+				v-if="node.show>=3 || node.level>0"
             ></tevep-dates>
 		</div>
 	</div>
 
 	<br><br>
 
-	<div class="row no-gutters mt-3" v-if="node.show>=2">
+	<div class="row no-gutters mt-3" v-if="node.show>=2 || node.level>0">
 		<div class="col-12">
 			<tevep-dates v-model="props.nodeChildren"
                 type="space"

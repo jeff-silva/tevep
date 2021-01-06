@@ -1,11 +1,11 @@
 <template><div class="tevep-dates">
-    <draggable v-model="compItems" v-bind="{animation:200, handle:'._handle'}" tag="div" @end="onNodeChange()" :class="{'tevep-dates-horizontal':horizontal, 'tevep-dates-vertical':!horizontal}">
+    <draggable v-model="compItems" v-bind="{animation:200, handle:'._handle'}" tag="div" @end="onNodeChange(focus)" :class="{'tevep-dates-horizontal':horizontal, 'tevep-dates-vertical':!horizontal}">
         <div class="tevep-dates-each" v-for="n in compItems" :key="n.id" v-tooltip="titleResume(n)">
             <div class="input-group">
                 <div class="input-group-prepend _handle"><div class="input-group-text">
                     <i class="fa fa-fw fa-bars"></i>
                 </div></div>
-                <div class="form-control" @click="focus=n" style="white-space:pre; overflow:hidden; cursor:pointer;">{{ n.title||placeholder }}</div>
+                <div class="form-control" @click="setFocus(n)" style="white-space:pre; overflow:hidden; cursor:pointer;">{{ n.title||placeholder }}</div>
             </div>
 
             <!-- Modal -->
@@ -32,15 +32,15 @@
                 </template>
 
                 <template #footer>
-                    <button type="button" class="btn btn-primary float-left" @click="nodeGoto(focus.id); focus=false;">
+                    <button type="button" class="btn btn-primary float-left" @click="nodeGoto(focus.id); setFocus(false);">
                         Acessar filho
                     </button>
 
-                    <button type="button" class="btn text-danger" @click="focus=false; nodeRemove(n);">
+                    <button type="button" class="btn text-danger" @click="setFocus(false); nodeRemove(n);">
                         <i class="fas fa-times"></i> Remover
                     </button>
 
-                    <button type="button" class="btn" @click="focus=false">
+                    <button type="button" class="btn" @click="setFocus(false)">
                         Ok
                     </button>
                 </template>
@@ -126,24 +126,15 @@ export default {
 
 	methods: {
 		onNodeChange(node) {
-            
             this.nodeChangeDate(node);
-
-            // let nodes = this.getNodes({type:'time'});
-            // nodes.forEach((n, index) => {
-            //     if (n.id==node.id) {
-            //         node.date_final = (nodes[index+1]? nodes[index+1].date_start: false);
-
-            //         if (nodes[index-1]) {
-            //             this.onNodeChange(nodes[index-1]);
-            //         }
-            //     }
-            // });
-            
-            // this.$emit('input', this.props.value);
 		},
 
         emit() {
+            this.$emit('input', this.props.value);
+        },
+
+        setFocus(n) {
+            this.focus = n;
             this.$emit('input', this.props.value);
         },
 
