@@ -1,22 +1,4 @@
 <template><div>
-    
-    <!--
-    <ui-laravel-table v-model="user.resp" v-bind="{loading:user.loading}">
-        <template #item="{item}">
-            <td>
-                <div><strong>{{ item.name }}</strong></div>
-                <div><small class="text-muted">{{ item.email }}</small></div>
-            </td>
-        </template>
-
-        <template #actions="{item}">
-            <nuxt-link :to="`/user/${item.id}`" class="btn btn-primary">
-                <i class="fas fa-edit"></i>
-            </nuxt-link>
-        </template>
-    </ui-laravel-table>
-    -->
-
     <div class="text-right mb-3">
         <button type="button" class="btn btn-primary" @click="user.edit={}">
             <i class="fa fa-fw fa-plus"></i> Novo usuário

@@ -8,6 +8,54 @@
             </div>
         </div>
         <div class="col">
+
+            <div class="p-1">
+                <ui-table :items="tableItems" :select="true" v-model="tableSelecteds">
+                    <template #header="{items}">
+                        <th width="10px">ID</th>
+                        <th width="50%">Descrição</th>
+                        <th>Status</th>
+                    </template>
+
+                    <template #item="{item}">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.completed? 'Completo': '' }}</td>
+                    </template>
+
+                    <template #actions="{item}">
+                        <a href="" class="btn btn-primary"><i class="fa fa-fw fa-upload"></i></a>
+                        <a href="" class="btn btn-primary"><i class="fa fa-fw fa-download"></i></a>
+                    </template>
+
+                    <template #empty>
+                        Nenhum item encontrado
+                    </template>
+                </ui-table>
+
+                <ui-table :items="tableSelecteds" :select="false">
+                    <template #header="{items}">
+                        <th width="10px">ID</th>
+                        <th width="50%">Descrição</th>
+                        <th>Status</th>
+                    </template>
+
+                    <template #item="{item}">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.completed? 'Completo': '' }}</td>
+                    </template>
+
+                    <template #actions="{item}">
+                        <a href="" class="btn btn-primary"><i class="fa fa-fw fa-upload"></i></a>
+                        <a href="" class="btn btn-primary"><i class="fa fa-fw fa-download"></i></a>
+                    </template>
+
+                    <template #empty>
+                        Nenhum item encontrado
+                    </template>
+                </ui-table>
+            </div>
             
             <div class="row no-gutters">
                 <div class="col-6">
@@ -78,12 +126,18 @@ export default {
         return {
             endpoints: [],
             carouselIndex: 0,
+            tableItems: [],
+            tableSelecteds: [],
         }
     },
 
     mounted() {
         this.$axios.get('/api/').then((resp) => {
             this.endpoints = resp.data;
+        });
+
+        this.$axios.get('https://jsonplaceholder.typicode.com/todos').then(resp => {
+            this.tableItems = resp.data;
         });
     },
 }

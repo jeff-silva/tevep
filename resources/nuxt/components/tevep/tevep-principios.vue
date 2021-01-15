@@ -1,6 +1,8 @@
 <template><div>
 	<div class="row no-gutters mb-3">
 		<div class="col-12" v-if="node.show>=4 || node.level>0">
+			<div class="text-center mb-3"><img :src="require('@/assets/icons/evento.png')" alt="" style="width:80px;"></div>
+
 			<tevep-dates v-model="props.nodeChildren"
                 type="time"
 				:horizontal="true"
@@ -15,6 +17,8 @@
 
 	<div class="row no-gutters align-items-center">
 		<div class="col-3">
+			<div class="text-center mb-3"><img :src="require('@/assets/icons/evento.png')" alt="" style="width:80px;"></div>
+
             <tevep-dates v-model="props.nodeChildren"
                 type="user"
 				:horizontal="false"
@@ -26,6 +30,8 @@
 		</div>
 
 		<div class="col-6 p-2">
+			<div class="text-center mb-3"><img :src="require('@/assets/icons/evento.png')" alt="" style="width:80px;"></div>
+
 			<div class="input-group mb-2" v-if="node.show>=1 || node.level>0">
 				<ui-datepicker v-model="node.date_start" placeholder="Início"></ui-datepicker>
 				<ui-datepicker v-model="node.date_final" placeholder="Fim"></ui-datepicker>
@@ -57,6 +63,8 @@
 		</div>
 
 		<div class="col-3">
+			<div class="text-center mb-3"><img :src="require('@/assets/icons/evento.png')" alt="" style="width:80px;"></div>
+
 			<tevep-dates v-model="props.nodeChildren"
                 type="target"
 				:horizontal="false"
@@ -71,6 +79,8 @@
 	<br><br>
 
 	<div class="row no-gutters mt-3" v-if="node.show>=2 || node.level>0">
+		<div class="text-center mb-3"><img :src="require('@/assets/icons/evento.png')" alt="" style="width:80px;"></div>
+		
 		<div class="col-12">
 			<tevep-dates v-model="props.nodeChildren"
                 type="space"

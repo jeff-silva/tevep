@@ -47,7 +47,7 @@
             </ui-modal>
         </div>
 
-        <div class="tevep-dates-each" v-if="compItems.length<=6">
+        <div class="tevep-dates-each" v-if="compItems.length<=6 && node.level>0">
             <button type="button" class="btn btn-block bg-gray-200" style="padding:5px 5px;" @click="nodeAddBrother()">
                 <i class="fas fa-plus"></i> &nbsp; Adicionar {{ placeholder }}
             </button>

@@ -233,8 +233,9 @@ export default {
 		},
 
         nodeAddChildren(node) {
+            let nodes = node.level==0? 1: 7;
             let level = 1+(node.level||0);
-            for(let i=0; i<7; i++) {
+            for(let i=0; i<nodes; i++) {
                 this.nodeAdd({
                     id: this.uuid(),
                     parent: node.id,

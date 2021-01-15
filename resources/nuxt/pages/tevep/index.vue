@@ -7,18 +7,26 @@
 		</template>
 	</app-footer> -->
 
-    <ui-laravel-table v-model="tevep">
-        <template #empty>Nenhum projeto encontrado</template>
+    <ui-table v-bind="tevep" :loading="loading" :select="false" @page-change="tevepParams.page=$event.current_page; tevepsSearch();">
+        <template #empty>
+            Nenhum dado encontrado
+        </template>
+
+        <template #header>
+            <th>Evento</th>
+            <th width="200px">Últ. alteração</th>
+        </template>
 
         <template #item="{item}">
-            <td>{{ item.title||item.id }}</td>
+            <td>#{{ item.id }} {{ item.title }}</td>
+            <td><ui-timeago v-model="item.updated_at"></ui-timeago></td>
         </template>
 
         <template #actions="{item}">
             <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-primary"><i class="fas fa-edit"></i></nuxt-link>
             <a href="javascript:;" class="btn btn-danger" @click="tevepsDelete(item)"><i class="fas fa-times"></i></a>
         </template>
-    </ui-laravel-table>
+    </ui-table>
 </div></template>
 
 <script>
@@ -28,15 +36,23 @@ export default {
 
     data() {
         return {
-            tevep: {},
+            loading: false,
+            tevepParams: {
+                page: 1,
+                user_id: (this.$route.query.user || this.$auth.user.id),
+            },
+            tevep: {
+                data: [],
+            },
         };
     },
 
     methods: {
         tevepsSearch() {
-            let user_id = this.$route.query.user || this.$auth.user.id;
-            this.$axios.get('/api/tevep/search', {params:{user_id}}).then(resp => {
+            this.loading = true;
+            this.$axios.get('/api/tevep/search', {params:this.tevepParams}).then(resp => {
                 this.tevep = resp.data;
+                this.loading = false;
             });
         },
 

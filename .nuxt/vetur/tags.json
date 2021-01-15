@@ -11,6 +11,30 @@
   "LazyVuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
+  "TevepDates": {
+    "description": "Auto imported from components/tevep/tevep-dates.vue"
+  },
+  "LazyTevepDates": {
+    "description": "Auto imported from components/tevep/tevep-dates.vue"
+  },
+  "TevepList": {
+    "description": "Auto imported from components/tevep/tevep-list.vue"
+  },
+  "LazyTevepList": {
+    "description": "Auto imported from components/tevep/tevep-list.vue"
+  },
+  "TevepPrincipios": {
+    "description": "Auto imported from components/tevep/tevep-principios.vue"
+  },
+  "LazyTevepPrincipios": {
+    "description": "Auto imported from components/tevep/tevep-principios.vue"
+  },
+  "Tevep": {
+    "description": "Auto imported from components/tevep/tevep.vue"
+  },
+  "LazyTevep": {
+    "description": "Auto imported from components/tevep/tevep.vue"
+  },
   "UiAddressOld": {
     "description": "Auto imported from components/ui/ui-address-old.vue"
   },
@@ -95,12 +119,6 @@
   "LazyUiLaravelPagination": {
     "description": "Auto imported from components/ui/ui-laravel-pagination.vue"
   },
-  "UiLaravelTable": {
-    "description": "Auto imported from components/ui/ui-laravel-table.vue"
-  },
-  "LazyUiLaravelTable": {
-    "description": "Auto imported from components/ui/ui-laravel-table.vue"
-  },
   "UiModal": {
     "description": "Auto imported from components/ui/ui-modal.vue"
   },
@@ -118,6 +136,12 @@
   },
   "LazyUiNavbar": {
     "description": "Auto imported from components/ui/ui-navbar.vue"
+  },
+  "UiPagination": {
+    "description": "Auto imported from components/ui/ui-pagination.vue"
+  },
+  "LazyUiPagination": {
+    "description": "Auto imported from components/ui/ui-pagination.vue"
   },
   "UiPasswordMeter": {
     "description": "Auto imported from components/ui/ui-password-meter.vue"
@@ -155,34 +179,16 @@
   "LazyUiTable": {
     "description": "Auto imported from components/ui/ui-table.vue"
   },
+  "UiTimeago": {
+    "description": "Auto imported from components/ui/ui-timeago.vue"
+  },
+  "LazyUiTimeago": {
+    "description": "Auto imported from components/ui/ui-timeago.vue"
+  },
   "UserCard": {
     "description": "Auto imported from components/user/user-card.vue"
   },
   "LazyUserCard": {
     "description": "Auto imported from components/user/user-card.vue"
-  },
-  "TevepDates": {
-    "description": "Auto imported from components/tevep/tevep-dates.vue"
-  },
-  "LazyTevepDates": {
-    "description": "Auto imported from components/tevep/tevep-dates.vue"
-  },
-  "TevepList": {
-    "description": "Auto imported from components/tevep/tevep-list.vue"
-  },
-  "LazyTevepList": {
-    "description": "Auto imported from components/tevep/tevep-list.vue"
-  },
-  "TevepPrincipios": {
-    "description": "Auto imported from components/tevep/tevep-principios.vue"
-  },
-  "LazyTevepPrincipios": {
-    "description": "Auto imported from components/tevep/tevep-principios.vue"
-  },
-  "Tevep": {
-    "description": "Auto imported from components/tevep/tevep.vue"
-  },
-  "LazyTevep": {
-    "description": "Auto imported from components/tevep/tevep.vue"
   }
 }
