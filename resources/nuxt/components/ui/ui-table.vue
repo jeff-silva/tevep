@@ -29,24 +29,22 @@
                     <tr><td :colspan="headers.length"><slot name="empty">Nenhum item carregado</slot></td></tr>
                 </template>
 
-                <template v-for="i in props.data">
-                    <tr>
-                        <td v-if="select"><input type="checkbox" @change="toggleSelect(i)" :checked="isSelected(i)"></td>
-                        <slot name="item" :item="i">
-                            <td><pre>{{ i }}</pre></td>
-                        </slot>
-                        <td width="50px">
-                            <div class="ui-table-actions">
-                                <div class="btn-group btn-group-sm">
-                                    <div class="btn-group btn-group-sm ui-table-actions-hidden">
-                                        <slot name="actions" :item="i">&nbsp;</slot>
-                                    </div>
-                                    <a href="javascript:;" class="btn d-md-none"><i class="fa fa-fw fa-plus"></i></a>
+                <tr v-for="i in props.data" :key="i">
+                    <td v-if="select"><input type="checkbox" @change="toggleSelect(i)" :checked="isSelected(i)"></td>
+                    <slot name="item" :item="i">
+                        <td><pre>{{ i }}</pre></td>
+                    </slot>
+                    <td width="50px">
+                        <div class="ui-table-actions">
+                            <div class="btn-group btn-group-sm">
+                                <div class="btn-group btn-group-sm ui-table-actions-hidden">
+                                    <slot name="actions" :item="i">&nbsp;</slot>
                                 </div>
+                                <a href="javascript:;" class="btn d-md-none"><i class="fa fa-fw fa-plus"></i></a>
                             </div>
-                        </td>
-                    </tr>
-                </template>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

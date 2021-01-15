@@ -35,6 +35,12 @@
   "LazyTevep": {
     "description": "Auto imported from components/tevep/tevep.vue"
   },
+  "UserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
+  "LazyUserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
   "UiAddressOld": {
     "description": "Auto imported from components/ui/ui-address-old.vue"
   },
@@ -184,11 +190,5 @@
   },
   "LazyUiTimeago": {
     "description": "Auto imported from components/ui/ui-timeago.vue"
-  },
-  "UserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
-  "LazyUserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
   }
 }

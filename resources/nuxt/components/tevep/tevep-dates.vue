@@ -47,7 +47,7 @@
             </ui-modal>
         </div>
 
-        <div class="tevep-dates-each" v-if="compItems.length<=6 && node.level>0">
+        <div class="tevep-dates-each" v-if="compItems.length<=6 && props.showAddButton">
             <button type="button" class="btn btn-block bg-gray-200" style="padding:5px 5px;" @click="nodeAddBrother()">
                 <i class="fas fa-plus"></i> &nbsp; Adicionar {{ placeholder }}
             </button>
@@ -77,6 +77,7 @@ export default {
         horizontal: {default:true},
 		type: {default:''},
 		placeholder: {default:''},
+        showAddButton: {default:true},
         nodeId: {default:false},
 		node: {default:()=>({})},
 		nodeParent: {default:()=>({})},
