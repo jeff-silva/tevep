@@ -5,7 +5,7 @@
                 <i class="fa fa-fw fa-chevron-left"></i>
             </a>
         </div>
-        <div class=" flex-grow-1 text-center ui-pagination-scroll" @wheel="onWheel($event)">
+        <div class="text-center ui-pagination-scroll" @wheel="onWheel($event)">
             <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==p}" @click="setPage(p)" v-for="p in props.last_page">
                 {{ p }}
             </a>

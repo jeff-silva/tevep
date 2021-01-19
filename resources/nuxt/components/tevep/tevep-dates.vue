@@ -7,44 +7,6 @@
                 </div></div>
                 <div class="form-control" @click="setFocus(n)" style="white-space:pre; overflow:hidden; cursor:pointer;">{{ n.title||placeholder }}</div>
             </div>
-
-            <!-- Modal -->
-            <ui-modal v-model="focus">
-                <template #header>{{ placeholder }}</template>
-
-                <template #body>
-                    <div class="row">
-                        <div class="col-12 form-group">
-                            <label>{{ placeholder }}</label>
-                            <input type="text" class="form-control" v-model="focus.title" @change="onNodeChange(focus)" autocomplete="chrome-off">
-                        </div>
-
-                        <div class="col-6 form-group">
-                            <label>Data de início</label>
-                            <ui-datepicker v-model="focus.date_start" @input="onNodeChange(focus)"></ui-datepicker>
-                        </div>
-
-                        <div class="col-6 form-group">
-                            <label>Data de fim</label>
-                            <ui-datepicker v-model="focus.date_final" @input="onNodeChange(focus)"></ui-datepicker>
-                        </div>
-                    </div>
-                </template>
-
-                <template #footer>
-                    <button type="button" class="btn btn-primary float-left" @click="nodeGoto(focus.id); setFocus(false);">
-                        Acessar filho
-                    </button>
-
-                    <button type="button" class="btn text-danger" @click="setFocus(false); nodeRemove(n);">
-                        <i class="fas fa-times"></i> Remover
-                    </button>
-
-                    <button type="button" class="btn" @click="setFocus(false)">
-                        Ok
-                    </button>
-                </template>
-            </ui-modal>
         </div>
 
         <div class="tevep-dates-each" v-if="compItems.length<=6 && props.showAddButton">
@@ -53,11 +15,49 @@
             </button>
         </div>
     </draggable>
+
+    <!-- Modal -->
+    <ui-modal v-model="focus">
+        <template #header>{{ placeholder }}</template>
+
+        <template #body>
+            <div class="row">
+                <div class="col-12 form-group">
+                    <label>{{ placeholder }}</label>
+                    <input type="text" class="form-control" v-model="focus.title" @change="onNodeChange(focus)" autocomplete="chrome-off">
+                </div>
+
+                <div class="col-6 form-group">
+                    <label>Data de início</label>
+                    <ui-datepicker v-model="focus.date_start" @input="onNodeChange(focus)"></ui-datepicker>
+                </div>
+
+                <div class="col-6 form-group">
+                    <label>Data de fim</label>
+                    <ui-datepicker v-model="focus.date_final" @input="onNodeChange(focus)"></ui-datepicker>
+                </div>
+            </div>
+        </template>
+
+        <template #footer>
+            <button type="button" class="btn btn-primary float-left" @click="nodeGoto(focus.id); setFocus(false);">
+                Acessar filho
+            </button>
+
+            <button type="button" class="btn text-danger" @click="setFocus(false); nodeRemove(focus);">
+                <i class="fas fa-times"></i> Remover
+            </button>
+
+            <button type="button" class="btn" @click="setFocus(false)">
+                Ok
+            </button>
+        </template>
+    </ui-modal>
 </div></template>
 
 <style>
 .tevep-dates {}
-.tevep-dates-horizontal {display:flex;}
+.tevep-dates-horizontal {display:flex; justify-content:center;}
 .tevep-dates-horizontal .tevep-dates-each {width:14.28%!important; padding-right:5px;}
 .tevep-dates-vertical {}
 .tevep-dates-vertical .tevep-dates-each {padding-bottom:7px;}

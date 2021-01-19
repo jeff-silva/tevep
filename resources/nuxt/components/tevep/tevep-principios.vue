@@ -8,8 +8,9 @@
 				:horizontal="true"
                 placeholder="Tempo"
                 v-bind="props"
-				@input="node.show=(node.show==4? 5: node.show)"
-				v-if="node.show>=4 || node.level>0"
+				@input="node.show=(node.level==0 && node.show==4? 5: node.show)"
+				v-if="node.level==0 && node.show>=4"
+				:show-add-button="node.level>0"
             ></tevep-dates>
 		</div>
 	</div>
@@ -23,17 +24,18 @@
 				:horizontal="false"
                 placeholder="Piloto"
                 v-bind="props"
-				@input="node.show=(node.show==3? 4: node.show)"
-				v-if="node.show>=3 || node.level>0"
+				@input="node.show=(node.level==0 && node.show==3? 4: node.show)"
+				v-if="node.level==0 && node.show>=3"
+				:show-add-button="node.level>0"
             ></tevep-dates>
 		</div>
 
 		<div class="col-6 px-3">
 			<div class="bg-white shadow-sm p-2">
-				<div class="input-group mb-2" v-if="node.show>=1 || node.level>0">
+				<div class="input-group mb-2" v-if="node.level==0 && node.show>=1">
 					<ui-datepicker v-model="node.date_start" placeholder="Início"></ui-datepicker>
 					<ui-datepicker v-model="node.date_final" placeholder="Fim"></ui-datepicker>
-					<div class="input-group-append" v-if="node.show==1 || node.level>0"><div class="input-group-btn">
+					<div class="input-group-append" v-if="node.level==0 && node.show==1"><div class="input-group-btn">
 						<button type="button" class="btn btn-primary" @click="node.show+=1">
 							<i class="fas fa-save"></i>
 						</button>
@@ -55,7 +57,7 @@
 						</nuxt-link>
 					</div></div>
 
-					<div class="input-group-append" v-if="node.show==0 || node.level>0"><div class="input-group-btn">
+					<div class="input-group-append" v-if="node.level==0 && node.show==0"><div class="input-group-btn">
 						<button type="button" class="btn btn-primary" @click="node.show=1">
 							<i class="fas fa-save"></i>
 						</button>
@@ -72,8 +74,9 @@
 				:horizontal="false"
                 placeholder="Pessoas"
                 v-bind="props"
-				@input="node.show=(node.show==3? 4: node.show)"
-				v-if="node.show>=3 || node.level>0"
+				@input="node.show=(node.level==0 && node.show==3? 4: node.show)"
+				v-if="node.level==0 && node.show>=3"
+				:show-add-button="node.level>0"
             ></tevep-dates>
 		</div>
 	</div>
@@ -87,8 +90,9 @@
 				:horizontal="true"
                 placeholder="Espaço"
                 v-bind="props"
-				@input="node.show=(node.show==2? 3: node.show)"
-				v-if="node.show>=2 || node.level>0"
+				@input="node.show=(node.level==0 && node.show==2? 3: node.show)"
+				v-if="node.level==0 && node.show>=2"
+				:show-add-button="node.level>0"
             ></tevep-dates>
 		</div>
 	</div>

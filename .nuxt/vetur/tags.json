@@ -11,6 +11,12 @@
   "LazyVuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
+  "UserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
+  "LazyUserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
   "TevepDates": {
     "description": "Auto imported from components/tevep/tevep-dates.vue"
   },
@@ -34,12 +40,6 @@
   },
   "LazyTevep": {
     "description": "Auto imported from components/tevep/tevep.vue"
-  },
-  "UserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
-  "LazyUserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
   },
   "UiAddressOld": {
     "description": "Auto imported from components/ui/ui-address-old.vue"
@@ -88,6 +88,12 @@
   },
   "LazyUiCarousel": {
     "description": "Auto imported from components/ui/ui-carousel.vue"
+  },
+  "UiContent": {
+    "description": "Auto imported from components/ui/ui-content.vue"
+  },
+  "LazyUiContent": {
+    "description": "Auto imported from components/ui/ui-content.vue"
   },
   "UiDatepicker": {
     "description": "Auto imported from components/ui/ui-datepicker.vue"
@@ -184,6 +190,12 @@
   },
   "LazyUiTable": {
     "description": "Auto imported from components/ui/ui-table.vue"
+  },
+  "UiTabs": {
+    "description": "Auto imported from components/ui/ui-tabs.vue"
+  },
+  "LazyUiTabs": {
+    "description": "Auto imported from components/ui/ui-tabs.vue"
   },
   "UiTimeago": {
     "description": "Auto imported from components/ui/ui-timeago.vue"

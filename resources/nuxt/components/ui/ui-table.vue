@@ -29,7 +29,7 @@
                     <tr><td :colspan="headers.length"><slot name="empty">Nenhum item carregado</slot></td></tr>
                 </template>
 
-                <tr v-for="i in props.data" :key="i">
+                <tr v-for="(i, iindex) in props.data" :key="iindex">
                     <td v-if="select"><input type="checkbox" @change="toggleSelect(i)" :checked="isSelected(i)"></td>
                     <slot name="item" :item="i">
                         <td><pre>{{ i }}</pre></td>

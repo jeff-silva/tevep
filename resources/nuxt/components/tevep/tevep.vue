@@ -324,11 +324,20 @@ export default {
         },
 
         nodeGoto(nodeId) {
+            let oldNodeId = this.$route.query.node;
+            console.log({oldNodeId});
+
             this.$router.push({
                 query: {
                     node: nodeId,
                     tab: this.$route.query.tab,
                 },
+            });
+
+            this.props.value.nodes.forEach(node => {
+                if (node.id==nodeId) {
+                    console.log(node);
+                }
             });
 
             // setTimeout(() => {

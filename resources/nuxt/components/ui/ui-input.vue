@@ -12,7 +12,8 @@
             <div class="form-control d-flex border-0 bg-transparent"
                 contenteditable="true"
                 style="height:auto;"
-                v-if="props.type=='html'">&nbsp;</div>
+                v-if="props.type=='html'"
+                @keyup="props.value=$event.target.innerHTML">&nbsp;</div>
 
             <div class="form-control d-flex border-0 bg-transparent"
                 v-else-if="props.options.length>0">
@@ -76,6 +77,11 @@
         selectOption(opt) {
             this.props.optionsShow = false;
         },
+
+        setContentEditableValue() {
+            if (this.props.type!='html') return;
+            this.$el.querySelector('[contenteditable]').innerHTML = this.props.value;
+        },
     },
 
     data() {
@@ -83,6 +89,10 @@
         data.props = Object.assign({}, this.$props);
         data.props.id = data.props.id||('field-'+Math.round(Math.random()*9999));
         return data;
+    },
+
+    mounted() {
+        this.setContentEditableValue();
     },
 };</script>
 
