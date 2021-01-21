@@ -41,7 +41,7 @@
 
         <template #footer>
             <button type="button" class="btn btn-primary float-left" @click="nodeGoto(focus.id); setFocus(false);">
-                Acessar filho
+                Abrir evento
             </button>
 
             <button type="button" class="btn text-danger" @click="setFocus(false); nodeRemove(focus);">
