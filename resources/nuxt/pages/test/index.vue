@@ -36,6 +36,10 @@ export default {
                     to: "/test/endpoints",
                 },
                 {
+                    title: "Grape",
+                    to: "/test/grape",
+                },
+                {
                     title: "Inputs",
                     to: "/test/input",
                 },

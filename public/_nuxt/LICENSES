@@ -1,3 +1,8 @@
+/* @preserve
+ * Leaflet 1.7.1, a JS library for interactive maps. http://leafletjs.com
+ * (c) 2010-2019 Vladimir Agafonkin, (c) 2010-2011 CloudMade
+ */
+
 /*!
   * vue-router v3.4.3
   * (c) 2020 Evan You
@@ -77,6 +82,8 @@ and limitations under the License.
  * Forked By Naver egjs
  * Copyright (c) hammerjs
  * Licensed under the MIT license */
+
+/*! grapesjs - 0.16.34 */
 
 /**
   * vue-class-component v7.2.6

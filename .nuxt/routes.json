@@ -48,6 +48,12 @@
         "chunkName": "pages/test/index/endpoints"
       },
       {
+        "name": "test-index-grape",
+        "path": "grape",
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\grape.vue",
+        "chunkName": "pages/test/index/grape"
+      },
+      {
         "name": "test-index-input",
         "path": "input",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\input.vue",

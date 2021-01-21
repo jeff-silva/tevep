@@ -1,11 +1,17 @@
 <template><div class="ui-address" style="position:relative; z-index:1;">
     <div class="row">
-        <div class="col-8 col-md-8 mb-2">
+        <div class="col-12 col-md-8 mb-2">
             <div class="input-group form-control border-0 p-0">
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     CEP
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.zipcode" @keyup="emit(); autocomplete({delay:500, isSearch:false, type:'zipcode'});">
+                <input type="text" class="form-control border-0" v-model="props.value.zipcode">
+                <div class="input-group-append"><div class="input-group-btn border-0">
+                    <button type="button" class="btn btn-secondary rounded-0" @click="osmSearch({q:props.value.zipcode}, false)">
+                        <i class="fa fa-fw fa-spin fa-spinner" v-if="loading"></i>
+                        <i class="fa fa-fw fa-search" v-else></i>
+                    </button>
+                </div></div>
             </div>
         </div>
 
@@ -16,21 +22,22 @@
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     Endereço
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.route"
-                    placeholder="Digite endereço, bairro e cidade para autocompletar"
-                    @keyup="autocomplete({delay:500, isSearch:true, type:'address'})"
-                    @change="emit()">
+                <input type="text" class="form-control border-0" v-model="props.value.route" placeholder="Endereço"
+                    autocomplete="off-none"
+                    @keyup="debounce(500, () => { osmSearch({q:props.value.route}, true) })">
             </div>
-            <div style="position:relative;">
-                <div class="bg-white shadow-sm" style="position:absolute; top:0px; left:0px; z-index:9; max-height:40vh; overflow:auto;">
-                    <div v-for="r in search.results" class="p-2 ui-address-search-results-each" @click="selectPlace(r);">
-                        {{ r.display_name }}
-                    </div>
+
+            <div style="position:relative; z-index:2;">
+                <div class="bg-white shadow" style="position:absolute; width:100%; max-height:200px; overflow:auto;">
+                    <a href="javascript:;" v-for="r in searchResults" class="d-block p-2" style="border-bottom:solid 1px #eee;" @click="selectPlace(r); searchResults=[];">
+                        <pre>{{ r.address }}</pre>
+                        <!-- {{ r.address.road||'' }}, {{ r.address.suburb||r.address.neighbourhood }} - {{ r.address.city }}/{{ getEstadoFromCode(r.address.state) }} | {{ r.address.postcode }} -->
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-6 col-md-4 mb-2">
+        <div class="col-12 col-md-4 mb-2">
             <div class="input-group form-control border-0 p-0">
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     Número
@@ -39,7 +46,7 @@
             </div>
         </div>
 
-        <div class="col-6 col-md-4 mb-2">
+        <div class="col-12 col-md-4 mb-2">
             <div class="input-group form-control border-0 p-0" title="Complemento">
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     Comp.
@@ -48,22 +55,21 @@
             </div>
         </div>
 
-        <div class="col-6 col-md-4">
-            <div class="input-group form-control border-0 p-0">
+        <div class="col-12 col-md-4 mb-2">
+            <div class="input-group form-control border-0 p-0" title="Bairro">
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
-                    Cidade
+                    Bairro
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.city" @keyup="autocomplete({delay:500, isSearch:true, type:'address'})" @change="emit()">
+                <input type="text" class="form-control border-0" v-model="props.value.district" @change="emit()">
             </div>
         </div>
 
-        <div class="col-6 col-md-4">
+        <div class="col-12 col-md-4">
             <div class="input-group form-control border-0 p-0">
-                <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
-                    Estado
-                </div></div>
+                <input type="text" class="form-control border-0" v-model="props.value.city" @change="emit()" placeholder="Cidade">
+
                 <select class="form-control border-0" v-model="props.value.st" @change="emit()">
-                    <option value="">Selecionar</option>
+                    <option value="">Estado</option>
                     <option value="AC">Acre</option>
                     <option value="AL">Alagoas</option>
                     <option value="AP">Amapá</option>
@@ -96,26 +102,27 @@
         </div>
     </div>
 
-    <l-map :zoom="16" :center="[(props.value.lat||0), (props.value.lng||0)]" style="height:200px;">
+    <l-map v-if="mapBindComp" v-bind="mapBindComp" class="mt-2" style="height:200px; overflow:hidden;">
         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-        <l-marker :lat-lng="[(props.value.lat||0), (props.value.lng||0)]" :draggable="true" @moveend="getAddressByLatLng($event)"></l-marker>
+        <l-marker :lat-lng="mapBindComp.center" :draggable="true" @moveend="osmReverse({lat:$event.sourceTarget._latlng.lat, lon:$event.sourceTarget._latlng.lng}, false)"></l-marker>
     </l-map>
 </div></template>
 
 <script>
-let autocompleteTimeout;
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+import 'leaflet/dist/leaflet.css';
+
 export default {
+    components: {LMap, LTileLayer, LMarker},
+
     props: {
         value: {default: () => ({})},
     },
 
     watch: {
-        $props: {
-            deep: true,
-            handler(value) {
-                this.props = Object.assign({}, value);
-            },
-        },
+        $props: {deep:true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
     },
 
     computed: {
@@ -130,6 +137,19 @@ export default {
             if (addr.state) parts.push(addr.state);
             return parts.join(', ');
         },
+
+        mapBindComp() {
+            if (this.props.value && this.props.value.lat && this.props.value.lng) {
+                return {
+                    zoom: 16,
+                    center: [
+                        parseFloat(this.props.value.lat),
+                        parseFloat(this.props.value.lng),
+                    ],
+                };
+            }
+            return false;
+        },
     },
 
     methods: {
@@ -139,9 +159,12 @@ export default {
             this.$emit('change', this.props.value);
         },
 
-        selectPlace(place) {
-            if (Object.keys(place).length==0) return;
+        debounce(timeout, callback) {
+            if (this._debounceTimeout) clearTimeout(this._debounceTimeout);
+            this._debounceTimeout = setTimeout(callback, timeout);
+        },
 
+        getEstadoFromCode(name) {
             let states = {
                 "Acre": "AC",
                 "Alagoas": "AL",
@@ -172,63 +195,76 @@ export default {
                 "Tocantins": "TO",
             };
 
+            return states[name]||"";
+        },
+
+        selectPlace(place) {
+            if (Object.keys(place).length==0) return;
+
             this.props.value = Object.assign(this.props.value, {
                 lat: (place.lat? parseFloat(place.lat): 0),
                 lng: (place.lon? parseFloat(place.lon): 0),
-                route: place.address.road,
+                route: place.address.road||"",
                 number: '',
                 complement: '',
                 zipcode: place.address.postcode,
                 district: place.address.suburb,
                 city: place.address.city,
                 state: place.address.state,
-                st: (states[place.address.state]||false),
+                st: this.getEstadoFromCode(place.address.state),
                 country: place.address.country,
                 co: place.address.country_code.toUpperCase(),
             });
 
-            this.$set(this.props, 'value', this.props.value);
-            this.$set(this.search, 'results', []);
             this.emit();
         },
 
-        autocomplete(params={}) {
+        // https://nominatim.org/release-docs/develop/api/Search/
+        osmSearch(params={}, isSearch=true) {
             params = Object.assign({
-                delay: 0,
-                isSearch: true,
-                type: 'zipcode',
+                format: "json",
+                addressdetails: 1,
+                extratags: 1,
+                namedetails: 1,
+                limit: 10,
             }, params);
 
-            if (autocompleteTimeout) clearTimeout(autocompleteTimeout);
-            autocompleteTimeout = setTimeout(() => {
-                let params2 = {};
-                if (params.type=='address') {
-                    params2.q = `${this.props.value.route} ${this.props.value.district} ${this.props.value.city}`.trim();
-                }
-                else if (params.type=='zipcode') {
-                    params2.zipcode = this.props.value.zipcode;
-                }
-                else if (params.type=='latlng') {
-                    params2.lat = this.props.value.lat;
-                    params2.lng = this.props.value.lng;
-                }
-                
-                this.$axios.get('/api/addresses/autocomplete/', {params:params2}).then((resp) => {
-                    this.loading = false;
-                    if (params.isSearch) { this.$set(this.search, 'results', resp.data); }
-                    else { this.selectPlace(resp.data[0]||{}); }
-                });
-            }, params.delay);
+            this.loading = true;
+            this.$axios.get('https://nominatim.openstreetmap.org/search.php', {params}).then(resp => {
+                this.loading = false;
+                this.osmResponse(resp.data, isSearch);
+            });
         },
 
-        getAddressByLatLng(ev) {
-            this.props.value.lat = ev.target._latlng.lat;
-            this.props.value.lng = ev.target._latlng.lng;
-            this.autocomplete({delay:0, isSearch:false, type:'latlng'});
+        // https://nominatim.org/release-docs/develop/api/Reverse/
+        osmReverse(params={}, isSearch=true) {
+            params = Object.assign({
+                format: "json",
+                addressdetails: 1,
+                extratags: 1,
+                namedetails: 1,
+                limit: 10,
+                lat: 0,
+                lon: 0,
+            }, params);
+
+            this.loading = true;
+            this.$axios.get('https://nominatim.openstreetmap.org/reverse', {params}).then(resp => {
+                this.loading = false;
+                this.osmResponse([resp.data], isSearch);
+            });
         },
 
-        documentClickHandle(ev) {
-            this.focused = this.$el.contains(ev.target);
+        osmResponse(data, isSearch) {
+            if (!isSearch && data[0]) {
+                this.selectPlace(data[0]);
+            }
+
+            if (isSearch) {
+                this.searchResults = data;
+            }
+
+            this.emit();
         },
     },
 
@@ -236,15 +272,7 @@ export default {
         let data = {};
 
         data.loading = false;
-        data.focused = false;
-        data.search = {
-            params: {
-                q: "",
-                format: "json",
-                addressdetails: 1,
-            },
-            results: [],
-        };
+        data.searchResults = [];
 
         data.props = Object.assign({}, this.$props);
         data.props.value = Object.assign({
@@ -265,18 +293,16 @@ export default {
         return data;
     },
 
-    mounted() {
-        window.addEventListener('click', this.documentClickHandle);
-    },
+    // mounted() {
+    //     window.addEventListener('click', this.documentClickHandle);
+    // },
 
-    beforeDestroy() {
-        window.removeEventListener('click', this.documentClickHandle);
-    },
+    // beforeDestroy() {
+    //     window.removeEventListener('click', this.documentClickHandle);
+    // },
 };</script>
 
 
 <style>
-.ui-address .leaflet-pane {z-index:1 !important;}
-.ui-address-search-results-each {border-bottom:solid 1px #eee;}
-.ui-address-search-results-each:hover {background:#eee; cursor:pointer;}
+
 </style>
