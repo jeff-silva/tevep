@@ -122,10 +122,10 @@ export default {
 				slotBind.nodeChildren = this.getNodes({parent:slotBind.nodeId});
 			}
 
-            slotBind.times = this.getNodes({parent:slotBind.nodeId, type:"time"});
-            slotBind.spaces = this.getNodes({parent:slotBind.nodeId, type:"space"});
-            slotBind.users = this.getNodes({parent:slotBind.nodeId, type:"user"});
-            slotBind.targets = this.getNodes({parent:slotBind.nodeId, type:"target"});
+            slotBind.times = this.getNodes({parent:slotBind.nodeId, type:"time"}).sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
+            slotBind.spaces = this.getNodes({parent:slotBind.nodeId, type:"space"}).sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
+            slotBind.users = this.getNodes({parent:slotBind.nodeId, type:"user"}).sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
+            slotBind.targets = this.getNodes({parent:slotBind.nodeId, type:"target"}).sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0));
 			
 			slotBind.nodeRoot = this.getNode({parent:''});			
 			slotBind.rut = this.getRut();

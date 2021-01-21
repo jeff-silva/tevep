@@ -486,6 +486,10 @@ export default {
 </div></template>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Exo');
+* {font-family: 'Exo', sans-serif;}
+
+
 @charset "UTF-8";/*!* CoreUI PRO - HTML, CSS, and JavaScript UI Components Library
 * @version v3.2.0
 * @link https://coreui.io/pro/
