@@ -5,7 +5,7 @@
     </div>
 
     <div class="col-12 col-sm-8 col-md-5 d-flex align-items-center l-auth-pattern" style="height:100vh;">
-      <div class="mx-auto">
+      <div class="mx-auto" style="min-width:350px;">
 
         <div class="px-3 pb-3"><nuxt /></div>
 
@@ -28,9 +28,9 @@
 
           <!-- Links -->
           <div class="row no-gutters py-3">
-            <div class="col-6 text-center" v-if="!isLogin"><nuxt-link to="/auth">Login</nuxt-link></div>
-            <div class="col-6 text-center" v-if="!isRegister"><nuxt-link to="/auth/register">Cadastro</nuxt-link></div>
-            <div class="col-6 text-center" v-if="!isPassword"><nuxt-link to="/auth/password">Senha</nuxt-link></div>
+            <div class="col-6 text-center" v-if="!isLogin"><nuxt-link to="/auth">Fazer login</nuxt-link></div>
+            <div class="col-6 text-center" v-if="!isRegister"><nuxt-link to="/auth/register">Criar conta</nuxt-link></div>
+            <div class="col-6 text-center" v-if="!isPassword"><nuxt-link to="/auth/password">Recuperar senha</nuxt-link></div>
           </div>
         </div>
 
@@ -41,13 +41,14 @@
 
 <style>
 .l-auth-background {
-  background: url(https://source.unsplash.com/random/800x600/?office,organization) center center no-repeat;
+  /* background: url(https://source.unsplash.com/random/800x600/?free,human&r=6) center center no-repeat; */
+  background: url(https://source.unsplash.com/collection/1534020/800x600) center center no-repeat;
   background-size: cover;
 }
 
 .l-auth-pattern {
-  background-color: #F5F5F544;
-  background-image:  radial-gradient(#444CF744 1px, transparent 1px), radial-gradient(#444CF744 1px, #E5E5F744 1px);
+  background-color: #FFFFFF44;
+  background-image:  radial-gradient(#444CF744 1px, transparent 1px), radial-gradient(#444CF744 1px, #FFFFFF44 1px);
   background-size: 40px 40px;
   background-position: 0 0,20px 20px;
 }

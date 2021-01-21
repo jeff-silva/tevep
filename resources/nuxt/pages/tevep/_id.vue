@@ -96,34 +96,44 @@
                                         <td class="text-center"><img :src="require('@/assets/icons/espaco.png')" alt="" style="width:50px;"></td>
                                         <td class="text-center"><img :src="require('@/assets/icons/piloto.png')" alt="" style="width:15px;"></td>
                                         <td class="text-center"><img :src="require('@/assets/icons/pessoa.png')" alt="" style="width:15px;"></td>
-                                        <td class="text-center font-weight-bold">R</td>
-                                        <td class="text-center font-weight-bold">C</td>
+                                        <td class="text-center font-weight-bold" title="Relevância">Relev.</td>
+                                        <td class="text-center font-weight-bold" title="Complexidade">Complex.</td>
                                     </tr>
 
                                     <tr>
                                         <td><select class="form-control" v-model="item.time">
-                                            <option :value="false">Tempo</option>
+                                            <option :value="undefined">- Tempo -</option>
                                             <option :value="t.id" v-for="t in bind.times">{{ t.title||'Sem nome' }}</option>
                                         </select></td>
 
                                         <td><select class="form-control" v-model="item.space">
-                                            <option :value="false">Espaço</option>
+                                            <option :value="undefined">- Espaço -</option>
                                             <option :value="t.id" v-for="t in bind.spaces">{{ t.title||'Sem nome' }}</option>
                                         </select></td>
 
                                         <td><select class="form-control" v-model="item.user">
-                                            <option :value="false">Piloto</option>
+                                            <option :value="undefined">- Piloto -</option>
                                             <option :value="t.id" v-for="t in bind.users">{{ t.title||'Sem nome' }}</option>
                                         </select></td>
 
                                         <td><select class="form-control" v-model="item.target">
-                                            <option :value="false">Pessoa</option>
+                                            <option :value="undefined">- Pessoa -</option>
                                             <option :value="t.id" v-for="t in bind.targets">{{ t.title||'Sem nome' }}</option>
                                         </select></td>
 
-                                        <td><input type="text" class="form-control" v-model="item.r"></td>
+                                        <td><select class="form-control" v-model="item.relevancia">
+                                            <option :value="undefined">- Relevância -</option>
+                                            <option value="baixa">Baixa</option>
+                                            <option value="media">Média</option>
+                                            <option value="alta">Alta</option>
+                                        </select></td>
 
-                                        <td><input type="text" class="form-control" v-model="item.c"></td>
+                                        <td><select class="form-control" v-model="item.complexidade">
+                                            <option :value="undefined">- Complexidade -</option>
+                                            <option value="baixa">Baixa</option>
+                                            <option value="media">Média</option>
+                                            <option value="alta">Alta</option>
+                                        </select></td>
                                     </tr>
                                 </tbody>
                             </table>
