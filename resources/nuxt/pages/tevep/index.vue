@@ -7,6 +7,16 @@
 		</template>
 	</app-footer> -->
 
+    <form class="input-group" style="max-width:500px;" @submit.prevent="tevepsSearch()">
+        <input type="text" class="form-control" placeholder="Buscar" v-model="tevepParams.search">
+        <div class="input-group-append"><div class="input-group-btn">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-fw fa-search"></i>
+            </button>
+        </div></div>
+    </form>
+    <br>
+
     <ui-table v-bind="tevep" :loading="loading" :select="false" @page-change="tevepParams.page=$event.current_page; tevepsSearch();">
         <template #empty>
             Nenhum dado encontrado
@@ -40,6 +50,7 @@ export default {
             tevepParams: {
                 page: 1,
                 user_id: (this.$route.query.user || this.$auth.user.id),
+                search: "",
             },
             tevep: {
                 data: [],

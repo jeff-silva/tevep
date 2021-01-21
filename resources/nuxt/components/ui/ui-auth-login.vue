@@ -11,7 +11,7 @@
             </div>
 
             <div class="form-group text-right">
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>
         </slot>
     </form>

@@ -9,20 +9,25 @@
 
     <draggable v-model="props.value" v-bind="{animation:200, handle:'._handle'}" @end="emit()">
         <div v-for="n in props.value" :key="n.id" class="mb-1">
-            <div class="input-group">
-                <div class="input-group-prepend _handle"><div class="input-group-text">
+            <div class="d-flex bg-white py-1">
+                <div class="py-2 px-3 _handle">
                     <i class="fas fa-bars"></i>
-                </div></div>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="input-group mb-1">
+                        <div class="input-group-prepend"><div class="input-group-text">
+                            Nome
+                        </div></div>
+                        <input type="text" class="form-control" v-model="n.name">
+                    </div>
 
-                <slot name="fields" :item="n"></slot>
-                <input type="text" class="form-control" v-model="n.name" :placeholder="singular">
-                <slot name="fields-after" :item="n"></slot>
-
-                <div class="input-group-append"><div class="input-group-btn">
+                    <slot name="fields" :item="n"></slot>
+                </div>
+                <div class="px-1">
                     <button type="button" class="btn btn-danger" @click="listRemove(n)">
                         <i class="fas fa-times"></i>	
                     </button>
-                </div></div>
+                </div>
             </div>
         </div>
     </draggable>

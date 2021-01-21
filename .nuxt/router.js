@@ -11,6 +11,7 @@ const _d1dadace = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\
 const _3fc42301 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\auth.vue' /* webpackChunkName: "pages/test/index/auth" */))
 const _53c6c239 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\carousel.vue' /* webpackChunkName: "pages/test/index/carousel" */))
 const _ca2e7a16 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\endpoints.vue' /* webpackChunkName: "pages/test/index/endpoints" */))
+const _6be9727e = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\input.vue' /* webpackChunkName: "pages/test/index/input" */))
 const _2472ee76 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\table.vue' /* webpackChunkName: "pages/test/index/table" */))
 const _953cc452 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\tabs.vue' /* webpackChunkName: "pages/test/index/tabs" */))
 const _b3e9f62a = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\test.vue' /* webpackChunkName: "pages/test/index/test" */))
@@ -74,6 +75,10 @@ export const routerOptions = {
       path: "endpoints",
       component: _ca2e7a16,
       name: "test-index-endpoints"
+    }, {
+      path: "input",
+      component: _6be9727e,
+      name: "test-index-input"
     }, {
       path: "table",
       component: _2472ee76,

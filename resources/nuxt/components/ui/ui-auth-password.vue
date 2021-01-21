@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="form-group text-right">
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="submit" class="btn btn-primary btn-block">Enviar</button>
                 </div>
             </slot>
         </form>

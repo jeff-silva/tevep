@@ -121,6 +121,11 @@ export default {
 				slotBind.nodeParent = slotBind.node.parent? this.getNode({id:slotBind.node.parent}): {};
 				slotBind.nodeChildren = this.getNodes({parent:slotBind.nodeId});
 			}
+
+            slotBind.times = this.getNodes({parent:slotBind.nodeId, type:"time"});
+            slotBind.spaces = this.getNodes({parent:slotBind.nodeId, type:"space"});
+            slotBind.users = this.getNodes({parent:slotBind.nodeId, type:"user"});
+            slotBind.targets = this.getNodes({parent:slotBind.nodeId, type:"target"});
 			
 			slotBind.nodeRoot = this.getNode({parent:''});			
 			slotBind.rut = this.getRut();
@@ -324,9 +329,6 @@ export default {
         },
 
         nodeGoto(nodeId) {
-            let oldNodeId = this.$route.query.node;
-            console.log({oldNodeId});
-
             this.$router.push({
                 query: {
                     node: nodeId,
@@ -336,7 +338,9 @@ export default {
 
             this.props.value.nodes.forEach(node => {
                 if (node.id==nodeId) {
-                    console.log(node);
+                    let parent = this.getNode({id:node.parent});
+                    node.level = parent.level+1;
+                    console.log(parent, node);
                 }
             });
 

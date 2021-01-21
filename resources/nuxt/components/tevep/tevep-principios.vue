@@ -9,7 +9,7 @@
                 placeholder="Tempo"
                 v-bind="props"
 				@input="node.show=(node.level==0 && node.show==4? 5: node.show)"
-				v-if="node.level==0 && node.show>=4"
+				v-if="(node.level==0 && node.show>=4) || node.level>0"
 				:show-add-button="node.level>0"
             ></tevep-dates>
 		</div>
@@ -25,7 +25,7 @@
                 placeholder="Piloto"
                 v-bind="props"
 				@input="node.show=(node.level==0 && node.show==3? 4: node.show)"
-				v-if="node.level==0 && node.show>=3"
+				v-if="(node.level==0 && node.show>=3) || node.level>0"
 				:show-add-button="node.level>0"
             ></tevep-dates>
 		</div>
@@ -75,7 +75,7 @@
                 placeholder="Pessoas"
                 v-bind="props"
 				@input="node.show=(node.level==0 && node.show==3? 4: node.show)"
-				v-if="node.level==0 && node.show>=3"
+				v-if="(node.level==0 && node.show>=3) || node.level>0"
 				:show-add-button="node.level>0"
             ></tevep-dates>
 		</div>
@@ -91,7 +91,7 @@
                 placeholder="Espaço"
                 v-bind="props"
 				@input="node.show=(node.level==0 && node.show==2? 3: node.show)"
-				v-if="node.level==0 && node.show>=2"
+				v-if="(node.level==0 && node.show>=2) || node.level>0"
 				:show-add-button="node.level>0"
             ></tevep-dates>
 		</div>

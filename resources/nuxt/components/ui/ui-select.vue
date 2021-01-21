@@ -1,134 +1,155 @@
-<template><div class="ui-select" style="position:relative;">
-    <div class="d-block">
 
-        <div class="bg-white form-control" style="height:auto; cursor:pointer;">
-            <div v-if="selected">
-                <slot name="item" :item="selected">{{ selected }}</slot>
+<template>
+    <div class="ui-select" style="position:relative;">
+        
+        <div>
+          <div v-if="props.value" class="bg-white p-2">
+            <div v-if="props.multiple">
+              <div v-for="v in props.value">
+                <slot name="selected" :option="v"></slot>
+              </div>
             </div>
 
-            <div v-else class="text-muted">{{ placeholder }}</div>
+            <div v-if="props.multiple">
+              <slot name="selected" :option="props.value"></slot>
+            </div>
+          </div>
+
+          <div v-else class="input-group">
+            <div class="form-control" v-html="props.placeholder" @click="setDropdown(true)"></div>
+            <div class="input-group-append" @click="setDropdown(!props.dropdown)"><div class="input-group-text">
+              <i class="fa fa-fw fa-caret-down" v-if="props.dropdown"></i>
+              <i class="fa fa-fw fa-caret-left" v-if="!props.dropdown"></i>
+            </div></div>
+          </div>
         </div>
 
+        <div class="ui-select-dropdown" style="position:absolute; top:100%; left:0px; width:100%;" :class="{'ui-select-dropdown-shown':props.dropdown}">
+          <input type="text" class="form-control" :placeholder="props.placeholder">
+          <div class="ui-select-options">
+            <slot name="options" :select="select" :toggle="toggle"></slot>
+          </div>
+        </div>
 
-        <transition name="custom-unique-name"
-            enter-active-class="animate__animated animate__fadeIn"
-            leave-active-class="animate__animated animate__fadeOut"
-        >
-            <div class="bg-white shadow-sm" v-if="focused" :style="dropdownStyle">
-                <div class="input-group p-0 bg-white m-0" v-if="showSearch">
-                    <input type="text" class="form-control border-0 bg-transparent" placeholder="Filtrar" v-model="props.term" style="box-shadow:none!important;">
-                    <div class="input-group-append"><div class="input-group-text border-0 bg-transparent">
-                        <i class="fa fa-fw fa-search"></i>
-                    </div></div>
-                </div>
-
-                <div style="max-height:50vh; overflow:auto; border-top:solid 1px #eee;" ref="dropdown">
-                    <slot name="empty">
-                        <div class="p-2 text-muted" v-if="compItems.length==0">Nenhum item encontrado</div>
-                    </slot>
-
-                    <div v-for="i in compItems" @click="select(i)"
-                        class="ui-select-item p-2"
-                        :class="{'ui-select-active':(selected && selected[itemKey] && selected[itemKey]==i[itemKey])}"
-                    >
-                        <slot name="item" :item="i">{{ i }}</slot>
-                    </div>
-                </div>
-            </div>
-        </transition>
+        <!-- <pre>$data: {{ $data }}</pre> -->
+        <!-- <pre>compData: {{ compData }}</pre> -->
     </div>
-</div></template>
+</template>
 
-<script>export default {
-    props: {
-        value: {default: false},
-        items: {default: () => ([])},
-        itemKey: {default: 'id'},
-        term: {default: ''},
-        placeholder: {default: 'Nenhum item selecionado'},
-        showSearch: {default: true},
-    },
-
-    watch: {
-        $props: {
-            deep: true,
-            handler(value) {
-                value = Object.assign({}, value);
-                this.$set(this, 'props', value);
-                this.setSelected();
-            },
-        },
-    },
-
-    methods: {
-        emit() {
-            this.$emit('input', this.props.value);
-            this.$emit('value', this.props.value);
-            this.$emit('change', this.props.value);
-        },
-
-        select(item) {
-            this.selected = item;
-            this.$set(this.props, 'value', this.selected[this.itemKey]||false);
-            this.emit();
-            setTimeout(() => { this.focused = false; }, 100);
-        },
-
-        setSelected() {
-            if (!this.props.value || !this.itemKey) return;
-            for(var i in this.items) {
-                if (this.items[i][this.itemKey]==this.props.value) {
-                    this.selected = this.items[i];
-                }
-            }
-        },
-
-        documentClickHandle(ev) {
-            let focused = this.focused;
-            this.focused = this.$el.contains(ev.target);
-
-            // if (this.props.value && this.focused && !focused) {
-            //     setTimeout(() => {
-            //         let selected = (this.$refs.selected && this.$refs.selected[0])? this.$refs.selected[0]: false;
-            //         if (selected) { this.$refs.dropdown.scrollTop = selected.offsetTop-40; }
-            //     }, 10);
-            // }
-        },
-    },
-
-    computed: {
-        compItems() {
-            return this.items.filter((item) => {
-                let term = JSON.stringify(item).toLowerCase();
-                return term.match(this.props.term.toLowerCase());
-            });
-        },
-
-        dropdownStyle() {
-            let isDown = this.$el.getBoundingClientRect().top > (window.innerHeight/2);
-            return `position:absolute; ${isDown? 'bottom': 'top'}:calc(100% + 5px); left:0px; width:100%; animation-duration:200ms; z-index:9;`;
-        },
-    },
-
-    data() {
-        return {
-            focused: false,
-            selected: false,
-            props: Object.assign({}, this.$props),
-        };
-    },
-
-    mounted() {
-        this.setSelected();
-        window.addEventListener('click', this.documentClickHandle);
-    },
-
-    beforeDestroy() {
-        window.removeEventListener('click', this.documentClickHandle);
-    },
-};</script>
 
 <style>
-.ui-select-item:hover,
-.ui-select-item.ui-select-active {background:#eee;}
+.ui-select * {transition: all 300ms ease;}
+.ui-select-dropdown {visibility:hidden; opacity:0; height:0px;}
+.ui-select-dropdown-shown {visibility:visible; opacity:1; height:auto;}
+.ui-select-options {max-height:300px; overflow:auto;}
+.ui-select-options > * {display:block!important; background:#fff; padding:10px; border-top:solid 1px #eee; margin:0px;}
 </style>
+
+
+<script>
+import Vue from 'vue';
+
+export default {
+  props: {
+      value: {default:false},
+      data: {default:()=>([])},
+      name: {default:'some-name'},
+      placeholder: {default:'Selecione'},
+      dropdown: {default:false},
+      multiple: {default:false},
+  },
+
+  components: {
+    uiSelectOption: {
+      props: {
+        value: {default:()=>({})},
+      },
+    },
+  },
+
+  watch: {
+      $props: {deep:true, handler(value) {
+          this.props = Object.assign({}, value);
+      }},
+  },
+
+  data() {
+      return {
+        options: [],
+        props: Object.assign({}, this.$props),
+
+        events: [
+          {type:'click', handler: (ev) => {
+            this.props.dropdown = !!ev.target.closest('.ui-select');
+          }},
+        ],
+      };
+  },
+
+  computed: {
+      compData() {
+          return this.data.map(item => {
+              return {
+                  id: 'input-'+ (item.id || btoa(JSON.stringify(item))),
+                  option: item,
+              };
+          });
+      },
+  },
+
+  methods: {
+      emit() {
+          this.$emit('input', this.props.value);
+      },
+
+      setDropdown(value=null) {
+        this.options = this.getOptions();
+        value = value===null? (!!this.props.dropdown): value;
+        this.props.dropdown = value;
+      },
+
+      getOptions() {
+        let items = [];
+
+        this.$el.querySelectorAll('.ui-select-options>*').forEach(item => {
+          item.classList.add('ui-select-option');
+          items.push({
+            html: item.innerHTML,
+            text: item.innerText,
+          });
+        });
+
+        return items;
+      },
+
+      select(option) {
+        this.props.multiple = false;
+        this.props.value = option;
+        this.emit();
+      },
+
+      toggle(option) {
+        this.props.multiple = true;
+        this.props.value = Array.isArray(this.props.value)? this.props.value: [];
+        let index = this.props.value.indexOf(option);
+        index>=0? this.props.value.splice(index, 1): this.props.value.push(option);
+        this.emit();
+      },
+  },
+
+  mounted() {
+    this.options = this.getOptions();
+    this.setDropdown();
+
+    this.events.forEach(ev => {
+      window.addEventListener(ev.type, ev.handler);
+    });
+  },
+
+  beforeDestroy() {
+    this.events.forEach(ev => {
+      window.removeEventListener(ev.type, ev.handler);
+    });
+  },
+}
+</script>

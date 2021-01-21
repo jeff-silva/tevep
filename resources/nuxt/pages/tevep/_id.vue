@@ -77,20 +77,60 @@
         
         <!-- Inerências -->
         <template #inerencias="bind">
-            <div class="row no-gutters">
-                <div class="col-5 pr-3">
+            <div class="row no-gutters" style="width:2000px;">
+                <div class="col-4 pr-3">
                     <tevep-list v-model="bind.node.inherences" singular="Inerência">
                         <template #fields="{item}">
-                            <input type="text" class="form-control" v-model="item.name">
-                            <input type="text" class="form-control" v-model="item.name" style="width:150px;">
-                            <input type="text" class="form-control" v-model="item.name">
-                            <input type="text" class="form-control" v-model="item.name">
-                            <input type="text" class="form-control" v-model="item.name">
-                            <input type="text" class="form-control" v-model="item.name">
+                            <table class="table table-sm table-borderless">
+                                <colgroup>
+                                    <col width="*">
+                                    <col width="*">
+                                    <col width="*">
+                                    <col width="*">
+                                    <col width="80px">
+                                    <col width="80px">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center"><img :src="require('@/assets/icons/tempo.png')" alt="" style="width:10px;"></td>
+                                        <td class="text-center"><img :src="require('@/assets/icons/espaco.png')" alt="" style="width:50px;"></td>
+                                        <td class="text-center"><img :src="require('@/assets/icons/piloto.png')" alt="" style="width:15px;"></td>
+                                        <td class="text-center"><img :src="require('@/assets/icons/pessoa.png')" alt="" style="width:15px;"></td>
+                                        <td class="text-center font-weight-bold">R</td>
+                                        <td class="text-center font-weight-bold">C</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><select class="form-control" v-model="item.time">
+                                            <option :value="false">Tempo</option>
+                                            <option :value="t.id" v-for="t in bind.times">{{ t.title||'Sem nome' }}</option>
+                                        </select></td>
+
+                                        <td><select class="form-control" v-model="item.space">
+                                            <option :value="false">Espaço</option>
+                                            <option :value="t.id" v-for="t in bind.spaces">{{ t.title||'Sem nome' }}</option>
+                                        </select></td>
+
+                                        <td><select class="form-control" v-model="item.user">
+                                            <option :value="false">Piloto</option>
+                                            <option :value="t.id" v-for="t in bind.users">{{ t.title||'Sem nome' }}</option>
+                                        </select></td>
+
+                                        <td><select class="form-control" v-model="item.target">
+                                            <option :value="false">Pessoa</option>
+                                            <option :value="t.id" v-for="t in bind.targets">{{ t.title||'Sem nome' }}</option>
+                                        </select></td>
+
+                                        <td><input type="text" class="form-control" v-model="item.r"></td>
+
+                                        <td><input type="text" class="form-control" v-model="item.c"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </template>
                     </tevep-list>
                 </div>
-                <div class="col-7">
+                <div class="col-8">
                     <tevep-principios v-bind="bind"></tevep-principios>
                 </div>
             </div>

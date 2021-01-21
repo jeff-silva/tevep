@@ -1,11 +1,11 @@
 <template><div>
     <div class="row no-gutters">
-        <div class="col-2 bg-white shadow-sm">
+        <div class="col-2 bg-white shadow-sm" style="height:100vh; overflow:auto;">
             <div class="nav nav-pills flex-column">
                 <nuxt-link :to="i.to" class="nav-link" v-for="(i, iindex) in menuItems" :key="iindex">{{ i.title }}</nuxt-link>
             </div>
         </div>
-        <div class="col p-1">
+        <div class="col p-1" style="height:100vh; overflow:auto;">
             <nuxt-child></nuxt-child>
         </div>
     </div>
@@ -34,6 +34,10 @@ export default {
                 {
                     title: "Endpoints",
                     to: "/test/endpoints",
+                },
+                {
+                    title: "Inputs",
+                    to: "/test/input",
                 },
                 {
                     title: "Table",

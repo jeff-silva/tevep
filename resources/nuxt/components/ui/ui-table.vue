@@ -29,7 +29,7 @@
                     <tr><td :colspan="headers.length"><slot name="empty">Nenhum item carregado</slot></td></tr>
                 </template>
 
-                <tr v-for="(i, iindex) in props.data" :key="iindex">
+                <tr v-for="(i, iindex) in props.data" :key="i[props.loopKey]">
                     <td v-if="select"><input type="checkbox" @change="toggleSelect(i)" :checked="isSelected(i)"></td>
                     <slot name="item" :item="i">
                         <td><pre>{{ i }}</pre></td>
@@ -94,6 +94,7 @@
         last_page: {default:0},
         per_page: {default:0},
         total: {default:0},
+        loopKey: {default:'id'},
     },
 
     watch: {

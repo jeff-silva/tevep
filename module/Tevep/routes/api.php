@@ -20,7 +20,8 @@
 ]);
 
 Route::get('/tevep/search', function() {
-    return (new \Tevep\Models\Tevep)->search(request()->all())->paginate(15);
+    // return (new \Tevep\Models\Tevep)->search(request()->all())->paginate(15);
+    return (new \Tevep\Models\Tevep)->apiSearch(request()->all());
 });
 
 Route::get('/tevep/find/{id}', function($id) {

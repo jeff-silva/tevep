@@ -22,7 +22,7 @@
             </div>
 
             <div class="form-group text-right">
-                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
             </div>
         </slot>
     </form>
