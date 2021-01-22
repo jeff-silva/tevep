@@ -7,9 +7,21 @@
         </div>
 
         <div class="col-12 col-md-6 form-group">
+            <label>Texto simples com máscara</label>
+            <input type="text" class="form-control" v-model="values.text_mask" v-mask="['###.###.###', '#### #### #### ####']">
+            <pre>{{ values.text_mask }}</pre>
+        </div>
+
+        <div class="col-12 col-md-6 form-group">
             <label>Texto HTML</label>
             <ui-content v-model="values.content"></ui-content>
             <pre v-html="values.content"></pre>
+        </div>
+
+        <div class="col-12 col-md-6 form-group">
+            <label>Telefone</label>
+            <ui-phone v-model="values.phone"></ui-phone>
+            <pre>{{ values.phone }}</pre>
         </div>
 
         <div class="col-12 col-md-12 form-group">
@@ -65,6 +77,7 @@ export default {
         return {
             values: {
                 address: {zipcode:"30710-580"},
+                phone: "+55 (31) 98765-4321",
             },
             selectItems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(n => {
                 return {

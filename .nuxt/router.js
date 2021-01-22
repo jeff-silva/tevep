@@ -10,12 +10,12 @@ const _4646bde8 = () => interopDefault(import('..\\resources\\nuxt\\pages\\setti
 const _d1dadace = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index.vue' /* webpackChunkName: "pages/test/index" */))
 const _3fc42301 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\auth.vue' /* webpackChunkName: "pages/test/index/auth" */))
 const _53c6c239 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\carousel.vue' /* webpackChunkName: "pages/test/index/carousel" */))
+const _409fc58a = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\drawer.vue' /* webpackChunkName: "pages/test/index/drawer" */))
 const _ca2e7a16 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\endpoints.vue' /* webpackChunkName: "pages/test/index/endpoints" */))
 const _1e2e07c2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\grape.vue' /* webpackChunkName: "pages/test/index/grape" */))
 const _6be9727e = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\input.vue' /* webpackChunkName: "pages/test/index/input" */))
 const _2472ee76 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\table.vue' /* webpackChunkName: "pages/test/index/table" */))
 const _953cc452 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\tabs.vue' /* webpackChunkName: "pages/test/index/tabs" */))
-const _b3e9f62a = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\test.vue' /* webpackChunkName: "pages/test/index/test" */))
 const _016745f9 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\index.vue' /* webpackChunkName: "pages/tevep/index" */))
 const _30815dc0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\index.vue' /* webpackChunkName: "pages/user/index" */))
 const _ab2ee08c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\password.vue' /* webpackChunkName: "pages/auth/password" */))
@@ -73,6 +73,10 @@ export const routerOptions = {
       component: _53c6c239,
       name: "test-index-carousel"
     }, {
+      path: "drawer",
+      component: _409fc58a,
+      name: "test-index-drawer"
+    }, {
       path: "endpoints",
       component: _ca2e7a16,
       name: "test-index-endpoints"
@@ -92,10 +96,6 @@ export const routerOptions = {
       path: "tabs",
       component: _953cc452,
       name: "test-index-tabs"
-    }, {
-      path: "test",
-      component: _b3e9f62a,
-      name: "test-index-test"
     }]
   }, {
     path: "/tevep",
@@ -142,6 +142,10 @@ export const routerOptions = {
     path: "/",
     component: _4c6fd2aa,
     name: "index"
+  }, {
+    path: "/__nuxt_laravel",
+    component: _4c6fd2aa,
+    name: "__nuxt_laravel"
   }],
 
   fallback: false

@@ -13,6 +13,11 @@ export default {
 	*/
 	ssr: false,
 
+	env: {
+		APP_NAME: process.env.APP_NAME,
+		APP_DESCRIPTION: process.env.APP_DESCRIPTION,
+	},
+
 	/*
 	** Headers of the page
 	** See https://nuxtjs.org/api/configuration-head

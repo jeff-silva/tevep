@@ -15,6 +15,7 @@ export { default as UiCarousel } from '../..\\resources\\nuxt\\components\\ui\\u
 export { default as UiContent } from '../..\\resources\\nuxt\\components\\ui\\ui-content.vue'
 export { default as UiDatepicker } from '../..\\resources\\nuxt\\components\\ui\\ui-datepicker.vue'
 export { default as UiDatetime } from '../..\\resources\\nuxt\\components\\ui\\ui-datetime.vue'
+export { default as UiDrawer } from '../..\\resources\\nuxt\\components\\ui\\ui-drawer.vue'
 export { default as UiField } from '../..\\resources\\nuxt\\components\\ui\\ui-field.vue'
 export { default as UiForm } from '../..\\resources\\nuxt\\components\\ui\\ui-form.vue'
 export { default as UiGrape } from '../..\\resources\\nuxt\\components\\ui\\ui-grape.vue'
@@ -26,6 +27,7 @@ export { default as UiNavbar } from '../..\\resources\\nuxt\\components\\ui\\ui-
 export { default as UiPagination } from '../..\\resources\\nuxt\\components\\ui\\ui-pagination.vue'
 export { default as UiPasswordMeter } from '../..\\resources\\nuxt\\components\\ui\\ui-password-meter.vue'
 export { default as UiPassword } from '../..\\resources\\nuxt\\components\\ui\\ui-password.vue'
+export { default as UiPhone } from '../..\\resources\\nuxt\\components\\ui\\ui-phone.vue'
 export { default as UiPhoto } from '../..\\resources\\nuxt\\components\\ui\\ui-photo.vue'
 export { default as UiProductCategories } from '../..\\resources\\nuxt\\components\\ui\\ui-product-categories.vue'
 export { default as UiSelect } from '../..\\resources\\nuxt\\components\\ui\\ui-select.vue'
@@ -52,6 +54,7 @@ export const LazyUiCarousel = import('../..\\resources\\nuxt\\components\\ui\\ui
 export const LazyUiContent = import('../..\\resources\\nuxt\\components\\ui\\ui-content.vue' /* webpackChunkName: "components_ui/ui-content" */).then(c => c.default || c)
 export const LazyUiDatepicker = import('../..\\resources\\nuxt\\components\\ui\\ui-datepicker.vue' /* webpackChunkName: "components_ui/ui-datepicker" */).then(c => c.default || c)
 export const LazyUiDatetime = import('../..\\resources\\nuxt\\components\\ui\\ui-datetime.vue' /* webpackChunkName: "components_ui/ui-datetime" */).then(c => c.default || c)
+export const LazyUiDrawer = import('../..\\resources\\nuxt\\components\\ui\\ui-drawer.vue' /* webpackChunkName: "components_ui/ui-drawer" */).then(c => c.default || c)
 export const LazyUiField = import('../..\\resources\\nuxt\\components\\ui\\ui-field.vue' /* webpackChunkName: "components_ui/ui-field" */).then(c => c.default || c)
 export const LazyUiForm = import('../..\\resources\\nuxt\\components\\ui\\ui-form.vue' /* webpackChunkName: "components_ui/ui-form" */).then(c => c.default || c)
 export const LazyUiGrape = import('../..\\resources\\nuxt\\components\\ui\\ui-grape.vue' /* webpackChunkName: "components_ui/ui-grape" */).then(c => c.default || c)
@@ -63,6 +66,7 @@ export const LazyUiNavbar = import('../..\\resources\\nuxt\\components\\ui\\ui-n
 export const LazyUiPagination = import('../..\\resources\\nuxt\\components\\ui\\ui-pagination.vue' /* webpackChunkName: "components_ui/ui-pagination" */).then(c => c.default || c)
 export const LazyUiPasswordMeter = import('../..\\resources\\nuxt\\components\\ui\\ui-password-meter.vue' /* webpackChunkName: "components_ui/ui-password-meter" */).then(c => c.default || c)
 export const LazyUiPassword = import('../..\\resources\\nuxt\\components\\ui\\ui-password.vue' /* webpackChunkName: "components_ui/ui-password" */).then(c => c.default || c)
+export const LazyUiPhone = import('../..\\resources\\nuxt\\components\\ui\\ui-phone.vue' /* webpackChunkName: "components_ui/ui-phone" */).then(c => c.default || c)
 export const LazyUiPhoto = import('../..\\resources\\nuxt\\components\\ui\\ui-photo.vue' /* webpackChunkName: "components_ui/ui-photo" */).then(c => c.default || c)
 export const LazyUiProductCategories = import('../..\\resources\\nuxt\\components\\ui\\ui-product-categories.vue' /* webpackChunkName: "components_ui/ui-product-categories" */).then(c => c.default || c)
 export const LazyUiSelect = import('../..\\resources\\nuxt\\components\\ui\\ui-select.vue' /* webpackChunkName: "components_ui/ui-select" */).then(c => c.default || c)

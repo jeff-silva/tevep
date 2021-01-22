@@ -101,6 +101,12 @@
   "LazyUiDatetime": {
     "description": "Auto imported from components/ui/ui-datetime.vue"
   },
+  "UiDrawer": {
+    "description": "Auto imported from components/ui/ui-drawer.vue"
+  },
+  "LazyUiDrawer": {
+    "description": "Auto imported from components/ui/ui-drawer.vue"
+  },
   "UiField": {
     "description": "Auto imported from components/ui/ui-field.vue"
   },
@@ -166,6 +172,12 @@
   },
   "LazyUiPassword": {
     "description": "Auto imported from components/ui/ui-password.vue"
+  },
+  "UiPhone": {
+    "description": "Auto imported from components/ui/ui-phone.vue"
+  },
+  "LazyUiPhone": {
+    "description": "Auto imported from components/ui/ui-phone.vue"
   },
   "UiPhoto": {
     "description": "Auto imported from components/ui/ui-photo.vue"

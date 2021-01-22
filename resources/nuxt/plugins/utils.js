@@ -9,6 +9,10 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2);
 
+// https://vuejs-tips.github.io/vue-the-mask/
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask);
+
 
 Vue.prototype.$log = function() {
 	for(var i in arguments) {
@@ -16,6 +20,36 @@ Vue.prototype.$log = function() {
 	}
 };
 
+Vue.prototype.$app = function() {
+	let browser = false;
+
+	if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1)  {
+        browser = 'opera';
+    }
+    else if(navigator.userAgent.indexOf("Chrome") != -1 ) {
+		browser = 'chrome';
+    }
+    else if(navigator.userAgent.indexOf("Safari") != -1) {
+		browser = 'safari';
+    }
+    else if(navigator.userAgent.indexOf("Firefox") != -1 )  {
+		browser = 'firefox';
+    }
+    else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
+		browser = 'ie';
+	}
+
+	return {
+		APP_NAME: process.env.APP_NAME,
+		APP_DESCRIPTION: process.env.APP_DESCRIPTION,
+		browser,
+		hostname: window.location.hostname,
+		href: window.location.href,
+		query: window.location.search,
+		protocol: window.location.protocol,
+		port: window.location.port,
+	};
+};
 
 Vue.prototype.$swalConfirm = function(html, call) {
 	this.$swal({
@@ -78,7 +112,6 @@ Vue.prototype.$geolocation = function() {
 		}, reject);
 	});
 };
-
 
 
 // Filters

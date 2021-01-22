@@ -32,6 +32,10 @@ export default {
                     to: "/test/carousel",
                 },
                 {
+                    title: "Drawer",
+                    to: "/test/drawer",
+                },
+                {
                     title: "Endpoints",
                     to: "/test/endpoints",
                 },
@@ -50,10 +54,6 @@ export default {
                 {
                     title: "Tabs",
                     to: "/test/tabs",
-                },
-                {
-                    title: "Teste",
-                    to: "/test/test",
                 },
             ],
         };

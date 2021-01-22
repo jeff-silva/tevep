@@ -77,7 +77,7 @@ export default {
           this.flicking = this.$refs.flicking;
           this.itemsTotal = this.$refs.flicking.getPanelCount();
           this.$refs.flicking.moveTo(this.$props.value);
-        } catch(e) {}
+        } catch(e) { console.error(e); }
       }, 100);
     },
 

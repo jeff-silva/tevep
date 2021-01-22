@@ -7,31 +7,12 @@
     <div class="col-12 col-sm-8 col-md-5 d-flex align-items-center l-auth-pattern" style="height:100vh;">
       <div class="mx-auto" style="min-width:350px;">
 
-        <div class="px-3 pb-3"><nuxt /></div>
+        <div class="bg-white p-2 mb-2"><nuxt /></div>
 
-        <div class="bg-white">
-        
-          <!-- Forms -->
-          <div class="p-3">
-            <div v-if="isLogin">
-              <ui-auth-login @success="onLogin()"></ui-auth-login>
-            </div>
-
-            <div v-if="isRegister">
-              <ui-auth-register @success="onRegister()"></ui-auth-register>
-            </div>
-
-            <div v-if="isPassword">
-              <ui-auth-password @success="onPassword()"></ui-auth-password>
-            </div>
-          </div>
-
-          <!-- Links -->
-          <div class="row no-gutters py-3">
-            <div class="col-6 text-center" v-if="!isLogin"><nuxt-link to="/auth">Fazer login</nuxt-link></div>
-            <div class="col-6 text-center" v-if="!isRegister"><nuxt-link to="/auth/register">Criar conta</nuxt-link></div>
-            <div class="col-6 text-center" v-if="!isPassword"><nuxt-link to="/auth/password">Recuperar senha</nuxt-link></div>
-          </div>
+        <div class="bg-white d-block p-2">
+          <div><nuxt-link to="/auth">Fazer login</nuxt-link></div>
+          <div><nuxt-link to="/auth/register">Criar conta</nuxt-link></div>
+          <div><nuxt-link to="/auth/password">Recuperar senha</nuxt-link></div>
         </div>
 
       </div>
@@ -53,34 +34,3 @@
   background-position: 0 0,20px 20px;
 }
 </style>
-
-<script>
-export default {
-  data() {
-    return {}
-  },
-
-  computed: {
-    isLogin() { return this.$route.name=='auth'; },
-    isRegister() { return this.$route.name=='auth-register'; },
-    isPassword() { return this.$route.name=='auth-password'; },
-  },
-
-  methods: {
-    onLogin() {
-      let redirect = this.$route.query.redirect||'/dashboard';
-      this.$router.push({path:redirect});
-    },
-
-    onRegister() {
-      this.$swalSuccess('Sucesso', 'Cadastro efetuado. Por favor, faça login.');
-      this.$router.push({path:'/auth'});
-    },
-
-    onPassword() {
-      this.$swalSuccess('Sucesso', 'Senha alterada. Por favor, faça login.');
-      this.$router.push({path:'/auth'});
-    },
-  },
-}
-</script>

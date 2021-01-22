@@ -1,0 +1,73 @@
+<template><div class="ui-drawer">
+    <div :class="`ui-drawer-type ui-drawer-type-${props.type} ${props.backdrop? 'ui-drawer-backdrop': null} ${props.value? 'ui-drawer-type-show': null}`" @click.self="props.value=false; $emit('input', props.value);" style="animation-duration:300ms;">
+        <component :is="tag" @submit.prevent="$emit('submit', $event)">
+            <div class="ui-drawer-content bg-white shadow">
+                <slot name="content"></slot>
+            </div>
+        </component>
+    </div>
+</div></template>
+
+<style>
+.ui-drawer {}
+.ui-drawer * {transition: all 300ms ease;}
+
+.ui-drawer-backdrop {background:#00000055;}
+
+.ui-drawer-type {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999 !important;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.ui-drawer-type.ui-drawer-type-show {visibility:visible; opacity:1;}
+
+.ui-drawer-content {}
+
+/* Modal */
+.ui-drawer-type-modal {display:flex; align-items: center; justify-content: center; padding: 0 !important;}
+.ui-drawer-type-modal .ui-drawer-content {min-width:300px;}
+
+/* Drawer left */
+.ui-drawer-type-drawer-left {}
+.ui-drawer-type-drawer-left .ui-drawer-content {height:100vh; overflow:auto; width:300px; position:absolute; top:0px; left:-100%;}
+.ui-drawer-type-drawer-left.ui-drawer-type-show .ui-drawer-content {left:0px;}
+
+/* Drawer right */
+.ui-drawer-type-drawer-right {}
+.ui-drawer-type-drawer-right .ui-drawer-content {height:100vh; overflow:auto; width:300px; position:absolute; top:0px; right:-100%;}
+.ui-drawer-type-drawer-right.ui-drawer-type-show .ui-drawer-content {right:0px;}
+</style>
+
+<script>export default {
+    props: {
+        value: {default: false},
+        tag: {default: 'div'},
+        type: {default: 'modal'}, // modal | drawer-left | drawer-right
+        backdrop: {default: true},
+    },
+
+    watch: {
+        $props: {deep: true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
+    },
+
+    methods: {
+        toggle() {
+            this.props.value = !this.props.value;
+            this.$emit('value', this.props.value);
+        },
+    },
+
+    data() {
+        return {
+            props: Object.assign({}, this.$props),
+        };
+    },
+};</script>

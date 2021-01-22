@@ -5,7 +5,9 @@
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     CEP
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.zipcode">
+                <input type="text" class="form-control border-0" v-model="props.value.zipcode"
+                    v-mask="'#####-###'" autocomplete="off-none"
+                    @keyup.enter.prevent="osmSearch({q:props.value.zipcode}, false)">
                 <div class="input-group-append"><div class="input-group-btn border-0">
                     <button type="button" class="btn btn-secondary rounded-0" @click="osmSearch({q:props.value.zipcode}, false)">
                         <i class="fa fa-fw fa-spin fa-spinner" v-if="loading"></i>
@@ -28,10 +30,9 @@
             </div>
 
             <div style="position:relative; z-index:2;">
-                <div class="bg-white shadow" style="position:absolute; width:100%; max-height:200px; overflow:auto;">
+                <div class="bg-white shadow" style="position:absolute; width:100%; max-height:200px; overflow:auto; z-index:1;">
                     <a href="javascript:;" v-for="r in searchResults" class="d-block p-2" style="border-bottom:solid 1px #eee;" @click="selectPlace(r); searchResults=[];">
-                        <pre>{{ r.address }}</pre>
-                        <!-- {{ r.address.road||'' }}, {{ r.address.suburb||r.address.neighbourhood }} - {{ r.address.city }}/{{ getEstadoFromCode(r.address.state) }} | {{ r.address.postcode }} -->
+                        {{ r.address.road||'' }}, {{ r.address.suburb||r.address.neighbourhood }} - {{ r.address.city }}/{{ getEstadoFromCode(r.address.state) }} | {{ r.address.postcode }}
                     </a>
                 </div>
             </div>
@@ -102,7 +103,7 @@
         </div>
     </div>
 
-    <l-map v-if="mapBindComp" v-bind="mapBindComp" class="mt-2" style="height:200px; overflow:hidden;">
+    <l-map v-if="mapBindComp" v-bind="mapBindComp" class="mt-2" style="height:200px; overflow:hidden; z-index:1;">
         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
         <l-marker :lat-lng="mapBindComp.center" :draggable="true" @moveend="osmReverse({lat:$event.sourceTarget._latlng.lat, lon:$event.sourceTarget._latlng.lng}, false)"></l-marker>
     </l-map>

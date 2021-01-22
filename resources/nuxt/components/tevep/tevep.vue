@@ -340,7 +340,6 @@ export default {
                 if (node.id==nodeId) {
                     let parent = this.getNode({id:node.parent});
                     node.level = parent.level+1;
-                    console.log(parent, node);
                 }
             });
 
