@@ -35,23 +35,17 @@
   "LazyTevep": {
     "description": "Auto imported from components/tevep/tevep.vue"
   },
-  "UiAddressOld": {
-    "description": "Auto imported from components/ui/ui-address-old.vue"
+  "UserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
   },
-  "LazyUiAddressOld": {
-    "description": "Auto imported from components/ui/ui-address-old.vue"
+  "LazyUserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
   },
   "UiAddress": {
     "description": "Auto imported from components/ui/ui-address.vue"
   },
   "LazyUiAddress": {
     "description": "Auto imported from components/ui/ui-address.vue"
-  },
-  "UiAddresses": {
-    "description": "Auto imported from components/ui/ui-addresses.vue"
-  },
-  "LazyUiAddresses": {
-    "description": "Auto imported from components/ui/ui-addresses.vue"
   },
   "UiAuthLogin": {
     "description": "Auto imported from components/ui/ui-auth-login.vue"
@@ -82,6 +76,12 @@
   },
   "LazyUiCarousel": {
     "description": "Auto imported from components/ui/ui-carousel.vue"
+  },
+  "UiColor": {
+    "description": "Auto imported from components/ui/ui-color.vue"
+  },
+  "LazyUiColor": {
+    "description": "Auto imported from components/ui/ui-color.vue"
   },
   "UiContent": {
     "description": "Auto imported from components/ui/ui-content.vue"
@@ -185,12 +185,6 @@
   "LazyUiPhoto": {
     "description": "Auto imported from components/ui/ui-photo.vue"
   },
-  "UiProductCategories": {
-    "description": "Auto imported from components/ui/ui-product-categories.vue"
-  },
-  "LazyUiProductCategories": {
-    "description": "Auto imported from components/ui/ui-product-categories.vue"
-  },
   "UiSelect": {
     "description": "Auto imported from components/ui/ui-select.vue"
   },
@@ -220,11 +214,5 @@
   },
   "LazyUiTimeago": {
     "description": "Auto imported from components/ui/ui-timeago.vue"
-  },
-  "UserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
-  "LazyUserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
   }
 }

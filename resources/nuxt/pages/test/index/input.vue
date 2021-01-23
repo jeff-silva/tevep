@@ -23,6 +23,12 @@
             <ui-phone v-model="values.phone"></ui-phone>
             <pre>{{ values.phone }}</pre>
         </div>
+        
+        <div class="col-12 col-md-6 form-group">
+            <label>Cor</label>
+            <ui-color v-model="values.color"></ui-color>
+            <pre>{{ values.color }}</pre>
+        </div>
 
         <div class="col-12 col-md-12 form-group">
             <label>Endereço</label>
