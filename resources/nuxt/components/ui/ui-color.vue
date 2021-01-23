@@ -6,9 +6,9 @@
 
 
 <style>
-.ui-color .ui-color-component {visibility:hidden; opacity:0; transition: all 300ms ease;}
+.ui-color .ui-color-component {visibility:hidden; opacity:0; height:0px; overflow:hidden; transition: all 300ms ease;}
 .ui-color:hover .ui-color-component,
-.ui-color > .form-control:focus + .ui-color-component {visibility:visible; opacity:1;}
+.ui-color > .form-control:focus + .ui-color-component {visibility:visible; opacity:1; height:auto;}
 </style>
 
 

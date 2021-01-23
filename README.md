@@ -3,6 +3,7 @@
 ``composer install``
 ``php artisan key:generate``
 ``php artisan jwt:secret``
+``php artisan storage:link``
 ``php artisan app-deploy``
 ``npm run dev``
 

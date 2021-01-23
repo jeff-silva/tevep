@@ -116,3 +116,20 @@ Route::post('/user/delete', function() {
     return ['?'];
 });
 
+Route::post('/upload', function(Request $request) {
+    $folder = $request->input('folder', 'uploads');
+    $file = $request->file('file');
+    
+    $info = pathinfo($file->getClientOriginalName());
+    $filename = \Str::slug($info['filename'], '-') .'.'. $info['extension'];
+    $path = $file->storeAs($folder, $filename, 'public');
+
+    return [
+        'path' => "storage/{$path}",
+        'name' => $filename,
+        'ext' => $info['extension'],
+        'size' => Storage::disk('public')->size($path),
+        'mime' => Storage::disk('public')->getMimeType($path),
+        'url' => Storage::disk('public')->url($path),
+    ];
+});

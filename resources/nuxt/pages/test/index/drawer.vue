@@ -86,6 +86,13 @@
                         </div></div>
                         <input type="text" class="form-control" v-model="bind.width">
                     </div>
+
+                    <div class="col-12 input-group mt-2">
+                        <div class="input-group-prepend"><div class="input-group-text">
+                            Color
+                        </div></div>
+                        <ui-color v-model="bind.backdropColor"></ui-color>
+                    </div>
                 </div>
             </div>
         </template>
