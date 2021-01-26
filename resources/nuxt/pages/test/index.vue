@@ -2,7 +2,10 @@
     <div class="row no-gutters">
         <div class="col-2 bg-white shadow-sm" style="height:100vh; overflow:auto;">
             <div class="nav nav-pills flex-column">
-                <nuxt-link :to="i.to" class="nav-link" v-for="(i, iindex) in menuItems" :key="iindex">{{ i.title }}</nuxt-link>
+                <nuxt-link :to="i.to" class="nav-link rounded-0 text-dark font-weight-bold"
+                    :class="{'bg-light':$route.path==i.to}" v-for="(i, iindex) in menuItems"
+                    :key="iindex"
+                >{{ i.title }}</nuxt-link>
             </div>
         </div>
         <div class="col p-1" style="height:100vh; overflow:auto;">

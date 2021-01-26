@@ -14,8 +14,12 @@
 
             <!-- if populated -->
             <div v-else>
-              <slot name="selected" :option="props.value[0]"></slot>
-              <span classs="pl-2" v-if="props.value.length>1">+{{ props.value.length-1 }}</span>
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1" style="overflow:hidden; white-space:nowrap;">
+                  <slot name="selected" v-for="v in props.value" :option="v"></slot>
+                </div>
+                <div class="pl-2" v-if="props.value.length>1">{{ props.value.length }}</div>
+              </div>
             </div>
           </div>
 
@@ -45,7 +49,7 @@
 
 <style>
 .ui-select * {transition: all 300ms ease;}
-.ui-select-dropdown {visibility:hidden; opacity:0; height:0px; position:absolute; top:100%; left:0px; width:100%; z-index:9;}
+.ui-select-dropdown {visibility:hidden; opacity:0; height:0px; position:absolute; top:100%; left:0px; width:100%; z-index:9; border-bottom:solid 5px var(--primary)}
 .ui-select-dropdown-shown {visibility:visible; opacity:1; height:auto;}
 .ui-select > .form-control {cursor:pointer;}
 </style>

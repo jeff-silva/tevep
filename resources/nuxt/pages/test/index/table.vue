@@ -22,6 +22,8 @@
         </template>
     </ui-table>
 
+    <br>
+
     <ui-table :data="tableSelecteds" :select="false">
         <template #header="{items}">
             <th width="10px">ID</th>

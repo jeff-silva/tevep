@@ -17,6 +17,12 @@
             <ui-money v-model="values.money"></ui-money>
             <pre v-html="values.money"></pre>
         </div>
+
+        <div class="col-12 col-md-6 form-group">
+            <label>Texto HTML</label>
+            <ui-content v-model="values.content"></ui-content>
+            <pre v-html="values.content"></pre>
+        </div>
         
         <div class="col-12 col-md-6 form-group">
             <label>Datepicker</label>
@@ -25,9 +31,9 @@
         </div>
 
         <div class="col-12 col-md-6 form-group">
-            <label>Texto HTML</label>
-            <ui-content v-model="values.content"></ui-content>
-            <pre v-html="values.content"></pre>
+            <label>Timeago</label>
+            <ui-timeago v-model="values.datepicker" class="form-control"></ui-timeago>
+            <pre v-html="values.datepicker"></pre>
         </div>
 
         <div class="col-12 col-md-6 form-group">
@@ -60,7 +66,7 @@
             <pre>{{ values.code }}</pre>
         </div>
         
-        <div class="col-12 col-md-12 form-group">
+        <div class="col-12 col-md-6 form-group">
             <label>Upload</label>
             <ui-upload v-model="values.upload"></ui-upload>
             <pre>{{ values.upload }}</pre>
@@ -69,7 +75,7 @@
         <div class="col-12 col-md-6 form-group">
             <label>Select simples</label>
             <ui-select v-model="values.select" :multiple="false">
-                <template #selected="{option}">{{ option.text }}</template>
+                <template #selected="{option}"><div class="badge badge-secondary mr-1">{{ option.text }}</div></template>
                 <template #options="{select, selected}">
                     <div class="row no-gutters">
                         <div class="col-4 p-2" v-for="i in selectItems" @click="select(i, $event);" :class="{'bg-secondary':selected(i)}">
@@ -84,7 +90,7 @@
         <div class="col-12 col-md-6 form-group">
             <label>Select multiplo</label>
             <ui-select v-model="values.selects" :multiple="true">
-                <template #selected="{option}">{{ option.text }}</template>
+                <template #selected="{option}"><div class="badge badge-secondary mr-1">{{ option.text }}</div></template>
                 <template #options="{select, selected}">
                     <div class="row no-gutters">
                         <div class="col-4 p-2" v-for="i in selectItems" @click="select(i, $event);" :class="{'bg-secondary':selected(i)}">

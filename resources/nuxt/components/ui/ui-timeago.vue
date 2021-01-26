@@ -1,5 +1,6 @@
 <template><div class="ui-timeago">
-    <time-ago :datetime="props.value" :refresh="props.refresh" :locale="props.locale" :long="props.long"></time-ago>
+    <time-ago :datetime="validDatetime(props.value)" :refresh="props.refresh" :locale="props.locale" :long="props.long" v-if="props.value"></time-ago>
+    <div v-else>&nbsp;</div>
 </div></template>
 
 <script>
@@ -13,6 +14,18 @@ export default {
         locale: {default:'pt_BR'},
         refresh: {default:60},
         long: {default:true},
+    },
+
+    watch: {
+		$props: {deep:true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
+    },
+
+    methods: {
+        validDatetime(value) {
+            return (value||'').replace('T', ' ');
+        },
     },
 
     data() {

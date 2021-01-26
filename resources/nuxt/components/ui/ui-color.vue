@@ -1,7 +1,7 @@
 <template><div class="ui-color form-control input-group p-0 border-0" style="position:relative;">
   <input type="text" class="form-control" v-model="props.value">
   <component class="ui-color-component" :is="props.type" v-model="tempValue" @input="emit(tempValue)" style="position:absolute; top:100%; left:0px; z-index:2;"></component>
-  <div class="input-group-prepend"><div class="input-group-text" :style="`background:${props.value};`">&nbsp;</div></div>
+  <div class="input-group-prepend" v-if="props.value"><div class="input-group-text" :style="`background:${props.value};`">&nbsp;</div></div>
 </div></template>
 
 
