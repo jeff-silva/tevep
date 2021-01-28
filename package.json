@@ -44,7 +44,8 @@
         "sass": "^1.26.10",
         "sass-loader": "^8.0.0",
         "standard-version": "^9.0.0",
-        "vue-jest": "^3.0.6"
+        "vue-jest": "^3.0.6",
+        "vue2-ace-editor": "0.0.15"
     },
     "dependencies": {
         "@egjs/vue-flicking": "^3.5.1",
@@ -63,12 +64,12 @@
         "leaflet": "^1.7.1",
         "luxon": "^1.25.0",
         "moment": "^2.29.1",
-        "prismjs": "^1.23.0",
         "v-money": "^0.8.1",
+        "v-runtime-template": "^1.10.0",
         "v-tooltip": "^2.0.3",
+        "vue-codemirror": "^4.0.6",
         "vue-color": "^2.8.1",
         "vue-datetime": "^1.0.0-beta.14",
-        "vue-prism-editor": "^1.2.2",
         "vue-sweetalert2": "^4.1.1",
         "vue-the-mask": "^0.11.1",
         "vue2-leaflet": "^2.6.0",

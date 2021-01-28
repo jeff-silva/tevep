@@ -1,35 +1,72 @@
 <template><div class="ui-code bg-dark">
-  <prism-editor v-model="props.value" :highlight="highlighter" line-numbers @input="emit()"></prism-editor>
+  <codemirror v-model="props.value" :options="compOptions"></codemirror>
+  <pre>compOptions: {{ compOptions }}</pre>
 </div></template>
 
 <style>
-.ui-code .prism-editor__textarea:focus {outline: none;}
-.ui-code .prism-editor__line-number {font-family:courier!important; color:#bbb!important;}
-.ui-code .prism-editor__container * {font-family:courier!important;}
+.ui-code .CodeMirror-cursor {height:16px!important;}
+.ui-code .CodeMirror-line, .ui-code .CodeMirror-line * {font:16px monospace!important; line-height:16px!important;}
+.ui-code .CodeMirror-code > * {}
+.ui-code .CodeMirror {height:auto;}
+
+.CodeMirror-hscrollbar::-webkit-scrollbar {width:8px; height:8px;}
+.CodeMirror-hscrollbar::-webkit-scrollbar-track {background: transparent;}
+.CodeMirror-hscrollbar::-webkit-scrollbar-thumb {background: #999; border-radius: 6px;}
 </style>
 
 
 <script>
-import { PrismEditor } from 'vue-prism-editor';
-import 'vue-prism-editor/dist/prismeditor.min.css';
+// ambiance
+// ayu-dark
+// ayu-mirage
+// bespin
+// gruvbox-dark
+// hopscotch
+// icecoder
+// material-darker
+// material-ocean
+// material
+// monokai
+// nord
+// oceanic-next
+// railscasts
+// shadowfox
+// solarized
+// tomorrow-night-bright
+// tomorrow-night-eighties
+// twilight
+// vibrant-ink
 
-import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism-tomorrow.css';
+import codemirror from 'vue-codemirror';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/ambiance.css';
+import 'codemirror/mode/javascript/javascript.js';
 
 export default {
-  components: { PrismEditor },
+  components: {
+    codemirror: codemirror.codemirror,
+  },
 
   props: {
     value: {default:''},
-    language: {default:'js'},
   },
 
   watch: {
     $props: {deep:true, handler(value) {
       this.props = Object.assign({}, value);
     }},
+  },
+
+  computed: {
+    compOptions() {
+      return {
+        tabSize: 4,
+        mode: 'text/javascript',
+        theme: 'ambiance',
+        lineNumbers: true,
+        line: true,
+      };
+    },
   },
 
   data() {
@@ -39,11 +76,6 @@ export default {
   },
 
   methods: {
-    highlighter(code) {
-      let lang = languages[this.props.language]||languages.js;
-      return highlight(code, lang);
-    },
-
     emit() {
       this.$emit('input', this.props.value);
     },

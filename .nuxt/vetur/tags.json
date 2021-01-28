@@ -107,6 +107,12 @@
   "LazyUiDrawer": {
     "description": "Auto imported from components/ui/ui-drawer.vue"
   },
+  "UiDropdown": {
+    "description": "Auto imported from components/ui/ui-dropdown.vue"
+  },
+  "LazyUiDropdown": {
+    "description": "Auto imported from components/ui/ui-dropdown.vue"
+  },
   "UiField": {
     "description": "Auto imported from components/ui/ui-field.vue"
   },
@@ -184,6 +190,12 @@
   },
   "LazyUiPhoto": {
     "description": "Auto imported from components/ui/ui-photo.vue"
+  },
+  "UiPlayground": {
+    "description": "Auto imported from components/ui/ui-playground.vue"
+  },
+  "LazyUiPlayground": {
+    "description": "Auto imported from components/ui/ui-playground.vue"
   },
   "UiSelect": {
     "description": "Auto imported from components/ui/ui-select.vue"

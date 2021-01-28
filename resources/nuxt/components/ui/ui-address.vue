@@ -5,7 +5,7 @@
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     CEP
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.zipcode"
+                <input type="text" class="form-control" v-model="props.value.zipcode"
                     v-mask="'#####-###'" autocomplete="off-none"
                     @keyup.enter.prevent="osmSearch({q:props.value.zipcode}, false)">
                 <div class="input-group-append"><div class="input-group-btn border-0">
@@ -24,18 +24,20 @@
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     Endereço
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.route" placeholder="Endereço"
-                    autocomplete="off-none"
+                <input type="text" class="form-control" v-model="props.value.route" placeholder="Endereço"
+                    autocomplete="off-none" @focus="$refs.dropdown.show($event)"
                     @keyup="debounce(500, () => { osmSearch({q:props.value.route}, true) })">
             </div>
 
-            <div style="position:relative; z-index:2;">
-                <div class="bg-white shadow" style="position:absolute; width:100%; max-height:200px; overflow:auto; z-index:1;">
-                    <a href="javascript:;" v-for="r in searchResults" class="d-block p-2" style="border-bottom:solid 1px #eee;" @click="selectPlace(r); searchResults=[];">
-                        {{ r.address.road||'' }}, {{ r.address.suburb||r.address.neighbourhood }} - {{ r.address.city }}/{{ getEstadoFromCode(r.address.state) }} | {{ r.address.postcode }}
-                    </a>
-                </div>
-            </div>
+            <ui-dropdown ref="dropdown">
+                <template #content>
+                    <div class="bg-white shadow" style="max-height:300px; overflow:auto;">
+                        <a href="javascript:;" v-for="r in searchResults" class="d-block p-2 text-dark" style="border-bottom:solid 1px #eee; text-decoration:none;" @click="selectPlace(r); $refs.dropdown.toggle();">
+                            {{ r.address.road||'' }}, {{ r.address.suburb||r.address.neighbourhood }} - {{ r.address.city }}/{{ getEstadoFromCode(r.address.state) }} | {{ r.address.postcode }}
+                        </a>
+                    </div>
+                </template>
+            </ui-dropdown>
         </div>
 
         <div class="col-12 col-md-4 mb-2">
@@ -43,7 +45,7 @@
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     Número
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.number" @change="emit()">
+                <input type="text" class="form-control" v-model="props.value.number" @change="emit()">
             </div>
         </div>
 
@@ -52,24 +54,24 @@
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     Comp.
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.complement" @change="emit()">
+                <input type="text" class="form-control" v-model="props.value.complement" @change="emit()">
             </div>
         </div>
 
         <div class="col-12 col-md-4 mb-2">
-            <div class="input-group form-control border-0 p-0" title="Bairro">
+            <div class="input-group form-control border-0 p-0" :title="'Bairro '+props.value.district">
                 <div class="input-group-prepend"><div class="input-group-text border-0" style="width:100px;">
                     Bairro
                 </div></div>
-                <input type="text" class="form-control border-0" v-model="props.value.district" @change="emit()">
+                <input type="text" class="form-control" v-model="props.value.district" @change="emit()">
             </div>
         </div>
 
         <div class="col-12 col-md-4">
             <div class="input-group form-control border-0 p-0">
-                <input type="text" class="form-control border-0" v-model="props.value.city" @change="emit()" placeholder="Cidade">
+                <input type="text" class="form-control" v-model="props.value.city" @change="emit()" placeholder="Cidade">
 
-                <select class="form-control border-0" v-model="props.value.st" @change="emit()">
+                <select class="form-control" v-model="props.value.st" @change="emit()">
                     <option value="">Estado</option>
                     <option value="AC">Acre</option>
                     <option value="AL">Alagoas</option>

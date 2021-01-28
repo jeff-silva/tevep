@@ -8,7 +8,7 @@
                 >{{ i.title }}</nuxt-link>
             </div>
         </div>
-        <div class="col p-1" style="height:100vh; overflow:auto;">
+        <div class="col p-2" style="height:100vh; overflow:auto;">
             <nuxt-child></nuxt-child>
         </div>
     </div>

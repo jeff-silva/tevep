@@ -141,6 +141,7 @@ export default {
 			author: 'jeferson.i.silva@gmail.com',
 		},
 	},
+
 	manifest: {
 		name: (process.env.APP_NAME||'APP_NAME'),
 		short_name: (process.env.APP_NAME||'APP_NAME'),
@@ -150,6 +151,7 @@ export default {
 		lang: 'pt-BR',
 		useWebmanifestExtension: true,
 	},
+
 	workbox: {
 		enabled: true,
 		runtimeCaching: [
@@ -178,5 +180,9 @@ export default {
 	** Build configuration
 	** See https://nuxtjs.org/api/configuration-build/
 	*/
-	build: {}
+	build: {
+		extend(config, ctx) {
+			config.resolve.alias['vue'] = 'vue/dist/vue.common';
+		}
+	}
 }
