@@ -69,6 +69,7 @@ Artisan::command('app-deploy', function () {
     \Artisan::call('view:clear');
     \Artisan::call('route:clear');
     \Artisan::call('optimize:clear');
+    \Artisan::call('storage:link');
     
     $this->comment('Finish');
     $this->comment($separator);
