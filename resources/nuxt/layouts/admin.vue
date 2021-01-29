@@ -17,9 +17,9 @@ export default {
         };
     },
 
-    async fetch() {
-        this.notifications = await this.$axios.get('/api/user/notifications?seen=0').then(res => res.data);
-    },
+    // async fetch() {
+    //     this.notifications = await this.$axios.get('/api/user/notifications?seen=0').then(res => res.data);
+    // },
 
     methods: {
         logout() {
@@ -68,7 +68,7 @@ export default {
     },
 
     mounted() {
-        setInterval(() => { this.$fetch(); }, 60000);
+        // setInterval(() => { this.$fetch(); }, 60000);
     },
 };</script>
 
@@ -488,6 +488,12 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Exo');
 * {font-family: 'Exo', sans-serif;}
+
+/* Custom scrollbar */
+*::-webkit-scrollbar {width:15px; height:15px;}
+*::-webkit-scrollbar-track {background:transparent;}
+*::-webkit-scrollbar-thumb {background:transparent; border-radius:6px; box-shadow: inset 0 0 10px 10px var(--gray); border: solid 3px transparent;}
+
 
 
 @charset "UTF-8";/*!* CoreUI PRO - HTML, CSS, and JavaScript UI Components Library

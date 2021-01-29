@@ -16,6 +16,7 @@ const _51b854a1 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\
 const _1e2e07c2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\grape.vue' /* webpackChunkName: "pages/test/index/grape" */))
 const _6be9727e = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\input.vue' /* webpackChunkName: "pages/test/index/input" */))
 const _3bb40343 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\layout.vue' /* webpackChunkName: "pages/test/index/layout" */))
+const _5c9be14c = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\nav.vue' /* webpackChunkName: "pages/test/index/nav" */))
 const _2472ee76 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\table.vue' /* webpackChunkName: "pages/test/index/table" */))
 const _953cc452 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\tabs.vue' /* webpackChunkName: "pages/test/index/tabs" */))
 const _016745f9 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\index.vue' /* webpackChunkName: "pages/tevep/index" */))
@@ -99,6 +100,10 @@ export const routerOptions = {
       component: _3bb40343,
       name: "test-index-layout"
     }, {
+      path: "nav",
+      component: _5c9be14c,
+      name: "test-index-nav"
+    }, {
       path: "table",
       component: _2472ee76,
       name: "test-index-table"
@@ -152,6 +157,10 @@ export const routerOptions = {
     path: "/",
     component: _4c6fd2aa,
     name: "index"
+  }, {
+    path: "/__nuxt_laravel",
+    component: _4c6fd2aa,
+    name: "__nuxt_laravel"
   }],
 
   fallback: false

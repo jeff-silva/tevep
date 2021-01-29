@@ -27,6 +27,7 @@ export { default as UiLaravelPagination } from '../..\\resources\\nuxt\\componen
 export { default as UiLayout } from '../..\\resources\\nuxt\\components\\ui\\ui-layout.vue'
 export { default as UiModal } from '../..\\resources\\nuxt\\components\\ui\\ui-modal.vue'
 export { default as UiMoney } from '../..\\resources\\nuxt\\components\\ui\\ui-money.vue'
+export { default as UiNav } from '../..\\resources\\nuxt\\components\\ui\\ui-nav.vue'
 export { default as UiNavbar } from '../..\\resources\\nuxt\\components\\ui\\ui-navbar.vue'
 export { default as UiPagination } from '../..\\resources\\nuxt\\components\\ui\\ui-pagination.vue'
 export { default as UiPasswordMeter } from '../..\\resources\\nuxt\\components\\ui\\ui-password-meter.vue'
@@ -71,6 +72,7 @@ export const LazyUiLaravelPagination = import('../..\\resources\\nuxt\\component
 export const LazyUiLayout = import('../..\\resources\\nuxt\\components\\ui\\ui-layout.vue' /* webpackChunkName: "components_ui/ui-layout" */).then(c => c.default || c)
 export const LazyUiModal = import('../..\\resources\\nuxt\\components\\ui\\ui-modal.vue' /* webpackChunkName: "components_ui/ui-modal" */).then(c => c.default || c)
 export const LazyUiMoney = import('../..\\resources\\nuxt\\components\\ui\\ui-money.vue' /* webpackChunkName: "components_ui/ui-money" */).then(c => c.default || c)
+export const LazyUiNav = import('../..\\resources\\nuxt\\components\\ui\\ui-nav.vue' /* webpackChunkName: "components_ui/ui-nav" */).then(c => c.default || c)
 export const LazyUiNavbar = import('../..\\resources\\nuxt\\components\\ui\\ui-navbar.vue' /* webpackChunkName: "components_ui/ui-navbar" */).then(c => c.default || c)
 export const LazyUiPagination = import('../..\\resources\\nuxt\\components\\ui\\ui-pagination.vue' /* webpackChunkName: "components_ui/ui-pagination" */).then(c => c.default || c)
 export const LazyUiPasswordMeter = import('../..\\resources\\nuxt\\components\\ui\\ui-password-meter.vue' /* webpackChunkName: "components_ui/ui-password-meter" */).then(c => c.default || c)

@@ -173,6 +173,12 @@
   "LazyUiMoney": {
     "description": "Auto imported from components/ui/ui-money.vue"
   },
+  "UiNav": {
+    "description": "Auto imported from components/ui/ui-nav.vue"
+  },
+  "LazyUiNav": {
+    "description": "Auto imported from components/ui/ui-nav.vue"
+  },
   "UiNavbar": {
     "description": "Auto imported from components/ui/ui-navbar.vue"
   },

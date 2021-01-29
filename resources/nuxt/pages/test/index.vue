@@ -87,6 +87,10 @@ export default {
                     to: "/test/layout",
                 },
                 {
+                    title: "Navigation",
+                    to: "/test/nav",
+                },
+                {
                     title: "Table",
                     to: "/test/table",
                 },
