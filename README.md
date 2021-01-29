@@ -1,11 +1,16 @@
 # Installation
-``npm install``
-``composer install``
-``php artisan key:generate``
-``php artisan jwt:secret``
-``php artisan storage:link``
-``php artisan app-deploy``
-``npm run dev``
+
+```bash
+npm install
+composer install
+php artisan key:generate
+php artisan jwt:secret
+php artisan storage:link
+php artisan app-deploy
+npm run dev
+```
+
+Caso obtenha o erro "JWT payload does not contain the required claims", acesse o arquivo config/jwt.php e comente o item 'required_claims.exp'
 
 # Build
 ``npm run build``
