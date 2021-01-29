@@ -34,7 +34,15 @@
                                 <slot name="header" v-bind="compSlotBind"></slot>
                             </div>
             
-                            <div class="p-2 shadow-sm font-weight-bold text-uppercase mb-3">{{ compSlotBind.tab.title }}</div>
+                            <div class="d-flex py-2 shadow-sm font-weight-bold text-uppercase mb-2">
+                                <div class="px-2">{{ compSlotBind.tab.title }}</div>
+                                <div class="px-2">|</div>
+                                <div class="px-2">
+                                    <span v-if="compSlotBind.nodeParent.id">{{ compSlotBind.nodeParent.title }}</span>
+                                    <span v-if="compSlotBind.nodeParent.id"> > </span>
+                                    <span>{{ compSlotBind.node.title }}</span>
+                                </div>
+                            </div>
                             <div class="p-2">
                                 <slot :name="t.id" v-bind="compSlotBind">
                                     <div class="bg-gray text-muted text-center p-3 m-0">{{ t.title }} em construção</div>
