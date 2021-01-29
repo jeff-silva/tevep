@@ -1,5 +1,8 @@
 <template><form class="ui-form" :method="method" :action="action" @submit.prevent="submit()">
     <slot :loading="loading"></slot>
+    <slot name="success"></slot>
+    <slot name="error"></slot>
+    <slot name="content"></slot>
 </form></template>
 
 <script>export default {

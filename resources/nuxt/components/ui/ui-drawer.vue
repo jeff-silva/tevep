@@ -1,4 +1,7 @@
 <template><div class="ui-drawer">
+    <template v-if="renderHere">
+        <slot name="content"></slot>
+    </template>
     <div :class="`ui-drawer-type ui-drawer-type-${props.type} ${props.value? 'ui-drawer-type-show': null}`"
         :style="`background:${props.backdropColor};`"
         @mousedown.self="props.value=false; $emit('input', props.value);" style="animation-duration:300ms;">
@@ -51,6 +54,7 @@
         type: {default: 'modal'}, // modal | drawer-left | drawer-right
         backdropColor: {default: '#00000055'},
         width: {default: '300px'},
+        renderHere: {default: false},
     },
 
     watch: {
@@ -61,7 +65,16 @@
 
     methods: {
         toggle() {
-            this.props.value = !this.props.value;
+            this.props.value? this.hide(): this.show();
+        },
+
+        show() {
+            this.props.value = true;
+            this.$emit('value', this.props.value);
+        },
+
+        hide() {
+            this.props.value = false;
             this.$emit('value', this.props.value);
         },
     },

@@ -1,12 +1,9 @@
 <template><div class="page-test-input">
-    <!-- <ui-playground>
-        Aaa
-    </ui-playground> -->
-
     <div v-for="e in examples" class="bg-white mb-3 shadow-sm">
         <div class="bg-secondary p-2 text-uppercase font-weight-bold" v-html="e.title"></div>
         <div class="row no-gutters align-items-center">
             <div class="col-12 col-md-7 p-3">
+                <div v-html="e.description" class="text-muted mb-2"></div>
                 <v-runtime-template :template="e.code"></v-runtime-template>
             </div>
             <div class="col-12 col-md-5 p-md-3">
@@ -36,118 +33,7 @@
 
     <!--
     <div class="row">
-        <div class="col-12 col-md-6 form-group">
-            <label>Texto simples</label>
-            <input type="text" class="form-control" v-model="values.text">
-            <pre>{{ values.text }}</pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Texto simples com máscara</label>
-            <input type="text" class="form-control" v-model="values.text_mask" v-mask="['###.###.###', '#### #### #### ####']">
-            <pre>{{ values.text_mask }}</pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Dinheiro</label>
-            <ui-money v-model="values.money"></ui-money>
-            <pre v-html="values.money"></pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Texto HTML</label>
-            <ui-content v-model="values.content"></ui-content>
-            <pre v-html="values.content"></pre>
-        </div>
-        
-        <div class="col-12 col-md-6 form-group">
-            <label>Datepicker</label>
-            <ui-datepicker v-model="values.datepicker"></ui-datepicker>
-            <pre v-html="values.datepicker"></pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Timeago</label>
-            <ui-timeago v-model="values.datepicker" class="form-control"></ui-timeago>
-            <pre v-html="values.datepicker"></pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Telefone</label>
-            <ui-phone v-model="values.phone"></ui-phone>
-            <pre>{{ values.phone }}</pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Cor</label>
-            <ui-color v-model="values.color"></ui-color>
-            <pre>{{ values.color }}</pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Senha com medidor</label>
-            <ui-password v-model="values.password"></ui-password>
-            <pre v-html="values.password"></pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Senha sem medidor</label>
-            <ui-password v-model="values.password" :meter="false"></ui-password>
-            <pre v-html="values.password"></pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Código</label>
-            <ui-code v-model="values.code"></ui-code>
-            <pre>{{ values.code }}</pre>
-        </div>
-        
-        <div class="col-12 col-md-6 form-group">
-            <label>Upload</label>
-            <ui-upload v-model="values.upload"></ui-upload>
-            <pre>{{ values.upload }}</pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Select simples</label>
-            <ui-select v-model="values.select" :multiple="false">
-                <template #selected="{option}"><div class="badge badge-secondary mr-1">{{ option.text }}</div></template>
-                <template #options="{select, selected}">
-                    <div class="row no-gutters">
-                        <div class="col-4 p-2" v-for="i in selectItems" @click="select(i, $event);" :class="{'bg-secondary':selected(i)}">
-                            <strong>Opção:</strong> {{ i.text }}
-                        </div>
-                    </div>
-                </template>
-            </ui-select>
-            <pre>values.select: {{ values.select }}</pre>
-        </div>
-
-        <div class="col-12 col-md-6 form-group">
-            <label>Select multiplo</label>
-            <ui-select v-model="values.selects" :multiple="true">
-                <template #selected="{option}"><div class="badge badge-secondary mr-1">{{ option.text }}</div></template>
-                <template #options="{select, selected}">
-                    <div class="row no-gutters">
-                        <div class="col-4 p-2" v-for="i in selectItems" @click="select(i, $event);" :class="{'bg-secondary':selected(i)}">
-                            <strong>Opção:</strong> {{ i.text }}
-                        </div>
-                    </div>
-                </template>
-            </ui-select>
-            <pre>values.selects: {{ values.selects }}</pre>
-        </div>
-
-        <div class="col-12 col-md-12 form-group">
-            <label>Endereço</label>
-            <ui-address v-model="values.address"></ui-address>
-            <pre>{{ values.address }}</pre>
-        </div>
-
         <div class="col-12 col-md-5 form-group">
-            
-
-
             <label>Texto simples</label>
             <ui-slider v-model="values.slider">
                 <template #sliders>
@@ -162,9 +48,6 @@
         </div>
     </div>
     -->
-
-    <!-- <ui-datepicker></ui-datepicker> -->
-    <pre>$data: {{ $data }}</pre>
 </div></template>
 
 
@@ -190,13 +73,15 @@ export default {
 
         data.examples.push({
             title: 'text',
-            code: `<input type="text" class="form-control" v-model="values.text" />`,
+            description: 'Campo de texto simples',
+            code: `<div>\n\t<input type="text" class="form-control" v-model="values.text" />\n</div>`,
             attr: 'text',
             value: 'Hello world!',
         });
 
         data.examples.push({
             title: 'ui-address',
+            description: 'Retorna dados referentes ao endereço',
             code: '<ui-address v-model="values.address"></ui-address>',
             attr: 'address',
             value: {zipcode:'30710-380'},
@@ -204,6 +89,7 @@ export default {
 
         data.examples.push({
             title: 'ui-auth-login',
+            description: 'Componente para autenticação',
             code: '<ui-auth-login></ui-auth-login>',
             attr: false,
             value: false,
@@ -211,6 +97,7 @@ export default {
 
         data.examples.push({
             title: 'ui-auth-password',
+            description: 'Recuperação de senha',
             code: '<ui-auth-password></ui-auth-password>',
             attr: false,
             value: false,
@@ -218,20 +105,39 @@ export default {
 
         data.examples.push({
             title: 'ui-auth-register',
+            description: 'Componente para cadastro de usuário',
             code: '<ui-auth-register></ui-auth-register>',
             attr: false,
             value: false,
         });
 
         data.examples.push({
+            title: 'ui-code',
+            description: 'Editor de código',
+            code: '<ui-code v-model="values.code"></ui-code>',
+            attr: 'code',
+            value: `let data = [];\ndata.push(Math.round(Math.random() * 999));\nconsole.log(data);`,
+        });
+
+        data.examples.push({
             title: 'ui-color',
+            description: 'Código de cor no formato RGB8',
             code: '<ui-color v-model="values.color"></ui-color>',
             attr: 'color',
             value: '#00000055',
         });
 
         data.examples.push({
+            title: 'ui-color (sem input)',
+            description: 'Também retorna o código de cor, no entanto sem utilização da input',
+            code: '<ui-color v-model="values.color" :show-input="false"></ui-color>',
+            attr: 'color',
+            value: '#00000055',
+        });
+
+        data.examples.push({
             title: 'ui-content',
+            description: 'Conteúdo simples (aceita ctrl+b para negrito, ctrl+i para itálico, ctrl+u para underline). Também é possivel postar print.',
             code: '<ui-content v-model="values.content"></ui-content>',
             attr: 'content',
             value: '',
@@ -239,6 +145,7 @@ export default {
 
         data.examples.push({
             title: 'ui-datepicker',
+            description: 'Retorna data',
             code: '<ui-datepicker v-model="values.datepicker"></ui-datepicker>',
             attr: 'datepicker',
             value: '1986-02-11 15:30:00',
@@ -246,6 +153,7 @@ export default {
 
         data.examples.push({
             title: 'ui-money',
+            description: 'Campo de valor monetário',
             code: '<ui-money v-model="values.money"></ui-money>',
             attr: 'money',
             value: '12345.67',
@@ -253,6 +161,7 @@ export default {
 
         data.examples.push({
             title: 'ui-password',
+            description: 'Campo de senha',
             code: '<ui-password v-model="values.password"></ui-password>',
             attr: 'password',
             value: 'john123!@#',
@@ -260,6 +169,7 @@ export default {
 
         data.examples.push({
             title: 'ui-phone',
+            description: 'Campo de telefone',
             code: '<ui-phone v-model="values.phone"></ui-phone>',
             attr: 'phone',
             value: '+55 (31) 98765-4321',
@@ -267,6 +177,7 @@ export default {
 
         data.examples.push({
             title: 'ui-select',
+            description: 'Select avançado',
             code: `<ui-select v-model="values.select">
                 <template #selected="{option}"><div class="badge badge-secondary mr-1">{{ option.text }}</div></template>
                 <template #options="{select, selected}">
@@ -283,6 +194,7 @@ export default {
 
         data.examples.push({
             title: 'ui-select multiple',
+            description: 'Select de múltiplos itens',
             code: `<ui-select v-model="values.selects" :multiple="true">
                 <template #selected="{option}"><div class="badge badge-secondary mr-1">{{ option.text }}</div></template>
                 <template #options="{select, selected}">
@@ -299,18 +211,13 @@ export default {
 
         data.examples.push({
             title: 'ui-upload',
+            description: 'Upload de arquivos',
             code: '<ui-upload v-model="values.upload"></ui-upload>',
             attr: 'upload',
             value: '',
         });
 
-        data.values = {
-            // address: {zipcode:"30710-380"},
-            // phone: "+55 (31) 98765-4321",
-            // code: `let data = [];\ndata.push(Math.round(Math.random() * 999));\nconsole.log(data);`,
-            // select: false,
-            // selects: [],
-        };
+        data.values = {};
 
         data.examples.forEach(item => {
             if (item.attr && typeof data.values[item.attr]=='undefined') {

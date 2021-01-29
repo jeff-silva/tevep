@@ -119,6 +119,12 @@
   "LazyUiField": {
     "description": "Auto imported from components/ui/ui-field.vue"
   },
+  "UiFormField": {
+    "description": "Auto imported from components/ui/ui-form-field.vue"
+  },
+  "LazyUiFormField": {
+    "description": "Auto imported from components/ui/ui-form-field.vue"
+  },
   "UiForm": {
     "description": "Auto imported from components/ui/ui-form.vue"
   },
@@ -142,6 +148,12 @@
   },
   "LazyUiLaravelPagination": {
     "description": "Auto imported from components/ui/ui-laravel-pagination.vue"
+  },
+  "UiLayout": {
+    "description": "Auto imported from components/ui/ui-layout.vue"
+  },
+  "LazyUiLayout": {
+    "description": "Auto imported from components/ui/ui-layout.vue"
   },
   "UiModal": {
     "description": "Auto imported from components/ui/ui-modal.vue"
@@ -238,5 +250,11 @@
   },
   "LazyUserCard": {
     "description": "Auto imported from components/user/user-card.vue"
+  },
+  "Content": {
+    "description": "Auto imported from components/ui/ui-layout/content.vue"
+  },
+  "LazyContent": {
+    "description": "Auto imported from components/ui/ui-layout/content.vue"
   }
 }

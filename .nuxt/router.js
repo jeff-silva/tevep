@@ -12,8 +12,10 @@ const _3fc42301 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\
 const _53c6c239 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\carousel.vue' /* webpackChunkName: "pages/test/index/carousel" */))
 const _409fc58a = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\drawer.vue' /* webpackChunkName: "pages/test/index/drawer" */))
 const _ca2e7a16 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\endpoints.vue' /* webpackChunkName: "pages/test/index/endpoints" */))
+const _51b854a1 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\example.vue' /* webpackChunkName: "pages/test/index/example" */))
 const _1e2e07c2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\grape.vue' /* webpackChunkName: "pages/test/index/grape" */))
 const _6be9727e = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\input.vue' /* webpackChunkName: "pages/test/index/input" */))
+const _3bb40343 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\layout.vue' /* webpackChunkName: "pages/test/index/layout" */))
 const _2472ee76 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\table.vue' /* webpackChunkName: "pages/test/index/table" */))
 const _953cc452 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\tabs.vue' /* webpackChunkName: "pages/test/index/tabs" */))
 const _016745f9 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\index.vue' /* webpackChunkName: "pages/tevep/index" */))
@@ -81,6 +83,10 @@ export const routerOptions = {
       component: _ca2e7a16,
       name: "test-index-endpoints"
     }, {
+      path: "example",
+      component: _51b854a1,
+      name: "test-index-example"
+    }, {
       path: "grape",
       component: _1e2e07c2,
       name: "test-index-grape"
@@ -88,6 +94,10 @@ export const routerOptions = {
       path: "input",
       component: _6be9727e,
       name: "test-index-input"
+    }, {
+      path: "layout",
+      component: _3bb40343,
+      name: "test-index-layout"
     }, {
       path: "table",
       component: _2472ee76,

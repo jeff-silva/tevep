@@ -1,17 +1,35 @@
-<template><div :class="`ui-tabs ui-tabs-position-${props.position} ui-tabs-halign-${props.halign}`">
-    <div class="ui-tabs-nav ui-tabs-nav-top" v-if="props.position=='top'">
+<template><div class="ui-tabs">
+    <ul :class="`nav nav-tabs ui-tabs-tab ui-tabs-tab-top ui-tabs-halign-${props.halign}`" v-if="props.position=='top'">
+        <template v-for="(h, hindex) in headers">
+            <a class="nav-link" href="javascript:void(0);" v-html="h.title"
+                :class="{active:hindex==props.value}"
+                @click="setActive(hindex)"
+            ></a>
+        </template>
+    </ul>
+    
+    <!-- <div class="ui-tabs-nav ui-tabs-nav-top" v-if="props.position=='top'">
         <template v-for="(h, hindex) in headers">
             <a v-bind="h.bind" v-html="h.title" @click="setActive(hindex)"></a>
         </template>
-    </div>
+    </div> -->
 
-    <div class="row no-gutters row-eq-height bg-white">
+    <div class="row no-gutters row-eq-height">
         <div class="col-2" v-if="props.position=='left'">
-            <div class="ui-tabs-nav ui-tabs-nav-left">
+            <!-- <div class="ui-tabs-nav ui-tabs-nav-left">
                 <template v-for="(h, hindex) in headers">
                     <a v-bind="h.bind" v-html="h.title" @click="setActive(hindex)"></a>
                 </template>
-            </div>
+            </div> -->
+
+            <ul :class="`nav nav-tabs ui-tabs-tab ui-tabs-tab-left ui-tabs-halign-${props.halign}`" v-if="props.position=='left'">
+                <template v-for="(h, hindex) in headers">
+                    <a class="nav-link" href="javascript:void(0);" v-html="h.title"
+                        :class="{active:hindex==props.value}"
+                        @click="setActive(hindex)"
+                    ></a>
+                </template>
+            </ul>
         </div>
 
         <div class="col">
@@ -21,23 +39,62 @@
         </div>
 
         <div class="col-2" v-if="props.position=='right'">
-            <div class="ui-tabs-nav ui-tabs-nav-right">
+            <!-- <div class="ui-tabs-nav ui-tabs-nav-right">
                 <template v-for="(h, hindex) in headers">
                     <a v-bind="h.bind" v-html="h.title" @click="setActive(hindex)"></a>
                 </template>
-            </div>
+            </div> -->
+
+            <ul :class="`nav nav-tabs ui-tabs-tab ui-tabs-tab-right ui-tabs-halign-${props.halign}`" v-if="props.position=='right'">
+                <template v-for="(h, hindex) in headers">
+                    <a class="nav-link" href="javascript:void(0);" v-html="h.title"
+                        :class="{active:hindex==props.value}"
+                        @click="setActive(hindex)"
+                    ></a>
+                </template>
+            </ul>
         </div>
     </div>
 
-    <div class="ui-tabs-nav ui-tabs-nav-bottom" v-if="props.position=='bottom'">
+    <!-- <div class="ui-tabs-nav ui-tabs-nav-bottom" v-if="props.position=='bottom'">
         <template v-for="(h, hindex) in headers">
             <a v-bind="h.bind" v-html="h.title" @click="setActive(hindex)"></a>
         </template>
-    </div>
+    </div> -->
+
+    <ul :class="`nav nav-tabs ui-tabs-tab ui-tabs-tab-bottom ui-tabs-halign-${props.halign}`" v-if="props.position=='bottom'">
+        <template v-for="(h, hindex) in headers">
+            <a class="nav-link" href="javascript:void(0);" v-html="h.title"
+                :class="{active:hindex==props.value}"
+                @click="setActive(hindex)"
+            ></a>
+        </template>
+    </ul>
 </div></template>
 
 <style>
-.ui-tabs {}
+.ui-tabs-tab {}
+.ui-tabs-tab a {}
+
+.ui-tabs-tab-top {}
+.ui-tabs-tab-top.ui-tabs-halign-right {justify-content:flex-end;}
+
+.ui-tabs-tab-right {border-bottom:none; border-left:solid 1px #dee2e6;}
+.ui-tabs-tab-right.ui-tabs-halign-right a {text-align:right;}
+.ui-tabs-tab-right a {display:block!important; width:100%; border-radius:0px 3px 3px 0px !important;}
+.ui-tabs-tab-right a.active, .ui-tabs-tab-right a:hover {border-color:#dee2e6 #dee2e6 #dee2e6 transparent !important;}
+
+.ui-tabs-tab-bottom {border-bottom:none; border-top:solid 1px #dee2e6;}
+.ui-tabs-tab-bottom.ui-tabs-halign-right {justify-content:flex-end;}
+.ui-tabs-tab-bottom a {border-radius:0px 0px 3px 3px !important;}
+.ui-tabs-tab-bottom a.active, .ui-tabs-tab-bottom a:hover {border-color:transparent #dee2e6 #dee2e6 #dee2e6 !important;}
+
+.ui-tabs-tab-left {border-bottom:none; border-right:solid 1px #dee2e6;}
+.ui-tabs-tab-left.ui-tabs-halign-right a {text-align:right;}
+.ui-tabs-tab-left a {display:block!important; width:100%; border-radius:3px 3px 0px 0px !important;}
+.ui-tabs-tab-left a.active, .ui-tabs-tab-left a:hover {border-color:#dee2e6 transparent #dee2e6 #dee2e6 !important;}
+
+/* .ui-tabs {}
 .ui-tabs .row-eq-height {display:-webkit-box; display:-webkit-flex; display:-ms-flexbox; display:flex;}
 
 .ui-tabs-halign-left .ui-tabs-nav-right, .ui-tabs-halign-left .ui-tabs-nav-left {text-align:left;}
@@ -58,7 +115,7 @@
 .ui-tabs-content-top {}
 .ui-tabs-content-right {}
 .ui-tabs-content-bottom {}
-.ui-tabs-content-left {}
+.ui-tabs-content-left {} */
 </style>
 
 <script>
@@ -99,10 +156,10 @@ export default {
         },
 
         setActive(value) {
-            this.headers = this.getHeaders();
-
             this.props.value = value;
             this.$emit('input', value);
+
+            this.headers = this.getHeaders();
             
             this.$el.querySelectorAll('.ui-tabs-content > *').forEach((item, index) => {
                 item.style.display = this.props.value==index? 'block': 'none';

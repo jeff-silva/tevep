@@ -2,17 +2,31 @@
     <div class="d-flex">
         <div class="pr-1">
             <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==1}" @click="setPage(1)">
-                <i class="fa fa-fw fa-chevron-left"></i>
+                <i class="fa fa-fw fa-angle-double-left"></i>
             </a>
         </div>
+
+        <div class="pr-1">
+            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==1}" @click="setPage('-')">
+                <i class="fa fa-fw fa-angle-left"></i>
+            </a>
+        </div>
+
         <div class="text-center ui-pagination-scroll" @wheel="onWheel($event)">
             <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==p}" @click="setPage(p)" v-for="p in props.last_page">
                 {{ p }}
             </a>
         </div>
+        
+        <div class="pl-1">
+            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==props.last_page}" @click="setPage('+')">
+                <i class="fa fa-fw fa-angle-right"></i>
+            </a>
+        </div>
+
         <div class="pl-1">
             <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==props.last_page}" @click="setPage(props.last_page)">
-                <i class="fa fa-fw fa-chevron-right"></i>
+                <i class="fa fa-fw fa-angle-double-right"></i>
             </a>
         </div>
     </div>
@@ -46,6 +60,9 @@ export default {
 
     methods: {
         setPage(page) {
+            if (page=='+') { page = this.props.current_page+1; }
+            else if (page=='-') { page = this.props.current_page-1; }
+
             this.props.current_page = page;
             this.$emit('change', this.props);
         },

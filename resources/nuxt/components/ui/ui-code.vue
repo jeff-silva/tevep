@@ -1,6 +1,5 @@
 <template><div class="ui-code bg-dark">
   <codemirror v-model="props.value" :options="compOptions"></codemirror>
-  <pre>compOptions: {{ compOptions }}</pre>
 </div></template>
 
 <style>
@@ -40,7 +39,11 @@
 import codemirror from 'vue-codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/ambiance.css';
+
+import 'codemirror/mode/xml/xml.js';
 import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/mode/css/css.js';
+import 'codemirror/mode/htmlmixed/htmlmixed.js';
 
 export default {
   components: {
@@ -61,7 +64,7 @@ export default {
     compOptions() {
       return {
         tabSize: 4,
-        mode: 'text/javascript',
+        mode: 'htmlmixed',
         theme: 'ambiance',
         lineNumbers: true,
         line: true,

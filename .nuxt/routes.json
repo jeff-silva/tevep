@@ -62,6 +62,13 @@
         "_name": "_ca2e7a16"
       },
       {
+        "name": "test-index-example",
+        "path": "example",
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\example.vue",
+        "chunkName": "pages/test/index/example",
+        "_name": "_51b854a1"
+      },
+      {
         "name": "test-index-grape",
         "path": "grape",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\grape.vue",
@@ -74,6 +81,13 @@
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\input.vue",
         "chunkName": "pages/test/index/input",
         "_name": "_6be9727e"
+      },
+      {
+        "name": "test-index-layout",
+        "path": "layout",
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\layout.vue",
+        "chunkName": "pages/test/index/layout",
+        "_name": "_3bb40343"
       },
       {
         "name": "test-index-table",

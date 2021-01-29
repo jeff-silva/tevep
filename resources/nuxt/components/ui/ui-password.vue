@@ -3,7 +3,7 @@
         <input :type="props.type"
             class="form-control border-0 bg-transparent"
             v-model="props.value"
-            @keyup="$emit('input', props.value)"
+            @input="$emit('input', props.value)"
             :placeholder="props.placeholder">
         <div class="input-group-append"><div class="input-group-btn">
             <button type="button" class="btn" @click="props.type=(props.type=='text'? 'password': 'text')">
@@ -26,7 +26,7 @@
 
     watch: {
         $props: {deep:true, handler(value) {
-            this.props = Object.assign({}, value);
+            this.props = Object.assign({}, value, this.props);
         }},
     },
 
