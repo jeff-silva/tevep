@@ -19,3 +19,52 @@ Alterar "Acessar filho" por "acessar evento"
 
 Dúvidas
 Pedir para explicar melhor como vai funcionar o desdobramento de tempo (aparentemente o start/final ao abrir um evento vai precisar ser removido)
+
+
+
+- tela de tevep limpa
+- data dos eventos podem ser escritas;
+- dividir os tempos por sete;
+- login/cadastro facebook gmail;
+- inerencias devem aceitar multiples tempos/eventos/pessoas/espaços;
+- adicionar por cima;
+- rut é baseada em fundamentos > inerencias;
+
+
+
+tevep
+    titulo
+    data inicial
+    data final
+
+    tempos
+    eventos
+    espacos
+    pessoas
+
+
+
+
+tevep
+    título
+    data inicial
+    data final
+
+    nodes
+        node1
+            tempos
+                titulo
+                data inicial
+                data final
+
+            pilotos
+                titulo
+
+            pessoas
+                titulo
+
+            espaços
+                titulo
+
+        node2 (...)
+        node3 (...)

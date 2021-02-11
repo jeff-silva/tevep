@@ -1,111 +1,109 @@
-<template><div>
-    <div class="row no-gutters" v-for="m in months" v-if="m.month==month">
-        <div class="col">
-            <select class="form-control" v-model="day" @input="emit()">
-                <option :value="d|pad" v-for="d in m.days">{{ d|pad }}</option>
-            </select>
-        </div>
-    
-        <div class="col">
-            <select class="form-control" v-model="month" @input="emit()">
-                <option :value="mm.month" v-for="mm in months">{{ mm.name }}</option>
-            </select>
-        </div>
-    
-        <div class="col"><input type="number" class="form-control" v-model="year" @input="emit()"></div>
-    
-        <div class="col" v-if="time">
-            <div class="input-group form-control p-0">
-                <input type="number" class="form-control border-0 bg-transparent pr-0 text-right" min="1" max="23" v-model="hour" @input="emit()">
-                <div class="input-group-text border-0 bg-transparent px-0">:</div>
-                <input type="number" class="form-control border-0 bg-transparent px-0" min="0" max="59" step="5" v-model="minute" @input="emit()">
-            </div>
-        </div>
-    </div>
+<template><div class="ui-datetime" :class="{'ui-datetime-flatpickr-show':flatpickrShow}" style="position:relative;">
+    <input type="text" class="form-control" v-model="valueFake"
+        ref="input"
+        v-mask="['##/##/####', '##/##/#### - ##:##:##']"
+        @keyup="parseValueFake($event); emit();"
+        @focus="flatpickrShowTest()"
+        @blur="flatpickrShowTest()"
+    >
+    <div class="ui-datetime-flatpickr" ref="flatpickr"></div>
 </div></template>
 
-<script>export default {
+<style>
+.ui-datetime .ui-datetime-flatpickr {}
+.ui-datetime .flatpickr-calendar {visibility:hidden; opacity:0; transition: all 200ms ease; position:absolute; top:110%; left:0px; width:100%; min-width:310px; z-index:9;}
+.ui-datetime .flatpickr-calendar * {user-select: none;}
+.ui-datetime.ui-datetime-flatpickr-show .flatpickr-calendar {visibility:visible; opacity:1;}
+</style>
+
+<script>
+import flatpickr from "flatpickr";
+import 'flatpickr/dist/flatpickr.css';
+
+export default {
     props: {
         value: {default: ''},
         time: {default: true},
     },
 
-    filters: {
-        pad(num, size=2) {
-            var s = num+"";
-            while (s.length < size) s = "0" + s;
-            return s;
-        },
-    },
+    computed: {
+        compConfig() {
+            let data = {};
 
-    watch: {
-        $props: {
-            deep: true,
-            handler(value) {
-                this.props = Object.assign({}, value);
-                this.valueToFields();
-            },
-        },
-    },
+            if (this.props.time) {
+                data.inline = true;
+                data.enableTime = true;
+                data.time_24hr = true;
+            }
 
-    methods: {
-        emit() {
-            setTimeout(() => {
-                let value = this.getDate();
-                this.props.value = value;
-                this.$emit('input', this.props.value);
-                this.$emit('value', this.props.value);
-                this.$emit('change', this.props.value);
-            }, 100);
-        },
+            data.onChange = (selectedDates, dateStr, pickr) => {
+                this.props.value = pickr.formatDate(selectedDates[0], 'Y-m-d H:i:S');
+                this.valueFake = pickr.formatDate(selectedDates[0], 'd/m/Y H:i:S');
+                this.flatpickrShowTest();
+                this.$refs.input.focus();
+                this.emit();
+            };
 
-        getDate() {
-            let value = `${this.year}-${this.month}-${this.day}`;
-            if (this.time) { value += ` ${this.hour}:${this.minute}:${this.second}`; }
-            return value;
-        },
+            data.locale = {
+                weekdays: {
+                    shorthand: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+                    longhand: ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
+                },
 
-        valueToFields() {
-            let date = (this.props.value||'').split(/[^0-9]/);
-            this.year = date[0]||(new Date()).getFullYear();
-            this.month = date[1]||'01';
-            this.day = date[2]||'';
-            this.hour = date[3]||'';
-            this.minute = date[4]||'';
-            this.second = date[5]||'00';
+                months: {
+                    shorthand: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+                    longhand: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                },
+
+                rangeSeparator: " até ",
+                time_24hr: true,
+            };
+
+            return data;
         },
     },
 
     data() {
-        let data = {};
-        data.props = Object.assign({}, this.$props);
+        return {
+            valueFake: false,
+            flatpickr: false,
+            flatpickrShow: false,
+            props: Object.assign({}, this.$props),
+        };
+    },
 
-        data.year = (new Date()).getFullYear();
-        data.month = '01';
-        data.day = '';
-        data.hour = '';
-        data.minute = '';
-        data.second = '00';
+    methods: {
+        emit() {
+            this.$emit('input', this.props.value);
+        },
 
-        data.months = [
-            {month:"01", days:31, name:"Janeiro"},
-            {month:"02", days:29, name:"Fevereiro"},
-            {month:"03", days:31, name:"Março"},
-            {month:"04", days:30, name:"Abril"},
-            {month:"05", days:31, name:"Maio"},
-            {month:"06", days:30, name:"Junho"},
-            {month:"07", days:31, name:"Julho"},
-            {month:"08", days:31, name:"Agosto"},
-            {month:"09", days:30, name:"Setembro"},
-            {month:"10", days:31, name:"Outubro"},
-            {month:"11", days:30, name:"Novembro"},
-            {month:"12", days:31, name:"Dezembro"},
-        ];
+        parseValueFake(ev) {
+            let e = this.valueFake.split(/[^0-9]/).filter(n => !!n);
 
-        return data;
+            if (e[2] && e[2].length==4) {
+                this.props.value = [
+                    e[2],
+                    (e[1] || '01'),
+                    (e[0] || '01'),
+                ].join('-')
+                + ' '+ [
+                    (e[3] || '00'),
+                    (e[4] || '00'),
+                    (e[5] || '00'),
+                ].join(':');
+
+                this.flatpickr.setDate(this.props.value);
+            }
+        },
+
+        flatpickrShowTest() {
+            setTimeout(() => {
+                this.flatpickrShow = this.$el.contains(document.activeElement);
+            }, 100);
+        },
     },
 
     mounted() {
-        this.valueToFields();
+        this.flatpickr = flatpickr(this.$refs.flatpickr, this.compConfig);
     },
 };</script>

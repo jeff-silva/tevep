@@ -62,24 +62,6 @@
 </div></template>
 
 
-<style>
-ul.tevep-nav {list-style-type:none; padding:0px; margin:0px; width:130px;}
-ul.tevep-nav > li {position:relative; height:100px; display:flex; align-items:center; justify-content:center; border:solid 1px transparent;}
-ul.tevep-nav > li > a {display:block; color:#fff!important; padding:10px; text-decoration:none!important;}
-ul.tevep-nav > li:hover {border-color:#ffffff66;}
-ul.tevep-nav > li:hover > a,
-ul.tevep-nav > li.active > a {}
-ul.tevep-nav > li > a > img {width:80px!important;}
-ul.tevep-nav > li > ul {list-style-type:none; padding:0px; margin:0px; position:absolute; top:0px; left:100%; width:200px; z-index:9; visibility:hidden; opacity:0; transition: all 300ms ease;}
-ul.tevep-nav > li:hover > ul,
-ul.tevep-nav > li > a:active ~ ul {visibility:visible; opacity:1;}
-ul.tevep-nav > li > ul > li {}
-ul.tevep-nav > li > ul > li > a {display:block; color:#fff; padding:5px; text-decoration:none!important;}
-ul.tevep-nav > li > ul > li:hover > a,
-ul.tevep-nav > li > ul > li.active > a {background:#fff; color:#444;}
-</style>
-
-
 <script>
 const moment = require('moment');
 
