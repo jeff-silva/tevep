@@ -33,7 +33,6 @@
         submit() {
             let method = this.$axios[this.method];
             let params = this.method=='get'? {params:this.props.value}: this.props.value;
-            console.log({method:this.method, call:method, params});
 
             this.loading = `<i class="fa fa-fw fa-spin fa-spinner"></i>`;
             this.responseSuccess = false;

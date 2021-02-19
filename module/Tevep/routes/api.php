@@ -76,7 +76,8 @@ Route::get('/tevep/find/{id}', function($id) {
     return \Tevep\Models\Tevep::findOrFail($id);
 });
 
-Route::post('/tevep/store', function() {
+// Descobrir porque não aceita post e corrigir
+Route::any('/tevep/store', function() {
     return (new \Tevep\Models\Tevep)->store(request()->all());
 });
 
