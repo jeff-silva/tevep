@@ -3,25 +3,29 @@
     "name": "auth",
     "path": "/auth",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\index.vue",
-    "chunkName": "pages/auth/index"
+    "chunkName": "pages/auth/index",
+    "_name": "_c854e07a"
   },
   {
     "name": "dashboard",
     "path": "/dashboard",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\index.vue",
-    "chunkName": "pages/dashboard/index"
+    "chunkName": "pages/dashboard/index",
+    "_name": "_6017fe16"
   },
   {
     "name": "inspire",
     "path": "/inspire",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\inspire.vue",
-    "chunkName": "pages/inspire"
+    "chunkName": "pages/inspire",
+    "_name": "_08491073"
   },
   {
     "name": "settings",
     "path": "/settings",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\settings\\\\index.vue",
-    "chunkName": "pages/settings/index"
+    "chunkName": "pages/settings/index",
+    "_name": "_4646bde8"
   },
   {
     "name": "test",
@@ -33,111 +37,123 @@
         "name": "test-index-auth",
         "path": "auth",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\auth.vue",
-        "chunkName": "pages/test/index/auth"
+        "chunkName": "pages/test/index/auth",
+        "_name": "_3fc42301"
       },
       {
         "name": "test-index-carousel",
         "path": "carousel",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\carousel.vue",
-        "chunkName": "pages/test/index/carousel"
+        "chunkName": "pages/test/index/carousel",
+        "_name": "_53c6c239"
       },
       {
         "name": "test-index-drawer",
         "path": "drawer",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\drawer.vue",
-        "chunkName": "pages/test/index/drawer"
+        "chunkName": "pages/test/index/drawer",
+        "_name": "_409fc58a"
       },
       {
         "name": "test-index-endpoints",
         "path": "endpoints",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\endpoints.vue",
-        "chunkName": "pages/test/index/endpoints"
+        "chunkName": "pages/test/index/endpoints",
+        "_name": "_ca2e7a16"
       },
       {
         "name": "test-index-example",
         "path": "example",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\example.vue",
-        "chunkName": "pages/test/index/example"
+        "chunkName": "pages/test/index/example",
+        "_name": "_51b854a1"
       },
       {
         "name": "test-index-grape",
         "path": "grape",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\grape.vue",
-        "chunkName": "pages/test/index/grape"
+        "chunkName": "pages/test/index/grape",
+        "_name": "_1e2e07c2"
       },
       {
         "name": "test-index-input",
         "path": "input",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\input.vue",
-        "chunkName": "pages/test/index/input"
+        "chunkName": "pages/test/index/input",
+        "_name": "_6be9727e"
       },
       {
         "name": "test-index-layout",
         "path": "layout",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\layout.vue",
-        "chunkName": "pages/test/index/layout"
+        "chunkName": "pages/test/index/layout",
+        "_name": "_3bb40343"
       },
       {
         "name": "test-index-nav",
         "path": "nav",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\nav.vue",
-        "chunkName": "pages/test/index/nav"
+        "chunkName": "pages/test/index/nav",
+        "_name": "_5c9be14c"
       },
       {
         "name": "test-index-table",
         "path": "table",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\table.vue",
-        "chunkName": "pages/test/index/table"
+        "chunkName": "pages/test/index/table",
+        "_name": "_2472ee76"
       },
       {
         "name": "test-index-tabs",
         "path": "tabs",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\tabs.vue",
-        "chunkName": "pages/test/index/tabs"
+        "chunkName": "pages/test/index/tabs",
+        "_name": "_953cc452"
       }
-    ]
+    ],
+    "_name": "_d1dadace"
   },
   {
     "name": "tevep",
     "path": "/tevep",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\index.vue",
-    "chunkName": "pages/tevep/index"
-  },
-  {
-    "name": "tevep2",
-    "path": "/tevep2",
-    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\index.vue",
-    "chunkName": "pages/tevep2/index"
+    "chunkName": "pages/tevep/index",
+    "_name": "_016745f9"
   },
   {
     "name": "user",
     "path": "/user",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\index.vue",
-    "chunkName": "pages/user/index"
+    "chunkName": "pages/user/index",
+    "_name": "_30815dc0"
   },
   {
     "name": "auth-password",
     "path": "/auth/password",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\password.vue",
-    "chunkName": "pages/auth/password"
+    "chunkName": "pages/auth/password",
+    "_name": "_ab2ee08c"
   },
   {
     "name": "auth-register",
     "path": "/auth/register",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\register.vue",
-    "chunkName": "pages/auth/register"
+    "chunkName": "pages/auth/register",
+    "_name": "_22d1bfc2"
   },
   {
     "name": "dashboard-settings",
     "path": "/dashboard/settings",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\settings.vue",
-    "chunkName": "pages/dashboard/settings"
+    "chunkName": "pages/dashboard/settings",
+    "_name": "_69e79260"
   },
   {
     "name": "dashboard-users",
     "path": "/dashboard/users",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\dashboard\\\\users.vue",
-    "chunkName": "pages/dashboard/users"
+    "chunkName": "pages/dashboard/users",
+    "_name": "_155ddb2b"
   },
   {
     "name": "user-notifications",
@@ -149,154 +165,166 @@
         "name": "user-notifications-id",
         "path": ":id?",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\notifications\\\\_id.vue",
-        "chunkName": "pages/user/notifications/_id"
+        "chunkName": "pages/user/notifications/_id",
+        "_name": "_5346e758"
       }
-    ]
-  },
-  {
-    "name": "tevep-id",
-    "path": "/tevep/:id",
-    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id.vue",
-    "chunkName": "pages/tevep/_id"
+    ],
+    "_name": "_b6e1ce54"
   },
   {
     "name": "user-id",
     "path": "/user/:id",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\_id.vue",
-    "chunkName": "pages/user/_id"
+    "chunkName": "pages/user/_id",
+    "_name": "_37685fb0"
   },
   {
-    "name": "tevep2-id-tab",
-    "path": "/tevep2/:id/:tab?",
-    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab.vue",
-    "chunkName": "pages/tevep2/_id/_tab",
+    "name": "tevep-id-tab",
+    "path": "/tevep/:id/:tab?",
+    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab.vue",
+    "chunkName": "pages/tevep/_id/_tab",
     "children": [
       {
-        "name": "tevep2-id-tab-atendimento",
+        "name": "tevep-id-tab-atendimento",
         "path": "atendimento",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\atendimento.vue",
-        "chunkName": "pages/tevep2/_id/_tab/atendimento"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\atendimento.vue",
+        "chunkName": "pages/tevep/_id/_tab/atendimento",
+        "_name": "_8fb98aae"
       },
       {
-        "name": "tevep2-id-tab-complexidade",
+        "name": "tevep-id-tab-complexidade",
         "path": "complexidade",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\complexidade.vue",
-        "chunkName": "pages/tevep2/_id/_tab/complexidade"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\complexidade.vue",
+        "chunkName": "pages/tevep/_id/_tab/complexidade",
+        "_name": "_2ef41024"
       },
       {
-        "name": "tevep2-id-tab-custo",
+        "name": "tevep-id-tab-custo",
         "path": "custo",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\custo.vue",
-        "chunkName": "pages/tevep2/_id/_tab/custo"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\custo.vue",
+        "chunkName": "pages/tevep/_id/_tab/custo",
+        "_name": "_157b6815"
       },
       {
-        "name": "tevep2-id-tab-entrega",
+        "name": "tevep-id-tab-entrega",
         "path": "entrega",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\entrega.vue",
-        "chunkName": "pages/tevep2/_id/_tab/entrega"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\entrega.vue",
+        "chunkName": "pages/tevep/_id/_tab/entrega",
+        "_name": "_33891f11"
       },
       {
-        "name": "tevep2-id-tab-expectativas",
+        "name": "tevep-id-tab-expectativas",
         "path": "expectativas",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\expectativas.vue",
-        "chunkName": "pages/tevep2/_id/_tab/expectativas"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\expectativas.vue",
+        "chunkName": "pages/tevep/_id/_tab/expectativas",
+        "_name": "_74c74562"
       },
       {
-        "name": "tevep2-id-tab-inerencias",
+        "name": "tevep-id-tab-inerencias",
         "path": "inerencias",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\inerencias.vue",
-        "chunkName": "pages/tevep2/_id/_tab/inerencias"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\inerencias.vue",
+        "chunkName": "pages/tevep/_id/_tab/inerencias",
+        "_name": "_40ac910a"
       },
       {
-        "name": "tevep2-id-tab-inovacoes",
+        "name": "tevep-id-tab-inovacoes",
         "path": "inovacoes",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\inovacoes.vue",
-        "chunkName": "pages/tevep2/_id/_tab/inovacoes"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\inovacoes.vue",
+        "chunkName": "pages/tevep/_id/_tab/inovacoes",
+        "_name": "_6a091948"
       },
       {
-        "name": "tevep2-id-tab-logistica",
+        "name": "tevep-id-tab-logistica",
         "path": "logistica",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\logistica.vue",
-        "chunkName": "pages/tevep2/_id/_tab/logistica"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\logistica.vue",
+        "chunkName": "pages/tevep/_id/_tab/logistica",
+        "_name": "_3f5a8a9a"
       },
       {
-        "name": "tevep2-id-tab-mao-de-obra",
+        "name": "tevep-id-tab-mao-de-obra",
         "path": "mao-de-obra",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\mao-de-obra.vue",
-        "chunkName": "pages/tevep2/_id/_tab/mao-de-obra"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\mao-de-obra.vue",
+        "chunkName": "pages/tevep/_id/_tab/mao-de-obra",
+        "_name": "_3589fd75"
       },
       {
-        "name": "tevep2-id-tab-maquina",
+        "name": "tevep-id-tab-maquina",
         "path": "maquina",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\maquina.vue",
-        "chunkName": "pages/tevep2/_id/_tab/maquina"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\maquina.vue",
+        "chunkName": "pages/tevep/_id/_tab/maquina",
+        "_name": "_6555ed06"
       },
       {
-        "name": "tevep2-id-tab-material",
+        "name": "tevep-id-tab-material",
         "path": "material",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\material.vue",
-        "chunkName": "pages/tevep2/_id/_tab/material"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\material.vue",
+        "chunkName": "pages/tevep/_id/_tab/material",
+        "_name": "_1795f19e"
       },
       {
-        "name": "tevep2-id-tab-meio-ambiente",
+        "name": "tevep-id-tab-meio-ambiente",
         "path": "meio-ambiente",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\meio-ambiente.vue",
-        "chunkName": "pages/tevep2/_id/_tab/meio-ambiente"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\meio-ambiente.vue",
+        "chunkName": "pages/tevep/_id/_tab/meio-ambiente",
+        "_name": "_035ad795"
       },
       {
-        "name": "tevep2-id-tab-metodo",
+        "name": "tevep-id-tab-metodo",
         "path": "metodo",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\metodo.vue",
-        "chunkName": "pages/tevep2/_id/_tab/metodo"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\metodo.vue",
+        "chunkName": "pages/tevep/_id/_tab/metodo",
+        "_name": "_30990e95"
       },
       {
-        "name": "tevep2-id-tab-principios",
+        "name": "tevep-id-tab-principios",
         "path": "principios",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\principios.vue",
-        "chunkName": "pages/tevep2/_id/_tab/principios"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\principios.vue",
+        "chunkName": "pages/tevep/_id/_tab/principios",
+        "_name": "_f931e8be"
       },
       {
-        "name": "tevep2-id-tab-qualidade",
+        "name": "tevep-id-tab-qualidade",
         "path": "qualidade",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\qualidade.vue",
-        "chunkName": "pages/tevep2/_id/_tab/qualidade"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\qualidade.vue",
+        "chunkName": "pages/tevep/_id/_tab/qualidade",
+        "_name": "_f0e0325e"
       },
       {
-        "name": "tevep2-id-tab-relevancia",
+        "name": "tevep-id-tab-relevancia",
         "path": "relevancia",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\relevancia.vue",
-        "chunkName": "pages/tevep2/_id/_tab/relevancia"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\relevancia.vue",
+        "chunkName": "pages/tevep/_id/_tab/relevancia",
+        "_name": "_6c7366db"
       },
       {
-        "name": "tevep2-id-tab-rut",
+        "name": "tevep-id-tab-rut",
         "path": "rut",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\rut.vue",
-        "chunkName": "pages/tevep2/_id/_tab/rut"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\rut.vue",
+        "chunkName": "pages/tevep/_id/_tab/rut",
+        "_name": "_02ec502c"
       },
       {
-        "name": "tevep2-id-tab-seguranca",
+        "name": "tevep-id-tab-seguranca",
         "path": "seguranca",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\seguranca.vue",
-        "chunkName": "pages/tevep2/_id/_tab/seguranca"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\seguranca.vue",
+        "chunkName": "pages/tevep/_id/_tab/seguranca",
+        "_name": "_ac1616d4"
       },
       {
-        "name": "tevep2-id-tab-utilidades",
+        "name": "tevep-id-tab-utilidades",
         "path": "utilidades",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep2\\\\_id\\\\_tab\\\\utilidades.vue",
-        "chunkName": "pages/tevep2/_id/_tab/utilidades"
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\utilidades.vue",
+        "chunkName": "pages/tevep/_id/_tab/utilidades",
+        "_name": "_4499df65"
       }
-    ]
+    ],
+    "_name": "_3f3ab192"
   },
   {
     "name": "index",
     "path": "/",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
-  },
-  {
-    "name": "__nuxt_laravel",
-    "path": "/__nuxt_laravel",
-    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_4c6fd2aa"
   }
 ]

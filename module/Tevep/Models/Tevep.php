@@ -12,27 +12,18 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
         'id',
         'user_id',
         'title',
-        'divisor',
         'nodes',
+        'pingpongs',
         'date_start',
         'date_final',
     ];
 
-    protected $attributes = [
-        'user_id' => '',
-        'title' => '',
-        'divisor' => '',
-        'nodes' => [],
-        'date_start' => '',
-        'date_final' => '',
-    ];
-
     public function getNodesAttribute($value) {
-        return is_array($value)? $value: json_decode($value);
+        return json_decode($value, true);
     }
 
-    public function setNodesAttribute($value) {
-        $this->attributes['nodes'] = (is_array($value)? json_encode($value): $value);
+    public function getPingpongsAttribute($value) {
+        return json_decode($value, true);
     }
 
     public function search($params=[]) {

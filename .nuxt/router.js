@@ -20,7 +20,6 @@ const _5c9be14c = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\
 const _2472ee76 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\table.vue' /* webpackChunkName: "pages/test/index/table" */))
 const _953cc452 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\tabs.vue' /* webpackChunkName: "pages/test/index/tabs" */))
 const _016745f9 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\index.vue' /* webpackChunkName: "pages/tevep/index" */))
-const _58b6f649 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\index.vue' /* webpackChunkName: "pages/tevep2/index" */))
 const _30815dc0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\index.vue' /* webpackChunkName: "pages/user/index" */))
 const _ab2ee08c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\password.vue' /* webpackChunkName: "pages/auth/password" */))
 const _22d1bfc2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\register.vue' /* webpackChunkName: "pages/auth/register" */))
@@ -28,28 +27,27 @@ const _69e79260 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashb
 const _155ddb2b = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\users.vue' /* webpackChunkName: "pages/dashboard/users" */))
 const _b6e1ce54 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\notifications.vue' /* webpackChunkName: "pages/user/notifications" */))
 const _5346e758 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\notifications\\_id.vue' /* webpackChunkName: "pages/user/notifications/_id" */))
-const _f85f1abe = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id.vue' /* webpackChunkName: "pages/tevep/_id" */))
 const _37685fb0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\_id.vue' /* webpackChunkName: "pages/user/_id" */))
-const _a67ca0f2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab.vue' /* webpackChunkName: "pages/tevep2/_id/_tab" */))
-const _7c7f974e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\atendimento.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/atendimento" */))
-const _1288343e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\complexidade.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/complexidade" */))
-const _1ffd3476 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\custo.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/custo" */))
-const _f6f31e7e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\entrega.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/entrega" */))
-const _c26cfc9c = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\expectativas.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/expectativas" */))
-const _17b1a15a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\inerencias.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/inerencias" */))
-const _70f8bef8 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\inovacoes.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/inovacoes" */))
-const _464a304a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\logistica.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/logistica" */))
-const _3f26f725 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\mao-de-obra.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/mao-de-obra" */))
-const _1e525b2d = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\maquina.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/maquina" */))
-const _337a5424 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\material.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/material" */))
-const _19a02545 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\meio-ambiente.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/meio-ambiente" */))
-const _b25a7236 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\metodo.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/metodo" */))
-const _5a6c1bf1 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\principios.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/principios" */))
-const _e300e6fe = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\qualidade.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/qualidade" */))
-const _4378772b = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\relevancia.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/relevancia" */))
-const _44d3819a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\rut.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/rut" */))
-const _9e36cb74 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\seguranca.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/seguranca" */))
-const _1b9eefb5 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep2\\_id\\_tab\\utilidades.vue' /* webpackChunkName: "pages/tevep2/_id/_tab/utilidades" */))
+const _3f3ab192 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab.vue' /* webpackChunkName: "pages/tevep/_id/_tab" */))
+const _8fb98aae = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\atendimento.vue' /* webpackChunkName: "pages/tevep/_id/_tab/atendimento" */))
+const _2ef41024 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\complexidade.vue' /* webpackChunkName: "pages/tevep/_id/_tab/complexidade" */))
+const _157b6815 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\custo.vue' /* webpackChunkName: "pages/tevep/_id/_tab/custo" */))
+const _33891f11 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\entrega.vue' /* webpackChunkName: "pages/tevep/_id/_tab/entrega" */))
+const _74c74562 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\expectativas.vue' /* webpackChunkName: "pages/tevep/_id/_tab/expectativas" */))
+const _40ac910a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\inerencias.vue' /* webpackChunkName: "pages/tevep/_id/_tab/inerencias" */))
+const _6a091948 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\inovacoes.vue' /* webpackChunkName: "pages/tevep/_id/_tab/inovacoes" */))
+const _3f5a8a9a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\logistica.vue' /* webpackChunkName: "pages/tevep/_id/_tab/logistica" */))
+const _3589fd75 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\mao-de-obra.vue' /* webpackChunkName: "pages/tevep/_id/_tab/mao-de-obra" */))
+const _6555ed06 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\maquina.vue' /* webpackChunkName: "pages/tevep/_id/_tab/maquina" */))
+const _1795f19e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\material.vue' /* webpackChunkName: "pages/tevep/_id/_tab/material" */))
+const _035ad795 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\meio-ambiente.vue' /* webpackChunkName: "pages/tevep/_id/_tab/meio-ambiente" */))
+const _30990e95 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\metodo.vue' /* webpackChunkName: "pages/tevep/_id/_tab/metodo" */))
+const _f931e8be = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\principios.vue' /* webpackChunkName: "pages/tevep/_id/_tab/principios" */))
+const _f0e0325e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\qualidade.vue' /* webpackChunkName: "pages/tevep/_id/_tab/qualidade" */))
+const _6c7366db = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\relevancia.vue' /* webpackChunkName: "pages/tevep/_id/_tab/relevancia" */))
+const _02ec502c = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\rut.vue' /* webpackChunkName: "pages/tevep/_id/_tab/rut" */))
+const _ac1616d4 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\seguranca.vue' /* webpackChunkName: "pages/tevep/_id/_tab/seguranca" */))
+const _4499df65 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\utilidades.vue' /* webpackChunkName: "pages/tevep/_id/_tab/utilidades" */))
 const _4c6fd2aa = () => interopDefault(import('..\\resources\\nuxt\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
@@ -138,10 +136,6 @@ export const routerOptions = {
     component: _016745f9,
     name: "tevep"
   }, {
-    path: "/tevep2",
-    component: _58b6f649,
-    name: "tevep2"
-  }, {
     path: "/user",
     component: _30815dc0,
     name: "user"
@@ -171,102 +165,94 @@ export const routerOptions = {
       name: "user-notifications-id"
     }]
   }, {
-    path: "/tevep/:id",
-    component: _f85f1abe,
-    name: "tevep-id"
-  }, {
     path: "/user/:id",
     component: _37685fb0,
     name: "user-id"
   }, {
-    path: "/tevep2/:id/:tab?",
-    component: _a67ca0f2,
-    name: "tevep2-id-tab",
+    path: "/tevep/:id/:tab?",
+    component: _3f3ab192,
+    name: "tevep-id-tab",
     children: [{
       path: "atendimento",
-      component: _7c7f974e,
-      name: "tevep2-id-tab-atendimento"
+      component: _8fb98aae,
+      name: "tevep-id-tab-atendimento"
     }, {
       path: "complexidade",
-      component: _1288343e,
-      name: "tevep2-id-tab-complexidade"
+      component: _2ef41024,
+      name: "tevep-id-tab-complexidade"
     }, {
       path: "custo",
-      component: _1ffd3476,
-      name: "tevep2-id-tab-custo"
+      component: _157b6815,
+      name: "tevep-id-tab-custo"
     }, {
       path: "entrega",
-      component: _f6f31e7e,
-      name: "tevep2-id-tab-entrega"
+      component: _33891f11,
+      name: "tevep-id-tab-entrega"
     }, {
       path: "expectativas",
-      component: _c26cfc9c,
-      name: "tevep2-id-tab-expectativas"
+      component: _74c74562,
+      name: "tevep-id-tab-expectativas"
     }, {
       path: "inerencias",
-      component: _17b1a15a,
-      name: "tevep2-id-tab-inerencias"
+      component: _40ac910a,
+      name: "tevep-id-tab-inerencias"
     }, {
       path: "inovacoes",
-      component: _70f8bef8,
-      name: "tevep2-id-tab-inovacoes"
+      component: _6a091948,
+      name: "tevep-id-tab-inovacoes"
     }, {
       path: "logistica",
-      component: _464a304a,
-      name: "tevep2-id-tab-logistica"
+      component: _3f5a8a9a,
+      name: "tevep-id-tab-logistica"
     }, {
       path: "mao-de-obra",
-      component: _3f26f725,
-      name: "tevep2-id-tab-mao-de-obra"
+      component: _3589fd75,
+      name: "tevep-id-tab-mao-de-obra"
     }, {
       path: "maquina",
-      component: _1e525b2d,
-      name: "tevep2-id-tab-maquina"
+      component: _6555ed06,
+      name: "tevep-id-tab-maquina"
     }, {
       path: "material",
-      component: _337a5424,
-      name: "tevep2-id-tab-material"
+      component: _1795f19e,
+      name: "tevep-id-tab-material"
     }, {
       path: "meio-ambiente",
-      component: _19a02545,
-      name: "tevep2-id-tab-meio-ambiente"
+      component: _035ad795,
+      name: "tevep-id-tab-meio-ambiente"
     }, {
       path: "metodo",
-      component: _b25a7236,
-      name: "tevep2-id-tab-metodo"
+      component: _30990e95,
+      name: "tevep-id-tab-metodo"
     }, {
       path: "principios",
-      component: _5a6c1bf1,
-      name: "tevep2-id-tab-principios"
+      component: _f931e8be,
+      name: "tevep-id-tab-principios"
     }, {
       path: "qualidade",
-      component: _e300e6fe,
-      name: "tevep2-id-tab-qualidade"
+      component: _f0e0325e,
+      name: "tevep-id-tab-qualidade"
     }, {
       path: "relevancia",
-      component: _4378772b,
-      name: "tevep2-id-tab-relevancia"
+      component: _6c7366db,
+      name: "tevep-id-tab-relevancia"
     }, {
       path: "rut",
-      component: _44d3819a,
-      name: "tevep2-id-tab-rut"
+      component: _02ec502c,
+      name: "tevep-id-tab-rut"
     }, {
       path: "seguranca",
-      component: _9e36cb74,
-      name: "tevep2-id-tab-seguranca"
+      component: _ac1616d4,
+      name: "tevep-id-tab-seguranca"
     }, {
       path: "utilidades",
-      component: _1b9eefb5,
-      name: "tevep2-id-tab-utilidades"
+      component: _4499df65,
+      name: "tevep-id-tab-utilidades"
     }]
   }, {
     path: "/",
     component: _4c6fd2aa,
     name: "index"
-  }, {
-    path: "/__nuxt_laravel",
-    component: _4c6fd2aa,
-    name: "__nuxt_laravel"
   }],
 
   fallback: false

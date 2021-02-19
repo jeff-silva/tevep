@@ -10,18 +10,22 @@ trait Model
 
 
 
-    public function store() {
+    public function store($data=[]) {
         $table_name = $this->getTable();
-        $save = $this;
+        $data = array_map(function($item) {
+            if (is_array($item) OR is_object($item)) { $item = json_encode($item); }
+            return $item;
+        }, array_merge($this->attributes, $data));
+        $save = $this->fill($data);
 
         if ($this->id) {
-            $save = self::find($this->id)->fill($this->attributes);
+            $save = self::find($this->id)->fill($data);
         }
         
         $save->save();
         
-        self::pushNotification("{$table_name}", $save);
-        self::pushNotification("{$table_name}-{$save->id}", $save);
+        // self::pushNotification("{$table_name}", $save);
+        // self::pushNotification("{$table_name}-{$save->id}", $save);
         return $save;
     }
 
@@ -75,6 +79,13 @@ trait Model
 
         // Define query
         $query = $this;
+
+        // Where param equal field
+        foreach(\Schema::getColumnListing($this->getTable()) as $field) {
+            if (isset($params[$field])) {
+                $query = $query->where($field, $params[$field]);
+            }
+        }
 
         // Search
         $search_terms = array_filter(preg_split('/[^a-zA-Z0-9]/', $params['search']), 'strlen');

@@ -1,83 +1,72 @@
 <template><div>
-	<!-- <app-footer>
-		<template #content>
-			<nuxt-link to="/tevep/0" class="btn btn-primary">
-				<i class="fa fa-fw fa-plus"></i> Novo projeto
-			</nuxt-link>
-		</template>
-	</app-footer> -->
-
-    <form class="input-group" style="max-width:500px;" @submit.prevent="tevepsSearch()">
-        <input type="text" class="form-control" placeholder="Buscar" v-model="tevepParams.search">
-        <div class="input-group-append"><div class="input-group-btn">
-            <button type="submit" class="btn btn-primary">
-                <i class="fa fa-fw fa-search"></i>
-            </button>
-        </div></div>
-    </form>
-    <br>
-
-    <ui-table v-bind="tevep" :loading="loading" :select="false" @page-change="tevepParams.page=$event.current_page; tevepsSearch();">
-        <template #empty>
-            Nenhum dado encontrado
-        </template>
-
+    <ui-table v-bind.sync="tevep" :select="false" :loading="loading">
         <template #header>
-            <th>Evento</th>
-            <th width="200px">Últ. alteração</th>
+            <th>Projeto</th>
+            <th>Onde</th>
+            <th>Quando</th>
+            <th>Alteração</th>
         </template>
 
         <template #item="{item}">
-            <td>#{{ item.id }} {{ item.title }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.nodes[0].espaco }}</td>
+            <td>
+                <div>De &nbsp; {{ item.date_start|datetime }}</div>
+                <div>Até {{ item.date_final|datetime }}</div>
+            </td>
             <td><ui-timeago v-model="item.updated_at"></ui-timeago></td>
         </template>
 
         <template #actions="{item}">
-            <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-primary"><i class="fas fa-edit"></i></nuxt-link>
-            <a href="javascript:;" class="btn btn-danger" @click="tevepsDelete(item)"><i class="fas fa-times"></i></a>
+            <nuxt-link :to="`/tevep/${item.id}/`" class="btn btn-primary"><i class="fas fa-fw fa-pen"></i></nuxt-link>
+            <a href="javascript:;" class="btn btn-danger" @click="tevepDelete(item)"><i class="fas fa-fw fa-times"></i></a>
         </template>
     </ui-table>
+
+    <ui-actions>
+        <nuxt-link to="/tevep/0/" class="btn btn-primary">
+            <i class="fa fa-fw fa-plus"></i>
+        </nuxt-link>
+    </ui-actions>
 </div></template>
 
 <script>
 export default {
-	layout: 'admin',
+    layout: 'admin',
     middleware: 'auth',
 
     data() {
         return {
             loading: false,
-            tevepParams: {
-                page: 1,
-                user_id: (this.$route.query.user || this.$auth.user.id),
-                search: "",
-            },
-            tevep: {
-                data: [],
+            tevep: {data:[]},
+            tevepSearchParams: {
+                user_id: this.$auth.user.id,
             },
         };
     },
 
     methods: {
-        tevepsSearch() {
+        searchTevep() {
             this.loading = true;
-            this.$axios.get('/api/tevep/search', {params:this.tevepParams}).then(resp => {
+            this.$axios.get('/api/tevep/search', {params:this.tevepSearchParams}).then(resp => {
                 this.tevep = resp.data;
                 this.loading = false;
             });
         },
 
-        tevepsDelete(tevep) {
-            if (!confirm('Deseja deletar?')) return;
-            this.$axios.post(`/api/tevep/delete/${tevep.id}`).then(resp => {
-                this.$swalSuccess('Sucesso', 'Projeto deletado');
-                this.tevepsSearch();
+        tevepDelete(tevep) {
+            this.$swal('Confirmação', `Deseja mesmo deletar o projeto "${tevep.title}"?`).then(resp => {
+                if (! resp.value) return;
+                this.$axios.post(`/api/tevep/${tevep.id}/delete`).then(resp => {
+                    this.$swal('Sucesso', 'Projeto deletado', 'success');
+                    this.searchTevep();
+                });
             });
         },
     },
 
     mounted() {
-        this.tevepsSearch();
+        this.searchTevep();
     },
 }
 </script>

@@ -1,8 +1,13 @@
 <template><form class="ui-form" :method="method" :action="action" @submit.prevent="submit()">
-    <slot :loading="loading"></slot>
-    <slot name="success"></slot>
-    <slot name="error"></slot>
-    <slot name="content"></slot>
+    <div v-if="responseSuccess && ($slots.success || $scopedSlots.success)" class="alert alert-success">
+        <slot name="success" :response="responseSuccess"></slot>
+    </div>
+
+    <div v-if="responseErrorMessage && ($slots.error || $scopedSlots.error)" class="alert alert-danger">
+        <slot name="error" :message="responseErrorMessage" :fields="responseErrorFields"></slot>
+    </div>
+
+    <slot :loading="loading" :error="responseErrorFields" :success="responseSuccess"></slot>
 </form></template>
 
 <script>export default {
@@ -13,12 +18,9 @@
     },
 
     watch: {
-        $props: {
-            deep: true,
-            handler(value) {
-                this.props = Object.assign({}, value);
-            },
-        },
+        $props: {deep:true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
     },
 
     methods: {
@@ -33,18 +35,34 @@
             let params = this.method=='get'? {params:this.props.value}: this.props.value;
 
             this.loading = `<i class="fa fa-fw fa-spin fa-spinner"></i>`;
+            this.responseSuccess = false;
+            this.responseErrorMessage = false;
+            this.responseErrorFields = {};
+
             method(this.action, params).then((resp) => {
-                this.loading = false;
-                this.$emit('saved', this.props.value);
-            }).catch((err, a, b, c, d) => {
-                this.loading = false;
+                this.loading = '';
+                this.responseSuccess = resp.data;
+                this.$emit('success', this.responseSuccess);
+            }).catch((err) => {
+                this.loading = '';
+                this.responseErrorMessage = err.response.data.message||'Erro';
+                this.responseErrorFields = err.response.data.fields||{};
+                for(let i in this.responseErrorFields) {
+                    if (Array.isArray(this.responseErrorFields[i])) {
+                        this.responseErrorFields[i] = this.responseErrorFields[i].join('<br>');
+                    }
+                }
+                this.$emit('error', this.responseErrorFields);
             });
         },
     },
 
     data() {
         return {
-            loading: false,
+            loading: '',
+            responseSuccess: false,
+            responseErrorMessage: false,
+            responseErrorFields: {},
             props: Object.assign({}, this.$props),
         };
     },

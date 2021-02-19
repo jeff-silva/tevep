@@ -35,6 +35,12 @@
   "LazyTevep": {
     "description": "Auto imported from components/tevep/tevep.vue"
   },
+  "UiActions": {
+    "description": "Auto imported from components/ui/ui-actions.vue"
+  },
+  "LazyUiActions": {
+    "description": "Auto imported from components/ui/ui-actions.vue"
+  },
   "UiAddress": {
     "description": "Auto imported from components/ui/ui-address.vue"
   },
@@ -244,6 +250,12 @@
   },
   "LazyUiUpload": {
     "description": "Auto imported from components/ui/ui-upload.vue"
+  },
+  "UiUser": {
+    "description": "Auto imported from components/ui/ui-user.vue"
+  },
+  "LazyUiUser": {
+    "description": "Auto imported from components/ui/ui-user.vue"
   },
   "UserCard": {
     "description": "Auto imported from components/user/user-card.vue"

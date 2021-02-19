@@ -2,7 +2,7 @@
     <input type="text" class="form-control" v-model="valueFake"
         ref="input"
         v-mask="['##/##/####', '##/##/#### - ##:##:##']"
-        @keyup="parseValueFake($event); emit();"
+        @keyup="formattedToDate($event); emit();"
         @focus="flatpickrShowTest()"
         @blur="flatpickrShowTest()"
     >
@@ -11,7 +11,7 @@
 
 <style>
 .ui-datetime .ui-datetime-flatpickr {}
-.ui-datetime .flatpickr-calendar {visibility:hidden; opacity:0; transition: all 200ms ease; position:absolute; top:110%; left:0px; width:100%; min-width:310px; z-index:9;}
+.ui-datetime .flatpickr-calendar {visibility:hidden; opacity:0; transition: all 200ms ease; position:absolute; top:110%; left:0px; min-width:310px; z-index:9;}
 .ui-datetime .flatpickr-calendar * {user-select: none;}
 .ui-datetime.ui-datetime-flatpickr-show .flatpickr-calendar {visibility:visible; opacity:1;}
 </style>
@@ -19,6 +19,8 @@
 <script>
 import flatpickr from "flatpickr";
 import 'flatpickr/dist/flatpickr.css';
+
+import moment from 'moment';
 
 export default {
     props: {
@@ -77,7 +79,7 @@ export default {
             this.$emit('input', this.props.value);
         },
 
-        parseValueFake(ev) {
+        formattedToDate(ev) {
             let e = this.valueFake.split(/[^0-9]/).filter(n => !!n);
 
             if (e[2] && e[2].length==4) {
@@ -105,5 +107,6 @@ export default {
 
     mounted() {
         this.flatpickr = flatpickr(this.$refs.flatpickr, this.compConfig);
+        this.valueFake = moment(this.props.value).format('DD/MM/YYYY - HH:mm');
     },
 };</script>

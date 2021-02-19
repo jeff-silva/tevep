@@ -3,22 +3,28 @@
         enter-active-class="animate__animated animate__fadeIn"
         leave-active-class="animate__animated animate__fadeOut"
     >
-        <div v-if="props.value" class="ui-modal" @click.self="props.value=false; $emit('input', props.value);" style="animation-duration:300ms;">
-            <component :is="tag" @submit.prevent="$emit('submit', $event)">
-                <div class="card">
-                    <div class="card-header" v-if="$slots.header">
-                        <slot name="header"></slot>
+        <div class="modal fade show" tabindex="-1" aria-labelledby="exampleModalLiveLabel"
+            style="display:block; background:#00000044; animation-duration:200ms;"
+            v-if="props.value" @click.self="toggle()"
+            aria-modal="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" v-if="$slots.header && $scopedSlots.header">
+                            <slot name="header"></slot>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="toggle()">
+                            <span aria-hidden="true">×</span>
+                        </button>
                     </div>
-
-                    <div class="card-body">
+                    <div class="modal-body">
                         <slot name="body"></slot>
                     </div>
-
-                    <div class="card-footer text-right" v-if="$slots && $slots.footer">
+                    <div class="modal-footer" v-if="$slots.footer && $scopedSlots.footer">
                         <slot name="footer"></slot>
                     </div>
                 </div>
-            </component>
+            </div>
         </div>
     </transition>
 </div></template>
@@ -36,9 +42,14 @@
     },
 
     methods: {
+        emit() {
+            this.$emit('input', this.props.value);
+        },
+
         toggle() {
             this.props.value = !this.props.value;
             this.$emit('value', this.props.value);
+            this.emit();
         },
     },
 
