@@ -5,6 +5,7 @@
 
 <script>
 import TimeAgo from 'vue2-timeago';
+import moment from 'moment';
 
 export default {
     components: {TimeAgo},
@@ -25,7 +26,8 @@ export default {
     methods: {
         validDatetime(value) {
             if (! value) return '';
-            return (value).replace('T', ' ');
+            if (! moment(value).isValid()) return '';
+            return value.replace('T', ' ');
         },
     },
 
