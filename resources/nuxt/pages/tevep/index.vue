@@ -9,7 +9,7 @@
 
         <template #item="{item}">
             <td>{{ item.title }}</td>
-            <td>{{ item.nodes[0].espaco }}</td>
+            <td>{{ item.nodes[0]? item.nodes[0].espaco: '' }}</td>
             <td>
                 <div>De &nbsp; {{ item.date_start|datetime }}</div>
                 <div>Até {{ item.date_final|datetime }}</div>
