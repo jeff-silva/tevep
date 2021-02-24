@@ -68,7 +68,7 @@
             <template #body>
                 <ui-user v-model="pingpong.to">
                     <template #append>
-                        <button type="button" class="btn btn-primary" @click="sendPingpong()">
+                        <button type="button" class="btn btn-primary" @click="sendPingpong(pingpong.to)">
                             <i class="fas fa-fw fa-paper-plane"></i>
                         </button>
                     </template>
@@ -80,8 +80,14 @@
             <template #header>Informações de pingpong</template>
             <template #body>
                 Para {{ pingpongInfo.user_to_name }} - {{ pingpongInfo.user_to_email }}
+                <br>
                 <div class="alert alert-success m-0 mt-2" v-if="pingpongInfo.accepted">Aceito</div>
-                <div class="alert alert-danger m-0 mt-2" v-if="!pingpongInfo.accepted">Não aceito</div>
+                <div v-if="!pingpongInfo.accepted">
+                    <div class="alert alert-danger m-0 mt-2">
+                        <a href="javascript:;" class="text-primary font-weight-bold float-right" @click="sendPingpong(pingpongInfo.user_to)">Convidar novamente</a>
+                        Não aceito.
+                    </div>
+                </div>
             </template>
         </ui-modal>
     </div>
@@ -109,8 +115,8 @@ export default {
     },
 
     methods: {
-        sendPingpong() {
-            this.$axios.post(`/api/tevep/${this.$route.params.id}/pingpong/${this.pingpong.to}`).then(resp => {
+        sendPingpong(userId) {
+            this.$axios.post(`/api/tevep/${this.$route.params.id}/pingpong/${userId}`).then(resp => {
                 this.tevepLoad();
             });
         },

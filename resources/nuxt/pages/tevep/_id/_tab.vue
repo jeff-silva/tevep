@@ -10,7 +10,7 @@
 
         <ui-form method="post" action="/api/tevep/store/" v-model="tevep" @success="success($event)" v-else>
             <div class="d-flex" style="overflow:auto;">
-                <div class="bg-dark text-white" style="height:calc(100vh - 160px);">
+                <div class="bg-dark text-white" style="height:calc(100vh - 110px);">
                     <ul class="tevep-nav">
                         <li v-for="i in compNavItems">
                             <nuxt-link class="d-block text-white"
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="flex-grow-1">
-                    <div style="height:calc(100vh - 160px); min-width:1000px; overflow:auto;">
+                    <div style="height:calc(100vh - 110px); min-width:1000px; overflow:auto;">
 
                         <!-- if empty -->
                         <div class="text-muted p-2" v-if="$route.matched.length==1">
@@ -45,13 +45,13 @@
                 </div>
             </div>
 
-            <div class="bg-white shadow-sm p-2 text-right">
-                <nuxt-link class="btn btn-link float-left" to="/tevep/">Voltar</nuxt-link>
+            <ui-actions>
+                <nuxt-link class="btn btn-link" to="/tevep/">Voltar</nuxt-link>
 
                 <button type="submit" class="btn btn-primary">
                     Salvar
                 </button>
-            </div>
+            </ui-actions>
         </ui-form>
     </div>
 </div></template>
@@ -93,7 +93,7 @@ export default {
         success(tevep) {
             this.$swal('Sucesso', 'Dados salvos', 'success');
             this.$router.push({
-                path: `/tevep/${tevep.id}`,
+                path: this.$route.path.replace('/0/', tevep.id),
                 query: {node:this.$route.query.node},
             });
         },

@@ -1,38 +1,15 @@
-<template><div class="ui-actions" :class="{'ui-actions-hover':buttons>1}">
-    <a href="javascript:;" class="btn bg-success" v-if="buttons>1">
-        <i class="fa fa-fw fa-plus"></i>
-    </a>
-
-    <div class="ui-actions-btns">
-        <slot></slot>
+<template><div class="ui-actions">
+    <br><br>
+    <div class="ui-actions-fixed bg-white text-center text-md-right">
+        <div class="d-flex d-md-block p-md-1">
+            <slot></slot>
+        </div>
     </div>
 </div></template>
 
 <style>
-.ui-actions {position:fixed; bottom:25px; right:15px;}
-.ui-actions .btn {border-radius:50% !important; width:50px; height:50px; padding:10px 0px; margin-top:5px;}
-.ui-actions-btns {position:absolute; right:0px; bottom:100%; width:50px; transition: all 300ms ease;}
-.ui-actions-hover .ui-actions-btns {right:-200%; opacity:0;}
-.ui-actions:hover .ui-actions-btns,
-.ui-actions:focus .ui-actions-btns {right:0px; opacity:1;}
+.ui-actions-fixed {position:fixed; bottom:0px; left:0px; width:100%; z-index:999; box-shadow:0 -3px 3px -2px rgb(0 0 0 / 10%) !important;}
+.ui-actions .d-flex > * {flex-grow:1;}
+.ui-actions .btn {border-radius:0px !important; text-transform:uppercase;}
+.ui-actions .btn i {margin-right:5px;}
 </style>
-
-<script>
-export default {
-    data() {
-        return {
-            buttons: 0,
-        };
-    },
-
-    methods: {
-        countButtons() {
-            return this.$el.querySelectorAll('.ui-actions-btns .btn').length;
-        },
-    },
-
-    mounted() {
-        this.buttons = this.countButtons();
-    },
-}
-</script>
