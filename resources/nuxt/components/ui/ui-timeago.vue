@@ -24,7 +24,8 @@ export default {
 
     methods: {
         validDatetime(value) {
-            return (value||'').replace('T', ' ');
+            if (! value) return '';
+            return (value).replace('T', ' ');
         },
     },
 

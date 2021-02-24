@@ -93,7 +93,7 @@ export default {
         success(tevep) {
             this.$swal('Sucesso', 'Dados salvos', 'success');
             this.$router.push({
-                path: this.$route.path.replace('/0/', tevep.id),
+                path: this.$route.path.replace('/0/', `/${tevep.id}/`),
                 query: {node:this.$route.query.node},
             });
         },
