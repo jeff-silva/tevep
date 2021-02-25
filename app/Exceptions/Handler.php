@@ -34,13 +34,22 @@ class Handler extends ExceptionHandler
     {   
         if (\Request::is('api/*')) {
             $this->renderable(function (\Exception $e, $request) {
-                $error = json_decode($e->getMessage(), true);
-                $error = is_array($error)? $error: [
-                    'error' => $e->getMessage(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                ];
-                return response()->json($error);
+                $message = $e->getMessage();
+
+                $error = json_decode($message, true);
+                $error = is_array($error)? $error: [];
+                $error = array_merge([
+                    'message' => $message,
+                    'fields' => [],
+                ], $error);
+
+                if (! app()->environment('production')) {
+                    $error['file'] = $e->getFile();
+                    $error['line'] = $e->getLine();
+                    $error['debug'] = debug_backtrace();
+                }
+                
+                return response()->json($error, 500);
             });
         }
     }

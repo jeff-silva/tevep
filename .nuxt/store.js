@@ -16,6 +16,7 @@ let store = {};
   store.modules = store.modules || {}
 
   resolveStoreModules(require('..\\resources\\nuxt\\store\\notifications.js'), 'notifications.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\tevep.js'), 'tevep.js')
 
   // If the environment supports hot reloading...
 })()

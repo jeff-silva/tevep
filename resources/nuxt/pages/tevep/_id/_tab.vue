@@ -1,4 +1,4 @@
-<template><div style="margin:-30px 0px 0px -30px;">
+<template><div class="tevep-tab">
 
     <div class="bg-white shadow-sm m-2 p-2" v-if="loading"><i class="fas fa-spin fa-spinner"></i> Carregando</div>
 
@@ -37,10 +37,13 @@
 
                         <!-- if empty -->
                         <div class="text-muted p-2" v-if="$route.matched.length==1">
-                            <nuxt-child-default v-bind.sync="compBind"></nuxt-child-default>
+                            <principios v-bind.sync="compBind"></principios>
                         </div>
 
                         <nuxt-child class="p-1" v-bind.sync="compBind"></nuxt-child>
+
+                        <!-- <pre>$store.state.tevep: {{ $store.state.tevep }}</pre> -->
+                        <!-- <pre>compBind.tevep: {{ compBind.tevep }}</pre> -->
                     </div>
                 </div>
             </div>
@@ -57,6 +60,9 @@
 </div></template>
 
 <style>
+.tevep-tab {margin:-30px 0px 0px -30px;}
+.tevep-tab .alert {margin:0px;}
+
 ul.tevep-nav * {transition: all 200ms ease;}
 ul.tevep-nav {list-style-type:none; padding:0px; margin:0px; width:150px;}
 ul.tevep-nav > li {position:relative;}
@@ -75,12 +81,12 @@ ul.tevep-nav > li:hover > ul {visibility:visible; opacity:1;}
 </style>
 
 <script>
-import NuxtChildDefault from '@/pages/tevep/_id/_tab/principios.vue';
+import Principios from '@/pages/tevep/_id/_tab/principios.vue';
 
 export default {
     layout: 'admin',
     middleware: 'auth',
-    components: {NuxtChildDefault},
+    components: {Principios},
 
     data() {
         return {
@@ -105,25 +111,33 @@ export default {
 			});
 		},
 
+        tevepInit(tevep={}) {
+            this.$set(this, 'tevep', this.tevepDefault(tevep));
+
+            let query = Object.assign({}, this.$route.query);
+            if (! query.node) { query.node = this.tevep.nodes[0].id; }
+            this.$router.push({ query });
+
+            // Verify pingpong query
+            if (query.pingpong) {
+                this.$axios.post(`/api/tevep/${this.tevep.id}/pingpong-confirm/${query.pingpong}`).then(resp2 => {
+                    delete query.pingpong;
+                    this.$router.push({ query });
+                    this.tevep = this.tevepDefault(resp2.data||{});
+                });
+            }
+        },
+
         tevepLoad(loading=true) {
+            if (0==this.$route.params.id) {
+                this.tevepInit();
+                return;
+            }
+
             this.loading = loading;
             this.$axios.get(`/api/tevep/find/${this.$route.params.id}`).then(resp => {
-                this.tevep = this.tevepDefault(resp.data||{});
-
-                let query = Object.assign({}, this.$route.query);
-                if (! query.node) { query.node = this.tevep.nodes[0].id; }
-                this.$router.push({ query });
-
-                // Verify pingpong query
-                if (query.pingpong) {
-                    this.$axios.post(`/api/tevep/${this.tevep.id}/pingpong-confirm/${query.pingpong}`).then(resp2 => {
-                        delete query.pingpong;
-                        this.$router.push({ query });
-                        this.tevep = this.tevepDefault(resp2.data||{});
-                    });
-                }
-
                 this.loading = false;
+                this.tevepInit(resp.data||{});
             });
         },
 

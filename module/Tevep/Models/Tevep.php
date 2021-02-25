@@ -26,6 +26,12 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
         return json_decode($value, true);
     }
 
+    public function validation() {
+        return [
+            'title' => ['required'],
+        ];
+    }
+
     public function search($params=[]) {
         $query = $this;
         
@@ -34,6 +40,62 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
         }
 
         return $query;
+    }
+
+    public function pingpong($userId) {
+        if (! $this->id) throw new \Exception('Tevep não encontrado');
+
+        $user = \App\Models\User::find($userId);
+        if (! $user) throw new \Exception('Usuário não encontrado');
+
+        $pingpongs = is_array($this->pingpongs)? $this->pingpongs: [];
+        
+        // Nenhum usuário encontrado
+        if (0 == sizeof(array_filter($pingpongs, function($ping) use($userId) { return $ping['user_to']==$userId; }))) {
+            $pingpong = [
+                'id' => uniqid('pingpong-'),
+                'user_from' => $this->id,
+                'user_to' => $userId,
+                'user_to_name' => $user->name,
+                'user_to_email' => $user->email,
+                'invitations' => 1,
+                'accepted' => false,
+            ];
+
+            $pingpong_link = url("/tevep/{$this->id}/?pingpong={$pingpong['id']}");
+            
+            \App\Utils::mail([
+                'to' => $user->email,
+                'subject' => 'Convite pingpong',
+                'body' => "Para aceitar, clique <a href='{$pingpong_link}'>aqui</a>.",
+            ]);
+
+            $pingpongs[] = $pingpong;
+        }
+
+        // Usuário encontrado
+        else {
+            foreach($pingpongs as $i=>$ping) {
+                if ($ping['user_to'] != $userId) continue;
+                $ping['user_to_name'] = $user->name;
+                $ping['user_to_email'] = $user->email;
+                $ping['invitations'] = isset($ping['invitations'])? $ping['invitations']: 1;
+                $ping['invitations']++;
+                $pingpongs[$i] = $ping;
+
+                $pingpong_link = url("/tevep/{$this->id}/?pingpong={$ping['id']}");
+
+                \App\Utils::mail([
+                    'to' => $user->email,
+                    'subject' => 'Convite pingpong',
+                    'body' => "Para aceitar, clique <a href='{$pingpong_link}'>aqui</a>.",
+                ]);
+            }
+        }
+
+        $this->pingpongs = $pingpongs;
+        $this->store();
+        return $this;
     }
 
     // public function deployMigration($artisan, $table, $fields)

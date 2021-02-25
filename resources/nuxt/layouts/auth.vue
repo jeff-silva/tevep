@@ -5,7 +5,7 @@
     </div>
 
     <div class="col-12 col-sm-8 col-md-5 d-flex align-items-center l-auth-pattern" style="height:100vh;">
-      <div class="mx-auto" style="min-width:350px;">
+      <div class="mx-auto px-5" style="width:100%; max-width:500px;">
 
         <div class="bg-white p-2 mb-2"><nuxt /></div>
 

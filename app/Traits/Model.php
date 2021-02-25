@@ -4,11 +4,15 @@ namespace App\Traits;
 
 trait Model
 {
-    public function validate() {
-        // 
+    public function validation() {
+        return [];
     }
 
-
+    public function validate() {
+        $data = array_merge($this->toArray(), request()->all());
+        $rules = $this->validation();
+        return \Validator::make($data, $rules);
+    }
 
     public function store($data=[]) {
         $table_name = $this->getTable();
@@ -20,6 +24,13 @@ trait Model
 
         if ($this->id) {
             $save = self::find($this->id)->fill($data);
+        }
+
+        if ($validator = $save->validate() AND $validator->fails()) {
+            throw new \Exception(json_encode([
+                'message' => 'Há erros de validação',
+                'fields' => $validator->errors(),
+            ]));
         }
         
         $save->save();

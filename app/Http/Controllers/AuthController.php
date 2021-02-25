@@ -28,7 +28,8 @@ class AuthController extends Controller
 
         $ttl = \App\Settings::get('jwt-ttl');
         if (! $token = auth()->setTTL($ttl)->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            throw new \Exception('Autenticação inválida');
+            // return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);

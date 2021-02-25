@@ -79,7 +79,7 @@
         <ui-modal v-model="pingpongInfo">
             <template #header>Informações de pingpong</template>
             <template #body>
-                Para {{ pingpongInfo.user_to_name }} - {{ pingpongInfo.user_to_email }}
+                Para {{ pingpongInfo.user_to_name }} - {{ pingpongInfo.user_to_email }} (convite enviado {{ pingpongInfo.invitations||1 }} vez(es)
                 <br>
                 <div class="alert alert-success m-0 mt-2" v-if="pingpongInfo.accepted">Aceito</div>
                 <div v-if="!pingpongInfo.accepted">
@@ -96,11 +96,12 @@
 <script>
 export default {
     props: {
-        tevep: {default:()=>({})},
-        node: {default:()=>({})},
+        tevep: Object,
+        node: Object,
         uuid: Function,
         tevepLoad: Function,
         tevepDefault: Function,
+        tevepInit: Function,
         tevepTitle: Function,
         tevepNodeDefault: Function,
         tevepPingpongDefault: Function,
@@ -117,7 +118,9 @@ export default {
     methods: {
         sendPingpong(userId) {
             this.$axios.post(`/api/tevep/${this.$route.params.id}/pingpong/${userId}`).then(resp => {
-                this.tevepLoad();
+                this.$parent.$parent.tevepInit(resp.data);
+                this.pingpongInfo = false;
+                this.$swal('Enviado', 'Ping pong enviado', 'success');
             });
         },
     },

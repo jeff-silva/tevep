@@ -20,36 +20,7 @@
 ]);
 
 Route::post('/tevep/{id}/pingpong/{userId}', function($id, $userId) {
-    if ($tevep = \Tevep\Models\Tevep::find($id)) {
-        $pingpongs = is_array($tevep->pingpongs)? $tevep->pingpongs: [];
-        
-        if (0 == sizeof(array_filter($pingpongs, function($ping) use($userId) { return $ping['user_to']==$userId; }))) {
-            if ($user = \App\Models\User::find($userId)) {
-                $pingpong = [
-                    'id' => uniqid('pingpong-'),
-                    'user_from' => 0,
-                    'user_to' => $userId,
-                    'user_to_name' => $user->name,
-                    'user_to_email' => $user->email,
-                    'accepted' => false,
-                ];
-
-                $link = url("/tevep2/{$tevep->id}/?pingpong={$pingpong['id']}");
-                \App\Utils::mail([
-                    'to' => $user->email,
-                    'subject' => 'Convite pingpong',
-                    'body' => "Para aceitar, clique <a href='{$link}'>aqui</a>.",
-                ]);
-                $pingpongs[] = $pingpong;
-            }
-        }
-
-        $tevep->pingpongs = $pingpongs;
-        $tevep->store();
-        return $tevep;
-    }
-    
-    throw new \Exception('Tevep não encontrado');
+    return \Tevep\Models\Tevep::find($id)->pingpong($userId);
 });
 
 Route::post('/tevep/{id}/pingpong-confirm/{pingpongId}', function($id, $pingpongId) {

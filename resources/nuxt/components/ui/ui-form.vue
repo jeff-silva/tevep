@@ -3,11 +3,14 @@
         <slot name="success" :response="responseSuccess"></slot>
     </div>
 
-    <div v-if="responseErrorMessage && ($slots.error || $scopedSlots.error)" class="alert alert-danger">
-        <slot name="error" :message="responseErrorMessage" :fields="responseErrorFields"></slot>
-    </div>
+    <transition name="ui-form-error" enter-active-class="animate__animated animate__fadeIn" leave-active-class="animate__animated animate__fadeOut">
+        <div v-if="error && error.message && showError" class="alert alert-danger">
+            <slot name="error" :error="error">{{ error.message }}</slot>
+        </div>
+    </transition>
 
-    <slot :loading="loading" :error="responseErrorFields" :success="responseSuccess"></slot>
+
+    <slot :loading="loading" :error="error" :success="success"></slot>
 </form></template>
 
 <script>export default {
@@ -15,6 +18,7 @@
         value: {default: ()=>({})},
         method: {default: 'post'},
         action: {default: 'api'},
+        showError: {default: true},
     },
 
     watch: {
@@ -35,24 +39,18 @@
             let params = this.method=='get'? {params:this.props.value}: this.props.value;
 
             this.loading = `<i class="fa fa-fw fa-spin fa-spinner"></i>`;
-            this.responseSuccess = false;
-            this.responseErrorMessage = false;
-            this.responseErrorFields = {};
+            this.success = false;
+            this.error = false;
 
             method(this.action, params).then((resp) => {
                 this.loading = '';
-                this.responseSuccess = resp.data;
-                this.$emit('success', this.responseSuccess);
+                this.success = resp.data;
+                this.$emit('success', this.success);
             }).catch((err) => {
                 this.loading = '';
-                this.responseErrorMessage = err.response.data.message||'Erro';
-                this.responseErrorFields = err.response.data.fields||{};
-                for(let i in this.responseErrorFields) {
-                    if (Array.isArray(this.responseErrorFields[i])) {
-                        this.responseErrorFields[i] = this.responseErrorFields[i].join('<br>');
-                    }
-                }
-                this.$emit('error', this.responseErrorFields);
+                this.error = err.response.data||{};
+                this.error.fields = this.error.fields.map(errs => errs.join('<br>'));
+                this.$emit('error', this.error);
             });
         },
     },
@@ -60,6 +58,9 @@
     data() {
         return {
             loading: '',
+            success: false,
+            error: false,
+
             responseSuccess: false,
             responseErrorMessage: false,
             responseErrorFields: {},

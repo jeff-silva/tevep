@@ -1,6 +1,7 @@
 <template><div>
     <form @submit.prevent="submit()">
-        <div class="alert alert-danger" v-if="error" v-html="error"></div>
+        <div class="alert alert-danger" v-if="error && error.message" v-html="error.message"></div>
+
         <slot name="content">
             <div class="form-group">
                 <input type="text" class="form-control" v-model="post.email" placeholder="Seu e-mail">
@@ -11,43 +12,35 @@
             </div>
 
             <div class="form-group text-right">
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span v-if="loading"><i class="fas fa-spinner fa-spin"></i></span>
+                    <span v-else>Login</span>
+                </button>
             </div>
         </slot>
     </form>
 </div></template>
 
 <script>export default {
-    name: 'ui-auth-login',
-
-    props: {
-        value: {default:false},
-    },
-
-    // watch: {
-    //     $props: {
-    //         deep: true,
-    //         handler(value) {
-    //             this.props = Object.assign({}, value);
-    //         },
-    //     },
-    // },
-
     methods: {
         submit() {
             this.error = false;
+            this.loading = true;
             this.$auth.loginWith('jwt', {data:this.post}).then((resp) => {
+                this.loading = false;
                 if (resp.data.access_token) {
                     this.$emit('success', resp.data);
                 }
             }).catch(err => {
-                this.error = 'Usuário ou senha inválido';
+                this.error = err.response.data;
+                this.loading = false;
             });
         },
     },
 
     data() {
         return {
+            loading: false,
             error: false,
             post: {
                 email: '',
