@@ -4,8 +4,9 @@
     </div>
 
     <transition name="ui-form-error" enter-active-class="animate__animated animate__fadeIn" leave-active-class="animate__animated animate__fadeOut">
-        <div v-if="error && error.message && showError" class="alert alert-danger">
-            <slot name="error" :error="error">{{ error.message }}</slot>
+        <div v-if="error && showError" class="alert alert-danger" style="animation-duration:200ms;">
+            <a href="javascript:void(0);" class="float-right text-danger" @click="error=false"><i class="fas fa-times"></i></a>
+            <slot name="error" :error="error">{{ error.message||"Erro indefinido" }}</slot>
         </div>
     </transition>
 

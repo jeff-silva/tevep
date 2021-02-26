@@ -13,9 +13,9 @@
             <template #no-image>&nbsp;</template>
         </ui-photo>
 
-        <form @submit.prevent="userStore($event)">
-            <div class="row">
-                <div class="col-12 col-md-4 mb-4">
+        <ui-form method="post" action="/api/user/store/" v-model="user" @success="success($event)" #default="{loading, success, error}">
+            <div class="row no-gutters">
+                <div class="col-12 col-md-4 mb-4 pr-3">
                     <user-card v-model="user">
                         <template #actions>
                             <a href="javascript:;" class="btn btn-light" @click="$refs.userPhoto.toggle()">Foto</a>
@@ -24,32 +24,38 @@
                     </user-card>
                 </div>
                 <div class="col-12 col-md-8">
-                    <div class="bg-white shadow-sm p-3">
-                        <ui-field v-model="user.name" label="Nome" v-bind="{type:'text', layout:'full', error:error.name}"></ui-field>
-                        <ui-field v-model="user.email" label="E-mail" v-bind="{type:'email', layout:'full', error:error.email}"></ui-field>
-                        <ui-field v-model="user.meta.description" label="Descrição" v-bind="{type:'text', layout:'full'}"></ui-field>
-                        <ui-field label="Senha" v-bind="{layout:'full', error:error.password}">
-                            <template #field>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input type="password" class="form-control" v-model="user.password">
-                                        <ui-password-meter v-model="user.password"></ui-password-meter>
-                                    </div>
-                                    <div class="col-6"><input type="password" class="form-control"></div>
-                                </div>
-                            </template>
-                        </ui-field>
+                    <ui-field label="Nome">
+                        <input type="text" class="form-control" v-model="user.name">
+                    </ui-field>
 
-                        <div class="pt-3 text-right">
-                            <button type="submit" class="btn btn-primary">
-                                Salvar
-                            </button>
+                    <ui-field label="E-mail">
+                        <input type="text" class="form-control" v-model="user.email">
+                    </ui-field>
+
+                    <ui-field label="Descrição">
+                        <input type="text" class="form-control" v-model="user.description">
+                    </ui-field>
+
+                    <ui-field label="Senha">
+                        <div class="row no-gutters">
+                            <div class="col-12 col-md-6">
+                                <ui-password v-model="user.password" placeholder="Senha"></ui-password>
+                            </div>
+                            <div class="col-12 col-md-6 pl-md-2">
+                                <ui-password v-model="user.password" placeholder="Repita a senha" :meter="false"></ui-password>
+                            </div>
                         </div>
-                    </div>
+                    </ui-field>
                 </div>
             </div>
-        </form>
 
+            <ui-actions>
+                <button type="submit" class="btn btn-primary">
+                    <div v-if="loading"><span v-html="loading"></span> Salvando</div>
+                    <div v-else><i class="fas fa-save"></i> Salvar</div>
+                </button>
+            </ui-actions>
+        </ui-form>
     </form>
 </div></template>
 
@@ -67,11 +73,11 @@ export default {
             });
         },
 
-        userStore() {
-            this.$axios.post('/api/user/store', this.user).then((resp) => {
-                if (resp.data.error) { return this.error = resp.data.error; }
-                this.$swalSuccess('Sucesso', 'Dados salvos');
-            });
+        success(user) {
+            this.$swalSuccess('Sucesso', 'Dados salvos');
+            if (user.id==this.$auth.user.id) {
+                location.reload();
+            }
         },
     },
 

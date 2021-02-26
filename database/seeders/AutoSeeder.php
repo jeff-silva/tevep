@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
  * Este arquivo é gerado automaticamente, Não edite-o diretamente.
  * Para gerar este arquivo execute o comando "php artisan app:make-seed".
  * Este seeder é executado através do comando "php artisan app:deploy".
- * Arquivo gerado pela última vez em 19/02/2021 às 02:47:25
+ * Arquivo gerado pela última vez em 25/02/2021 às 23:50:14
 */
 class AutoSeeder extends Seeder
 {
@@ -36,6 +36,13 @@ class AutoSeeder extends Seeder
 				'email' => function($table) { $table->string('email', 255); },
 				'token' => function($table) { $table->string('token', 255); },
 				'created_at' => function($table) { $table->timestamps(); },
+			],
+			'settings' => [
+				'id' => function($table) { $table->id(); },
+				'name' => function($table) { $table->string('name', 255)->nullable(); },
+				'value' => function($table) { $table->text('value')->nullable(); },
+				'value_default' => function($table) { $table->text('value_default')->nullable(); },
+				'description' => function($table) { $table->string('description', 255)->nullable(); },
 			],
 			'teveps' => [
 				'id' => function($table) { $table->id(); },

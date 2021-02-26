@@ -1,76 +1,16 @@
-<template><div class="form-group">
-
-    <!-- layout:horizontal -->
-    <div class="row" v-if="layout=='horizontal'">
-        <div class="col-12 col-md-4 col-lg-3 p-2">
-            <div>{{ label }}</div>
-        </div>
-        <div class="col-12 col-md-8 col-lg-9">
-            <template v-if="$slots.field"><slot name="field"></slot></template>
-
-            <template v-else-if="type=='textarea'">
-                <textarea class="form-control" v-model="props.value" @keyup="emit()"></textarea>
-            </template>
-
-            <template v-else>
-                <input :type="type" class="form-control"
-                    :placeholder="placeholder" v-model="props.value" @keyup="emit()" >
-            </template>
-
-            <small class="d-block text-danger" v-if="props.error" v-html="props.error"></small>
-            <small class="text-muted" v-if="$slots.hint"><slot name="hint"></slot></small>
-        </div>
+<template><div class="form-group row no-gutters">
+    <div class="col-12 col-md-4 col-lg-3 p-2">
+        <div>{{ label }}</div>
     </div>
-
-    <!-- layout:full -->
-    <div class="form-group" v-else-if="layout=='full'">
-        <label v-html="label"></label>
-
-        <template v-if="$slots.field"><slot name="field"></slot></template>
-
-        <template v-else-if="type=='textarea'">
-            <textarea class="form-control" v-model="props.value" @keyup="emit()"></textarea>
-        </template>
-
-        <template v-else>
-            <input :type="type" class="form-control"
-                :placeholder="placeholder" v-model="props.value" @keyup="emit()" >
-        </template>
-
-        <small class="d-block text-danger" v-if="props.error" v-html="props.error"></small>
-        <small class="text-muted" v-if="$slots.hint"><slot name="hint"></slot></small>
+    <div class="col-12 col-md-8 col-lg-9">
+        <slot name="default"></slot>
+        <small class="d-block text-danger mt-1 mx-1" v-if="error">{{ error }}</small>
     </div>
 </div></template>
 
 <script>export default {
     props: {
-        value: {default: ''},
         label: {default: ''},
-        placeholder: {default: ''},
-        type: {default: 'text'},
-        imgMaxWidth: {default: 800},
-        imgMaxHeight: {default: 600},
         error: {default: ''},
-        layout: {default: 'horizontal'}, // horizontal|full
-    },
-
-    watch: {
-        $props: {deep: true, handler(value) {
-            this.props = Object.assign({}, value);
-        }},
-    },
-
-    methods: {
-        emit() {
-            this.$emit('input', this.props.value);
-            this.$emit('value', this.props.value);
-            this.$emit('change', this.props.value);
-        },
-    },
-
-    data() {
-        return {
-            props: Object.assign({}, this.$props),
-        };
     },
 };</script>

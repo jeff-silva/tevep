@@ -53,6 +53,9 @@ class AppDeploy extends Command
             $r = \Artisan::call($com);
             $this->comment("artisan $com");
         }
+
+        // Create default settings
+        (new \App\Models\Setting)->deploy();
         
         $this->comment('Finalizado');
     }

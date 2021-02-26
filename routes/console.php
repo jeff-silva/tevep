@@ -15,5 +15,8 @@ use Illuminate\Support\Facades\Artisan;
 */
 
 Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
+    // $this->comment(Inspiring::quote());
+    $this->comment(\App\Models\Email::send('jsiqueira@grr.la', 'Assunto', 'Corpo'));
+    // dd( \App\Models\Setting::find('mail.mailers.smtp.host') );
+    // dd( \App\Models\Setting::get() );
 })->describe('Display an inspiring quote');

@@ -264,6 +264,7 @@ class User extends Authenticatable implements JWTSubject
                 ['to'=>'/user', 'title'=>'Usuários', 'icon'=>'fas fa-user', 'children'=>[]],
                 ['to'=>'', 'title'=>'Configurações', 'icon'=>'fas fa-cog', 'children'=>[
                     ['to'=>'/user/me/', 'title'=>'Meus dados', 'icon'=>'fas fa-cog', 'children'=>[]],
+                    ['to'=>'/admin/settings', 'title'=>'Configurações', 'icon'=>'fas fa-cog', 'children'=>[]],
                 ]],
             ],
         ];

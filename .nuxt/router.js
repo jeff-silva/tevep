@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
+const _b8d5c64c = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\index.vue' /* webpackChunkName: "pages/admin/index" */))
 const _c854e07a = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\index.vue' /* webpackChunkName: "pages/auth/index" */))
 const _6017fe16 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\index.vue' /* webpackChunkName: "pages/dashboard/index" */))
 const _08491073 = () => interopDefault(import('..\\resources\\nuxt\\pages\\inspire.vue' /* webpackChunkName: "pages/inspire" */))
@@ -21,6 +22,9 @@ const _2472ee76 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\
 const _953cc452 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\tabs.vue' /* webpackChunkName: "pages/test/index/tabs" */))
 const _016745f9 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\index.vue' /* webpackChunkName: "pages/tevep/index" */))
 const _30815dc0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\\index.vue' /* webpackChunkName: "pages/user/index" */))
+const _547954cb = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings.vue' /* webpackChunkName: "pages/admin/settings" */))
+const _b3fdd552 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\index.vue' /* webpackChunkName: "pages/admin/settings/index" */))
+const _5485c321 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\email.vue' /* webpackChunkName: "pages/admin/settings/email" */))
 const _ab2ee08c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\password.vue' /* webpackChunkName: "pages/auth/password" */))
 const _22d1bfc2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\register.vue' /* webpackChunkName: "pages/auth/register" */))
 const _69e79260 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\settings.vue' /* webpackChunkName: "pages/dashboard/settings" */))
@@ -67,6 +71,10 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
+    path: "/admin",
+    component: _b8d5c64c,
+    name: "admin"
+  }, {
     path: "/auth",
     component: _c854e07a,
     name: "auth"
@@ -139,6 +147,18 @@ export const routerOptions = {
     path: "/user",
     component: _30815dc0,
     name: "user"
+  }, {
+    path: "/admin/settings",
+    component: _547954cb,
+    children: [{
+      path: "",
+      component: _b3fdd552,
+      name: "admin-settings"
+    }, {
+      path: "email",
+      component: _5485c321,
+      name: "admin-settings-email"
+    }]
   }, {
     path: "/auth/password",
     component: _ab2ee08c,

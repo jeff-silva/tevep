@@ -133,3 +133,17 @@ Route::post('/upload', function(Request $request) {
         'url' => Storage::disk('public')->url($path),
     ];
 });
+
+
+Route::get('/settings', function(Request $request) {
+    $return = [];
+    foreach(\App\Models\Setting::get() as $setting) {
+        $return[ $setting['name'] ] = $setting;
+    }
+    return $return;
+});
+
+
+Route::post('/settings/save', function(Request $request) {
+    return (new \App\Models\Setting)->saveAll($request->all());
+});

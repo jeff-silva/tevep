@@ -15,7 +15,8 @@
 
 <script>
 export default {
-  layout: 'empty',
+  // layout: 'empty',
+  layout: 'admin',
   props: {
     error: {
       type: Object,

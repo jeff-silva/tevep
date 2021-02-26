@@ -1,5 +1,12 @@
 [
   {
+    "name": "admin",
+    "path": "/admin",
+    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\admin\\\\index.vue",
+    "chunkName": "pages/admin/index",
+    "_name": "_b8d5c64c"
+  },
+  {
     "name": "auth",
     "path": "/auth",
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\auth\\\\index.vue",
@@ -126,6 +133,28 @@
     "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\user\\\\index.vue",
     "chunkName": "pages/user/index",
     "_name": "_30815dc0"
+  },
+  {
+    "path": "/admin/settings",
+    "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\admin\\\\settings.vue",
+    "chunkName": "pages/admin/settings",
+    "children": [
+      {
+        "name": "admin-settings",
+        "path": "",
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\admin\\\\settings\\\\index.vue",
+        "chunkName": "pages/admin/settings/index",
+        "_name": "_b3fdd552"
+      },
+      {
+        "name": "admin-settings-email",
+        "path": "email",
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\admin\\\\settings\\\\email.vue",
+        "chunkName": "pages/admin/settings/email",
+        "_name": "_5485c321"
+      }
+    ],
+    "_name": "_547954cb"
   },
   {
     "name": "auth-password",

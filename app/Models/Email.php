@@ -19,6 +19,13 @@ class Email extends \Illuminate\Database\Eloquent\Model
             'subject' => $subject,
             'body' => $body,
         ], $data);
+        
+        $smtp = config('mail.mailers.smtp');
+        $smtp['host'] = \App\Models\Setting::find('mail.mailers.smtp.host')->value;
+        $smtp['port'] = \App\Models\Setting::find('mail.mailers.smtp.port')->value;
+        $smtp['username'] = \App\Models\Setting::find('mail.mailers.smtp.username')->value;
+        $smtp['password'] = \App\Models\Setting::find('mail.mailers.smtp.password')->value;
+        config()->set('mail.mailers.smtp', $smtp);
 
         \Mail::send('emails.mail', $data, function($mail) use($data) {
             $sent = $mail->from($data['from']['address'], $data['from']['name'])

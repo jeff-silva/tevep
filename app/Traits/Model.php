@@ -16,14 +16,11 @@ trait Model
 
     public function store($data=[]) {
         $table_name = $this->getTable();
-        $data = array_map(function($item) {
-            if (is_array($item) OR is_object($item)) { $item = json_encode($item); }
-            return $item;
-        }, array_merge($this->attributes, $data));
-        $save = $this->fill($data);
-
+        $data = array_merge($this->toArray(), $data);
+        $save = (new static)->fill($data);
+        
         if ($this->id) {
-            $save = self::find($this->id)->fill($data);
+            $save = (new static)->find($this->id)->fill($data);
         }
 
         if ($validator = $save->validate() AND $validator->fails()) {

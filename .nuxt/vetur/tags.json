@@ -35,6 +35,12 @@
   "LazyTevep": {
     "description": "Auto imported from components/tevep/tevep.vue"
   },
+  "UserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
+  "LazyUserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
   "UiActions": {
     "description": "Auto imported from components/ui/ui-actions.vue"
   },
@@ -256,12 +262,6 @@
   },
   "LazyUiUser": {
     "description": "Auto imported from components/ui/ui-user.vue"
-  },
-  "UserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
-  "LazyUserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
   },
   "Content": {
     "description": "Auto imported from components/ui/ui-layout/content.vue"
