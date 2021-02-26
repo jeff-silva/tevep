@@ -40,7 +40,7 @@ export default {
             loading: false,
             tevep: {data:[]},
             tevepSearchParams: {
-                user_id: this.$auth.user.id,
+                user_id: (this.$route.query.user || this.$auth.user.id),
             },
         };
     },
