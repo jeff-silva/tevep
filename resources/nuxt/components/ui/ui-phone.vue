@@ -35,7 +35,7 @@ export default {
       for(let i in this.codes) {
         let code = this.codes[i];
 
-        if (this.props.value.includes(code.code)) {
+        if ((this.props.value||'').includes(code.code)) {
           return code;
         }
       }
@@ -65,7 +65,7 @@ export default {
       {
         "code": "+55",
         "country": "BR",
-        "countryName": "Brazil",
+        "countryName": "Brasil",
         "masks": [
         "+55 (##) ####-####",
         "+55 (##) #####-####"

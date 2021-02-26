@@ -23,7 +23,25 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
     }
 
     public function getPingpongsAttribute($value) {
-        return json_decode($value, true);
+        $pingpongs = json_decode($value, true);
+        $pingpongs = is_array($pingpongs)? $pingpongs: [];
+        
+        $users = \App\Models\User::whereIn('id', array_map(function($ping) {
+            return $ping['user_to'];
+        }, $pingpongs))->get();
+
+        foreach($pingpongs as $i => $ping) {
+            $pingpongs[ $i ]['invite_link'] = url("/tevep/{$this->id}/?pingpong={$ping['id']}");
+            foreach($users as $user) {
+                if ($user->id==$ping['user_to']) {
+                    $pingpongs[ $i ]['user_to_name'] = $user->name;
+                    $pingpongs[ $i ]['user_to_email'] = $user->email;
+                    $pingpongs[ $i ]['user_to_whatsapp'] = $user->whatsapp;
+                }
+            }
+        }
+
+        return $pingpongs;
     }
 
     public function validation() {
@@ -53,7 +71,7 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
         // Nenhum usuário encontrado
         if (0 == sizeof(array_filter($pingpongs, function($ping) use($userId) { return $ping['user_to']==$userId; }))) {
             $pingpong = [
-                'id' => uniqid('pingpong-'),
+                'id' => uniqid('p'),
                 'user_from' => $this->id,
                 'user_to' => $userId,
                 'user_to_name' => $user->name,

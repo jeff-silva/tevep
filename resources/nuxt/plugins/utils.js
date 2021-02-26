@@ -134,8 +134,10 @@ Vue.filter('datetime', function(value, format='DD/MM/YYYY à\\s hh:mm') {
 });
 
 
-Vue.filter('timeago', function(date) {
-	return 'time ago';
+Vue.filter('linkWhatsapp', function(number, text='') {
+	number = (number||'').replace(/[^0-9]/g, '');
+	text = encodeURI(text);
+	return `https://api.whatsapp.com/send?phone=${number}&text=${text}`;
 });
 
 // Directives

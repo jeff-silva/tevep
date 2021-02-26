@@ -55,6 +55,13 @@
         "_name": "_53c6c239"
       },
       {
+        "name": "test-index-colors",
+        "path": "colors",
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\colors.vue",
+        "chunkName": "pages/test/index/colors",
+        "_name": "_75413289"
+      },
+      {
         "name": "test-index-drawer",
         "path": "drawer",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\test\\\\index\\\\drawer.vue",

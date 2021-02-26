@@ -87,6 +87,10 @@
                         <a href="javascript:;" class="text-primary font-weight-bold float-right" @click="sendPingpong(pingpongInfo.user_to)">Convidar novamente</a>
                         Não aceito.
                     </div>
+
+                    <a :href="pingpongInfo.user_to_whatsapp|linkWhatsapp(`Olá, participe do meu projeto TEvEP!\n${pingpongInfo.invite_link}`)" target="_blank" class="btn btn-outline-whatsapp btn-block mt-3" v-if="pingpongInfo.user_to_whatsapp">
+                        <i class="fab fa-whatsapp mr-1"></i> Enviar convite por whatsapp
+                    </a>
                 </div>
             </template>
         </ui-modal>

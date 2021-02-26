@@ -11,6 +11,7 @@ const _4646bde8 = () => interopDefault(import('..\\resources\\nuxt\\pages\\setti
 const _d1dadace = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index.vue' /* webpackChunkName: "pages/test/index" */))
 const _3fc42301 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\auth.vue' /* webpackChunkName: "pages/test/index/auth" */))
 const _53c6c239 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\carousel.vue' /* webpackChunkName: "pages/test/index/carousel" */))
+const _75413289 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\colors.vue' /* webpackChunkName: "pages/test/index/colors" */))
 const _409fc58a = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\drawer.vue' /* webpackChunkName: "pages/test/index/drawer" */))
 const _ca2e7a16 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\endpoints.vue' /* webpackChunkName: "pages/test/index/endpoints" */))
 const _51b854a1 = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index\\example.vue' /* webpackChunkName: "pages/test/index/example" */))
@@ -102,6 +103,10 @@ export const routerOptions = {
       path: "carousel",
       component: _53c6c239,
       name: "test-index-carousel"
+    }, {
+      path: "colors",
+      component: _75413289,
+      name: "test-index-colors"
     }, {
       path: "drawer",
       component: _409fc58a,

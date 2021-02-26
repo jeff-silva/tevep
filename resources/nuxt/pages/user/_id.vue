@@ -46,6 +46,10 @@
                             </div>
                         </div>
                     </ui-field>
+
+                    <ui-field label="Whatsapp">
+                        <ui-phone v-model="user.whatsapp"></ui-phone>
+                    </ui-field>
                 </div>
             </div>
 

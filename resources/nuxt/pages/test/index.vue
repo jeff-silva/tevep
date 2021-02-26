@@ -63,6 +63,10 @@ export default {
                     to: "/test/auth",
                 },
                 {
+                    title: "Cores",
+                    to: "/test/colors",
+                },
+                {
                     title: "Carrosel",
                     to: "/test/carousel",
                 },

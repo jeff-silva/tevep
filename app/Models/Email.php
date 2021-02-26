@@ -17,9 +17,9 @@ class Email extends \Illuminate\Database\Eloquent\Model
             'from' => config('mail.from'),
             'to' => (is_array($to)? $to: [$to]),
             'subject' => $subject,
-            'body' => $body,
+            'body' => nl2br($body),
         ], $data);
-        
+
         $smtp = config('mail.mailers.smtp');
         $smtp['host'] = \App\Models\Setting::find('mail.mailers.smtp.host')->value;
         $smtp['port'] = \App\Models\Setting::find('mail.mailers.smtp.port')->value;

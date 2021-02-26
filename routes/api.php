@@ -147,3 +147,7 @@ Route::get('/settings', function(Request $request) {
 Route::post('/settings/save', function(Request $request) {
     return (new \App\Models\Setting)->saveAll($request->all());
 });
+
+Route::post('/settings/email-test', function(Request $request) {
+    return \App\Models\Email::send($request->input('email'), 'E-mail de teste', $request->input('body'));
+});
