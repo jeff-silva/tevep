@@ -19,7 +19,7 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
     ];
 
     public function getNodesAttribute($value) {
-        return json_decode($value, true);
+        return is_array($value)? $value: json_decode($value, true);
     }
 
     public function getPingpongsAttribute($value) {
