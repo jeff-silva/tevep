@@ -23,7 +23,7 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
     }
 
     public function getPingpongsAttribute($value) {
-        $pingpongs = json_decode($value, true);
+        $pingpongs = is_array($value)? $value: json_decode($value, true);
         $pingpongs = is_array($pingpongs)? $pingpongs: [];
         
         $users = \App\Models\User::whereIn('id', array_map(function($ping) {
