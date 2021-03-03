@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
  * Este arquivo é gerado automaticamente, Não edite-o diretamente.
  * Para gerar este arquivo execute o comando "php artisan app:make-seed".
  * Este seeder é executado através do comando "php artisan app:deploy".
- * Arquivo gerado pela última vez em 26/02/2021 às 00:49:52
+ * Arquivo gerado pela última vez em 03/03/2021 às 05:15:27
 */
 class AutoSeeder extends Seeder
 {
@@ -44,6 +44,15 @@ class AutoSeeder extends Seeder
 				'value_default' => function($table) { $table->text('value_default')->nullable(); },
 				'description' => function($table) { $table->string('description', 255)->nullable(); },
 			],
+			'tevep_invites' => [
+				'id' => function($table) { $table->id(); },
+				'tevep_id' => function($table) { $table->integer('tevep_id')->nullable(); },
+				'tevep_node' => function($table) { $table->string('tevep_node', 50)->nullable(); },
+				'user_id' => function($table) { $table->integer('user_id')->nullable(); },
+				'status' => function($table) { $table->string('status', 50)->nullable(); },
+				'created_at' => function($table) { $table->timestamps(); },
+				'updated_at' => function($table) { /* Gerado pela função timestamps() */ },
+			],
 			'teveps' => [
 				'id' => function($table) { $table->id(); },
 				'user_id' => function($table) { $table->integer('user_id')->nullable(); },
@@ -57,13 +66,13 @@ class AutoSeeder extends Seeder
 			],
 			'user_notifications' => [
 				'id' => function($table) { $table->id(); },
-				'created_at' => function($table) { $table->timestamps(); },
-				'updated_at' => function($table) { /* Gerado pela função timestamps() */ },
 				'user_id' => function($table) { $table->integer('user_id')->nullable(); },
 				'title' => function($table) { $table->string('title', 255)->nullable(); },
 				'body' => function($table) { $table->text('body')->nullable(); },
 				'image' => function($table) { $table->text('image')->nullable(); },
 				'seen' => function($table) { $table->integer('seen')->nullable(); },
+				'created_at' => function($table) { $table->timestamps(); },
+				'updated_at' => function($table) { /* Gerado pela função timestamps() */ },
 			],
 			'users' => [
 				'id' => function($table) { $table->id(); },

@@ -1,31 +1,31 @@
 <template><div class="ui-pagination" v-if="props.last_page>1">
     <div class="d-flex">
         <div class="pr-1">
-            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==1}" @click="setPage(1)">
+            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'ui-pagination-btn-active':props.current_page==1}" @click="setPage(1)">
                 <i class="fa fa-fw fa-angle-double-left"></i>
             </a>
         </div>
 
         <div class="pr-1">
-            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==1}" @click="setPage('-')">
+            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'ui-pagination-btn-active':props.current_page==1}" @click="setPage('-')">
                 <i class="fa fa-fw fa-angle-left"></i>
             </a>
         </div>
 
         <div class="text-center ui-pagination-scroll" @wheel="onWheel($event)">
-            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==p}" @click="setPage(p)" v-for="p in props.last_page">
+            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'ui-pagination-btn-active':props.current_page==p}" @click="setPage(p)" v-for="p in props.last_page">
                 {{ p }}
             </a>
         </div>
         
         <div class="pl-1">
-            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==props.last_page}" @click="setPage('+')">
+            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'ui-pagination-btn-active':props.current_page==props.last_page}" @click="setPage('+')">
                 <i class="fa fa-fw fa-angle-right"></i>
             </a>
         </div>
 
         <div class="pl-1">
-            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'btn-secondary':props.current_page==props.last_page}" @click="setPage(props.last_page)">
+            <a href="javascript:;" class="btn btn-sm ui-pagination-btn" :class="{'ui-pagination-btn-active':props.current_page==props.last_page}" @click="setPage(props.last_page)">
                 <i class="fa fa-fw fa-angle-double-right"></i>
             </a>
         </div>
@@ -33,7 +33,8 @@
 </div></template>
 
 <style>
-.ui-pagination-btn {border-radius:50%!important; margin:0px 2px; width:28px; text-align:center;}
+.ui-pagination-btn {width:30px; height:30px; margin:0px 2px; padding:4px 0px 0px 0px; border-radius:50%;}
+.ui-pagination-btn-active {background:#ddd;}
 
 .ui-pagination-scroll {white-space:nowrap; overflow:auto; padding-bottom:3px;}
 .ui-pagination-scroll::-webkit-scrollbar-track {}

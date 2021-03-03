@@ -1,11 +1,11 @@
 <template>
-    <div class="ui-dropdown" style="position:relative; z-index:2;">
+    <div class="ui-dropdown" style="position:relative; z-index:9;">
         <transition
             name="ui-dropdown-animation"
             enter-active-class="animate__animated animate__fadeIn"
             leave-active-class="animate__animated animate__fadeOut"
         >
-            <div style="position:absolute; top:0px; left:0px; width:100%; animation-duration:300ms;" v-if="props.shown">
+            <div style="position:absolute; top:0px; left:0px; width:100%; z-index:9!important; animation-duration:300ms;" v-if="props.shown">
                 <slot name="content">
                     <div class="bg-white shadow-sm">
                         content

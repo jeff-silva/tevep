@@ -18,7 +18,7 @@ class AppMakeModule extends Command
      *
      * @var string
      */
-    protected $description = 'Criar módulo básico para o sistema';
+    protected $description = 'Criar modulo básico para o sistema';
 
     /**
      * Create a new command instance.
@@ -37,15 +37,10 @@ class AppMakeModule extends Command
      */
     public function handle()
     {
-        $class = $this->ask('Informe o nome da classe (sem acentos, no singular. ex.: Produto)', 'Categoria');
-        $singular = $this->ask('Informe o nome do módulo (pode conter acentos, no SINGULAR ex.: Produto)', $class);
-        $plural = $this->ask('Informe o nome do módulo (pode conter acentos, no PLURAL ex.: Produto)', $class.'s');
-        $route = strtolower($class);
-
-        if (file_exists(base_path("app/Models/{$class}.php"))) {
-            $this->error("Nao foi possivel criar os arquivos pois o modulo {$class} ja existe.");
-            return;
-        }
+        $class = $this->ask('Informe o nome da classe (sem acentos, no singular. ex.: Exemplo)', 'Exemplo');
+        $singular = $this->ask('Informe o nome do modulo (pode conter acentos, no SINGULAR ex.: Exemplo)', $class);
+        $plural = $this->ask('Informe o nome do modulo (pode conter acentos, no PLURAL ex.: Exemplos)', $class.'s');
+        $route = \Str::kebab($class);
 
 $files[] = ['path'=>"app/Models/{$class}.php", 'content'=><<<EOF
 <?php
@@ -213,20 +208,16 @@ EOF];
 $files[] = ['path'=>"resources/nuxt/pages/admin/{$route}/_id.vue", 'content'=><<<EOF
 <template><div>
     <ui-form method="post" action="/api/{$route}/save/" v-model="edit" #default="{error, success, loading}" @success="success(\$event)">
-        <div class="row">
-            <div class="col-12 col-md-6 form-group">
-                <label>Nome</label>
-                <input type="text" class="form-control" v-model="edit.nome" />
-                <small class="text-danger" v-html="error.nome"></small>
-            </div>
-        </div>
+        <ui-field label="Nome" :error="error.nome">
+            <input type="text" class="form-control" v-model="edit.nome" />
+        </ui-field>
 
-        <div class="text-right">
+        <ui-actions>
             <button type="submit" class="btn btn-primary">
                 <span v-if="loading" v-html="loading"></span>
-                <span v-else>Salvar</span>
+                <span v-else><i class="fas fa-save"></i> Salvar</span>
             </button>
-        </div>
+        </ui-actions>
     </ui-form>
 </div></template>
 
@@ -265,29 +256,29 @@ export default {
 </script>
 EOF];
 
-        $filelist = implode("\n", array_map(function($file) {
-            return $file['path'];
-        }, $files));
-
-        if ($this->confirm("Confirma a criacao dos seguintes arquivos?\n{$filelist}", true)) {
-            if (! file_exists(base_path("resources/nuxt/pages/admin/{$route}"))) {
-                mkdir(base_path("resources/nuxt/pages/admin/{$route}"), 0755);
-            }
-
-            foreach($files as $file) {
+        foreach($files as $file) {
+            $exists = file_exists(base_path($file['path']));
+            
+            $create_text = $exists? "O arquivo {$file['path']} já existe, deseja sobrescrever?": "Deseja criar o arquivo {$file['path']}?";
+            if ($this->confirm($create_text, false)) {
                 $file['path'] = base_path(str_replace('/', DIRECTORY_SEPARATOR, $file['path']));
                 file_put_contents($file['path'], $file['content']);
+                $this->comment("Arquivo {$file['path']} criado.");
             }
-
-            $line[] = "Route::group(['middleware' => ['auth:api', 'permission']], function(\$router) {";
-            $line[] = "\t// {$class}";
-            $line[] = "\tRoute::get('/{$route}/search', '\App\Http\Controllers\\{$class}Controller@search');";
-            $line[] = "\tRoute::get('/{$route}/find/{id}', '\App\Http\Controllers\\{$class}Controller@find');";
-            $line[] = "\tRoute::post('/{$route}/save', '\App\Http\Controllers\\{$class}Controller@save');";
-            $line[] = "\tRoute::post('/{$route}/delete/{id}', '\App\Http\Controllers\\{$class}Controller@delete');";
-            $line[] = "});";
-
-            $this->comment("Insira as linhas abaixo em /routes/api.php:\n\n".implode("\n", $line)."\n");
         }
+
+
+        
+        $this->comment("Insira as linhas abaixo em /routes/api.php:\n\n".implode("\n", [
+            "Route::group(['middleware' => ['auth:api', 'permission']], function(\$router) {",
+            "\t// {$plural}",
+            "\tRoute::get('/{$route}/search', '\App\Http\Controllers\\{$class}Controller@search');",
+            "\tRoute::get('/{$route}/find/{id}', '\App\Http\Controllers\\{$class}Controller@find');",
+            "\tRoute::post('/{$route}/save', '\App\Http\Controllers\\{$class}Controller@save');",
+            "\tRoute::post('/{$route}/delete/{id}', '\App\Http\Controllers\\{$class}Controller@delete');",
+            "});",
+        ]));
+
+        $this->comment("Criacao do modulo {$plural} concluida.");
     }
 }

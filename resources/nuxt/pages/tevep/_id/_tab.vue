@@ -41,9 +41,6 @@
                         </div>
 
                         <nuxt-child class="p-1" v-bind.sync="compBind"></nuxt-child>
-
-                        <!-- <pre>$store.state.tevep: {{ $store.state.tevep }}</pre> -->
-                        <!-- <pre>compBind.tevep: {{ compBind.tevep }}</pre> -->
                     </div>
                 </div>
             </div>
@@ -180,11 +177,8 @@ export default {
                 date_start: '',
                 date_final: '',
                 tempos: [],
-                piloto: '',
                 pilotos: [],
-                pessoa: '',
                 pessoas: [],
-                espaco: '',
                 espacos: [],
                 utilidades: [],
 				inerencias: [],
@@ -209,11 +203,33 @@ export default {
                 for(let t=1; t<=7; t++) {
                     if (node.tempos[t-1]) continue;
                     node.tempos.push({
+                        id: this.uuid('t'),
                         title: `T${t}`,
                         date_start: '',
                         date_final: '',
                     });
                 }
+            }
+
+            if (node.espacos.length==0) {
+                node.espacos.push({
+                    id: this.uuid('e'),
+                    title: '',
+                });
+            }
+
+            if (node.pilotos.length==0) {
+                node.pilotos.push({
+                    id: this.uuid('p'),
+                    title: '',
+                });
+            }
+
+            if (node.pessoas.length==0) {
+                node.pessoas.push({
+                    id: this.uuid('p'),
+                    title: '',
+                });
             }
 
             return node;
@@ -247,17 +263,10 @@ export default {
 			return nodes[0]? nodes[0]: {};
 		},
 
-        tevepPingpongDefault(pingpong={}) {
-            pingpong = Object.assign({
-                id: this.uuid('pingpong-'),
-                from: this.$auth.user.id,
-                to: false,
-                nodeId: this.$route.query.node,
-                notificationsSent: 0,
-                accepted: false,
-            }, pingpong);
-
-            return pingpong;
+        tevepNodeRut() {
+            return {
+                dates: [],
+            };
         },
     },
 
@@ -270,6 +279,7 @@ export default {
             data.root = this.tevepNodeGet({parent:false});
             data.parent = (data.node.parent? this.tevepNodeGet({id:data.node.parent}): {});
             data.childs = this.tevepNodeGetAll({parent:data.nodeId});
+            data.rut = this.tevepNodeRut();
             data.tevep = this.tevep;
             
             // Todos os metodos

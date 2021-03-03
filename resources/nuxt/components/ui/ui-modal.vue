@@ -44,11 +44,12 @@
     methods: {
         emit() {
             this.$emit('input', this.props.value);
+            this.$emit('value', this.props.value);
+            this.$emit('change', this.props.value);
         },
 
         toggle() {
             this.props.value = !this.props.value;
-            this.$emit('value', this.props.value);
             this.emit();
         },
     },

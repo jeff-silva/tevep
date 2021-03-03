@@ -6,6 +6,19 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _b8d5c64c = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\index.vue' /* webpackChunkName: "pages/admin/index" */))
 const _c854e07a = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\index.vue' /* webpackChunkName: "pages/auth/index" */))
 const _6017fe16 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\index.vue' /* webpackChunkName: "pages/dashboard/index" */))
+const _47b87d60 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index.vue' /* webpackChunkName: "pages/docs/index" */))
+const _3961a710 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\auth.vue' /* webpackChunkName: "pages/docs/index/auth" */))
+const _819b8fa0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\carousel.vue' /* webpackChunkName: "pages/docs/index/carousel" */))
+const _622fba40 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\colors.vue' /* webpackChunkName: "pages/docs/index/colors" */))
+const _2d8e4d41 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\drawer.vue' /* webpackChunkName: "pages/docs/index/drawer" */))
+const _c627e844 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\endpoints.vue' /* webpackChunkName: "pages/docs/index/endpoints" */))
+const _d03d27ac = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\input.vue' /* webpackChunkName: "pages/docs/index/input" */))
+const _0530c518 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\input\\index.vue' /* webpackChunkName: "pages/docs/index/input/index" */))
+const _5d224502 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\input\\loading.vue' /* webpackChunkName: "pages/docs/index/input/loading" */))
+const _144bbca6 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\input\\select.vue' /* webpackChunkName: "pages/docs/index/input/select" */))
+const _88c6a3a4 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\table.vue' /* webpackChunkName: "pages/docs/index/table" */))
+const _58eca74e = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\tabs.vue' /* webpackChunkName: "pages/docs/index/tabs" */))
+const _49960e62 = () => interopDefault(import('..\\resources\\nuxt\\pages\\docs\\index\\test.vue' /* webpackChunkName: "pages/docs/index/test" */))
 const _08491073 = () => interopDefault(import('..\\resources\\nuxt\\pages\\inspire.vue' /* webpackChunkName: "pages/inspire" */))
 const _4646bde8 = () => interopDefault(import('..\\resources\\nuxt\\pages\\settings\\index.vue' /* webpackChunkName: "pages/settings/index" */))
 const _d1dadace = () => interopDefault(import('..\\resources\\nuxt\\pages\\test\\index.vue' /* webpackChunkName: "pages/test/index" */))
@@ -41,6 +54,7 @@ const _33891f11 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep
 const _74c74562 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\expectativas.vue' /* webpackChunkName: "pages/tevep/_id/_tab/expectativas" */))
 const _40ac910a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\inerencias.vue' /* webpackChunkName: "pages/tevep/_id/_tab/inerencias" */))
 const _6a091948 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\inovacoes.vue' /* webpackChunkName: "pages/tevep/_id/_tab/inovacoes" */))
+const _42f8c640 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\invite.vue' /* webpackChunkName: "pages/tevep/_id/_tab/invite" */))
 const _3f5a8a9a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\logistica.vue' /* webpackChunkName: "pages/tevep/_id/_tab/logistica" */))
 const _3589fd75 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\mao-de-obra.vue' /* webpackChunkName: "pages/tevep/_id/_tab/mao-de-obra" */))
 const _6555ed06 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\maquina.vue' /* webpackChunkName: "pages/tevep/_id/_tab/maquina" */))
@@ -83,6 +97,59 @@ export const routerOptions = {
     path: "/dashboard",
     component: _6017fe16,
     name: "dashboard"
+  }, {
+    path: "/docs",
+    component: _47b87d60,
+    name: "docs",
+    children: [{
+      path: "auth",
+      component: _3961a710,
+      name: "docs-index-auth"
+    }, {
+      path: "carousel",
+      component: _819b8fa0,
+      name: "docs-index-carousel"
+    }, {
+      path: "colors",
+      component: _622fba40,
+      name: "docs-index-colors"
+    }, {
+      path: "drawer",
+      component: _2d8e4d41,
+      name: "docs-index-drawer"
+    }, {
+      path: "endpoints",
+      component: _c627e844,
+      name: "docs-index-endpoints"
+    }, {
+      path: "input",
+      component: _d03d27ac,
+      children: [{
+        path: "",
+        component: _0530c518,
+        name: "docs-index-input"
+      }, {
+        path: "loading",
+        component: _5d224502,
+        name: "docs-index-input-loading"
+      }, {
+        path: "select",
+        component: _144bbca6,
+        name: "docs-index-input-select"
+      }]
+    }, {
+      path: "table",
+      component: _88c6a3a4,
+      name: "docs-index-table"
+    }, {
+      path: "tabs",
+      component: _58eca74e,
+      name: "docs-index-tabs"
+    }, {
+      path: "test",
+      component: _49960e62,
+      name: "docs-index-test"
+    }]
   }, {
     path: "/inspire",
     component: _08491073,
@@ -225,6 +292,10 @@ export const routerOptions = {
       path: "inovacoes",
       component: _6a091948,
       name: "tevep-id-tab-inovacoes"
+    }, {
+      path: "invite",
+      component: _42f8c640,
+      name: "tevep-id-tab-invite"
     }, {
       path: "logistica",
       component: _3f5a8a9a,

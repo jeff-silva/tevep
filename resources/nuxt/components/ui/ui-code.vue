@@ -38,8 +38,9 @@
 
 import codemirror from 'vue-codemirror';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/ambiance.css';
+import 'codemirror/theme/bespin.css';
 
+import 'codemirror/mode/php/php.js';
 import 'codemirror/mode/xml/xml.js';
 import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/mode/css/css.js';
@@ -52,6 +53,7 @@ export default {
 
   props: {
     value: {default:''},
+    mode: {default:'htmlmixed'},
   },
 
   watch: {
@@ -62,11 +64,15 @@ export default {
 
   computed: {
     compOptions() {
+      let mode = this.props.mode;
+      if (mode=='html') { mode = 'htmlmixed'; }
+
       return {
         tabSize: 4,
-        mode: 'htmlmixed',
-        theme: 'ambiance',
+        mode: mode,
+        theme: 'bespin',
         lineNumbers: true,
+        lineWrapping: false,
         line: true,
       };
     },
@@ -82,6 +88,10 @@ export default {
     emit() {
       this.$emit('input', this.props.value);
     },
+  },
+
+  mounted() {
+    
   },
 };
 </script>

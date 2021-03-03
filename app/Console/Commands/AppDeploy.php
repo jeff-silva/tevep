@@ -37,6 +37,9 @@ class AppDeploy extends Command
      */
     public function handle()
     {
+        $this->comment('Iniciando deploy');
+        $this->comment('Database: '. env('DB_USERNAME') .'@'. env('DB_DATABASE'));
+        
         $commands = [
             // 'migrate',
             'db:seed --class=AutoSeeder',
@@ -54,7 +57,6 @@ class AppDeploy extends Command
             $this->comment("artisan $com");
         }
 
-        // Create default settings
         (new \App\Models\Setting)->deploy();
         
         $this->comment('Finalizado');

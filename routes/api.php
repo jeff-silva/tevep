@@ -151,3 +151,12 @@ Route::post('/settings/save', function(Request $request) {
 Route::post('/settings/email-test', function(Request $request) {
     return \App\Models\Email::send($request->input('email'), 'E-mail de teste', $request->input('body'));
 });
+
+
+Route::group(['middleware' => ['auth:api', 'permission']], function($router) {
+});
+    // Convites
+    Route::get('/tevep-invite/search', '\App\Http\Controllers\TevepInviteController@search');      
+    Route::get('/tevep-invite/find/{id}', '\App\Http\Controllers\TevepInviteController@find');     
+    Route::post('/tevep-invite/save', '\App\Http\Controllers\TevepInviteController@save');
+    Route::post('/tevep-invite/delete/{id}', '\App\Http\Controllers\TevepInviteController@delete');

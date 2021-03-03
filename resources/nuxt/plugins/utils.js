@@ -20,99 +20,36 @@ Vue.prototype.$log = function() {
 	}
 };
 
-Vue.prototype.$app = function() {
-	let browser = false;
-
-	if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1)  {
-        browser = 'opera';
-    }
-    else if(navigator.userAgent.indexOf("Chrome") != -1 ) {
-		browser = 'chrome';
-    }
-    else if(navigator.userAgent.indexOf("Safari") != -1) {
-		browser = 'safari';
-    }
-    else if(navigator.userAgent.indexOf("Firefox") != -1 )  {
-		browser = 'firefox';
-    }
-    else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
-		browser = 'ie';
-	}
-
-	return {
-		APP_NAME: process.env.APP_NAME,
-		APP_DESCRIPTION: process.env.APP_DESCRIPTION,
-		browser,
-		hostname: window.location.hostname,
-		href: window.location.href,
-		query: window.location.search,
-		protocol: window.location.protocol,
-		port: window.location.port,
-	};
+Vue.prototype.$env = {
+	NODE_ENV: process.env.NODE_ENV,
+	APP_NAME: process.env.APP_NAME,
+	APP_DESCRIPTION: process.env.APP_DESCRIPTION,
+	APP_VERSION: (require('../../../package.json').version || '0.0.0'),
+	APP_COLOR: (process.env.APP_COLOR || false),
+	APP_LANG: (process.env.APP_LANG || false),
 };
 
-Vue.prototype.$swalConfirm = function(html, call) {
-	this.$swal({
-		title: "Confirmação",
-		html: html,
-	}).then((resp) => {
-		if (resp.value) {
-			call();
-		}
-	});
-};
-
-
-Vue.prototype.$swalSuccess = function(title, html) {
-	this.$swal({
-		title: title||'',
-		html: html||'',
-		icon: 'success',
-	});
-};
-
-Vue.prototype.$swalError = function(title, html) {
-	this.$swal({
-		title: title||'',
-		html: html||'',
-		icon: 'error',
-	});
-};
-
-
-Vue.prototype.$swalPrompt = function(question, callback) {
-    this.$swal({
-        // title: 'Submit your Github username',
-        html: question,
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Confirmar',
-    }).then((result) => {
-        if (!result.isConfirmed) return;
-        callback(result.value);
-    });
-};
-
-
-Vue.prototype.$user = function(attr=null) {
-	let user = this.$auth.user||{};
-	if (attr!==null) return user[attr]||false;
-	return user;
-};
-
-
-Vue.prototype.$geolocation = function() {
-	if (!navigator.geolocation) return;
+Vue.prototype.$copy = function(text) {
 	return new Promise((resolve, reject) => {
-		navigator.geolocation.getCurrentPosition((pos) => {
-			resolve({
-				lat: pos.coords.latitude,
-				lng: pos.coords.longitude,
-			})
-		}, reject);
+		if (text.nodeType) {
+			text = text.innerText;
+		}
+	
+		let ta = Object.assign(document.createElement('textarea'), {
+			style: {position:"fixed", top:-1000},
+			value: text,
+		});
+	
+		document.body.appendChild(ta);
+		ta.focus();
+		ta.select();
+		let bool = document.execCommand('copy');
+		document.body.removeChild(ta);
+		
+		if (bool) resolve(text);
+		else reject('Erro ao copiar');
 	});
 };
-
 
 // Filters
 
@@ -141,3 +78,8 @@ Vue.filter('linkWhatsapp', function(number, text='') {
 });
 
 // Directives
+
+
+
+// Redirect
+// https://auth.nuxtjs.org/api/auth/#onredirecthandler

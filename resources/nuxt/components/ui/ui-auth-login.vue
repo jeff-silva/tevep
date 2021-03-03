@@ -1,6 +1,6 @@
 <template><div>
     <form @submit.prevent="submit()">
-        <div class="alert alert-danger" v-if="error && error.message" v-html="error.message"></div>
+        <div class="alert alert-danger" v-if="error" v-html="error"></div>
 
         <slot name="content">
             <div class="form-group">
@@ -32,7 +32,7 @@
                     this.$emit('success', resp.data);
                 }
             }).catch(err => {
-                this.error = err.response.data;
+                this.error = 'Usuário ou senha inválido';
                 this.loading = false;
             });
         },

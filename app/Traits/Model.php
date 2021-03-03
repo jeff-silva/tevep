@@ -16,18 +16,38 @@ trait Model
 
     public function store($data=[]) {
         $table_name = $this->getTable();
-        $data = array_merge($this->toArray(), $data);
-        $save = (new static)->fill($data);
+        $table_pk = $this->getKeyName();
         
-        if ($this->id) {
-            $save = (new static)->find($this->id)->fill($data);
+        $data = array_merge($this->toArray(), $data);
+        foreach($data as $key=>$val) {
+            if (! in_array($key, $this->fillable)) {
+                unset($data[$key]);
+            }
         }
+        
+        $save = new static;
+        if ((isset($data[$table_pk]) AND !empty($data[$table_pk]))) {
+            if ($find = (new static)->find($data[$table_pk])) {
+                $save = $find;
+            }
+        }
+        
+        foreach($data as $key=>$val) {
+            $save[$key] = $val;
+        }
+
 
         if ($validator = $save->validate() AND $validator->fails()) {
             throw new \Exception(json_encode([
                 'message' => 'Há erros de validação',
                 'fields' => $validator->errors(),
             ]));
+        }
+
+        foreach($save->fillable as $key) {
+            if (is_array($save[$key])) {
+                $save[$key] = json_encode($save[$key]);
+            }
         }
         
         $save->save();

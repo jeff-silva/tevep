@@ -29,16 +29,16 @@
                     <tr><td :colspan="headers.length"><slot name="empty">Nenhum item carregado</slot></td></tr>
                 </template>
 
-                <tr v-for="(i, iindex) in props.data" :key="i[props.loopKey]">
+                <tr v-for="i in compData" :key="i._id">
                     <td v-if="select"><input type="checkbox" @change="toggleSelect(i)" :checked="isSelected(i)"></td>
-                    <slot name="item" :item="i">
-                        <td><pre>{{ i }}</pre></td>
+                    <slot name="item" :item="i.item">
+                        <td><pre>{{ i._id }}</pre></td>
                     </slot>
                     <td width="50px">
                         <div class="ui-table-actions">
                             <div class="btn-group btn-group-sm">
                                 <div class="btn-group btn-group-sm ui-table-actions-hidden">
-                                    <slot name="actions" :item="i">&nbsp;</slot>
+                                    <slot name="actions" :item="i.item">&nbsp;</slot>
                                 </div>
                                 <a href="javascript:;" class="btn d-md-none"><i class="fa fa-fw fa-plus"></i></a>
                             </div>
@@ -82,19 +82,18 @@
 
 <script>export default {
     props: {
-        value: {default: ()=>([])},
-        data: {default: ()=>([])},
         fixedHeader: {default:true},
-        select: {default:true},
+        select: {default:false},
         loading: {default:false},
-        maxHeight: {default:'500px'},
+        maxHeight: {default:'auto'},
         current_page: {default:1},
         from: {default:0},
         to: {default:0},
         last_page: {default:0},
         per_page: {default:0},
         total: {default:0},
-        loopKey: {default:'id'},
+        value: {default: ()=>([])},
+        data: {default: ()=>([])},
     },
 
     watch: {
@@ -105,10 +104,16 @@
 
     methods: {
         toggleSelect(item) {
-            let index = this.value.indexOf(item);
-            if (index==-1) { this.value.push(item); }
-            else { this.value.splice(index, 1); }
-            this.$emit('input', this.value);
+            for(let i in this.props.value) {
+                if (this.props.value[i]==item.item) {
+                    this.props.value.splice(i, 1);
+                    this.$emit('input', this.props.value);
+                    return;
+                }
+            }
+
+            this.props.value.push(item.item);
+            this.$emit('input', this.props.value);
         },
 
         toggleSelectAll(check) {
@@ -120,7 +125,12 @@
         },
 
         isSelected(item) {
-            return this.value.indexOf(item)>-0;
+            for(let i in this.props.value) {
+                if (this.props.value[i]==item.item) {
+                    return true;
+                }
+            }
+            return false;
         },
 
         getHeaders() {
@@ -134,7 +144,21 @@
         },
 
         onPaginationChange(pagination) {
-            this.$emit('page-change', pagination);
+            this.$emit('page-change', {page:pagination.current_page});
+        },
+    },
+
+    computed: {
+        compData() {
+            return this.props.data.map((item, index) => {
+                let _id = item.id;
+
+                if (typeof _id!='number' || typeof _id!='string') {
+                    _id = index;
+                }
+
+                return {_id, item};
+            });
         },
     },
 

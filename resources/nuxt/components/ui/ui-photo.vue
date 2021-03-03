@@ -1,46 +1,34 @@
 <template><div class="ui-photo" dropzone="copy" @drop="onDrop($event);" @dragover="$event.preventDefault()">
-    <ui-modal ref="modal">
+    <div class="d-flex align-items-center">
+        <div class="mr-3 p-2" style="width:80px;">
+            <img :src="props.value||defaultImage" alt="" style="width:100%;">
+        </div>
+        
+        <div v-if="!props.value">
+            <a href="javascript:;" @click="fileBrowser()">Fazer upload</a> ou
+            <a href="javascript:;" @click="modal=true">informar URL</a>
+            <div class="text-danger" v-html="error"></div>
+        </div>
+
+        <div v-if="props.value">
+            <a href="javascript:;" @click="props.value=''; emit()">Remover</a>
+        </div>
+    </div>
+
+    <ui-modal v-model="modal">
         <template #body>
             <div class="form-group">
-                <label>Informe a URL do arquivo:</label>
-                <input type="text" class="form-control" v-model="props.value" @keyup="$emit('input', props.value);">
-            </div>
-
-            <div class="form-group">
-                <label>Ou faça upload:</label>
-                <input type="file" @change="getFile($event.target.files[0]||false); $event.target.type='text'; $event.target.type='file'; modal=false;" class="form-control">
-            </div>
-
-            <div class="form-group">
-                Você também pode arrastar e soltar a imagem aqui ou diretamente na miniatura da foto fora do modal.
+                <label>URL</label>
+                <input type="text" class="form-control" v-model="props.value">
             </div>
         </template>
 
         <template #footer>
-            <a href="javascript:;" class="btn btn-danger float-left" @click="props.value=''; $emit('input', '');">Remover imagem</a>
+            <button type="button" class="btn btn-primary" @click="emit(); modal=false">
+                Ok
+            </button>
         </template>
     </ui-modal>
-
-
-    <div style="cursor:pointer;" v-if="props.value" @click="props.value=''; $emit('input', '');">
-        <slot name="has-image">
-            <img :src="compUrl" alt="" style="width:100%; margin:0px!important;">
-            <a href="javascript:;" class="btn btn-outline-danger btn-block" @click="props.value=''; $emit('input', '');">
-                <i class="fas fa-times"></i> Remover
-            </a>
-        </slot>
-    </div>
-
-    <div style="cursor:pointer;" v-else @click="props.modal=true">
-        <slot name="no-image">
-            <img :src="compUrl" alt="" style="width:100%; margin:0px!important;">
-            <div class="m-0">
-                <div class="btn btn-outline-primary btn-block" @click="props.modal=true">
-                    <i class="fas fa-upload"></i> Upload
-                </div>
-            </div>
-        </slot>
-    </div>
 </div></template>
 
 
@@ -70,6 +58,39 @@
             this.$emit('input', this.props.value);
         },
 
+        fileBrowser() {
+            let input = Object.assign(document.createElement('input'), {
+                type: "file",
+                accept: "image/x-png,image/gif,image/jpeg",
+                onchange: (ev) => {
+                    this.doUpload(ev.target.files[0]);
+                },
+            }).click();
+        },
+
+        doUpload(file) {
+            this.progress = 0;
+            this.error = '';
+
+            const data = new FormData();
+            data.append("file", file, file.name);
+            this.$axios.post('/api/upload', data, {
+                onUploadProgress: (ev) => {
+                    this.running = true;
+                    this.progress = Math.round((ev.loaded * 100) / ev.total);
+                },
+            }).then(resp => {
+                this.running = false;
+                this.progress = 100;
+                this.props.value = resp.data.url;
+                this.$emit('input', this.props.value);
+            }).catch(err => {
+                this.running = false;
+                this.progress = 0;
+                this.error = err.response.data.message||'Erro';
+            });
+        },
+
         toggle() {
             this.$refs.modal.toggle();
         },
@@ -88,6 +109,10 @@
 
     data() {
         return {
+            progress: 0,
+            running: false,
+            error: '',
+            modal: false,
             props: Object.assign({}, this.$props),
         };
     },

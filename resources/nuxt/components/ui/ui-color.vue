@@ -6,12 +6,11 @@
 
 
 <template><div class="ui-color input-group" style="position:relative;">
-  
-  <input type="text" class="form-control" v-if="props.showInput" v-model="props.value" @focus="show($event)">
+  <div class="input-group-prepend"><div class="input-group-btn">
+    <a href="javascript:;" class="btn rounded-0" :style="`background:${props.value};`" @click="show($event)">&nbsp; &nbsp;</a>
+  </div></div>
 
-  <div class="input-group-btn">
-    <a href="javascript:;" class="btn" :style="`background:${props.value};`" @click="show($event)">&nbsp;</a>
-  </div>
+  <input type="text" class="form-control" v-if="props.showInput" v-model="props.value" @focus="show($event)">
 
   <ui-dropdown ref="dropdown" :style="compColorStyle">
     <template #content>
@@ -23,13 +22,6 @@
     </template>
   </ui-dropdown>
 </div></template>
-
-
-<style>
-/* .ui-color .ui-color-component {visibility:hidden; opacity:0; height:0px; overflow:hidden; transition: all 300ms ease;}
-.ui-color:hover .ui-color-component,
-.ui-color > .form-control:focus + .ui-color-component {visibility:visible; opacity:1; height:auto;} */
-</style>
 
 
 <script>
@@ -64,6 +56,7 @@ export default {
       style.position = "absolute";
       style.top = "100%";
       style.left = 0;
+      style.zIndex = 9;
       return style;
     },
   },

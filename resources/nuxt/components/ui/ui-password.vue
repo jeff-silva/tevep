@@ -5,13 +5,13 @@
             v-model="props.value"
             @input="$emit('input', props.value)"
             :placeholder="props.placeholder">
-        <div class="input-group-append"><div class="input-group-btn">
-            <button type="button" class="btn" @click="props.type=(props.type=='text'? 'password': 'text')">
+        <div class="input-group-append" v-if="props.toggleShow"><div class="input-group-btn">
+            <div class="btn" @click="props.type=(props.type=='text'? 'password': 'text')">
                 <i class="fas fa-eye" :class="{'fa-eye-slash':props.type=='password'}"></i>
-            </button>
+            </div>
         </div></div>
     </div>
-    <ui-password-meter v-model="props.value" v-if="props.meter"></ui-password-meter>
+    <ui-password-meter v-model="props.value" v-if="props.meter" style="margin-top:-4px;"></ui-password-meter>
 </div></template>
 
 <script>export default {
@@ -20,6 +20,7 @@
     props: {
         value: {default:''},
         placeholder: {default:''},
+        toggleShow: {default:true},
         meter: {default:true},
         type: {default:'password'},
     },

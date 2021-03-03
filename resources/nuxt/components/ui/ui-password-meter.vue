@@ -10,12 +10,9 @@
     },
 
     watch: {
-        $props: {
-            deep: true,
-            handler(value) {
-                this.props = Object.assign({}, value);
-            },
-        },
+        $props: {deep:true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
     },
 
     computed: {

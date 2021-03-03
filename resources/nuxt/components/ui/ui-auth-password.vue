@@ -1,61 +1,58 @@
 <template><div>
-    <form @submit.prevent="passwordToken()">
-        <slot name="token">
+    <ui-form method="post" action="/api/auth/password-token" v-model="user" v-if="!tokenGenerated" @success="tokenGenerated=true">
+        <template #default="{error, loading}">
             <div class="input-group">
-                <input type="text" class="form-control" v-model="post.email" placeholder="Seu e-mail">
+                <input type="text" class="form-control" v-model="user.email" placeholder="Informe seu e-mail">
                 <div class="input-group-append"><div class="input-group-btn">
                     <button type="submit" class="btn btn-primary">
-                        Enviar
+                        <span v-if="loading" v-html="loading"></span>
+                        <span v-else>Enviar</span>
                     </button>
                 </div></div>
+                <small class="text-danger" v-if="error.token" v-html="error.email"></small>
             </div>
-            <small class="text-danger" v-if="error.email" v-html="error.email.join('<br>')"></small>
-        </slot>
-    </form>
+        </template>
+    </ui-form>
 
-
-    <div v-if="tokenGenerated">
-        <div class="mb-3"></div>
-        
-        <div class="form-group">
-            <div class="input-group">
-                <input type="text" class="form-control" v-model="post.token" placeholder="Token" @keyup.enter="tokenInformed=true;">
-                <div class="input-group-append"><div class="input-group-btn">
-                    <button type="button" class="btn btn-primary" @click="tokenInformed=true;">
-                        Ok
-                    </button>
-                </div></div>
+    <ui-form method="post" action="/api/auth/password-reset" v-model="user" v-if="tokenGenerated && !passwordChanged" @success="passwordChanged=true">
+        <template #default="{error}">
+            <div class="form-group">
+                <label>Informe o token recebido por e-mail</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" v-model="user.token" placeholder="Informe o token recebido">
+                    <div class="input-group-append"><div class="input-group-btn">
+                        <button type="button" class="btn btn-primary" @click="tokenInformed=!!user.token">Ok</button>
+                    </div></div>
+                </div>
+                <small class="text-danger" v-if="error.token" v-html="error.token"></small>
             </div>
-            <small class="text-danger" v-if="error.token" v-html="error.token.join('<br>')"></small>
-        </div>
-        
-        <form @submit.prevent="passwordReset()">
-            <slot name="reset">
-                <div v-if="tokenInformed">
-                    <div class="form-group">
-                        <ui-password v-model="post.password" placeholder="Senha"></ui-password>
-                        <small class="text-danger" v-if="error.password" v-html="error.password.join('<br>')"></small>
-                    </div>
 
-                    <div class="form-group">
-                        <ui-password v-model="post.password_confirmation" placeholder="Senha" :meter="false"></ui-password>
-                        <small class="text-danger" v-if="error.password_confirmation" v-html="error.password_confirmation.join('<br>')"></small>
-                    </div>
+            <div v-if="tokenInformed && user.token">
+                <div class="form-group">
+                    <label>Informe sua nova senha</label>
+                    <ui-password v-model="user.password"></ui-password>
+                    <small class="text-danger" v-if="error.password" v-html="error.password"></small>
                 </div>
+                
+                <div class="form-group">
+                    <label>Repita a senha</label>
+                    <ui-password v-model="user.password_confirmation" :meter="false"></ui-password>
+                    <small class="text-danger" v-if="error.password_confirmation" v-html="error.password_confirmation"></small>
+                </div>
+    
+                <button type="submit" class="btn btn-primary btn-block">
+                    Concluir
+                </button>
+            </div>
+        </template>
+    </ui-form>
 
-                <div class="form-group text-right">
-                    <button type="submit" class="btn btn-primary btn-block">Enviar</button>
-                </div>
-            </slot>
-        </form>
+    <div class="text-center" v-if="passwordChanged">
+        Senha alterada. Por favor, faça login
     </div>
-
-    <!-- <pre>{{ $store.$auth.user }}</pre> -->
 </div></template>
 
 <script>export default {
-    name: 'ui-auth-password',
-
     props: {
         value: {default:false},
     },
@@ -91,8 +88,9 @@
         return {
             tokenGenerated: false,
             tokenInformed: false,
+            passwordChanged: false,
             error: {},
-            post: {email: '',password: '',password_confirmation: '',token: ''},
+            user: {email:'', token:'', password:'', password_confirmation:''},
         };
     },
 };</script>

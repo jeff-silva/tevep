@@ -3,15 +3,11 @@
         <slot name="success" :response="responseSuccess"></slot>
     </div>
 
-    <transition name="ui-form-error" enter-active-class="animate__animated animate__fadeIn" leave-active-class="animate__animated animate__fadeOut">
-        <div v-if="error && showError" class="alert alert-danger" style="animation-duration:200ms;">
-            <a href="javascript:void(0);" class="float-right text-danger" @click="error=false"><i class="fas fa-times"></i></a>
-            <slot name="error" :error="error">{{ error.message||"Erro indefinido" }}</slot>
-        </div>
-    </transition>
+    <slot name="error" :errorMessage="responseErrorMessage" :fields="responseErrorFields" v-if="responseErrorMessage">
+        <div class="alert alert-danger" v-if="responseErrorMessage" v-html="responseErrorMessage"></div>
+    </slot>
 
-
-    <slot :loading="loading" :error="error" :success="success"></slot>
+    <slot :loading="loading" :error="responseErrorFields" :errorMessage="responseErrorMessage" :success="responseSuccess"></slot>
 </form></template>
 
 <script>export default {
@@ -19,7 +15,6 @@
         value: {default: ()=>({})},
         method: {default: 'post'},
         action: {default: 'api'},
-        showError: {default: true},
     },
 
     watch: {
@@ -40,18 +35,24 @@
             let params = this.method=='get'? {params:this.props.value}: this.props.value;
 
             this.loading = `<i class="fa fa-fw fa-spin fa-spinner"></i>`;
-            this.success = false;
-            this.error = false;
+            this.responseSuccess = false;
+            this.responseErrorMessage = false;
+            this.responseErrorFields = {};
 
             method(this.action, params).then((resp) => {
                 this.loading = '';
-                this.success = resp.data;
-                this.$emit('success', this.success);
+                this.responseSuccess = resp.data;
+                this.$emit('success', this.responseSuccess);
             }).catch((err) => {
                 this.loading = '';
-                this.error = err.response.data||{};
-                this.error.fields = this.error.fields.map(errs => errs.join('<br>'));
-                this.$emit('error', this.error);
+                this.responseErrorMessage = err.response.data.message||'Erro';
+                this.responseErrorFields = err.response.data.fields||{};
+                for(let i in this.responseErrorFields) {
+                    if (Array.isArray(this.responseErrorFields[i])) {
+                        this.responseErrorFields[i] = this.responseErrorFields[i].join('<br>');
+                    }
+                }
+                this.$emit('error', this.responseErrorFields);
             });
         },
     },
@@ -59,9 +60,6 @@
     data() {
         return {
             loading: '',
-            success: false,
-            error: false,
-
             responseSuccess: false,
             responseErrorMessage: false,
             responseErrorFields: {},

@@ -19,9 +19,9 @@
 
         <!-- Piloto -->
         <div class="col-4">
-            <div v-if="node.espaco">
+            <div v-if="node && node.espacos[0] && node.espacos[0].title">
                 <div class="text-center"><img src="/assets/icons/piloto.png" alt="" class="mb-3 mr-2" style="height:60px;"> Pilotos</div>
-                <input type="text" class="form-control" v-model="node.piloto">
+                <input type="text" class="form-control" v-model="node.pilotos[0].title">
             </div>
         </div>
         
@@ -35,9 +35,9 @@
 
         <!-- Pessoas -->
         <div class="col-4">
-            <div v-if="node.espaco">
+            <div v-if="node && node.espacos[0] && node.espacos[0].title">
                 <div class="text-center">Público <img src="/assets/icons/publico.png" alt="" class="mb-3 ml-2" style="height:60px;"></div>
-                <input type="text" class="form-control" v-model="node.pessoa">
+                <input type="text" class="form-control" v-model="node.pessoas[0].title">
             </div>
         </div>
 
@@ -45,60 +45,26 @@
         <div class="col-12 text-center" v-if="node.date_start && node.date_final">
             <br><br>
             <img src="/assets/icons/espaco.png" alt="" class="mb-3" style="width:200px;">
-            <div style="max-width:250px; margin:0 auto;">
+            <div style="max-width:250px; margin:0 auto;" v-if="node.espacos[0]">
                 <div class="input-group">
-                    <input type="text" class="form-control" v-model="node.espaco">
+                    <input type="text" class="form-control" v-model="node.espacos[0].title">
                 </div>
             </div>
+
+            <br><br>
+            <div v-if="node.title && node.date_start && node.date_final && $route.params.id!=0">
+                <invite v-model="tevep"></invite>
+            </div>
         </div>
-    </div>
-
-    <div v-if="node.title && node.date_start && node.date_final && node.espaco && node.piloto && node.pessoa && $route.params.id!=0">
-        <div class="text-center mt-5">
-            <a href="javascript:;" @click="pingpong=tevepPingpongDefault()" class="mr-4">
-                <img src="/assets/icons/raquete-preta.png" alt="" style="width:50px;">
-            </a>
-            <a href="javascript:;" v-for="p in tevep.pingpongs" @click="pingpongInfo=p">
-                <img :src="p.accepted? '/assets/icons/raquete-verde.png': '/assets/icons/raquete-vermelha.png'" alt="" style="width:50px;">
-            </a>
-        </div>
-
-        <ui-modal v-model="pingpong">
-            <template #header>Enviar pingpong para usuário</template>
-            <template #body>
-                <ui-user v-model="pingpong.to">
-                    <template #append>
-                        <button type="button" class="btn btn-primary" @click="sendPingpong(pingpong.to)">
-                            <i class="fas fa-fw fa-paper-plane"></i>
-                        </button>
-                    </template>
-                </ui-user>
-            </template>
-        </ui-modal>
-
-        <ui-modal v-model="pingpongInfo">
-            <template #header>Informações de pingpong</template>
-            <template #body>
-                Para {{ pingpongInfo.user_to_name }} - {{ pingpongInfo.user_to_email }} (convite enviado {{ pingpongInfo.invitations||1 }} vez(es)
-                <br>
-                <div class="alert alert-success m-0 mt-2" v-if="pingpongInfo.accepted">Aceito</div>
-                <div v-if="!pingpongInfo.accepted">
-                    <div class="alert alert-danger m-0 mt-2">
-                        <a href="javascript:;" class="text-primary font-weight-bold float-right" @click="sendPingpong(pingpongInfo.user_to)">Convidar novamente</a>
-                        Não aceito.
-                    </div>
-
-                    <a :href="pingpongInfo.user_to_whatsapp|linkWhatsapp(`Olá, participe do meu projeto TEvEP!\n${pingpongInfo.invite_link}`)" target="_blank" class="btn btn-outline-whatsapp btn-block mt-3" v-if="pingpongInfo.user_to_whatsapp">
-                        <i class="fab fa-whatsapp mr-1"></i> Enviar convite por whatsapp
-                    </a>
-                </div>
-            </template>
-        </ui-modal>
     </div>
 </div></template>
 
 <script>
 export default {
+    components: {
+        'invite': require('./invite.vue').default,
+    },
+
     props: {
         tevep: Object,
         node: Object,
@@ -108,7 +74,12 @@ export default {
         tevepInit: Function,
         tevepTitle: Function,
         tevepNodeDefault: Function,
-        tevepPingpongDefault: Function,
+    },
+
+    watch: {
+        $props: {deep:true, handler(value) {
+            this.props = Object.assign({}, value);
+        }},
     },
 
     data() {
