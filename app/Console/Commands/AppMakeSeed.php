@@ -39,21 +39,17 @@ class AppMakeSeed extends Command
     {
         $_field = function($col, $last=false) {
             $field = ['$table'];
-
-            if ($col->Null=='YES') {
-                $field[] = 'nullable()';
-            }
     
             if ($col->Field=='id') {
                 $field[] = 'id()';
             }
     
             else if ($col->Field=='created_at') {
-                $field[] = 'timestamps()';
+                $field[] = 'nullableTimestamps()';
             }
 
             else if ($col->Field=='updated_at') {
-                return '/* Gerado pela função timestamps() dentro de created_at */';
+                return '/* Gerado pela função nullableTimestamps() dentro de created_at */';
             }
 
             else {
@@ -88,6 +84,10 @@ class AppMakeSeed extends Command
             if ($col->Comment) {
                 $col->Comment = addslashes($col->Comment);
                 $field[] = "comment('{$col->Comment}')";
+            }
+
+            if ($col->Null=='YES' AND $col->Field!='created_at' AND $col->Field!='updated_at') {
+                $field[] = 'nullable()';
             }
     
             return implode('->', $field);
