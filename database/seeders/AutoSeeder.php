@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
  * Este arquivo é gerado automaticamente, Não edite-o diretamente.
  * Para gerar este arquivo execute o comando "php artisan app:make-seed".
  * O banco de dados contido aqui é criado ao executar o comando "php artisan app:deploy".
- * Arquivo gerado pela última vez em 04/03/2021 às 06:11:14
+ * Arquivo gerado pela última vez em 04/03/2021 às 06:16:03
 */
 
 class AutoSeeder extends Seeder
@@ -27,8 +27,8 @@ class AutoSeeder extends Seeder
 					'to' => function($table) { $table->text('to')->nullable(); },
 					'subject' => function($table) { $table->text('subject')->nullable(); },
 					'body' => function($table) { $table->text('body')->nullable(); },
-					'created_at' => function($table) { $table->nullableTimestamps()->nullable(); },
-					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
+					'created_at' => function($table) { $table->timestamps()->nullable(); },
+					'updated_at' => function($table) { /* Gerado pela função timestamps() dentro de created_at */; },
 				],
 			],
 			'emails' => [
@@ -39,8 +39,8 @@ class AutoSeeder extends Seeder
 					'subject' => function($table) { $table->string('subject', 255)->nullable(); },
 					'body' => function($table) { $table->text('body')->nullable(); },
 					'params' => function($table) { $table->text('params')->nullable(); },
-					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
-					'created_at' => function($table) { $table->nullableTimestamps()->nullable(); },
+					'updated_at' => function($table) { /* Gerado pela função timestamps() dentro de created_at */; },
+					'created_at' => function($table) { $table->timestamps()->nullable(); },
 				],
 			],
 			'migrations' => [
@@ -56,7 +56,7 @@ class AutoSeeder extends Seeder
 				'fields' => [
 					'email' => function($table) { $table->string('email', 255); },
 					'token' => function($table) { $table->string('token', 255); },
-					'created_at' => function($table) { $table->nullableTimestamps()->nullable(); },
+					'created_at' => function($table) { $table->timestamps()->nullable(); },
 				],
 			],
 			'settings' => [
@@ -78,8 +78,8 @@ class AutoSeeder extends Seeder
 					'user_id' => function($table) { $table->integer('user_id')->nullable(); },
 					/* status: accepted|rejected */
 					'status' => function($table) { $table->string('status', 50)->comment('accepted|rejected')->nullable(); },
-					'created_at' => function($table) { $table->nullableTimestamps()->nullable(); },
-					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
+					'created_at' => function($table) { $table->timestamps()->nullable(); },
+					'updated_at' => function($table) { /* Gerado pela função timestamps() dentro de created_at */; },
 				],
 			],
 			'teveps' => [
@@ -92,8 +92,8 @@ class AutoSeeder extends Seeder
 					'date_final' => function($table) { $table->text('date_final')->nullable(); },
 					'nodes' => function($table) { $table->text('nodes')->nullable(); },
 					'pingpongs' => function($table) { $table->text('pingpongs')->nullable(); },
-					'created_at' => function($table) { $table->nullableTimestamps()->nullable(); },
-					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
+					'created_at' => function($table) { $table->timestamps()->nullable(); },
+					'updated_at' => function($table) { /* Gerado pela função timestamps() dentro de created_at */; },
 				],
 			],
 			'user_notifications' => [
@@ -105,16 +105,16 @@ class AutoSeeder extends Seeder
 					'body' => function($table) { $table->text('body')->nullable(); },
 					'image' => function($table) { $table->text('image')->nullable(); },
 					'seen' => function($table) { $table->integer('seen')->nullable(); },
-					'created_at' => function($table) { $table->nullableTimestamps()->nullable(); },
-					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
+					'created_at' => function($table) { $table->timestamps()->nullable(); },
+					'updated_at' => function($table) { /* Gerado pela função timestamps() dentro de created_at */; },
 				],
 			],
 			'users' => [
 				'comment' => '',
 				'fields' => [
 					'id' => function($table) { $table->id(); },
-					'created_at' => function($table) { $table->nullableTimestamps()->nullable(); },
-					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
+					'created_at' => function($table) { $table->timestamps()->nullable(); },
+					'updated_at' => function($table) { /* Gerado pela função timestamps() dentro de created_at */; },
 					'name' => function($table) { $table->string('name', 255)->nullable(); },
 					'email' => function($table) { $table->string('email', 255)->nullable(); },
 					'email_verified_at' => function($table) { $table->text('email_verified_at')->nullable(); },
