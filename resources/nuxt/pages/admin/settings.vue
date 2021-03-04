@@ -40,6 +40,12 @@ export default {
                     subtitle: "Configurações de e-mail",
                     to: "/admin/settings/email",
                 },
+                {
+                    id: "email-templates",
+                    title: "Templates",
+                    subtitle: "Templates de e-mail",
+                    to: "/admin/settings/email-templates",
+                },
             ],
         };
     },

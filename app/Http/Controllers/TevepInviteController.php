@@ -38,6 +38,6 @@ class TevepInviteController extends Controller
      * Deletar Convite
      */
     public function delete($id) {
-        return [$id];
+        return \App\Models\TevepInvite::find($id)->remove();
     }
 }

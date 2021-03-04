@@ -37,6 +37,13 @@
                 </div>
             </div>
 
+            <!-- Rejeitado -->
+            <div v-else-if="inviteInfo.status=='rejected'">
+                <div class="alert alert-success">
+                    {{ inviteInfo.user.name }} rejeitou
+                </div>
+            </div>
+
              <!-- Aguardando -->
              <div v-else>
                 <div class="alert alert-warning">
@@ -52,6 +59,15 @@
                 </a>
             </div>
         </template>
+        <template #footer>
+            <button type="button" class="btn btn-danger" v-if="inviteInfo.status" @click="inviteDelete(inviteInfo)">
+                Remover {{ inviteInfo.user.name }}
+            </button>
+
+            <button type="button" class="btn btn-primary" @click="inviteInfo=false">
+                Ok
+            </button>
+        </template>
     </ui-modal>
 
     <!-- Aceitando convite -->
@@ -63,11 +79,11 @@
                     Você recebeu um convite para editar este evento, como deseja proceder?
                 </template>
                 <template #footer>
-                    <a href="javascript:;" class="btn btn-danger" @click="inviteResponse(i, 'rejected')">
+                    <a href="javascript:;" class="btn btn-danger" @click="inviteResponse(i, 'rejected', 'Resposta enviada')">
                         Recusar
                     </a>
 
-                    <a href="javascript:;" class="btn btn-success" @click="inviteResponse(i, 'accepted')">
+                    <a href="javascript:;" class="btn btn-success" @click="inviteResponse(i, 'accepted', 'Resposta enviada')">
                         Aceitar
                     </a>
                 </template>
@@ -125,17 +141,31 @@ export default {
             });
         },
 
-        inviteResponse(merge={}, status='') {
+        inviteResponse(merge={}, status='', message='') {
             merge.status = status;
             this.loading++;
             this.$axios.post('/api/tevep-invite/save', merge).then(resp => {
                 this.loading--;
-                this.$swal('Enviado', 'Resposta enviada', 'success');
+                this.$swal('Enviado', message, 'success');
                 this.getInvites();
 
                 let query = Object.assign({}, this.$route.query);
                 delete query.invite;
                 this.$router.push({query});
+            });
+        },
+
+        inviteDelete(invite) {
+            this.$swal('Confirmação', `Tem certeza que deseja remover o convite de ${invite.user.name}?`, 'warning').then(resp => {
+                if (! resp.isConfirmed) return;
+
+                this.loading++;
+                this.$axios.post(`/api/tevep-invite/delete/${invite.id}`).then(resp2 => {
+                    this.loading--;
+                    this.inviteInfo = false;
+                    this.getInvites();
+                    this.$swal('', 'Convite removido', 'success');
+                });
             });
         },
     },

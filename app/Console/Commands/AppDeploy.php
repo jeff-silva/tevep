@@ -58,6 +58,7 @@ class AppDeploy extends Command
         }
 
         (new \App\Models\Setting)->deploy();
+        (new \App\Models\Email)->deploy();
         
         $this->comment('Finalizado');
     }

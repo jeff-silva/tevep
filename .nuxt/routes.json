@@ -253,6 +253,13 @@
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\admin\\\\settings\\\\email.vue",
         "chunkName": "pages/admin/settings/email",
         "_name": "_5485c321"
+      },
+      {
+        "name": "admin-settings-email-templates",
+        "path": "email-templates",
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\admin\\\\settings\\\\email-templates.vue",
+        "chunkName": "pages/admin/settings/email-templates",
+        "_name": "_797a5b8d"
       }
     ],
     "_name": "_547954cb"
@@ -364,13 +371,6 @@
         "_name": "_6a091948"
       },
       {
-        "name": "tevep-id-tab-invite",
-        "path": "invite",
-        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\invite.vue",
-        "chunkName": "pages/tevep/_id/_tab/invite",
-        "_name": "_42f8c640"
-      },
-      {
         "name": "tevep-id-tab-logistica",
         "path": "logistica",
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\logistica.vue",
@@ -411,6 +411,13 @@
         "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\metodo.vue",
         "chunkName": "pages/tevep/_id/_tab/metodo",
         "_name": "_30990e95"
+      },
+      {
+        "name": "tevep-id-tab-pingpong",
+        "path": "pingpong",
+        "component": "D:\\\\@repos\\\\tevep\\\\resources\\\\nuxt\\\\pages\\\\tevep\\\\_id\\\\_tab\\\\pingpong.vue",
+        "chunkName": "pages/tevep/_id/_tab/pingpong",
+        "_name": "_6fa7793e"
       },
       {
         "name": "tevep-id-tab-principios",

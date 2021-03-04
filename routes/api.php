@@ -153,10 +153,32 @@ Route::post('/settings/email-test', function(Request $request) {
 });
 
 
-Route::group(['middleware' => ['auth:api', 'permission']], function($router) {
+// Route::group(['middleware' => ['auth:api', 'permission']], function($router) {
+// });
+
+// Convites
+Route::get('/tevep-invite/search', '\App\Http\Controllers\TevepInviteController@search');      
+Route::get('/tevep-invite/find/{id}', '\App\Http\Controllers\TevepInviteController@find');     
+Route::post('/tevep-invite/save', '\App\Http\Controllers\TevepInviteController@save');
+Route::post('/tevep-invite/delete/{id}', '\App\Http\Controllers\TevepInviteController@delete');
+
+// E-mails
+Route::get('/email/search', '\App\Http\Controllers\EmailController@search');
+Route::get('/email/find/{id}', '\App\Http\Controllers\EmailController@find');
+Route::post('/email/save', '\App\Http\Controllers\EmailController@save');
+Route::post('/email/delete/{id}', '\App\Http\Controllers\EmailController@delete');
+
+// Emails enviados
+Route::get('/email-sent/search', '\App\Http\Controllers\EmailSentController@search');
+Route::get('/email-sent/find/{id}', '\App\Http\Controllers\EmailSentController@find');
+Route::post('/email-sent/save', '\App\Http\Controllers\EmailSentController@save');
+Route::post('/email-sent/delete/{id}', '\App\Http\Controllers\EmailSentController@delete');
+
+
+Route::get('/test', function(Request $request) {
+    $user = \App\Models\User::find(5);
+    return (new \App\Mail\Test(uniqid()))->sendTo($user);
+
+    // dd( (new \App\Models\Email) );
+    // return new \App\Models\Email;
 });
-    // Convites
-    Route::get('/tevep-invite/search', '\App\Http\Controllers\TevepInviteController@search');      
-    Route::get('/tevep-invite/find/{id}', '\App\Http\Controllers\TevepInviteController@find');     
-    Route::post('/tevep-invite/save', '\App\Http\Controllers\TevepInviteController@save');
-    Route::post('/tevep-invite/delete/{id}', '\App\Http\Controllers\TevepInviteController@delete');

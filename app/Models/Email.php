@@ -7,37 +7,42 @@ class Email extends \Illuminate\Database\Eloquent\Model
     use \App\Traits\Model;
 
     protected $fillable = [
-        'to',
+        'id',
+        'name',
         'subject',
         'body',
+        'params',
+        'updated_at',
+        'created_at',
     ];
-    
-    static function send($to, $subject, $body, $data=[]) {
-        $data = array_merge([
-            'from' => config('mail.from'),
-            'to' => (is_array($to)? $to: [$to]),
-            'subject' => $subject,
-            'body' => nl2br($body),
-        ], $data);
 
-        $smtp = config('mail.mailers.smtp');
-        $smtp['host'] = \App\Models\Setting::find('mail.mailers.smtp.host')->value;
-        $smtp['port'] = \App\Models\Setting::find('mail.mailers.smtp.port')->value;
-        $smtp['username'] = \App\Models\Setting::find('mail.mailers.smtp.username')->value;
-        $smtp['password'] = \App\Models\Setting::find('mail.mailers.smtp.password')->value;
-        config()->set('mail.mailers.smtp', $smtp);
+    public function getParamsAttribute($value) {
+        return is_array($value)? $value: json_decode($value, true);
+    }
 
-        \Mail::send('emails.mail', $data, function($mail) use($data) {
-            $sent = $mail->from($data['from']['address'], $data['from']['name'])
-            // $sent = $mail->from('MAIL_FROM_NAME', $data['from']['name'])
-                ->subject($data['subject'])->to($data['to']);
-        });
-            
-        if (empty(\Mail::failures())) {
-            $data['to'] = json_encode($data['to']);
-            return (new self)->fill($data)->store();
+
+    public function deploy() {
+        foreach(glob(app_path('Mail') .'/*.php') as $file) {
+            $info = (object) array_merge(['file'=>$file], pathinfo($file));
+            $info->namespace = "\App\Mail";
+            $info->class = "{$info->namespace}\\{$info->filename}";
+            $info->params = get_class_vars($info->class);
+
+            if (in_array($info->filename, ['Model'])) continue;
+
+            if (! $email = \App\Models\Email::where('name', $info->filename)->first()) {
+                $email = new \App\Models\Email;
+                $email->name = $info->filename;
+                $email->subject = $info->params['subject'];
+                $email->body = str_replace("\n", "\n<br>\n", $info->params['body']);
+                $email->save();
+            }
+
+            unset($info->params['subject'], $info->params['body']);
+            $email->params = json_encode(array_map(function($value) {
+                return "{{ \$$value }}";
+            }, array_keys($info->params)));
+            $email->save();
         }
-
-        return false;
     }
 }

@@ -37,35 +37,55 @@ class AppMakeSeed extends Command
      */
     public function handle()
     {
-        $_field = function($col) {
-            $field = ["\$table"];
+        $_field = function($col, $last=false) {
+            $field = ['$table'];
     
             if ($col->Field=='id') {
                 $field[] = 'id()';
-                return implode('->', $field);
             }
     
-            if ($col->Field=='created_at') {
-                $field[] = 'timestamps()';
-                return implode('->', $field);
+            else if ($col->Field=='created_at') {
+                $field[] = 'nullableTimestamps()';
             }
-    
-            if (preg_match('/int\((.+?)\)/', $col->Type, $match)) {
-                $field[] = "integer('{$col->Field}')";
+
+            else if ($col->Field=='updated_at') {
+                return '/* Gerado pela função nullableTimestamps() dentro de created_at */';
             }
-            else if (preg_match('/varchar\((.+?)\)/', $col->Type, $match)) {
-                $field[] = "string('{$col->Field}', {$match[1]})";
-            }
-            else if (preg_match('/text/', $col->Type, $match)) {
-                $field[] = "text('{$col->Field}')";
-            }
-            else if (preg_match('/decimal\(([0-9]+?),([0-9]+?)\)/', $col->Type, $match)) {
-                $field[] = "decimal('{$col->Field}', {$match[1]}, {$match[2]})";
-            }
+
             else {
-                $field[] = "text('{$col->Field}')";
+                if (preg_match('/int\((.+?)\)/', $col->Type, $match)) {
+                    $field[] = "integer('{$col->Field}')";
+                }
+                else if (preg_match('/varchar\((.+?)\)/', $col->Type, $match)) {
+                    $field[] = "string('{$col->Field}', {$match[1]})";
+                }
+                else if (preg_match('/text/', $col->Type, $match)) {
+                    $field[] = "text('{$col->Field}')";
+                }
+                else if (preg_match('/decimal\(([0-9]+?),([0-9]+?)\)/', $col->Type, $match)) {
+                    $field[] = "decimal('{$col->Field}', {$match[1]}, {$match[2]})";
+                }
+                else if (preg_match('/enum\((.+?)\)/', $col->Type, $match)) {
+                    $field[] = "enum('{$col->Field}', [{$match[1]}])";
+                }
+                else {
+                    $field[] = "text('{$col->Field}')";
+                }
             }
-    
+
+            // if ($last) {
+            //     $field[] = "after('{$last->Field}')";
+            // }
+
+            if ($col->Default) {
+                $field[] = "default('{$col->Default}')";
+            }
+            
+            if ($col->Comment) {
+                $col->Comment = addslashes($col->Comment);
+                $field[] = "comment('{$col->Comment}')";
+            }
+
             if ($col->Null=='YES') {
                 $field[] = 'nullable()';
             }
@@ -86,9 +106,10 @@ class AppMakeSeed extends Command
             '/*',
             ' * Este arquivo é gerado automaticamente, Não edite-o diretamente.',
             ' * Para gerar este arquivo execute o comando "php artisan app:make-seed".',
-            ' * Este seeder é executado através do comando "php artisan app:deploy".',
+            ' * O banco de dados contido aqui é criado ao executar o comando "php artisan app:deploy".',
             ' * Arquivo gerado pela última vez em '.date('d/m/Y à\s H:i:s'),
             '*/',
+            '',
             'class AutoSeeder extends Seeder',
             '{',
             '',
@@ -97,34 +118,49 @@ class AppMakeSeed extends Command
         ];
     
         $file[] = "\t\t\$schema = [";
-        foreach(array_map('reset', \DB::select('SHOW TABLES')) as $table) {
-            $file[] = "\t\t\t'{$table}' => [";
-            foreach(\DB::select("describe {$table}") as $col) {
-                if ($col->Field=='updated_at') {
-                    $file[] = "\t\t\t\t'{$col->Field}' => function(\$table) { /* Gerado pela função timestamps() */ },";
-                    continue;
-                }
-                $file[] = "\t\t\t\t'{$col->Field}' => function(\$table) { {$_field($col)}; },";
+
+        foreach(\DB::select('SHOW TABLE STATUS') as $table) {
+            if ($table->Comment) {
+                $table->Comment = addslashes($table->Comment);
+                $file[] = "\t\t\t/* {$table->Comment} */";
             }
+
+            $file[] = "\t\t\t'{$table->Name}' => [";
+            $file[] = "\t\t\t\t'comment' => '{$table->Comment}',";
+            $file[] = "\t\t\t\t'fields' => [";
+            
+            $last = false;
+            foreach(\DB::select("SHOW FULL COLUMNS FROM {$table->Name}") as $col) {
+                if ($col->Comment) {
+                    $file[] = "\t\t\t\t\t/* {$col->Field}: {$col->Comment} */";
+                }
+                $file[] = "\t\t\t\t\t'{$col->Field}' => function(\$table) { {$_field($col, $last)}; },";
+                $last = $col;
+            }
+            $file[] = "\t\t\t\t],";
+
             $file[] = "\t\t\t],";
         }
+
         $file[] = "\t\t];";
         $file[] = '';
-        $file[] = "\t\tforeach(\$schema as \$table_name=>\$columns) {";
+        $file[] = "\t\tforeach(\$schema as \$table_name=>\$table_data) {";
         $file[] = "\t\t\tif (\Schema::hasTable(\$table_name)) {";
-        $file[] = "\t\t\t\t\Schema::table(\$table_name, function(\$table) use(\$table_name, \$columns) {";
-        $file[] = "\t\t\t\t\tforeach(\$columns as \$column=>\$callback) {";
+        $file[] = "\t\t\t\t\Schema::table(\$table_name, function(\$table) use(\$table_name, \$table_data) {";
+        $file[] = "\t\t\t\t\tforeach(\$table_data['fields'] as \$column=>\$callback) {";
         $file[] = "\t\t\t\t\t\tif (\Schema::hasColumn(\$table_name, \$column)) continue;";
         $file[] = "\t\t\t\t\t\tcall_user_func(\$callback, \$table);";
         $file[] = "\t\t\t\t\t}";
         $file[] = "\t\t\t\t});";
+        $file[] = "\t\t\t\t\DB::statement(\"ALTER TABLE `\$table_name` comment '{\$table_data['comment']}'\");";
         $file[] = "\t\t\t}";
         $file[] = "\t\t\telse {";
-        $file[] = "\t\t\t\t\Schema::create(\$table_name, function(\$table) use(\$columns) {";
-        $file[] = "\t\t\t\t\tforeach(\$columns as \$column=>\$callback) {";
+        $file[] = "\t\t\t\t\Schema::create(\$table_name, function(\$table) use(\$table_name, \$table_data) {";
+        $file[] = "\t\t\t\t\tforeach(\$table_data['fields'] as \$column=>\$callback) {";
         $file[] = "\t\t\t\t\t\tcall_user_func(\$callback, \$table);";
         $file[] = "\t\t\t\t\t}";
         $file[] = "\t\t\t\t});";
+        $file[] = "\t\t\t\t\DB::statement(\"ALTER TABLE `\$table_name` comment '{\$table_data['comment']}'\");";
         $file[] = "\t\t\t}";
         $file[] = "\t\t}";
     

@@ -53,7 +53,7 @@
 
             <br><br>
             <div v-if="node.title && node.date_start && node.date_final && $route.params.id!=0">
-                <invite v-model="tevep"></invite>
+                <pingpong v-model="tevep"></pingpong>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
 <script>
 export default {
     components: {
-        'invite': require('./invite.vue').default,
+        'pingpong': require('./pingpong.vue').default,
     },
 
     props: {

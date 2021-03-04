@@ -60,8 +60,8 @@ trait Model
 
     public function remove($forced=false) {
         if (! $this->id) return false;
-
-        if ($forced==false AND \Schema::hasColumn($this->table(), 'deleted_at')) {
+        
+        if ($forced==false AND \Schema::hasColumn($this->getTable(), 'deleted_at')) {
             $this->deleted_at = date('Y-m-d H:i:s');
             $this->store();
             return $this;

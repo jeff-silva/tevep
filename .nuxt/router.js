@@ -39,6 +39,7 @@ const _30815dc0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\
 const _547954cb = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings.vue' /* webpackChunkName: "pages/admin/settings" */))
 const _b3fdd552 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\index.vue' /* webpackChunkName: "pages/admin/settings/index" */))
 const _5485c321 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\email.vue' /* webpackChunkName: "pages/admin/settings/email" */))
+const _797a5b8d = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\email-templates.vue' /* webpackChunkName: "pages/admin/settings/email-templates" */))
 const _ab2ee08c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\password.vue' /* webpackChunkName: "pages/auth/password" */))
 const _22d1bfc2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\register.vue' /* webpackChunkName: "pages/auth/register" */))
 const _69e79260 = () => interopDefault(import('..\\resources\\nuxt\\pages\\dashboard\\settings.vue' /* webpackChunkName: "pages/dashboard/settings" */))
@@ -54,13 +55,13 @@ const _33891f11 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep
 const _74c74562 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\expectativas.vue' /* webpackChunkName: "pages/tevep/_id/_tab/expectativas" */))
 const _40ac910a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\inerencias.vue' /* webpackChunkName: "pages/tevep/_id/_tab/inerencias" */))
 const _6a091948 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\inovacoes.vue' /* webpackChunkName: "pages/tevep/_id/_tab/inovacoes" */))
-const _42f8c640 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\invite.vue' /* webpackChunkName: "pages/tevep/_id/_tab/invite" */))
 const _3f5a8a9a = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\logistica.vue' /* webpackChunkName: "pages/tevep/_id/_tab/logistica" */))
 const _3589fd75 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\mao-de-obra.vue' /* webpackChunkName: "pages/tevep/_id/_tab/mao-de-obra" */))
 const _6555ed06 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\maquina.vue' /* webpackChunkName: "pages/tevep/_id/_tab/maquina" */))
 const _1795f19e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\material.vue' /* webpackChunkName: "pages/tevep/_id/_tab/material" */))
 const _035ad795 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\meio-ambiente.vue' /* webpackChunkName: "pages/tevep/_id/_tab/meio-ambiente" */))
 const _30990e95 = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\metodo.vue' /* webpackChunkName: "pages/tevep/_id/_tab/metodo" */))
+const _6fa7793e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\pingpong.vue' /* webpackChunkName: "pages/tevep/_id/_tab/pingpong" */))
 const _f931e8be = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\principios.vue' /* webpackChunkName: "pages/tevep/_id/_tab/principios" */))
 const _f0e0325e = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\qualidade.vue' /* webpackChunkName: "pages/tevep/_id/_tab/qualidade" */))
 const _6c7366db = () => interopDefault(import('..\\resources\\nuxt\\pages\\tevep\\_id\\_tab\\relevancia.vue' /* webpackChunkName: "pages/tevep/_id/_tab/relevancia" */))
@@ -230,6 +231,10 @@ export const routerOptions = {
       path: "email",
       component: _5485c321,
       name: "admin-settings-email"
+    }, {
+      path: "email-templates",
+      component: _797a5b8d,
+      name: "admin-settings-email-templates"
     }]
   }, {
     path: "/auth/password",
@@ -293,10 +298,6 @@ export const routerOptions = {
       component: _6a091948,
       name: "tevep-id-tab-inovacoes"
     }, {
-      path: "invite",
-      component: _42f8c640,
-      name: "tevep-id-tab-invite"
-    }, {
       path: "logistica",
       component: _3f5a8a9a,
       name: "tevep-id-tab-logistica"
@@ -320,6 +321,10 @@ export const routerOptions = {
       path: "metodo",
       component: _30990e95,
       name: "tevep-id-tab-metodo"
+    }, {
+      path: "pingpong",
+      component: _6fa7793e,
+      name: "tevep-id-tab-pingpong"
     }, {
       path: "principios",
       component: _f931e8be,

@@ -16,14 +16,31 @@ class Utils
 
 
 
-    static function mail($data=[]) {
-        $data = array_merge([
-            'to' => '',
-            'subject' => '',
-            'body' => '',
-        ], $data);
+    static function mail($to, $subject, $body) {
+        $to = is_array($to)? $to: [$to];
+        $body = nl2br($body);
 
-        return \App\Models\Email::send($data['to'], $data['subject'], $data['body']);
+        $smtp = config('mail.mailers.smtp');
+        $smtp['host'] = \App\Models\Setting::find('mail.mailers.smtp.host')->value;
+        $smtp['port'] = \App\Models\Setting::find('mail.mailers.smtp.port')->value;
+        $smtp['username'] = \App\Models\Setting::find('mail.mailers.smtp.username')->value;
+        $smtp['password'] = \App\Models\Setting::find('mail.mailers.smtp.password')->value;
+        config()->set('mail.mailers.smtp', $smtp);
+
+        \Mail::send('emails.mail', ['body' => $body], function($mail) use($to, $subject, $body) {
+            $from = config('mail.from');
+            $sent = $mail->from($from['address'], $from['name'])
+            // $sent = $mail->from('MAIL_FROM_NAME', $data['from']['name'])
+                ->subject($subject)->to($to);
+        });
+            
+        if (empty(\Mail::failures())) {
+            // $data['to'] = json_encode($data['to']);
+            // return (new self)->fill($data)->store();
+            return true;
+        }
+
+        return false;
     }
 
 
