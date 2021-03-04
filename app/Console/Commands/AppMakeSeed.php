@@ -45,11 +45,11 @@ class AppMakeSeed extends Command
             }
     
             else if ($col->Field=='created_at') {
-                $field[] = 'nullableTimestamps()';
+                $field[] = 'timestamps()';
             }
 
             else if ($col->Field=='updated_at') {
-                return '/* Gerado pela função nullableTimestamps() dentro de created_at */';
+                return '/* Gerado pela função timestamps() dentro de created_at */';
             }
 
             else {
