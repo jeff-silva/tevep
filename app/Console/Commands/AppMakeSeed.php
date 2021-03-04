@@ -39,6 +39,10 @@ class AppMakeSeed extends Command
     {
         $_field = function($col, $last=false) {
             $field = ['$table'];
+
+            if ($col->Null=='YES') {
+                $field[] = 'nullable()';
+            }
     
             if ($col->Field=='id') {
                 $field[] = 'id()';
@@ -84,10 +88,6 @@ class AppMakeSeed extends Command
             if ($col->Comment) {
                 $col->Comment = addslashes($col->Comment);
                 $field[] = "comment('{$col->Comment}')";
-            }
-
-            if ($col->Null=='YES') {
-                $field[] = 'nullable()';
             }
     
             return implode('->', $field);
