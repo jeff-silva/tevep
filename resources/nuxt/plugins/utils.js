@@ -51,6 +51,23 @@ Vue.prototype.$copy = function(text) {
 	});
 };
 
+Vue.prototype.$push = function(sessions, callback) {
+	let preventFirstRun = true;
+	this.$fire.database.ref('push').on('value', (snap) => {
+		// if (preventFirstRun) {
+		// 	preventFirstRun = false;
+		// 	return callback({model: {}});
+		// }
+
+		let value = snap.val();
+		sessions = Array.isArray(sessions)? sessions: [sessions];
+		sessions.forEach(session => {
+			if (value.session!=session) return;
+			callback(value);
+		});
+	});
+};
+
 // Filters
 
 import moment from 'moment';

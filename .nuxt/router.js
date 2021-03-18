@@ -39,6 +39,7 @@ const _30815dc0 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\
 const _547954cb = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings.vue' /* webpackChunkName: "pages/admin/settings" */))
 const _b3fdd552 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\index.vue' /* webpackChunkName: "pages/admin/settings/index" */))
 const _5485c321 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\email.vue' /* webpackChunkName: "pages/admin/settings/email" */))
+const _a9155318 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\email-sent.vue' /* webpackChunkName: "pages/admin/settings/email-sent" */))
 const _797a5b8d = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\settings\\email-templates.vue' /* webpackChunkName: "pages/admin/settings/email-templates" */))
 const _ab2ee08c = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\password.vue' /* webpackChunkName: "pages/auth/password" */))
 const _22d1bfc2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\auth\\register.vue' /* webpackChunkName: "pages/auth/register" */))
@@ -231,6 +232,10 @@ export const routerOptions = {
       path: "email",
       component: _5485c321,
       name: "admin-settings-email"
+    }, {
+      path: "email-sent",
+      component: _a9155318,
+      name: "admin-settings-email-sent"
     }, {
       path: "email-templates",
       component: _797a5b8d,

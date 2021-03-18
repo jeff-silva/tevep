@@ -8,7 +8,7 @@
             <nuxt-link to="/tevep/">Voltar</nuxt-link>
         </div>
 
-        <ui-form method="post" action="/api/tevep/store/" v-model="tevep" @success="success($event)" v-else>
+        <ui-form method="post" action="/api/tevep/save/" v-model="tevep" @success="success($event)" v-else>
             <div class="d-flex" style="overflow:auto;">
                 <div class="bg-dark text-white" style="height:calc(100vh - 110px);">
                     <ul class="tevep-nav">

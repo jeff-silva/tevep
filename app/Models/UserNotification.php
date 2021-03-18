@@ -2,18 +2,34 @@
 
 namespace App\Models;
 
-class UserNotification extends \Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
+
+/* Uso
+(new \App\Models\UserNotification)->store(['user_id'=>5, 'title'=>'Teste']);
+ou
+(new \App\Models\User)->notify(['title'=>'Teste']);
+*/
+
+class UserNotification extends Model
 {
     use \App\Traits\Model;
-    
+
     protected $fillable = [
         'id',
-        'created_at',
-        'updated_at',
         'user_id',
         'title',
         'body',
         'image',
+        'url',
         'seen',
+        'created_at',
+        'updated_at',
     ];
+
+    public function validate($data=[]) {
+        return \Validator::make($data, [
+            'user_id' => ['required'],
+            'title' => ['required'],
+        ]);
+    }
 }

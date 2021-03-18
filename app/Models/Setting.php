@@ -23,13 +23,13 @@ class Setting extends Model
         'value',
         'value_default',
         'description',
+        'help',
     ];
 
-    static function find($id) {
-        if ($setting = (new static)->where('id', $id)->orWhere('name', $id)->first()) {
-            return $setting;
+    static function getValue($name) {
+        if ($set = \App\Models\Setting::where('name', $name)->first()) {
+            return $set->value;
         }
-
         return false;
     }
 
@@ -44,20 +44,29 @@ class Setting extends Model
 
     public function deploy() {
         $settings = [
+            'jwt.ttl' => [
+                'description' => 'Tempo de duração da autenticação',
+                'help' => '',
+                'value' => config('jwt.ttl'),
+            ],
             'mail.mailers.smtp.host' => [
                 'description' => 'Host da conta de e-mail',
+                'help' => '',
                 'value' => config('mail.mailers.smtp.host'),
             ],
             'mail.mailers.smtp.port' => [
                 'description' => 'Porta',
+                'help' => '',
                 'value' => config('mail.mailers.smtp.port'),
             ],
             'mail.mailers.smtp.username' => [
                 'description' => 'Login do email',
+                'help' => '',
                 'value' => config('mail.mailers.smtp.username'),
             ],
             'mail.mailers.smtp.password' => [
                 'description' => 'Senha do e-mail',
+                'help' => '',
                 'value' => config('mail.mailers.smtp.password'),
             ],
         ];
@@ -73,6 +82,7 @@ class Setting extends Model
             }
 
             $set->description = $setting['description'];
+            $set->help = $setting['help'];
             $set->value_default = $setting['value'];
             $set->save();
         }

@@ -4,50 +4,59 @@ namespace App\Traits;
 
 trait Model
 {
-    public function validation() {
-        return [];
-    }
+    public static function bootModel() {
+        $_function = function($model, $event) {
+            $firebase_databaseurl = env('FIREBASE_DATABASEURL');
+            $settings = json_decode(base64_decode(env('FIREBASE_CREDENTIALS_BASE64_JSON')), true);
+            if (! is_array($settings)) return;
 
-    public function validate() {
-        $data = array_merge($this->toArray(), request()->all());
-        $rules = $this->validation();
-        return \Validator::make($data, $rules);
+            $service_account = \Cache::remember('firebase-service-account', (60*24), function() use($settings) {
+                return \Kreait\Firebase\ServiceAccount::fromValue($settings);
+            });
+
+            $factory = (new \Kreait\Firebase\Factory())->withServiceAccount($service_account)->withDatabaseUri($firebase_databaseurl);
+
+            $table = $model->getTable();
+            $factory->createDatabase()->getReference('push')->set([
+                'app_name' => env('APP_NAME'),
+                'url' => url('/'),
+                'date' => date('Y-m-d H:i:s'),
+                'session' => "{$table}:{$event}",
+                'table' => $table,
+                'model' => $model,
+            ]);
+        };
+
+        self::created(function($model) use($_function) {
+            $_function($model, 'created');
+        });
+        self::updated(function($model) use($_function) {
+            $_function($model, 'updated');
+        });
+        self::deleted(function($model) use($_function) {
+            $_function($model, 'deleted');
+        });
+    }
+    
+    
+    public function validate($data=[]) {
+        return \Validator::make($data, []);
     }
 
     public function store($data=[]) {
         $table_name = $this->getTable();
-        $table_pk = $this->getKeyName();
-        
         $data = array_merge($this->toArray(), $data);
-        foreach($data as $key=>$val) {
-            if (! in_array($key, $this->fillable)) {
-                unset($data[$key]);
-            }
-        }
+        $save = (new static)->fill($data);
         
-        $save = new static;
-        if ((isset($data[$table_pk]) AND !empty($data[$table_pk]))) {
-            if ($find = (new static)->find($data[$table_pk])) {
-                $save = $find;
-            }
-        }
-        
-        foreach($data as $key=>$val) {
-            $save[$key] = $val;
+        if ($this->id) {
+            $save = (new static)->find($this->id)->fill($data);
         }
 
-
-        if ($validator = $save->validate() AND $validator->fails()) {
+        if ($validator = $save->validate($data) AND $validator->fails()) {
             throw new \Exception(json_encode([
                 'message' => 'Há erros de validação',
                 'fields' => $validator->errors(),
             ]));
-        }
-
-        foreach($save->fillable as $key) {
-            if (is_array($save[$key])) {
-                $save[$key] = json_encode($save[$key]);
-            }
         }
         
         $save->save();

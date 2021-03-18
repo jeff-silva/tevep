@@ -18,145 +18,59 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+// Apps
+Route::get('/', '\App\Http\Controllers\AppController@index');
+Route::get('/upload', '\App\Http\Controllers\AppController@upload');
+Route::get('/test', '\App\Http\Controllers\AppController@test');
+Route::get('/dashboard', '\App\Http\Controllers\AppController@dashboard');
 
-// Show all endpoints
-Route::get('/', function() {
-    $routes = [];
-
-    foreach(\Route::getRoutes() as $route) {
-        $routes[] = [
-            'methods' => $route->methods(),
-            'uri' => $route->uri(),
-        ];
-    }
-
-    return $routes;
-});
-
-Route::get('/settings', function() {
-    return \App\Settings::all();
-});
 
 
 // Auth routes
-Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {
-    Route::post('login', '\App\Http\Controllers\AuthController@login');
-    Route::post('logout', '\App\Http\Controllers\AuthController@logout');
-    Route::post('refresh', '\App\Http\Controllers\AuthController@refresh');
-    Route::post('me', '\App\Http\Controllers\AuthController@me');
-    
-    Route::post('password-token', function() {
-        return \App\Models\User::passwordToken(request()->all());
-    })->name('password.reset');
-    
-    Route::post('password-reset', function() {
-        return \App\Models\User::passwordReset(request()->all());
-    });
-});
-
-Route::get('/user/find', function() {
-    return \App\Models\User::find(request()->input('id'));
-});
-
-Route::get('/user/notifications', function() {
-    if ($user = auth()->user()) {
-        return (new \App\Models\UserNotification)->search(function($query, $request) use($user) {
-            $query = $query->where('user_id', $user->id);
-
-            $seen = $request->input('seen');
-            if (is_numeric($seen)) {
-                $query = $query->where('seen', $seen);
-            }
-
-            return $query;
-        });
-    }
-    return [];
-});
-
-Route::post('/user/notification/{id}', function($id) {
-    if ($notif = \App\Models\UserNotification::find($id)) {
-        $notif->update(['seen'=>1]);
-        return $notif;
-    }
-
-    return false;
-});
-
-// User register/save
-foreach(['/user/save', '/user/store', '/user/register'] as $path) {
-    Route::post($path, function() {
-        return (new \App\Models\User)->fill(request()->all())->store();
-    });
-}
-
-
-Route::get('/user/search', function() {
-    $params = (object) [
-        'search' => request()->input('search', ''),
-        'page' => request()->input('page', 1),
-        'perpage' => request()->input('perpage', 10),
-    ];
-    
-    $query = new \App\Models\User();
-
-    if ($params->search) {
-        $query = $query->where(function($query) use($params) {
-            $query->where('name', 'like', "%{$params->search}%");
-            $query->orWhere('email', 'like', "%{$params->search}%");
-        });
-    }
-
-    $query->params = $params;
-    return $query->paginate(10);
+Route::group(['middleware' => 'api'], function($router) {
+    Route::post('auth/login', '\App\Http\Controllers\AuthController@login');
+    Route::post('auth/logout', '\App\Http\Controllers\AuthController@logout');
+    Route::post('auth/refresh', '\App\Http\Controllers\AuthController@refresh');
+    Route::post('auth/me', '\App\Http\Controllers\AuthController@me');
+    Route::post('auth/password-token', '\App\Http\Controllers\AuthController@passwordToken');
+    Route::post('auth/password-reset', '\App\Http\Controllers\AuthController@passwordReset');
 });
 
 
-Route::post('/user/delete', function() {
-    return ['?'];
-});
 
-Route::post('/upload', function(Request $request) {
-    $folder = $request->input('folder', 'uploads');
-    $file = $request->file('file');
-    
-    $info = pathinfo($file->getClientOriginalName());
-    $filename = \Str::slug($info['filename'], '-') .'.'. $info['extension'];
-    $path = $file->storeAs($folder, $filename, 'public');
-
-    return [
-        'path' => "storage/{$path}",
-        'name' => $filename,
-        'ext' => $info['extension'],
-        'size' => Storage::disk('public')->size($path),
-        'mime' => Storage::disk('public')->getMimeType($path),
-        'url' => Storage::disk('public')->url($path),
-    ];
-});
-
-
-Route::get('/settings', function(Request $request) {
-    $return = [];
-    foreach(\App\Models\Setting::get() as $setting) {
-        $return[ $setting['name'] ] = $setting;
-    }
-    return $return;
-});
-
-
-Route::post('/settings/save', function(Request $request) {
-    return (new \App\Models\Setting)->saveAll($request->all());
-});
-
-Route::post('/settings/email-test', function(Request $request) {
-    return \App\Models\Email::send($request->input('email'), 'E-mail de teste', $request->input('body'));
-});
 
 
 // Route::group(['middleware' => ['auth:api', 'permission']], function($router) {
 // });
 
-// Convites
+
+
+// Convigurações
+Route::get('/setting/search', '\App\Http\Controllers\SettingController@search');
+Route::get('/setting/find/{id}', '\App\Http\Controllers\SettingController@find');
+Route::post('/setting/save', '\App\Http\Controllers\SettingController@save');
+Route::post('/setting/delete/{id}', '\App\Http\Controllers\SettingController@delete');
+Route::get('/setting/all', '\App\Http\Controllers\SettingController@all');
+
+// Usuários
+Route::get('/user/search', '\App\Http\Controllers\UserController@search');
+Route::get('/user/find/{id}', '\App\Http\Controllers\UserController@find');
+Route::post('/user/save', '\App\Http\Controllers\UserController@save');
+Route::post('/user/delete/{id}', '\App\Http\Controllers\UserController@delete');
+
+// Notificações de usuários
+Route::get('/user-notification/search', '\App\Http\Controllers\UserNotificationController@search');
+Route::get('/user-notification/find/{id}', '\App\Http\Controllers\UserNotificationController@find');
+Route::post('/user-notification/save', '\App\Http\Controllers\UserNotificationController@save');
+Route::post('/user-notification/delete/{id}', '\App\Http\Controllers\UserNotificationController@delete');
+
+// Teveps
+Route::get('/tevep/search', '\App\Http\Controllers\TevepController@search');
+Route::get('/tevep/find/{id}', '\App\Http\Controllers\TevepController@find');
+Route::post('/tevep/save', '\App\Http\Controllers\TevepController@save');
+Route::post('/tevep/delete/{id}', '\App\Http\Controllers\TevepController@delete');
+
+// Convite de Tevep
 Route::get('/tevep-invite/search', '\App\Http\Controllers\TevepInviteController@search');      
 Route::get('/tevep-invite/find/{id}', '\App\Http\Controllers\TevepInviteController@find');     
 Route::post('/tevep-invite/save', '\App\Http\Controllers\TevepInviteController@save');
@@ -175,10 +89,22 @@ Route::post('/email-sent/save', '\App\Http\Controllers\EmailSentController@save'
 Route::post('/email-sent/delete/{id}', '\App\Http\Controllers\EmailSentController@delete');
 
 
-Route::get('/test', function(Request $request) {
-    $user = \App\Models\User::find(5);
-    return (new \App\Mail\Test(uniqid()))->sendTo($user);
 
-    // dd( (new \App\Models\Email) );
-    // return new \App\Models\Email;
-});
+// \App\Settings::register([
+//     'jwt-ttl' => [
+//         'description' => 'Tempo de duração de autenticação',
+//         'value' => (60*24),
+//     ],
+//     'format-datetime' => [
+//         'description' => 'Formato de data/hora',
+//         'value' => 'd/m/Y H:i',
+//     ],
+//     'format-date' => [
+//         'description' => 'Formato de data',
+//         'value' => 'd/m/Y',
+//     ],
+//     'format-time' => [
+//         'description' => 'Formato de hora',
+//         'value' => 'H:i',
+//     ],
+// ]);

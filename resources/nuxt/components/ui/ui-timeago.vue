@@ -1,4 +1,4 @@
-<template><div class="ui-timeago">
+<template><div class="ui-timeago" :title="props.value|datetime">
     <time-ago :datetime="validDatetime(props.value)" :refresh="props.refresh" :locale="props.locale" :long="props.long" v-if="props.value"></time-ago>
     <div v-else>&nbsp;</div>
 </div></template>

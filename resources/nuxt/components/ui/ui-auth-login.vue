@@ -32,7 +32,7 @@
                     this.$emit('success', resp.data);
                 }
             }).catch(err => {
-                this.error = 'Usuário ou senha inválido';
+                this.error = err.response.data.message;
                 this.loading = false;
             });
         },

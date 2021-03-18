@@ -13,7 +13,16 @@ class EmailSent extends Model
         'to',
         'subject',
         'body',
+        'created_at',
+        'updated_at',
     ];
+
+    public function getToAttribute($value) {
+        if (is_string($value)) {
+            return json_decode($value, true);
+        }
+        return $value;
+    }
     
     static function send($to, $subject, $body, $data=[]) {
         $data = array_merge([

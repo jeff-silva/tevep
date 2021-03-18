@@ -1,5 +1,4 @@
 <template><div>
-    
     <a href="javascript:;" @click="showModalInvite()">
         <img src="/assets/icons/raquete-preta.png" alt="" style="width:50px;">
     </a>
@@ -60,7 +59,7 @@
             </div>
         </template>
         <template #footer>
-            <button type="button" class="btn btn-danger" v-if="inviteInfo.status" @click="inviteDelete(inviteInfo)">
+            <button type="button" class="btn btn-danger" @click="inviteDelete(inviteInfo)">
                 Remover {{ inviteInfo.user.name }}
             </button>
 
@@ -70,25 +69,25 @@
         </template>
     </ui-modal>
 
-    <!-- Aceitando convite -->
-    <div v-if="$route.query.invite">
-        <div v-for="i in invites.data" :key="i.id" v-if="i.id==$route.query.invite && !i.status">
-            <ui-modal :value="true">
-                <template #header>Convite Ping Pong</template>
-                <template #body>
-                    Você recebeu um convite para editar este evento, como deseja proceder?
-                </template>
-                <template #footer>
-                    <a href="javascript:;" class="btn btn-danger" @click="inviteResponse(i, 'rejected', 'Resposta enviada')">
-                        Recusar
-                    </a>
 
-                    <a href="javascript:;" class="btn btn-success" @click="inviteResponse(i, 'accepted', 'Resposta enviada')">
-                        Aceitar
-                    </a>
-                </template>
-            </ui-modal>
-        </div>
+
+    <!-- Aceitando um convite -->
+    <div v-for="i in invites.data" v-if="i.user_id==$store.$auth.user.id">
+        <ui-modal :value="true">
+            <template #header>Convite Ping Pong</template>
+            <template #body>
+                Você recebeu um convite para editar este evento, como deseja proceder?
+            </template>
+            <template #footer>
+                <a href="javascript:;" class="btn btn-danger" @click="inviteResponse(i, 'rejected', 'Resposta enviada')">
+                    Recusar
+                </a>
+
+                <a href="javascript:;" class="btn btn-success" @click="inviteResponse(i, 'accepted', 'Resposta enviada')">
+                    Aceitar
+                </a>
+            </template>
+        </ui-modal>
     </div>
 </div></template>
 

@@ -26,7 +26,8 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        $ttl = \App\Settings::get('jwt-ttl');
+        // $ttl = \App\Settings::get('jwt-ttl');
+        $ttl = \App\Models\Setting::getValue('jwt.ttl');
         if (! $token = auth()->setTTL($ttl)->attempt($credentials)) {
             throw new \Exception('Autenticação inválida');
             // return response()->json(['error' => 'Unauthorized'], 401);
@@ -81,5 +82,13 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    public function passwordToken($request) {
+        return \App\Models\User::passwordToken($request->all());
+    }
+
+    public function passwordReset($request) {
+        return \App\Models\User::passwordReset($request->all());
     }
 }

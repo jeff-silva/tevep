@@ -21,10 +21,10 @@ class Utils
         $body = nl2br($body);
 
         $smtp = config('mail.mailers.smtp');
-        $smtp['host'] = \App\Models\Setting::find('mail.mailers.smtp.host')->value;
-        $smtp['port'] = \App\Models\Setting::find('mail.mailers.smtp.port')->value;
-        $smtp['username'] = \App\Models\Setting::find('mail.mailers.smtp.username')->value;
-        $smtp['password'] = \App\Models\Setting::find('mail.mailers.smtp.password')->value;
+        $smtp['host'] = \App\Models\Setting::getValue('mail.mailers.smtp.host');
+        $smtp['port'] = \App\Models\Setting::getValue('mail.mailers.smtp.port');
+        $smtp['username'] = \App\Models\Setting::getValue('mail.mailers.smtp.username');
+        $smtp['password'] = \App\Models\Setting::getValue('mail.mailers.smtp.password');
         config()->set('mail.mailers.smtp', $smtp);
 
         \Mail::send('emails.mail', ['body' => $body], function($mail) use($to, $subject, $body) {
@@ -35,9 +35,13 @@ class Utils
         });
             
         if (empty(\Mail::failures())) {
-            // $data['to'] = json_encode($data['to']);
-            // return (new self)->fill($data)->store();
-            return true;
+            return \DB::table('email_sents')->insert([
+                'to' => json_encode($to),
+                'subject' => $subject,
+                'body' => $body,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
         }
 
         return false;

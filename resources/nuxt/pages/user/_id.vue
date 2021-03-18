@@ -3,7 +3,7 @@
     <div v-if="loading">Carregando...</div>
 
     <form @submit.prevent="userStore()" v-if="user.id">
-        <ui-photo v-model="user.meta.photo" ref="userPhoto">
+        <!-- <ui-photo v-model="user.meta.photo" ref="userPhoto">
             <template #has-image>&nbsp;</template>
             <template #no-image>&nbsp;</template>
         </ui-photo>
@@ -11,9 +11,9 @@
         <ui-photo v-model="user.meta.background" ref="userBackground">
             <template #has-image>&nbsp;</template>
             <template #no-image>&nbsp;</template>
-        </ui-photo>
+        </ui-photo> -->
 
-        <ui-form method="post" action="/api/user/store/" v-model="user" @success="success($event)" #default="{loading, success, error}">
+        <ui-form method="post" action="/api/user/save/" v-model="user" @success="success($event)" #default="{loading, success, error}">
             <div class="row no-gutters">
                 <div class="col-12 col-md-4 mb-4 pr-3">
                     <user-card v-model="user">
@@ -71,14 +71,14 @@ export default {
         userFind() {
             this.loading = true;
             let userId = this.$route.params.id=='me'? this.$auth.user.id: this.$route.params.id;
-            this.$axios.get('/api/user/find', {params:{id:userId}}).then((resp) => {
+            this.$axios.get(`/api/user/find/${userId}`).then((resp) => {
                 this.loading = false;
                 this.user = resp.data;
             });
         },
 
         success(user) {
-            this.$swalSuccess('Sucesso', 'Dados salvos');
+            this.$swal('', 'Dados salvos', 'success');
             if (user.id==this.$auth.user.id) {
                 location.reload();
             }

@@ -144,7 +144,9 @@
         },
 
         onPaginationChange(pagination) {
-            this.$emit('page-change', {page:pagination.current_page});
+            this.props.current_page = pagination.current_page;
+            this.$emit('update:current_page', this.props.current_page);
+            this.$emit('paginate', pagination.current_page);
         },
     },
 

@@ -35,6 +35,12 @@
   "LazyTevep": {
     "description": "Auto imported from components/tevep/tevep.vue"
   },
+  "UserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
+  "LazyUserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
   "UiAccordion": {
     "description": "Auto imported from components/ui/ui-accordion.vue"
   },
@@ -70,6 +76,12 @@
   },
   "LazyUiAuthRegister": {
     "description": "Auto imported from components/ui/ui-auth-register.vue"
+  },
+  "UiAxios": {
+    "description": "Auto imported from components/ui/ui-axios.vue"
+  },
+  "LazyUiAxios": {
+    "description": "Auto imported from components/ui/ui-axios.vue"
   },
   "UiBtnDropdown": {
     "description": "Auto imported from components/ui/ui-btn-dropdown.vue"
@@ -298,12 +310,6 @@
   },
   "LazyUiUser": {
     "description": "Auto imported from components/ui/ui-user.vue"
-  },
-  "UserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
-  "LazyUserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
   },
   "Content": {
     "description": "Auto imported from components/ui/ui-layout/content.vue"

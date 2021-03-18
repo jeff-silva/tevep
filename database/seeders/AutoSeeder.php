@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
  * Este arquivo é gerado automaticamente, Não edite-o diretamente.
  * Para gerar este arquivo execute o comando "php artisan app:make-seed".
  * O banco de dados contido aqui é criado ao executar o comando "php artisan app:deploy".
- * Arquivo gerado pela última vez em 04/03/2021 às 06:21:11
+ * Arquivo gerado pela última vez em 05/03/2021 às 16:46:00
 */
 
 class AutoSeeder extends Seeder
@@ -39,8 +39,8 @@ class AutoSeeder extends Seeder
 					'subject' => function($table) { $table->string('subject', 255)->nullable(); },
 					'body' => function($table) { $table->text('body')->nullable(); },
 					'params' => function($table) { $table->text('params')->nullable(); },
-					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
 					'created_at' => function($table) { $table->nullableTimestamps(); },
+					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
 				],
 			],
 			'migrations' => [
@@ -67,6 +67,7 @@ class AutoSeeder extends Seeder
 					'value' => function($table) { $table->text('value')->nullable(); },
 					'value_default' => function($table) { $table->text('value_default')->nullable(); },
 					'description' => function($table) { $table->string('description', 255)->nullable(); },
+					'help' => function($table) { $table->text('help')->nullable(); },
 				],
 			],
 			'tevep_invites' => [
@@ -104,6 +105,7 @@ class AutoSeeder extends Seeder
 					'title' => function($table) { $table->string('title', 255)->nullable(); },
 					'body' => function($table) { $table->text('body')->nullable(); },
 					'image' => function($table) { $table->text('image')->nullable(); },
+					'url' => function($table) { $table->text('url')->nullable(); },
 					'seen' => function($table) { $table->integer('seen')->nullable(); },
 					'created_at' => function($table) { $table->nullableTimestamps(); },
 					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
@@ -113,16 +115,16 @@ class AutoSeeder extends Seeder
 				'comment' => '',
 				'fields' => [
 					'id' => function($table) { $table->id(); },
-					'created_at' => function($table) { $table->nullableTimestamps(); },
-					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
 					'name' => function($table) { $table->string('name', 255)->nullable(); },
 					'email' => function($table) { $table->string('email', 255)->nullable(); },
 					'email_verified_at' => function($table) { $table->text('email_verified_at')->nullable(); },
-					'password' => function($table) { $table->string('password', 255); },
+					'password' => function($table) { $table->string('password', 255)->nullable(); },
 					'remember_token' => function($table) { $table->string('remember_token', 100)->nullable(); },
 					'whatsapp' => function($table) { $table->string('whatsapp', 20)->nullable(); },
 					'meta' => function($table) { $table->text('meta')->nullable(); },
 					'group' => function($table) { $table->string('group', 255)->nullable(); },
+					'created_at' => function($table) { $table->nullableTimestamps(); },
+					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
 				],
 			],
 		];
@@ -135,7 +137,7 @@ class AutoSeeder extends Seeder
 						call_user_func($callback, $table);
 					}
 				});
-				\DB::statement("ALTER TABLE `$table_name` comment '{$table_data['comment']}'");
+				// \DB::statement("ALTER TABLE `$table_name` comment '{$table_data['comment']}'");
 			}
 			else {
 				\Schema::create($table_name, function($table) use($table_name, $table_data) {
@@ -143,7 +145,7 @@ class AutoSeeder extends Seeder
 						call_user_func($callback, $table);
 					}
 				});
-				\DB::statement("ALTER TABLE `$table_name` comment '{$table_data['comment']}'");
+				// \DB::statement("ALTER TABLE `$table_name` comment '{$table_data['comment']}'");
 			}
 		}
 	}

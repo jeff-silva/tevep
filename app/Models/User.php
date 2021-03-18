@@ -27,6 +27,8 @@ class User extends Authenticatable implements JWTSubject
         'whatsapp',
         'meta',
         'group',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -67,6 +69,14 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    protected static function boot() {
+        parent::boot();
+
+        self::created(function($user){
+            (new \App\Mail\Register($user))->send();
+        });
+    }
+
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = $value? \Hash::make($value): null;
     }
@@ -103,65 +113,31 @@ class User extends Authenticatable implements JWTSubject
 
     public function getGroupInfoAttribute() {
         $group = isset($this->attributes['group'])? $this->attributes['group']: null;
-        return self::group($group);
+        return self::getGroup($group);
     }
 
 
     // https://laravel.com/docs/8.x/validation#available-validation-rules
     public function validate($data=[]) {
-        $data = array_merge(['id'=>''], $data);
-
         $rules = [
-            'name' => 'required',
-            'email' => "required|email:rfc,dns|unique:users,email,{$data['id']}",
+            'name' => ['required'],
+            'email' => ['required', 'email:rfc,dns'],
+            'password' => [],
         ];
 
-        $password_rules = [];
-
-        if ($data['id']) {
-            $password_rules[] = 'sometimes';
+        // Update
+        if (isset($data['id']) AND !empty($data['id'])) {
+            $rules['email'][] = "unique:users,email,{$data['id']}";
         }
+        
+        // Insert
         else {
-            $password_rules[] = 'required';
+            $rules['email'][] = 'unique:users,email';
+            $rules['password'][] = 'required';
+            $rules['password'][] = 'confirmed';
         }
 
-        if (in_array('password_confirmation', array_keys($data))) {
-            $password_rules[] = 'required_with:password_confirmation';
-            $password_rules[] = 'same:password_confirmation';
-        }
-
-        if (! empty($password_rules)) {
-            $rules['password'] = implode('|', $password_rules);
-        }
-
-
-        $messages = [
-            'name.required' => 'Informe o nome',
-            'email.email' => 'E-mail inválido',
-            'email.required' => 'Informe o e-mail',
-            'email.unique' => 'E-mail já utilizado',
-            'password.required' => 'Informe a senha',
-            'password.same' => 'Senha e confirmação não batem',
-        ];
-
-        return \App\Utils::validate($data, $rules, $messages);
-    }
-
-
-    public function store() {
-        $save = $this;
-        
-        if ($save->id) {
-            $save = self::find($save->id)->fill($save->attributes);
-        }
-        
-        $save->save();
-
-        if ($save->wasRecentlyCreated) {
-            \App\Models\Email::send($save->email, "Bem vindo {$save->name}!", "Bem vindo {$save->name}! <br>Seu cadastro acaba de ser efetuado, é um prazer ter você conosco.");
-        }
-        
-        return $save;
+        return \Validator::make($data, $rules);
     }
 
 
@@ -174,17 +150,20 @@ class User extends Authenticatable implements JWTSubject
 
         \App\Utils::validate($data, $rules);
 
-        $set = \Illuminate\Support\Facades\Password::sendResetLink(['email'=>$data['email']], function($mail) use($data) {
-            // $mail->bcc($data['email']);
-            // $mail->subject('Alteração de senha');
-        });
-
-        if ($reset = \DB::table('password_resets')->where('email', '=', $data['email'])->first()) {
-            \App\Models\Email::send($data['email'], 'Recuperação de senha', "Informe seu código de recuperação de senha para prosseguir com a alteração: <br>
-                <div style='padding:15px; background:#eee;'>{$reset->token}</div>");
+        if ($user = static::where('email', $data['email'])->first()) {
+            $set = \Illuminate\Support\Facades\Password::sendResetLink(['email'=>$data['email']], function($mail) use($data) {
+                // $mail->bcc($data['email']);
+                // $mail->subject('Alteração de senha');
+            });
+    
+            if ($reset = \DB::table('password_resets')->where('email', '=', $data['email'])->first()) {
+                (new \App\Mail\Register($user, $reset->token))->send();
+            }
+    
+            return $set;
         }
 
-        return $set;
+        return false;
     }
 
     static function passwordReset($data=[]) {
@@ -217,13 +196,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function notify($data=[]) {
-        return \App\Models\UserNotification::create(array_merge([
-            'user_id' => $this->id,
-            'title' => '',
-            'body' => '',
-            'image' => '',
-            'seen' => '0',
-        ], $data));
+        $data['user_id'] = $this->id;
+        return (new \App\Models\UserNotification)->store($data);
     }
 
     public function notifications($data=[]) {
@@ -278,7 +252,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    static function group($id=false) {
+    static function getGroup($id=false) {
         foreach(self::groups() as $group) {
             if ($group['id']==$id) {
                 return $group;

@@ -10,6 +10,7 @@ export default {
 
     data() {
         return {
+            topNav: false,
             toggle: false,
             showNav: JSON.parse(localStorage.getItem('coreUiShowNav')||'false'),
             adminMenuIndex: null,
@@ -68,7 +69,11 @@ export default {
     },
 
     mounted() {
-        // setInterval(() => { this.$fetch(); }, 60000);
+        // this.$push('user_notifications:created', (resp) => {
+        //     this.$axios.get('/api/user-notification/search').then(resp => {
+        //         console.log(resp.data);
+        //     });
+        // });
     },
 };</script>
 
@@ -384,27 +389,30 @@ export default {
 
                 <!-- Notifications -->
                 <li class="c-header-nav-item dropdown">
-                    <a href="javascript:;" class="c-header-nav-link" role="button" @click="toggleSet('notifications')">
-                        <div class="c-icon"><i class="fas fa-bell"></i></div>
-                        <span class="badge badge-pill badge-danger" v-html="$store.state.notifications.items.length" v-if="$store.state && $store.state.notifications && $store.state.notifications.items.length>0"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" style="margin-top:20px; width:300px;" ref="notifications" :class="{show:toggle=='notifications'}" v-if="$store.state.notifications.items.length>0">
-                        <div class="dropdown-header bg-light"><strong>Você tem {{ $store.state.notifications.items.length }} {{ $store.state.notifications.items.length==1? 'notificação': 'notificações' }}</strong></div>
-                        <div style="max-height:300px; overflow:auto;">
-                            <nuxt-link :to="`/user/notifications/${n.id}`" class="dropdown-item" v-for="n in $store.state.notifications.items" :key="n.id">
-                                <div class="d-flex align-items-center">
-                                    <div><div :style="`width:35px; height:35px; background:url(${n.image}) center center no-repeat; background-size:cover; border-radius:4px;`"></div></div>
-                                    <div class="pl-2">
-                                        <div v-html="n.title" style="white-space:initial!important;"></div>
+                    <ui-axios v-bind="{method:'get', action:'/api/user-notification/search', push:'user-notifications:created'}" #default="axios">
+                        <a href="javascript:;" class="c-header-nav-link" role="button" @click="topNav=(topNav=='notifications'? false: 'notifications')">
+                            <div class="c-icon"><i class="fas fa-bell"></i></div>
+                            <span class="badge badge-pill badge-danger" v-html="axios.resp.total" v-if="axios.resp.total && axios.resp.total>0"></span>
+                        </a>
+                        
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg pt-0" style="margin-top:20px; width:300px;" :class="{show:topNav=='notifications'}">
+                            <div class="dropdown-header bg-light"><strong>Você tem {{ axios.resp.total||0 }} {{ axios.resp.total==1? 'notificação': 'notificações' }}</strong></div>
+                            <div style="max-height:300px; overflow:auto;">
+                                <nuxt-link :to="`/user/notifications/${n.id}`" class="dropdown-item" v-for="n in axios.resp.data" :key="n.id">
+                                    <div class="d-flex align-items-center">
+                                        <div v-if="n.image"><div :style="`width:35px; height:35px; background:url(${n.image}) center center no-repeat; background-size:cover; border-radius:4px;`"></div></div>
+                                        <div class="pl-2">
+                                            <div v-html="n.title" style="white-space:initial!important;"></div>
+                                        </div>
                                     </div>
-                                </div>
-                            </nuxt-link>
+                                </nuxt-link>
+                            </div>
+                            <!-- <div class="dropdown-header bg-light"><strong>Server</strong></div> -->
+                            <!-- <nuxt-link :to="`/user/notifications/`" class="dropdown-item font-weight-bold">
+                                Ver todas as notificações
+                            </nuxt-link> -->
                         </div>
-                        <!-- <div class="dropdown-header bg-light"><strong>Server</strong></div> -->
-                        <nuxt-link :to="`/user/notifications/`" class="dropdown-item font-weight-bold">
-                            Ver todas as notificações
-                        </nuxt-link>
-                    </div>
+                    </ui-axios>
                 </li>
 
                 <li class="c-header-nav-item dropdown">

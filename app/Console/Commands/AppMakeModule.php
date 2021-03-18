@@ -47,12 +47,11 @@ $files[] = ['path'=>"app/Models/{$class}.php", 'content'=><<<EOF
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class {$class} extends Model
 {
-    use HasFactory, \App\Traits\Model;
+    use \App\Traits\Model;
 
     protected \$fillable = [
         'id',
@@ -61,10 +60,10 @@ class {$class} extends Model
         'updated_at',
     ];
 
-    public function validationRules() {
-        return [
-            'nome' => 'required',
-        ];
+    public function validate(\$data=[]) {
+        return \Validator::make(\$data, [
+            'nome' => ['required'],
+        ]);
     }
 }
 EOF];
@@ -79,7 +78,6 @@ use Illuminate\Http\Request;
 
 class {$class}Controller extends Controller
 {
-    
     /**
      * Buscar {$plural}
      * 
@@ -104,14 +102,14 @@ class {$class}Controller extends Controller
      * Salvar dados de {$singular}
      */
     public function save(Request \$request) {
-        return (new \App\Models\\{$class})->fill(\$request->all())->store();
+        return (new \App\Models\\{$class})->store(\$request->all());
     }
 
     /**
      * Deletar {$singular}
      */
     public function delete(\$id) {
-        return [\$id];
+        return \App\Models\\{$class}::find(\$id)->remove();
     }
 }
 EOF];

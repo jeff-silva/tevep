@@ -130,9 +130,12 @@ export default {
 	** See https://pwa.nuxtjs.org/
 	*/
 	pwa: {
+		
+		// https://pwa.nuxtjs.org/icon
 		icon: {
-			// https://pwa.nuxtjs.org/icon
+			source: './resources/nuxt/static/icon.png',
 		},
+		
 		meta: {
 			title: (process.env.APP_NAME||'APP_NAME'),
 			author: 'jeferson.i.silva@gmail.com',
@@ -145,7 +148,7 @@ export default {
 		description: (process.env.APP_DESCRIPTION||'APP_DESCRIPTION'),
 		display: "fullscreen",
 		background_color: '#222222',
-		lang: 'pt-BR',
+		lang: (process.env.APP_LANG || 'en'),
 		useWebmanifestExtension: true,
 	},
 

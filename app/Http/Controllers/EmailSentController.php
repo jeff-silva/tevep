@@ -37,7 +37,7 @@ class EmailSentController extends Controller
     /**
      * Deletar Email enviado
      */
-    public function delete($id) {
-        return [$id];
-    }
+    // public function delete($id) {
+    //     return \App\Models\EmailSent::find($id)->remove();
+    // }
 }

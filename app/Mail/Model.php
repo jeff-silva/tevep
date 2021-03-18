@@ -8,7 +8,6 @@ class Model
     
     public $subject = '';
     public $body = '';
-    public $user = false;
 
     public function bladeCompile($html, $data=[]) {
         $html = \Blade::compileString($html);
@@ -18,8 +17,11 @@ class Model
         return ob_get_clean();
     }
 
-    public function sendTo(\App\Models\User $user) {
-        $this->user = $user;
+    public function send() {
+        if (! $this->user) {
+            $class = get_called_class();
+            throw new \Exception("Erro na classe $class: parâmetro 1 do construct deve ser um \App\Models\User \$user");
+        }
 
         $name = \Arr::last(explode('\\', get_called_class()));
         $subject = $this->subject;
@@ -33,7 +35,7 @@ class Model
         $data = get_object_vars($this);
         $subject = $this->bladeCompile($subject, $data);
         $body = $this->bladeCompile($body, $data);
-        \App\Utils::mail($user->email, $subject, $body);
+        \App\Utils::mail($this->user->email, $subject, $body);
 
         return true;
     }
