@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Apps
-Route::get('/', '\App\Http\Controllers\AppController@index');
+// Route::get('/', '\App\Http\Controllers\AppController@index');
 Route::get('/upload', '\App\Http\Controllers\AppController@upload');
 Route::get('/test', '\App\Http\Controllers\AppController@test');
 Route::get('/dashboard', '\App\Http\Controllers\AppController@dashboard');

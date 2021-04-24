@@ -1,11 +1,11 @@
 <template><div>
-    RUT
+    <pre>rut: {{ rut }}</pre>
 </div></template>
 
 <script>
 export default {
     props: {
-        node: {default:()=>({})},
+        rut: {default:()=>({})},
     },
 }
 </script>

@@ -37,6 +37,9 @@ class AppMakeSeed extends Command
      */
     public function handle()
     {
+        // $this->generateFiles();
+
+        
         $_field = function($col, $last=false) {
             $field = ['$table'];
     
@@ -173,5 +176,171 @@ class AppMakeSeed extends Command
         // $this->comment($file);
         $seeder_path = base_path(implode(DIRECTORY_SEPARATOR, ['database', 'seeders', 'AutoSeeder.php']));
         file_put_contents($seeder_path, $file);
+    }
+
+
+
+    public function bladeCompile($data=[], $html='') {
+        $html = \Blade::compileString($html);
+        ob_start() and extract($data, EXTR_SKIP);
+        try { eval('?>'.$html); }
+        catch (\Exception $e) { ob_get_clean(); throw $e; }
+        return ob_get_clean();
+    }
+
+
+    public function generateFiles() {
+        $schema = [];
+
+        $schema['tables'] = [];
+        foreach(\DB::select('SHOW TABLE STATUS') as $table) {
+            $table->FieldNames = [];
+            $table->Fields = [];
+
+            foreach(\DB::select("SHOW FULL COLUMNS FROM {$table->Name}") as $col) {
+                $table->FieldNames[] = $col->Field;
+                $table->Fields[ $col->Field ] = $col;
+            }
+
+            $table->Fields = (object) $table->Fields;
+            $schema['tables'][ $table->Name ] = $table;
+        }
+
+
+        $files = [];
+        foreach($schema['tables'] as $table_name=>$table) {
+            $file = new \stdClass;
+            $file->plural = $table_name;
+            $file->singular = \Str::singular($table_name);
+
+            $file->model = \Str::studly($file->singular);
+            $file->modelName = "\App\Models\\{$file->model}";
+            $file->modelFile = base_path("app/Models/{$file->model}.php");
+            $file->modelExists = file_exists($file->modelFile);
+
+            $file->modelAttributes = '{}';
+            if ($file->modelExists) {
+                $file->modelAttributes = json_encode((object) app($file->modelName));
+            }
+
+            $file->controller = "{$file->model}Controller";
+            $file->controllerName = "\App\Http\Controllers\\{$file->controller}";
+            $file->controllerFile = base_path("app/Http/Controllers/{$file->controller}.php");
+            $file->controllerExists = file_exists($file->controllerFile);
+            
+            // $file->controllerMethods = array_filter(get_class_methods(app($file->controllerName)), function($method) {
+            //     return ! in_array($method, [
+            //         'middleware',
+            //         'getMiddleware',
+            //         'callAction',
+            //         '__call',
+            //         'authorize',
+            //         'authorizeForUser',
+            //         'authorizeResource',
+            //         'dispatchNow',
+            //         'validateWith',
+            //         'validate',
+            //         'validateWithBag',
+            //     ]);
+            // });
+
+
+            $files[] = ['path' => "resources/nuxt/store/{$file->model}.js", 'content' => $this->bladeCompile((array) $file, '
+
+export const state = () => ({
+    model: {!! $modelAttributes !!},
+    search: {
+        search: "",
+        page: 1,
+        perpage: 10,
+        orderby: "id",
+        order: "desc",
+    },
+    result: {
+        loading: false,
+        current_page: 1,
+        from: 1,
+        per_page: 10,
+        to: 1,
+        total: 0,
+        data: [],
+    },
+});
+
+export const mutations = {
+    set(state, tevep) {
+        state.tevep = tevep;
+    },
+};
+
+export const actions = {
+    find(id) {
+        this.$axios.get(`/api/{{ $singular }}/find/${id}`).then(resp => {
+            // this.set(aa);
+        });
+    },
+
+    search() {
+        //
+    },
+
+    save({ dispatch }) {
+        // await dispatch("aaa/bbb/ccc")
+    },
+
+    delete() {
+        //
+    },
+};
+
+')];
+
+
+//             $files[] = ['path'=>"resources/nuxt/store/{$file->model}.js", 'content'=><<<EOF
+// export const state = () => ({
+//     model: {$file->modelAttributes},
+//     searchParams: {
+//         page: 1,
+//         perpage: 10,
+//         orderby: 'id',
+//         order: 'desc',
+//     },
+//     search: {
+//         loading: false,
+//         data: [],
+//     },
+// });
+
+// export const mutations = {
+//     set(state, tevep) {
+//         state.tevep = tevep;
+//     },
+// };
+
+// export const actions = {
+//     find() {
+//         //
+//     },
+
+//     search() {
+//         //
+//     },
+
+//     save({ dispatch }) {
+//         await dispatch('core/load')
+//     },
+
+//     delete() {
+//         //
+//     },
+// };
+// EOF];
+        }
+
+        foreach($files as $file) {
+            file_put_contents(base_path($file['path']), $file['content']);
+        }
+
+        dd($files);
     }
 }

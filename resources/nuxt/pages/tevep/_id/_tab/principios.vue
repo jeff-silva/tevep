@@ -27,7 +27,7 @@
         
         <!-- Título -->
         <div class="col-4 px-3">
-            <div>&nbsp;</div>
+            <div class="text-center mb-3"><img src="/assets/icons/ampulheta.png" alt="" style="width:42px;"></div>
             <div class="input-group">
                 <input type="text" class="form-control" v-model="node.title" placeholder="Título" @keyup="tevepTitle(node)">
             </div>

@@ -1,6 +1,6 @@
 <template><div class="ui-datetime" :class="{'ui-datetime-flatpickr-show':flatpickrShow}" style="position:relative;">
     <input type="text" class="form-control" v-model="valueFake"
-        ref="input"
+        ref="input" autocomplete="chrome-off"
         v-mask="['##/##/####', '##/##/#### - ##:##:##']"
         @keyup="formattedToDate($event); emit();"
         @focus="flatpickrShowTest()"

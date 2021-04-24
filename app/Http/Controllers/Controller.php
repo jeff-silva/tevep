@@ -11,3 +11,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }
+
+/**
+ * @OA\Info(
+ *      version="1.0.0",
+ *      title="TEvEP",
+ *      description="API TEvEP",
+ *      @OA\Contact(email="jeferson.i.silva@gmail.com"),
+ * )
+ */

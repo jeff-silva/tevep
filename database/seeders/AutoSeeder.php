@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Schema;
  * Este arquivo é gerado automaticamente, Não edite-o diretamente.
  * Para gerar este arquivo execute o comando "php artisan app:make-seed".
  * O banco de dados contido aqui é criado ao executar o comando "php artisan app:deploy".
- * Arquivo gerado pela última vez em 05/03/2021 às 16:46:00
+ * Arquivo gerado pela última vez em 19/03/2021 às 04:01:54
 */
 
 class AutoSeeder extends Seeder
@@ -57,6 +57,7 @@ class AutoSeeder extends Seeder
 					'email' => function($table) { $table->string('email', 255); },
 					'token' => function($table) { $table->string('token', 255); },
 					'created_at' => function($table) { $table->nullableTimestamps(); },
+					'updated_at' => function($table) { /* Gerado pela função nullableTimestamps() dentro de created_at */; },
 				],
 			],
 			'settings' => [
@@ -137,7 +138,7 @@ class AutoSeeder extends Seeder
 						call_user_func($callback, $table);
 					}
 				});
-				// \DB::statement("ALTER TABLE `$table_name` comment '{$table_data['comment']}'");
+				\DB::statement("ALTER TABLE `$table_name` comment '{$table_data['comment']}'");
 			}
 			else {
 				\Schema::create($table_name, function($table) use($table_name, $table_data) {
@@ -145,7 +146,7 @@ class AutoSeeder extends Seeder
 						call_user_func($callback, $table);
 					}
 				});
-				// \DB::statement("ALTER TABLE `$table_name` comment '{$table_data['comment']}'");
+				\DB::statement("ALTER TABLE `$table_name` comment '{$table_data['comment']}'");
 			}
 		}
 	}

@@ -15,8 +15,17 @@ let store = {};
   // Enforce store modules
   store.modules = store.modules || {}
 
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\Email.js'), 'Email.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\EmailSent.js'), 'EmailSent.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\Migration.js'), 'Migration.js')
   resolveStoreModules(require('..\\resources\\nuxt\\store\\notifications.js'), 'notifications.js')
-  resolveStoreModules(require('..\\resources\\nuxt\\store\\tevep.js'), 'tevep.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\PasswordReset.js'), 'PasswordReset.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\Setting.js'), 'Setting.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\Tevep.js'), 'Tevep.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\tevep2.js'), 'tevep2.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\TevepInvite.js'), 'TevepInvite.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\User.js'), 'User.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\UserNotification.js'), 'UserNotification.js')
 
   // If the environment supports hot reloading...
 })()

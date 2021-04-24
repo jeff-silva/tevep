@@ -5,6 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
+/**
+ * @OA\Tag(
+ *     name="Auth",
+ *     description="Autenticação",
+ * )
+ */
+
 class AuthController extends Controller
 {
     /**
@@ -17,10 +24,17 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
+    
     /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *      path="/auth/login",
+     *      operationId="authLogin",
+     *      tags={"Auth"},
+     *      summary="Autenticação",
+     *      description="Autenticação",
+     *      @OA\Response(response=200, description="successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     * )
      */
     public function login()
     {
@@ -36,10 +50,18 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+
+    
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *      path="/auth/me",
+     *      operationId="authMe",
+     *      tags={"Auth"},
+     *      summary="Dados do usuário logado",
+     *      description="Dados do usuário logado",
+     *      @OA\Response(response=200, description="successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     * )
      */
     public function me()
     {
@@ -47,9 +69,15 @@ class AuthController extends Controller
     }
 
     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *      path="/auth/logout",
+     *      operationId="authLogout",
+     *      tags={"Auth"},
+     *      summary="Sair do sistema",
+     *      description="Sair do sistema",
+     *      @OA\Response(response=200, description="successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     * )
      */
     public function logout()
     {
@@ -58,10 +86,17 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+
     /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *      path="/auth/refresh",
+     *      operationId="authRefresh",
+     *      tags={"Auth"},
+     *      summary="Atualiza token",
+     *      description="Atualiza token",
+     *      @OA\Response(response=200, description="successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     * )
      */
     public function refresh()
     {
@@ -84,10 +119,34 @@ class AuthController extends Controller
         ]);
     }
 
+
+    /**
+     * @OA\Post(
+     *      path="/auth/password-token",
+     *      operationId="authPasswordToken",
+     *      tags={"Auth"},
+     *      summary="Inicia o processo de alteração de senha enviando e-mail com token para usuário",
+     *      description="Inicia o processo de alteração de senha enviando e-mail com token para usuário",
+     *      @OA\Response(response=200, description="successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     * )
+     */
     public function passwordToken($request) {
         return \App\Models\User::passwordToken($request->all());
     }
 
+
+    /**
+     * @OA\Post(
+     *      path="/auth/password-refresh",
+     *      operationId="authPasswordRefresh",
+     *      tags={"Auth"},
+     *      summary="Finaliza processo de alteração de senha recebendo e-mail, token, nova senha e confirmação de nova senha",
+     *      description="Finaliza processo de alteração de senha recebendo e-mail, token, nova senha e confirmação de nova senha",
+     *      @OA\Response(response=200, description="successful operation"),
+     *      @OA\Response(response=400, description="Bad request"),
+     * )
+     */
     public function passwordReset($request) {
         return \App\Models\User::passwordReset($request->all());
     }

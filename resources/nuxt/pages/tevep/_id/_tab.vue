@@ -41,6 +41,7 @@
                         </div>
 
                         <nuxt-child class="p-1" v-bind.sync="compBind"></nuxt-child>
+                        <pre>tevep: {{ tevep }}</pre>
                     </div>
                 </div>
             </div>
@@ -264,9 +265,13 @@ export default {
 		},
 
         tevepNodeRut() {
-            return {
-                dates: [],
-            };
+            let data = {};
+
+            data.nodes = this.tevepNodeGetAll({
+                parent: this.$route.query.node,
+            });
+
+            return data;
         },
     },
 

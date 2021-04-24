@@ -50,6 +50,7 @@ class AppDeploy extends Command
             'route:clear',
             'optimize:clear',
             'storage:link',
+            'l5-swagger:generate',
         ];
     
         foreach($commands as $com) {
