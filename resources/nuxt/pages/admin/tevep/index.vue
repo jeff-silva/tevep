@@ -1,5 +1,5 @@
 <template><div>
-    <nuxt-link to="/admin/tevep/123">Editar</nuxt-link>
+    <nuxt-link to="/admin/tevep/1">Editar</nuxt-link>
     <hr>
 </div></template>
 

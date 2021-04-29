@@ -1,6 +1,8 @@
 export default {
     state() {
         return {
+            loading: false,
+            saving: false,
             model: {
                 id: false,
                 parent: false,
@@ -70,64 +72,77 @@ export default {
                 level: 0,
                 date_start: '',
                 date_final: '',
-                meta: {
-                    tempos: [],
-                    pilotos: [],
-                    pessoas: [],
-                    espacos: [],
-                    utilidades: [],
-                    inerencias: [],
-                    expectativas: [],
-                    inovacoes: [],
-                    logisticas: [],
-                    relevancias: [],
-                    complexidades: [],
-                    custos: [],
-                    entregas: [],
-                    segurancas: [],
-                    atendimentos: [],
-                    qualidades: [],
-                    materiais: [],
-                    maquinas: [],
-                    mao_de_obra: [],
-                    meio_ambientes: [],
-                    metodos: [],
-                },
+                meta: {},
             }, tevep);
 
-            tevep.meta.tempos = tevep.meta.tempos.length>0? tevep.meta.tempos: [{}];
-            tevep.meta.pilotos = tevep.meta.pilotos.length>0? tevep.meta.pilotos: [{}];
-            tevep.meta.pessoas = tevep.meta.pessoas.length>0? tevep.meta.pessoas: [{}];
-            tevep.meta.espacos = tevep.meta.espacos.length>0? tevep.meta.espacos: [{}];
+            tevep.meta = Object.assign({
+                tempos: [],
+                pilotos: [],
+                pessoas: [],
+                espacos: [],
+                utilidades: [],
+                inerencias: [],
+                expectativas: [],
+                inovacoes: [],
+                logisticas: [],
+                relevancias: [],
+                complexidades: [],
+                custos: [],
+                entregas: [],
+                segurancas: [],
+                atendimentos: [],
+                qualidades: [],
+                materiais: [],
+                maquinas: [],
+                mao_de_obra: [],
+                meio_ambientes: [],
+                metodos: [],
+            }, tevep.meta);
 
+            if (tevep.meta.tempos.length==0) {
+                tevep.meta.tempos = [{}];
+            }
+
+            if (tevep.meta.pilotos.length==0) {
+                tevep.meta.pilotos = [{}];
+            }
+
+            if (tevep.meta.pessoas.length==0) {
+                tevep.meta.pessoas = [{}];
+            }
+
+            if (tevep.meta.espacos.length==0) {
+                tevep.meta.espacos = [{}];
+            }
+            
             tevep.meta.tempos = tevep.meta.tempos.map(item => {
                 return Object.assign({
                     id: _uuid(),
                     title: "",
                     date_start: "",
                     date_final: "",
-                });
+                }, item);
             });
 
             tevep.meta.pilotos = tevep.meta.pilotos.map(item => {
                 return Object.assign({
                     id: _uuid(),
                     title: "",
-                });
+                }, item);
             });
 
             tevep.meta.pessoas = tevep.meta.pessoas.map(item => {
                 return Object.assign({
                     id: _uuid(),
                     title: "",
-                });
+                }, item);
             });
 
             tevep.meta.espacos = tevep.meta.espacos.map(item => {
                 return Object.assign({
                     id: _uuid(),
                     title: "",
-                });
+                }, item);
             });
 
             state.model = tevep;
@@ -135,13 +150,20 @@ export default {
     },
 
     actions: {
-        find(store, id) {
+        find(context, id) {
             return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    let tevep = {id, title:"Aaa"};
-                    store.commit('setModel', tevep);
-                    resolve(JSON.parse(JSON.stringify(store.state.model)));
-                }, 500);
+                if (! +id) {
+                    context.commit('setModel', {});
+                    resolve(JSON.parse(JSON.stringify(context.state.model)));
+                    return;
+                }
+
+                context.state.loading = true;
+                this.$axios.get(`/api/tevep/find/${id}`).then(resp => {
+                    context.state.loading = false;
+                    context.commit('setModel', resp.data);
+                    resolve(resp.data);
+                });
             });
         },
 
@@ -149,8 +171,14 @@ export default {
             // 
         },
 
-        save({commit}) {
-            // 
+        save(context) {
+            context.state.saving = true;
+            return this.$axios.post('/api/tevep/save', context.state.model).then(resp => {
+                console.log(this);
+                // this.$swal('Tevep salvo', '', 'success');
+            }).catch(e => {
+                // this.$swal('Erro', 'Erro', 'danger');
+            });
         },
 
         delete({commit}, id) {

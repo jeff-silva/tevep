@@ -51,6 +51,7 @@ const _5346e758 = () => interopDefault(import('..\\resources\\nuxt\\pages\\user\
 const _5f6af1d2 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\tevep\\_id.vue' /* webpackChunkName: "pages/admin/tevep/_id" */))
 const _77f33da8 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\tevep\\_id\\_tab.vue' /* webpackChunkName: "pages/admin/tevep/_id/_tab" */))
 const _dcc73850 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\tevep\\_id\\_tab\\atendimento.vue' /* webpackChunkName: "pages/admin/tevep/_id/_tab/atendimento" */))
+const _4c33a2a9 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\tevep\\_id\\_tab\\basico.vue' /* webpackChunkName: "pages/admin/tevep/_id/_tab/basico" */))
 const _3e31f49f = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\tevep\\_id\\_tab\\complexidade.vue' /* webpackChunkName: "pages/admin/tevep/_id/_tab/complexidade" */))
 const _b2ca3ef8 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\tevep\\_id\\_tab\\custo.vue' /* webpackChunkName: "pages/admin/tevep/_id/_tab/custo" */))
 const _0aa79080 = () => interopDefault(import('..\\resources\\nuxt\\pages\\admin\\tevep\\_id\\_tab\\entrega.vue' /* webpackChunkName: "pages/admin/tevep/_id/_tab/entrega" */))
@@ -306,6 +307,10 @@ export const routerOptions = {
         component: _dcc73850,
         name: "admin-tevep-id-tab-atendimento"
       }, {
+        path: "basico",
+        component: _4c33a2a9,
+        name: "admin-tevep-id-tab-basico"
+      }, {
         path: "complexidade",
         component: _3e31f49f,
         name: "admin-tevep-id-tab-complexidade"
@@ -476,6 +481,10 @@ export const routerOptions = {
     path: "/",
     component: _4c6fd2aa,
     name: "index"
+  }, {
+    path: "/__nuxt_laravel",
+    component: _4c6fd2aa,
+    name: "__nuxt_laravel"
   }],
 
   fallback: false

@@ -1,3 +1,9 @@
-export const state = () => ({
-  counter: 0
-})
+export default {
+  strict: false,
+
+  state() {
+    return {
+      counter: 0,
+    };
+  },
+}

@@ -22,7 +22,13 @@
             </ul>
         </div>
         <div class="flex-grow-1 p-2">
-            <nuxt-child></nuxt-child>
+            <div v-if="loading">Carregando</div>
+            <nuxt-child v-else></nuxt-child>
+            <ui-actions>
+                <button type="button" class="btn btn-primary" @click="$store.dispatch('tevep2/save')">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+            </ui-actions>
         </div>
     </div>
 </div></template>
@@ -51,6 +57,10 @@ ul.tevep-nav > li:hover > ul {visibility:visible; opacity:1;}
 <script>
 export default {
     computed: {
+        loading() {
+            return this.$store.state.tevep2.loading;
+        },
+
         navItems() {
             return [
                 {

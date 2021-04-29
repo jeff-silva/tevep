@@ -1,20 +1,30 @@
 <template><div>
-    Inerencias
-    <pre>{{ $data }}</pre>
+    <div class="row no-gutters">
+        <div class="col-4 pr-3">
+            <div class="bg-white shadow-sm p-4 mb-3"></div>
+            <div class="bg-white shadow-sm p-4 mb-3"></div>
+            <div class="bg-white shadow-sm p-4 mb-3"></div>
+            <div class="bg-white shadow-sm p-4 mb-3"></div>
+            <div class="bg-white shadow-sm p-4 mb-3"></div>
+            <div class="bg-white shadow-sm p-4 mb-3"></div>
+        </div>
+
+        <div class="col-8">
+            <basico></basico>
+        </div>
+    </div>
 </div></template>
 
 <script>
 export default {
-    watch: {
-        model: {deep:true, handler(value) {
-            this.$store.commit('tevep2/setModel', value);
-        }},
+    components: {
+        basico: require('./basico.vue').default,
     },
 
-    data() {
-        return {
-            model: JSON.parse(JSON.stringify(this.$store.state.tevep2.model)),
-        };
+    computed: {
+        model() {
+            return this.$store.state.tevep2.model;
+        },
     },
 }
 </script>

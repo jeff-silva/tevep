@@ -1,20 +1,13 @@
-<template><div>
-    Pingpong
-    <pre>{{ $data }}</pre>
+<template><div class="text-center">
+    <code>Pingpong {{ model.title }}</code>
 </div></template>
 
 <script>
 export default {
-    watch: {
-        model: {deep:true, handler(value) {
-            this.$store.commit('tevep2/setModel', value);
-        }},
-    },
-
-    data() {
-        return {
-            model: JSON.parse(JSON.stringify(this.$store.state.tevep2.model)),
-        };
+    computed: {
+        model() {
+            return this.$store.state.tevep2.model;
+        },
     },
 }
 </script>

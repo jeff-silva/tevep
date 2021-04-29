@@ -44,25 +44,26 @@ trait Model
     }
 
     public function store($data=[]) {
-        $table_name = $this->getTable();
         $data = array_merge($this->toArray(), $data);
-        $save = (new static)->fill($data);
-        
-        if ($this->id) {
-            $save = (new static)->find($this->id)->fill($data);
-        }
 
-        if ($validator = $save->validate($data) AND $validator->fails()) {
+        $table_name = $this->getTable();
+        $table_pk = $this->getKeyName();
+        $id = isset($data[$table_pk])? $data[$table_pk]: false;
+
+        if ($validator = $this->validate($data) AND $validator->fails()) {
             throw new \Exception(json_encode([
                 'message' => 'Há erros de validação',
                 'fields' => $validator->errors(),
             ]));
         }
-        
-        $save->save();
-        
-        // self::pushNotification("{$table_name}", $save);
-        // self::pushNotification("{$table_name}-{$save->id}", $save);
+
+        if ($id AND $save=self::find($id)) {
+            $save->fill($data)->save();
+        }
+        else {
+            $save = self::create($data);
+        }
+
         return $save;
     }
 

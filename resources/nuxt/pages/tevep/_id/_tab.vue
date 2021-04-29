@@ -34,12 +34,6 @@
 
                 <div class="flex-grow-1">
                     <div style="height:calc(100vh - 110px); min-width:1000px; overflow:auto;">
-
-                        <!-- if empty -->
-                        <div class="text-muted p-2" v-if="$route.matched.length==1">
-                            <principios v-bind.sync="compBind"></principios>
-                        </div>
-
                         <nuxt-child class="p-1" v-bind.sync="compBind"></nuxt-child>
                         <pre>tevep: {{ tevep }}</pre>
                     </div>
