@@ -52,30 +52,6 @@ Route::post('/setting/save', '\App\Http\Controllers\SettingController@save');
 Route::post('/setting/delete/{id}', '\App\Http\Controllers\SettingController@delete');
 Route::get('/setting/all', '\App\Http\Controllers\SettingController@all');
 
-// Usuários
-Route::get('/user/search', '\App\Http\Controllers\UserController@search');
-Route::get('/user/find/{id}', '\App\Http\Controllers\UserController@find');
-Route::post('/user/save', '\App\Http\Controllers\UserController@save');
-Route::post('/user/delete/{id}', '\App\Http\Controllers\UserController@delete');
-
-// Notificações de usuários
-Route::get('/user-notification/search', '\App\Http\Controllers\UserNotificationController@search');
-Route::get('/user-notification/find/{id}', '\App\Http\Controllers\UserNotificationController@find');
-Route::post('/user-notification/save', '\App\Http\Controllers\UserNotificationController@save');
-Route::post('/user-notification/delete/{id}', '\App\Http\Controllers\UserNotificationController@delete');
-
-// Teveps
-Route::get('/tevep/search', '\App\Http\Controllers\TevepController@search');
-Route::get('/tevep/find/{id}', '\App\Http\Controllers\TevepController@find');
-Route::post('/tevep/save', '\App\Http\Controllers\TevepController@save');
-Route::post('/tevep/delete/{id}', '\App\Http\Controllers\TevepController@delete');
-
-// Convite de Tevep
-Route::get('/tevep-invite/search', '\App\Http\Controllers\TevepInviteController@search');      
-Route::get('/tevep-invite/find/{id}', '\App\Http\Controllers\TevepInviteController@find');     
-Route::post('/tevep-invite/save', '\App\Http\Controllers\TevepInviteController@save');
-Route::post('/tevep-invite/delete/{id}', '\App\Http\Controllers\TevepInviteController@delete');
-
 // E-mails
 Route::get('/email/search', '\App\Http\Controllers\EmailController@search');
 Route::get('/email/find/{id}', '\App\Http\Controllers\EmailController@find');
@@ -108,3 +84,5 @@ Route::post('/email-sent/delete/{id}', '\App\Http\Controllers\EmailSentControlle
 //         'value' => 'H:i',
 //     ],
 // ]);
+
+include __DIR__ . '/api-generated.php';

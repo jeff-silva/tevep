@@ -39,9 +39,17 @@ class AppMakeControllers extends Command
     {
         // $this->comment('⚙️  Criando/alterando models');
 
+        $endpoints = ['<?php', ''];
+        // Route::get('/user-notification/search', '\App\Http\Controllers\UserNotificationController@search');
+        // Route::get('/user-notification/find/{id}', '\App\Http\Controllers\UserNotificationController@find');
+        // Route::post('/user-notification/save', '\App\Http\Controllers\UserNotificationController@save');
+        // Route::post('/user-notification/delete/{id}', '\App\Http\Controllers\UserNotificationController@delete');
+
         $tables = config('database-schema.tables', []);
         foreach($tables as $table_name=>$table) {
             if (config("database-settings.models.{$table_name}")) {
+                $slug = \Str::of($table_name)->singular()->studly()->kebab();
+
                 $model = new \stdClass;
                 $model->name = (string) \Str::of($table_name)->studly()->singular();
                 $model->namespace = "\App\Models\\{$model->name}";
@@ -54,24 +62,28 @@ class AppMakeControllers extends Command
 
                 $methods = [];
 
+                $endpoints[] = "Route::get('/{$slug}/search', '{$controller->namespace}@search')->name('{$slug}-search');";
                 $methods['search'] = implode("\n", [
                     "\tpublic function search(Request \$request) {",
                     "\t\treturn (new {$model->namespace})->search(\$request->all());",
                     "\t}",
                 ]);
 
+                $endpoints[] = "Route::get('/{$slug}/find/{id}', '{$controller->namespace}@find')->name('{$slug}-find');";
                 $methods['find'] = implode("\n", [
                     "\tpublic function find(\$id) {",
                     "\t\treturn {$model->namespace}::find(\$id);",
                     "\t}",
                 ]);
 
+                $endpoints[] = "Route::post('/{$slug}/save', '{$controller->namespace}@save')->name('{$slug}-save');";
                 $methods['save'] = implode("\n", [
                     "\tpublic function save(Request \$request) {",
                     "\t\treturn (new {$model->namespace})->store(\$request->all());",
                     "\t}",
                 ]);
 
+                $endpoints[] = "Route::post('/{$slug}/delete/{id}', '{$controller->namespace}@delete')->name('{$slug}-delete');";
                 $methods['delete'] = implode("\n", [
                     "\tpublic function delete(\$id) {",
                     "\t\treturn {$model->namespace}::find(\$id)->remove();",
@@ -83,6 +95,10 @@ class AppMakeControllers extends Command
                 }
             }
         }
+
+        $endpoints = implode("\n", $endpoints);
+        $file = base_path(implode(DIRECTORY_SEPARATOR, ['routes', 'api-generated.php']));
+        file_put_contents($file, $endpoints);
     }
 
     public function classWriteMethod($class, $method_name, $method_content, $filename) {
