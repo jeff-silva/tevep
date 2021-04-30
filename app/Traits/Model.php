@@ -83,9 +83,9 @@ trait Model
 
 
 
-    public function search($callback=null, $params=null) {
+    public function search($params=null) {
 
-        $params = is_array($params)? $params: request()->all();
+        $params = $params===null? request()->all(): $params;
         $params = (object) array_merge([
             'perpage' => 15,
             'page' => 1,
@@ -96,8 +96,18 @@ trait Model
 
         $query = $this->orderBy($params->orderby, $params->order);
 
-        if (is_callable($callback)) {
-            $query = call_user_func($callback, $query, request());
+        foreach($params as $key=>$value) {
+            if (! in_array($key, $this->fillable)) continue;
+            $op = isset($params->{"{$key}_op"})? $params->{"{$key}_op"}: 'eq';
+            if ($op=='eq') { $op = '='; }
+            else if ($op=='gt') { $op = '>'; }
+            else if ($op=='gte') { $op = '>='; }
+            else if ($op=='lt') { $op = '<'; }
+            else if ($op=='lte') { $op = '<='; }
+            else if ($op=='like') { $op = 'like'; }
+            else { $op = '='; }
+
+            $query = $query->where($key, $op, $value);
         }
 
         return $query->paginate($params->perpage);
