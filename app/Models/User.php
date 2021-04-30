@@ -18,18 +18,18 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'id',
-        'name',
-        'email',
-        'password',
-        'photo',
-        'background',
-        'whatsapp',
-        'meta',
-        'group',
-        'created_at',
-        'updated_at',
-    ];
+		'id',
+		'name',
+		'email',
+		'email_verified_at',
+		'password',
+		'remember_token',
+		'whatsapp',
+		'meta',
+		'group',
+		'created_at',
+		'updated_at'
+	];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -261,4 +261,12 @@ class User extends Authenticatable implements JWTSubject
 
         return false;
     }
+
+	public function teveps() {
+		return $this->hasMany(\App\Models\Tevep::class, 'user_id', 'id');
+	}
+
+	public function userNotifications() {
+		return $this->hasMany(\App\Models\UserNotification::class, 'user_id', 'id');
+	}
 }

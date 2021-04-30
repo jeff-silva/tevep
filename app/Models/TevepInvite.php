@@ -10,14 +10,14 @@ class TevepInvite extends Model
     use HasFactory, \App\Traits\Model;
 
     protected $fillable = [
-        'id',
-        'tevep_id',
-        'tevep_node',
-        'user_id',
-        'status',
-        'created_at',
-        'updated_at',
-    ];
+		'id',
+		'tevep_id',
+		'tevep_node',
+		'user_id',
+		'status',
+		'created_at',
+		'updated_at'
+	];
 
     protected $appends = [
         'user',

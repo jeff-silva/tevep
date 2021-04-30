@@ -9,18 +9,18 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
     use \App\Traits\Model;
     
     protected $fillable = [
-        'id',
-        'user_id',
-        'parent',
-        'title',
-        'level',
-        'meta',
-        'date_start',
-        'date_final',
-        'updated_at',
-        'created_at',
-        'deleted_at',
-    ];
+		'id',
+		'user_id',
+		'parent',
+		'level',
+		'title',
+		'meta',
+		'date_start',
+		'date_final',
+		'created_at',
+		'updated_at',
+		'deleted_at'
+	];
 
     public function getMetaAttribute($value) {
         if (! is_object($value)) {
@@ -43,4 +43,8 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
             'title' => ['required'],
         ]);
     }
+
+	public function user() {
+		return $this->belongsTo(\App\Models\User::class, 'id', 'user_id');
+	}
 }

@@ -45,6 +45,10 @@ class AppSchema extends Command
         ];
 
         foreach(\DB::select('SHOW TABLE STATUS') as $table) {
+            $table->Fields = [];
+            foreach(\DB::select("SHOW COLUMNS FROM {$table->Name}") as $col) {
+                $table->Fields[ $col->Field ] = $col;
+            }
             $database_schema['tables'][ $table->Name ] = $table;
         }
 
@@ -59,6 +63,7 @@ class AppSchema extends Command
 
 
         $this->comment('⚙️  Gerando config/database-settings.php');
+        $this->comment('Não se esqueça de alterar as configurações "model" para definir quais tabelas gerarão arquivos.');
         $database_settings_default = [
             'models' => [],
         ];

@@ -5,9 +5,9 @@
     'migrations' => false,
     'password_resets' => false,
     'settings' => false,
-    'tevep_invites' => false,
-    'teveps' => false,
-    'user_notifications' => false,
+    'tevep_invites' => true,
+    'teveps' => true,
+    'user_notifications' => true,
     'users' => true,
   ],
 ];

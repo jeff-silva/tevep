@@ -15,16 +15,16 @@ class UserNotification extends Model
     use \App\Traits\Model;
 
     protected $fillable = [
-        'id',
-        'user_id',
-        'title',
-        'body',
-        'image',
-        'url',
-        'seen',
-        'created_at',
-        'updated_at',
-    ];
+		'id',
+		'user_id',
+		'title',
+		'body',
+		'image',
+		'url',
+		'seen',
+		'created_at',
+		'updated_at'
+	];
 
     public function validate($data=[]) {
         return \Validator::make($data, [
@@ -32,4 +32,8 @@ class UserNotification extends Model
             'title' => ['required'],
         ]);
     }
+
+	public function user() {
+		return $this->belongsTo(\App\Models\User::class, 'id', 'user_id');
+	}
 }
