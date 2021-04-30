@@ -66,15 +66,18 @@ class AppSchema extends Command
         $this->comment('Não se esqueça de alterar as configurações "model" para definir quais tabelas gerarão arquivos.');
         $database_settings_default = [
             'models' => [],
+            'controllers' => [],
         ];
 
         $database_settings = $database_settings_default;
         foreach($database_schema['tables'] as $table_name=>$table) {
             $database_settings['models'][ $table_name ] = false;
+            $database_settings['controllers'][ $table_name ] = false;
         }
 
         $database_settings2 = config('database-settings', $database_settings_default);
         foreach($database_settings as $name=>$value) {
+            $database_settings2[$name] = isset($database_settings2[$name])? $database_settings2[$name]: [];
             $database_settings2[$name] = array_merge($database_settings[$name], $database_settings2[$name]);
         }
 

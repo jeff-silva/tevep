@@ -61,6 +61,8 @@ class AppMakeModels extends Command
                     return "protected \$fillable = [\n\t\t{$fillable}\n\t];";
                 }, $content);
 
+                file_put_contents($model->file, $content);
+
                 // Criando métodos belongsTo e hasMany
                 $methods = [];
                 $fks = config('database-schema.fks', []);
@@ -82,20 +84,9 @@ class AppMakeModels extends Command
                     }
                 }
 
-                $inst = app($model->namespace);
-                $source = $this->classSource($inst);
                 foreach($methods as $method_name=>$method_content) {
-                    if (method_exists($inst, $method_name)) {
-                        // overwrite
-                        continue;
-                    }
-
-                    // create
-                    $content = rtrim(rtrim($content), '}') ."\n{$method_content}\n}";
+                    $this->classWriteMethod($model->namespace, $method_name, $method_content, $model->file);
                 }
-
-                // $this->comment("Sobrescrevendo {$model->file}");
-                file_put_contents($model->file, $content);
             }
         }
     }
@@ -120,7 +111,6 @@ class AppMakeModels extends Command
         }
 
         $class = new \ReflectionClass($class);
-
         $fileName = $class->getFileName();
         $startLine = $class->getStartLine()-1;
         $endLine = $class->getEndLine();
@@ -134,5 +124,22 @@ class AppMakeModels extends Command
         }
         
         return $fileContents;
+    }
+
+    public function classWriteMethod($class, $method_name, $method_content, $filename) {
+        if (is_string($class)) {
+            $class = app($class);
+        }
+
+        $source = $this->classSource($class);
+
+        if (method_exists($class, $method_name)) {
+            $source = preg_replace("/\t+public function {$method_name}(.+?)\}/s", $method_content, $source);
+        }
+        else {
+            $source = rtrim(rtrim($source), '}') ."\n{$method_content}\n}";
+        }
+
+        file_put_contents($filename, $source);
     }
 }
