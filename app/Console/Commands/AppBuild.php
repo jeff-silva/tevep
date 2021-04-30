@@ -39,10 +39,10 @@ class AppBuild extends Command
     {
         // $this->comment('⚙️  Criando/alterando models');
 
-        if (app()->environment('production')) {
-            // Sincronizar tabelas
-            return;
-        }
+        // if (app()->environment('production')) {
+        //     // Sincronizar tabelas
+        //     return;
+        // }
 
         $commands = [];
 

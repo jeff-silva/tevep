@@ -269,4 +269,8 @@ class User extends Authenticatable implements JWTSubject
 	public function userNotifications() {
 		return $this->hasMany(\App\Models\UserNotification::class, 'user_id', 'id');
 	}
+
+	public function tevepInvites() {
+		return $this->hasMany(\App\Models\TevepInvite::class, 'user_id', 'id');
+	}
 }

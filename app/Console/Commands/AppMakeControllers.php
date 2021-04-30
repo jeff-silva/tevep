@@ -62,30 +62,26 @@ class AppMakeControllers extends Command
 
                 $methods = [];
 
-                $endpoints[] = "Route::get('/{$slug}/search', '{$controller->namespace}@search')->name('{$slug}-search');";
-                $methods['search'] = implode("\n", [
-                    "\tpublic function search(Request \$request) {",
+                $methods['getSearch'] = implode("\n", [
+                    "\tpublic function getSearch(Request \$request) {",
                     "\t\treturn (new {$model->namespace})->search(\$request->all());",
                     "\t}",
                 ]);
 
-                $endpoints[] = "Route::get('/{$slug}/find/{id}', '{$controller->namespace}@find')->name('{$slug}-find');";
-                $methods['find'] = implode("\n", [
-                    "\tpublic function find(\$id) {",
+                $methods['getFind'] = implode("\n", [
+                    "\tpublic function getFind(\$id) {",
                     "\t\treturn {$model->namespace}::find(\$id);",
                     "\t}",
                 ]);
 
-                $endpoints[] = "Route::post('/{$slug}/save', '{$controller->namespace}@save')->name('{$slug}-save');";
-                $methods['save'] = implode("\n", [
-                    "\tpublic function save(Request \$request) {",
+                $methods['postSave'] = implode("\n", [
+                    "\tpublic function postSave(Request \$request) {",
                     "\t\treturn (new {$model->namespace})->store(\$request->all());",
                     "\t}",
                 ]);
 
-                $endpoints[] = "Route::post('/{$slug}/delete/{id}', '{$controller->namespace}@delete')->name('{$slug}-delete');";
-                $methods['delete'] = implode("\n", [
-                    "\tpublic function delete(\$id) {",
+                $methods['postDelete'] = implode("\n", [
+                    "\tpublic function postDelete(\$id) {",
                     "\t\treturn {$model->namespace}::find(\$id)->remove();",
                     "\t}",
                 ]);
@@ -93,6 +89,13 @@ class AppMakeControllers extends Command
                 foreach($methods as $method_name=>$method_content) {
                     $this->classWriteMethod($controller->namespace, $method_name, $method_content, $controller->file);
                 }
+
+                $endpoints[] = implode("\n", [
+                    "\App\Http\RouteController::load({$controller->namespace}::class, [",
+                    "\t'prefix' => '{$slug}',",
+                    "]);",
+                    '',
+                ]);
             }
         }
 

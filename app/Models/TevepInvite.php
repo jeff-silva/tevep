@@ -57,4 +57,8 @@ class TevepInvite extends Model
     protected function serializeDate($date) {
         return $date->format('Y-m-d H:i:s');
     }
+
+	public function user() {
+		return $this->belongsTo(\App\Models\User::class, 'id', 'user_id');
+	}
 }

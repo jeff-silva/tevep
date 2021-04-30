@@ -52,6 +52,16 @@ class AppClear extends Command
             'command' => 'view:clear',
         ];
 
+        $commands[] = [
+            'title' => 'Optimize clear',
+            'command' => 'optimize:clear',
+        ];
+
+        $commands[] = [
+            'title' => 'Criando link de storage',
+            'command' => 'storage:link',
+        ];
+
         foreach($commands as $com) {
             $this->comment($com['title']);
             \Artisan::call($com['command']);

@@ -38,29 +38,15 @@ class AppDeploy extends Command
     public function handle()
     {
         $this->comment('Iniciando deploy');
-        $this->comment('Database: '. env('DB_USERNAME') .'@'. env('DB_DATABASE'));
         
-        $commands = [
-            // 'migrate',
-            'db:seed --class=AutoSeeder',
-            'db:seed',
-            'config:cache',
-            'config:clear',
-            'view:clear',
-            'route:clear',
-            'optimize:clear',
-            'storage:link',
-            'l5-swagger:generate',
+        $commands[] = [
+            'title' => 'Limpando cache de configurações',
+            'command' => 'config:clear',
         ];
-    
-        foreach($commands as $com) {
-            $r = \Artisan::call($com);
-            $this->comment("artisan $com");
-        }
 
-        (new \App\Models\Setting)->deploy();
-        (new \App\Models\Email)->deploy();
-        
-        $this->comment('Finalizado');
+        foreach($commands as $com) {
+            $this->comment($com['title']);
+            \Artisan::call($com['command']);
+        }
     }
 }
