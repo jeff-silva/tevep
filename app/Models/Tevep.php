@@ -47,4 +47,8 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
 	public function user() {
 		return $this->belongsTo(\App\Models\User::class, 'id', 'user_id');
 	}
+
+	public function tevepInvites() {
+		return $this->hasMany(\App\Models\TevepInvite::class, 'tevep_id', 'id');
+	}
 }

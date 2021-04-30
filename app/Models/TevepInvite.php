@@ -12,11 +12,11 @@ class TevepInvite extends Model
     protected $fillable = [
 		'id',
 		'tevep_id',
-		'tevep_node',
 		'user_id',
 		'status',
 		'created_at',
-		'updated_at'
+		'updated_at',
+		'deleted_at'
 	];
 
     protected $appends = [
@@ -60,5 +60,9 @@ class TevepInvite extends Model
 
 	public function user() {
 		return $this->belongsTo(\App\Models\User::class, 'id', 'user_id');
+	}
+
+	public function tevep() {
+		return $this->belongsTo(\App\Models\Tevep::class, 'id', 'tevep_id');
 	}
 }

@@ -1,4 +1,11 @@
-<?php return [
+<?php 
+
+/*
+ * Gerado em 30/04/2021 às 18:39:28
+ * Por favor, não altere manualmente.
+ */
+
+return [
   'tables' => [
     'email_sents' => [
       'Name' => 'email_sents',
@@ -712,63 +719,21 @@
     ],
   ],
   'fks' => [
-    'email_sents' => [
+    'tevep_invites-tevep_id-teveps-id' => [
       'CONSTRAINT_CATALOG' => 'def',
       'CONSTRAINT_SCHEMA' => 'tevep',
-      'CONSTRAINT_NAME' => 'PRIMARY',
+      'CONSTRAINT_NAME' => 'FK_tevep_invites_teveps',
       'TABLE_CATALOG' => 'def',
       'TABLE_SCHEMA' => 'tevep',
-      'TABLE_NAME' => 'email_sents',
-      'COLUMN_NAME' => 'id',
+      'TABLE_NAME' => 'tevep_invites',
+      'COLUMN_NAME' => 'tevep_id',
       'ORDINAL_POSITION' => 1,
-      'POSITION_IN_UNIQUE_CONSTRAINT' => NULL,
-      'REFERENCED_TABLE_SCHEMA' => NULL,
-      'REFERENCED_TABLE_NAME' => NULL,
-      'REFERENCED_COLUMN_NAME' => NULL,
+      'POSITION_IN_UNIQUE_CONSTRAINT' => 1,
+      'REFERENCED_TABLE_SCHEMA' => 'tevep',
+      'REFERENCED_TABLE_NAME' => 'teveps',
+      'REFERENCED_COLUMN_NAME' => 'id',
     ],
-    'emails' => [
-      'CONSTRAINT_CATALOG' => 'def',
-      'CONSTRAINT_SCHEMA' => 'tevep',
-      'CONSTRAINT_NAME' => 'PRIMARY',
-      'TABLE_CATALOG' => 'def',
-      'TABLE_SCHEMA' => 'tevep',
-      'TABLE_NAME' => 'emails',
-      'COLUMN_NAME' => 'id',
-      'ORDINAL_POSITION' => 1,
-      'POSITION_IN_UNIQUE_CONSTRAINT' => NULL,
-      'REFERENCED_TABLE_SCHEMA' => NULL,
-      'REFERENCED_TABLE_NAME' => NULL,
-      'REFERENCED_COLUMN_NAME' => NULL,
-    ],
-    'migrations' => [
-      'CONSTRAINT_CATALOG' => 'def',
-      'CONSTRAINT_SCHEMA' => 'tevep',
-      'CONSTRAINT_NAME' => 'PRIMARY',
-      'TABLE_CATALOG' => 'def',
-      'TABLE_SCHEMA' => 'tevep',
-      'TABLE_NAME' => 'migrations',
-      'COLUMN_NAME' => 'id',
-      'ORDINAL_POSITION' => 1,
-      'POSITION_IN_UNIQUE_CONSTRAINT' => NULL,
-      'REFERENCED_TABLE_SCHEMA' => NULL,
-      'REFERENCED_TABLE_NAME' => NULL,
-      'REFERENCED_COLUMN_NAME' => NULL,
-    ],
-    'settings' => [
-      'CONSTRAINT_CATALOG' => 'def',
-      'CONSTRAINT_SCHEMA' => 'tevep',
-      'CONSTRAINT_NAME' => 'PRIMARY',
-      'TABLE_CATALOG' => 'def',
-      'TABLE_SCHEMA' => 'tevep',
-      'TABLE_NAME' => 'settings',
-      'COLUMN_NAME' => 'id',
-      'ORDINAL_POSITION' => 1,
-      'POSITION_IN_UNIQUE_CONSTRAINT' => NULL,
-      'REFERENCED_TABLE_SCHEMA' => NULL,
-      'REFERENCED_TABLE_NAME' => NULL,
-      'REFERENCED_COLUMN_NAME' => NULL,
-    ],
-    'tevep_invites' => [
+    'tevep_invites-user_id-users-id' => [
       'CONSTRAINT_CATALOG' => 'def',
       'CONSTRAINT_SCHEMA' => 'tevep',
       'CONSTRAINT_NAME' => 'FK_tevep_invites_users',
@@ -782,7 +747,7 @@
       'REFERENCED_TABLE_NAME' => 'users',
       'REFERENCED_COLUMN_NAME' => 'id',
     ],
-    'teveps' => [
+    'teveps-user_id-users-id' => [
       'CONSTRAINT_CATALOG' => 'def',
       'CONSTRAINT_SCHEMA' => 'tevep',
       'CONSTRAINT_NAME' => 'FK_teveps_users',
@@ -796,7 +761,7 @@
       'REFERENCED_TABLE_NAME' => 'users',
       'REFERENCED_COLUMN_NAME' => 'id',
     ],
-    'user_notifications' => [
+    'user_notifications-user_id-users-id' => [
       'CONSTRAINT_CATALOG' => 'def',
       'CONSTRAINT_SCHEMA' => 'tevep',
       'CONSTRAINT_NAME' => 'FK_user_notifications_users',
@@ -809,20 +774,6 @@
       'REFERENCED_TABLE_SCHEMA' => 'tevep',
       'REFERENCED_TABLE_NAME' => 'users',
       'REFERENCED_COLUMN_NAME' => 'id',
-    ],
-    'users' => [
-      'CONSTRAINT_CATALOG' => 'def',
-      'CONSTRAINT_SCHEMA' => 'tevep',
-      'CONSTRAINT_NAME' => 'PRIMARY',
-      'TABLE_CATALOG' => 'def',
-      'TABLE_SCHEMA' => 'tevep',
-      'TABLE_NAME' => 'users',
-      'COLUMN_NAME' => 'id',
-      'ORDINAL_POSITION' => 1,
-      'POSITION_IN_UNIQUE_CONSTRAINT' => NULL,
-      'REFERENCED_TABLE_SCHEMA' => NULL,
-      'REFERENCED_TABLE_NAME' => NULL,
-      'REFERENCED_COLUMN_NAME' => NULL,
     ],
   ],
 ];

@@ -41,12 +41,13 @@ class AppMakeModels extends Command
 
         $tables = config('database-schema.tables', []);
         foreach($tables as $table_name=>$table) {
+            $model = new \stdClass;
+            $model->name = (string) \Str::of($table_name)->singular()->studly();
+            $model->namespace = "\App\Models\\{$model->name}";
+            $model->file = app_path(implode(DIRECTORY_SEPARATOR, ['Models', "{$model->name}.php"]));
+            $model->file_exists = !!realpath($model->file);
+            
             if (config("database-settings.models.{$table_name}")) {
-                $model = new \stdClass;
-                $model->name = (string) \Str::of($table_name)->singular()->studly();
-                $model->namespace = "\App\Models\\{$model->name}";
-                $model->file = app_path(implode(DIRECTORY_SEPARATOR, ['Models', "{$model->name}.php"]));
-                $model->file_exists = !!realpath($model->file);
 
                 if (! $model->file_exists) {
                     // TODO: criar model básico
@@ -62,31 +63,33 @@ class AppMakeModels extends Command
                 }, $content);
 
                 file_put_contents($model->file, $content);
+            }
 
-                // Criando métodos belongsTo e hasMany
-                $methods = [];
-                $fks = config('database-schema.fks', []);
-                foreach($fks as $fk_table=>$fk) {
-                    if (! $fk['REFERENCED_TABLE_NAME']) continue;
+            // Criando métodos belongsTo e hasMany
+            $methods = [];
+            $fks = config('database-schema.fks', []);
+            foreach($fks as $fk_table=>$fk) {
+                if (! $fk['REFERENCED_TABLE_NAME']) continue;
 
-                    // hasMany
-                    if ($fk['REFERENCED_TABLE_NAME']==$table_name) {
-                        $methodName = (string) \Str::of($fk['TABLE_NAME'])->camel()->plural();
-                        $modelName = (string) '\App\Models\\'. \Str::of($fk['TABLE_NAME'])->studly()->singular();
-                        $methods[ $methodName ] = "\tpublic function {$methodName}() {\n\t\treturn \$this->hasMany({$modelName}::class, '{$fk['COLUMN_NAME']}', '{$fk['REFERENCED_COLUMN_NAME']}');\n\t}";
-                    }
-
-                    // belongsTo
-                    if ($fk['TABLE_NAME']==$table_name) {
-                        $methodName = (string) \Str::of($fk['REFERENCED_TABLE_NAME'])->camel()->singular();
-                        $modelName = (string) '\App\Models\\'. \Str::of($fk['REFERENCED_TABLE_NAME'])->studly()->singular();
-                        $methods[ $methodName ] = "\tpublic function {$methodName}() {\n\t\treturn \$this->belongsTo({$modelName}::class, '{$fk['REFERENCED_COLUMN_NAME']}', '{$fk['COLUMN_NAME']}');\n\t}";
-                    }
+                // hasMany
+                if ($fk['REFERENCED_TABLE_NAME']==$table_name) {
+                    $methodName = (string) \Str::of($fk['TABLE_NAME'])->camel()->plural();
+                    $modelName = (string) '\App\Models\\'. \Str::of($fk['TABLE_NAME'])->studly()->singular();
+                    $methods[ $methodName ] = "\tpublic function {$methodName}() {\n\t\treturn \$this->hasMany({$modelName}::class, '{$fk['COLUMN_NAME']}', '{$fk['REFERENCED_COLUMN_NAME']}');\n\t}";
                 }
 
-                foreach($methods as $method_name=>$method_content) {
-                    $this->classWriteMethod($model->namespace, $method_name, $method_content, $model->file);
+                // belongsTo
+                if ($fk['TABLE_NAME']==$table_name) {
+                    $methodName = (string) \Str::of($fk['REFERENCED_TABLE_NAME'])->camel()->singular();
+                    $modelName = (string) '\App\Models\\'. \Str::of($fk['REFERENCED_TABLE_NAME'])->studly()->singular();
+                    $methods[ $methodName ] = "\tpublic function {$methodName}() {\n\t\treturn \$this->belongsTo({$modelName}::class, '{$fk['REFERENCED_COLUMN_NAME']}', '{$fk['COLUMN_NAME']}');\n\t}";
                 }
+            }
+
+            dump($model->name.': '. implode(',', array_keys($methods)));
+
+            foreach($methods as $method_name=>$method_content) {
+                $this->classWriteMethod($model->namespace, $method_name, $method_content, $model->file);
             }
         }
     }

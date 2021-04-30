@@ -251,7 +251,6 @@ class User extends Authenticatable implements JWTSubject
         return $groups;
     }
 
-
     static function getGroup($id=false) {
         foreach(self::groups() as $group) {
             if ($group['id']==$id) {
