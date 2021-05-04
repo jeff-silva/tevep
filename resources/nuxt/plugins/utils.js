@@ -9,9 +9,23 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2);
 
+// https://element.eleme.io/
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale/lang/pt-BR';
+Vue.use(ElementUI, {locale});
+
 // https://vuejs-tips.github.io/vue-the-mask/
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask);
+
+
+// https://vue2-leaflet.netlify.app/
+import 'leaflet/dist/leaflet.css';
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+Vue.component('l-map', LMap);
+Vue.component('l-tile-layer', LTileLayer);
+Vue.component('l-marker', LMarker);
 
 
 Vue.prototype.$log = function() {

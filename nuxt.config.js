@@ -38,7 +38,7 @@ export default {
 	/*
 	** Global CSS
 	*/
-	css: ['@/assets/variables.scss'],
+	css: ['@/assets/app.scss'],
 
 	/*
 	** Plugins to load before mounting the App
@@ -102,26 +102,26 @@ export default {
 		},
 
 		strategies: {
-				// https://dev.auth.nuxtjs.org/providers/laravel-jwt
-				// https://github.com/nuxt-community/auth-module/blob/dev/src/providers/laravel/jwt/index.ts
-				'jwt': {
-						provider: 'laravel/jwt',
-						url: '/',
-						name: 'jwt',
-						endpoints: {
-								login: {method:'POST', url:'/api/auth/login'},
-								refresh: {method:'POST', url:'/api/auth/refresh'},
-								logout: {method:'POST', url:'/api/auth/logout'},
-								user: {method:'POST', url:'/api/auth/me'},
-						},
-						token: {
-								property: 'access_token',
-								maxAge: (60 * 60),
-						},
-						refreshToken: {
-								maxAge: (20160 * 60),
-						},
+			// https://dev.auth.nuxtjs.org/providers/laravel-jwt
+			// https://github.com/nuxt-community/auth-module/blob/dev/src/providers/laravel/jwt/index.ts
+			'jwt': {
+				provider: 'laravel/jwt',
+				url: '/',
+				name: 'jwt',
+				endpoints: {
+					login: {method:'POST', url:'/api/auth/login'},
+					refresh: {method:'POST', url:'/api/auth/refresh'},
+					logout: {method:'POST', url:'/api/auth/logout'},
+					user: {method:'POST', url:'/api/auth/me'},
 				},
+				token: {
+					property: 'access_token',
+					maxAge: (60 * 60),
+				},
+				refreshToken: {
+					maxAge: (20160 * 60),
+				},
+			},
 		},
 	},
 
@@ -183,6 +183,12 @@ export default {
 	build: {
 		extend(config, ctx) {
 			config.resolve.alias['vue'] = 'vue/dist/vue.common';
-		}
+		},
+
+		babel: {
+			plugins: [
+				['@babel/plugin-proposal-private-methods', { loose: true }],
+			],
+		},
 	}
 }

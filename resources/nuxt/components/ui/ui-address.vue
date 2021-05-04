@@ -112,12 +112,7 @@
 </div></template>
 
 <script>
-import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
-import 'leaflet/dist/leaflet.css';
-
 export default {
-    components: {LMap, LTileLayer, LMarker},
-
     props: {
         value: {default: () => ({})},
     },

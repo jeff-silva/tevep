@@ -5,11 +5,29 @@
   "LazyLogo": {
     "description": "Auto imported from components/Logo.vue"
   },
+  "UiUserBackup": {
+    "description": "Auto imported from components/ui-user-backup.vue"
+  },
+  "LazyUiUserBackup": {
+    "description": "Auto imported from components/ui-user-backup.vue"
+  },
   "VuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
   "LazyVuetifyLogo": {
     "description": "Auto imported from components/VuetifyLogo.vue"
+  },
+  "UiUser": {
+    "description": "Auto imported from components/generated/ui-user.vue"
+  },
+  "LazyUiUser": {
+    "description": "Auto imported from components/generated/ui-user.vue"
+  },
+  "UserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
+  },
+  "LazyUserCard": {
+    "description": "Auto imported from components/user/user-card.vue"
   },
   "TevepDates": {
     "description": "Auto imported from components/tevep/tevep-dates.vue"
@@ -298,18 +316,6 @@
   },
   "LazyUiUpload": {
     "description": "Auto imported from components/ui/ui-upload.vue"
-  },
-  "UiUser": {
-    "description": "Auto imported from components/ui/ui-user.vue"
-  },
-  "LazyUiUser": {
-    "description": "Auto imported from components/ui/ui-user.vue"
-  },
-  "UserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
-  },
-  "LazyUserCard": {
-    "description": "Auto imported from components/user/user-card.vue"
   },
   "Content": {
     "description": "Auto imported from components/ui/ui-layout/content.vue"

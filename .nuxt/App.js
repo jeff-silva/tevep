@@ -3,9 +3,8 @@ import Vue from 'vue'
 import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch, promisify, globalHandleError, urlJoin, sanitizeComponent } from './utils'
 import NuxtError from '..\\resources\\nuxt\\layouts\\error.vue'
 import NuxtLoading from './components/nuxt-loading.vue'
-import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
-import '..\\resources\\nuxt\\assets\\variables.scss'
+import '..\\resources\\nuxt\\assets\\app.scss'
 
 import _77068119 from '..\\resources\\nuxt\\layouts\\admin.vue'
 import _2d217e9e from '..\\resources\\nuxt\\layouts\\auth.vue'
@@ -46,7 +45,7 @@ export default {
       }
     }, [
       loadingEl,
-      h(NuxtBuildIndicator),
+
       transitionEl
     ])
   },
@@ -96,6 +95,10 @@ export default {
 
     isFetching () {
       return this.nbFetching > 0
+    },
+
+    isPreview () {
+      return Boolean(this.$options.previewData)
     },
   },
 
@@ -181,10 +184,6 @@ export default {
     },
 
     setLayout (layout) {
-      if(layout && typeof layout !== 'string') {
-        throw new Error('[nuxt] Avoid using non-string value as layout property.')
-      }
-
       if (!layout || !layouts['_' + layout]) {
         layout = 'default'
       }
