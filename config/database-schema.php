@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * Gerado em 30/04/2021 às 18:39:28
+ * Gerado em 05/05/2021 às 03:53:54
  * Por favor, não altere manualmente.
  */
 
@@ -330,15 +330,15 @@ return [
       'Engine' => 'InnoDB',
       'Version' => 10,
       'Row_format' => 'Dynamic',
-      'Rows' => 0,
-      'Avg_row_length' => 0,
+      'Rows' => 1,
+      'Avg_row_length' => 16384,
       'Data_length' => 16384,
       'Max_data_length' => 0,
       'Index_length' => 32768,
       'Data_free' => 0,
       'Auto_increment' => NULL,
-      'Create_time' => '2021-04-30 15:18:13',
-      'Update_time' => '2021-04-30 15:21:06',
+      'Create_time' => '2021-05-05 00:53:06',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -366,6 +366,14 @@ return [
           'Type' => 'int(11)',
           'Null' => 'YES',
           'Key' => 'MUL',
+          'Default' => NULL,
+          'Extra' => '',
+        ],
+        'user_email' => [
+          'Field' => 'user_email',
+          'Type' => 'varchar(255)',
+          'Null' => 'YES',
+          'Key' => '',
           'Default' => NULL,
           'Extra' => '',
         ],
@@ -416,7 +424,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => NULL,
       'Create_time' => '2021-04-28 23:46:00',
-      'Update_time' => '2021-04-30 15:19:00',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,

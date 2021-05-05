@@ -13,6 +13,7 @@ class TevepInvite extends Model
 		'id',
 		'tevep_id',
 		'user_id',
+		'user_email',
 		'status',
 		'created_at',
 		'updated_at',
