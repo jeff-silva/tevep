@@ -25,6 +25,47 @@ class TevepInvite extends Model
         'invite_link',
     ];
 
+    public static function booted() {
+        self::creating(function($model) {
+
+            // se atributo user_email está preenchido...
+            if ($model->user_email) {
+
+                // ... e o e-mail do usuário existe no sistema...
+                if ($user = \App\Models\User::where('email', $model->user_email)->first()) {
+                    
+                    // ... preenchemos o user_id com o id do mesmo
+                    $model->user_id = $user->id;
+                }
+            }
+
+            // ... se o user_email não está preenchido
+            else {
+
+                // ... mas o user_id está preenchido e o id existe no sistema
+                if ($model->user_id AND $user = \App\Models\User::find($model->user_id)) {
+                    
+                    // ... preenchemos o user_email com o e-mail do mesmo
+                    $model->user_email = $user->email;
+                }
+            }
+
+            $inviteExists = static::where([
+                'tevep_id' => $model->tevep_id,
+                'user_id' => $model->user_id,
+            ])->first();
+
+            if ($inviteExists) {
+                // talvez jogar uma exceção "convite já existe"
+                return false;
+            }
+        });
+
+        self::created(function($model) {
+            (new \App\Mail\TevepInvite($model))->send($model->user_email);
+        });
+    }
+
     public function getUserAttribute() {
         if ($this->id AND $user=\App\Models\User::find($this->user_id)) {
             $user = $user->toArray();
@@ -34,14 +75,13 @@ class TevepInvite extends Model
     }
 
     public function getInviteLinkAttribute() {
-        if (! $this->id) return false;
-        return url("/tevep/{$this->tevep_id}?invite={$this->id}");
+        return url("/admin/tevep/{$this->tevep_id}");
     }
 
-    public function validationRules() {
-        return [
-            'nome' => 'required',
-        ];
+    public function validate($data=[]) {
+        return \Validator::make($data, [
+            'user_id' => ['required'],
+        ]);
     }
 
     public function setUserIdAttribute($value) {

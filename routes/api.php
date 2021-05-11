@@ -85,4 +85,76 @@ Route::post('/email-sent/delete/{id}', '\App\Http\Controllers\EmailSentControlle
 //     ],
 // ]);
 
-include __DIR__ . '/api-generated.php';
+// include __DIR__ . '/api-generated.php';
+
+$routes = [];
+$paths = [app_path(implode(DIRECTORY_SEPARATOR, ['Http', 'Controllers']))];
+foreach((new \Symfony\Component\Finder\Finder)->in($paths)->files() as $file) {
+    $filename = str_replace('.php', '', $file->getFilename());
+    $class= "\App\Http\Controllers\\{$filename}";
+
+    $prefix = (string) \Str::of(str_replace('Controller', '', $filename))->kebab();
+    
+    $r = new \ReflectionClass($class);
+    foreach ($r->getMethods() as $rmethod) {
+        $method_name = $rmethod->getName();
+
+        $ignore = [
+            'middleware',
+            'getMiddleware',
+            'callAction',
+            '__call',
+            'authorize',
+            'authorizeForUser',
+            'parseAbilityAndArguments',
+            'normalizeGuessedAbilityName',
+            'authorizeResource',
+            'resourceAbilityMap',
+            'resourceMethodsWithoutModels',
+            'dispatch',
+            'dispatchNow',
+            'validateWith',
+            'validate',
+            'validateWithBag',
+            'getValidationFactory',
+        ];
+
+        if (in_array($method_name, $ignore)) continue;
+        $route = [];
+        $route['method'] = 'get';
+        $route['route'] = [$prefix];
+        $route['name'] = '';
+        $route['class'] = $class;
+        $route['call'] = ['Illuminate\Support\Facades\Route', 'get'];
+        $route['callParams'] = [];
+
+        $has_method = false;
+        foreach(['any', 'get', 'post', 'put'] as $method) {
+            if (\Str::startsWith($method_name, $method)) {
+                $has_method = true;
+                $route['route'][] = \Str::of(str_replace($method, '', $method_name))->studly()->kebab();
+                $route['method'] = $method;
+                $route['call'][1] = $method;
+                break;
+            }
+        }
+
+        if (! $has_method) {
+            $route['route'][] = \Str::of($method_name)->studly()->kebab();
+        }
+
+        $route['name'] = implode('.', $route['route']);
+
+        foreach($rmethod->getParameters() as $param) {
+            if (in_array($param->name, ['request'])) continue;
+            $route['route'][] = '{'. $param->name .'}';
+        }
+
+        $route['route'] = implode('/', $route['route']);
+        $route['callParams'][] = $route['route'];
+        $route['callParams'][] = "{$class}@{$method_name}";
+
+        $routes[] = $route;
+        call_user_func_array($route['call'], $route['callParams']);
+    }
+}

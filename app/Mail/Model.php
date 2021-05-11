@@ -17,12 +17,7 @@ class Model
         return ob_get_clean();
     }
 
-    public function send() {
-        if (! $this->user) {
-            $class = get_called_class();
-            throw new \Exception("Erro na classe $class: parâmetro 1 do construct deve ser um \App\Models\User \$user");
-        }
-
+    public function send($emails) {
         $name = \Arr::last(explode('\\', get_called_class()));
         $subject = $this->subject;
         $body = $this->body;
@@ -35,7 +30,7 @@ class Model
         $data = get_object_vars($this);
         $subject = $this->bladeCompile($subject, $data);
         $body = $this->bladeCompile($body, $data);
-        \App\Utils::mail($this->user->email, $subject, $body);
+        \App\Utils::mail($emails, $subject, $body);
 
         return true;
     }

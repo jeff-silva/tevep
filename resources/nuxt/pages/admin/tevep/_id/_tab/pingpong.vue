@@ -84,7 +84,6 @@
                         >Recusar</a>
                     </div>
                 </div>
-                <pre>{{ i }}</pre>
             </template>
         </ui-modal>
     </template>
