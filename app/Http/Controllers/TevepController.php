@@ -10,6 +10,16 @@ class TevepController extends Controller
 		return (new \App\Models\Tevep)->search($request->all());
 	}
 
+	public function me(Request $request) {
+		if ($user = \Illuminate\Support\Facades\Auth::user()) {
+			return \App\Models\Tevep::where([
+				'user_id' => $user->id,
+			])->search($request->all());
+		}
+
+		return [];
+	}
+
 	public function getFind($id) {
 		return \App\Models\Tevep::find($id);
 	}
