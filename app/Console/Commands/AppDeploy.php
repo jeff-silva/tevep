@@ -44,6 +44,11 @@ class AppDeploy extends Command
             'command' => 'config:clear',
         ];
 
+        $commands[] = [
+            'title' => 'Migrando banco de dados',
+            'command' => 'app:migrate',
+        ];
+
         foreach($commands as $com) {
             $this->comment($com['title']);
             \Artisan::call($com['command']);

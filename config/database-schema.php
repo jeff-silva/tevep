@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * Gerado em 11/05/2021 às 03:07:52
+ * Gerado em 11/05/2021 às 06:38:26
  * Por favor, não altere manualmente.
  */
 
@@ -12,8 +12,8 @@ return [
       'Engine' => 'InnoDB',
       'Version' => 10,
       'Row_format' => 'Dynamic',
-      'Rows' => 4,
-      'Avg_row_length' => 4096,
+      'Rows' => 3,
+      'Avg_row_length' => 5461,
       'Data_length' => 16384,
       'Max_data_length' => 0,
       'Index_length' => 0,
@@ -420,11 +420,11 @@ return [
       'Avg_row_length' => 8192,
       'Data_length' => 16384,
       'Max_data_length' => 0,
-      'Index_length' => 16384,
+      'Index_length' => 32768,
       'Data_free' => 0,
       'Auto_increment' => NULL,
-      'Create_time' => '2021-04-28 23:46:00',
-      'Update_time' => NULL,
+      'Create_time' => '2021-05-11 03:35:05',
+      'Update_time' => '2021-05-11 03:38:11',
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -451,7 +451,7 @@ return [
           'Field' => 'parent',
           'Type' => 'int(11)',
           'Null' => 'YES',
-          'Key' => '',
+          'Key' => 'MUL',
           'Default' => NULL,
           'Extra' => '',
         ],
@@ -753,6 +753,20 @@ return [
       'POSITION_IN_UNIQUE_CONSTRAINT' => 1,
       'REFERENCED_TABLE_SCHEMA' => 'tevep',
       'REFERENCED_TABLE_NAME' => 'users',
+      'REFERENCED_COLUMN_NAME' => 'id',
+    ],
+    'teveps-parent-teveps-id' => [
+      'CONSTRAINT_CATALOG' => 'def',
+      'CONSTRAINT_SCHEMA' => 'tevep',
+      'CONSTRAINT_NAME' => 'FK_teveps_teveps',
+      'TABLE_CATALOG' => 'def',
+      'TABLE_SCHEMA' => 'tevep',
+      'TABLE_NAME' => 'teveps',
+      'COLUMN_NAME' => 'parent',
+      'ORDINAL_POSITION' => 1,
+      'POSITION_IN_UNIQUE_CONSTRAINT' => 1,
+      'REFERENCED_TABLE_SCHEMA' => 'tevep',
+      'REFERENCED_TABLE_NAME' => 'teveps',
       'REFERENCED_COLUMN_NAME' => 'id',
     ],
     'teveps-user_id-users-id' => [

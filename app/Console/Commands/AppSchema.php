@@ -39,27 +39,7 @@ class AppSchema extends Command
     {   
         $this->comment('⚙️  Gerando config/database-schema.php');
 
-        $database_schema = [
-            'tables' => [],
-            'fks' => [],
-        ];
-
-        foreach(\DB::select('SHOW TABLE STATUS') as $table) {
-            $table->Fields = [];
-            foreach(\DB::select("SHOW COLUMNS FROM {$table->Name}") as $col) {
-                $table->Fields[ $col->Field ] = $col;
-            }
-            $database_schema['tables'][ $table->Name ] = $table;
-        }
-
-        $database = env('DB_DATABASE');
-        foreach(\DB::select("SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA='{$database}' AND CONSTRAINT_NAME != 'PRIMARY' ") as $fk) {
-            $kname = "{$fk->TABLE_NAME}-{$fk->COLUMN_NAME}-{$fk->REFERENCED_TABLE_NAME}-{$fk->REFERENCED_COLUMN_NAME}";
-            $database_schema['fks'][$kname] = $fk;
-        }
-
-        $database_schema = json_encode($database_schema);
-        $database_schema = json_decode($database_schema, true);
+        $database_schema = $this->getSchema();
         $content = $this->varExport($database_schema);
         $generated = "/*\n * Gerado em ". date('d/m/Y à\s H:i:s') ."\n * Por favor, não altere manualmente.\n */";
         file_put_contents(config_path('database-schema.php'), "<?php \n\n{$generated}\n\nreturn {$content};");
@@ -98,5 +78,28 @@ class AppSchema extends Command
         }
         else {  $dump = preg_replace('#\)$#', "]", $dump); }
         return $dump;
+    }
+
+    public function getSchema() {
+        $database_schema = [
+            'tables' => [],
+            'fks' => [],
+        ];
+
+        foreach(\DB::select('SHOW TABLE STATUS') as $table) {
+            $table->Fields = [];
+            foreach(\DB::select("SHOW COLUMNS FROM {$table->Name}") as $col) {
+                $table->Fields[ $col->Field ] = $col;
+            }
+            $database_schema['tables'][ $table->Name ] = $table;
+        }
+
+        $database = env('DB_DATABASE');
+        foreach(\DB::select("SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA='{$database}' AND CONSTRAINT_NAME != 'PRIMARY' ") as $fk) {
+            $kname = "{$fk->TABLE_NAME}-{$fk->COLUMN_NAME}-{$fk->REFERENCED_TABLE_NAME}-{$fk->REFERENCED_COLUMN_NAME}";
+            $database_schema['fks'][$kname] = $fk;
+        }
+
+        return json_decode(json_encode($database_schema), true);
     }
 }
