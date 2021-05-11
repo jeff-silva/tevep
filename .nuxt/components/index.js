@@ -6,6 +6,7 @@ export { default as TevepDates } from '../..\\resources\\nuxt\\components\\tevep
 export { default as TevepList } from '../..\\resources\\nuxt\\components\\tevep\\tevep-list.vue'
 export { default as TevepPrincipios } from '../..\\resources\\nuxt\\components\\tevep\\tevep-principios.vue'
 export { default as Tevep } from '../..\\resources\\nuxt\\components\\tevep\\tevep.vue'
+export { default as UserCard } from '../..\\resources\\nuxt\\components\\user\\user-card.vue'
 export { default as UiAccordion } from '../..\\resources\\nuxt\\components\\ui\\ui-accordion.vue'
 export { default as UiActions } from '../..\\resources\\nuxt\\components\\ui\\ui-actions.vue'
 export { default as UiAddress } from '../..\\resources\\nuxt\\components\\ui\\ui-address.vue'
@@ -50,7 +51,6 @@ export { default as UiTable } from '../..\\resources\\nuxt\\components\\ui\\ui-t
 export { default as UiTabs } from '../..\\resources\\nuxt\\components\\ui\\ui-tabs.vue'
 export { default as UiTimeago } from '../..\\resources\\nuxt\\components\\ui\\ui-timeago.vue'
 export { default as UiUpload } from '../..\\resources\\nuxt\\components\\ui\\ui-upload.vue'
-export { default as UserCard } from '../..\\resources\\nuxt\\components\\user\\user-card.vue'
 export { default as Content } from '../..\\resources\\nuxt\\components\\ui\\ui-layout\\content.vue'
 
 export const LazyLogo = import('../..\\resources\\nuxt\\components\\Logo.vue' /* webpackChunkName: "components_Logo" */).then(c => c.default || c)
@@ -61,6 +61,7 @@ export const LazyTevepDates = import('../..\\resources\\nuxt\\components\\tevep\
 export const LazyTevepList = import('../..\\resources\\nuxt\\components\\tevep\\tevep-list.vue' /* webpackChunkName: "components_tevep/tevep-list" */).then(c => c.default || c)
 export const LazyTevepPrincipios = import('../..\\resources\\nuxt\\components\\tevep\\tevep-principios.vue' /* webpackChunkName: "components_tevep/tevep-principios" */).then(c => c.default || c)
 export const LazyTevep = import('../..\\resources\\nuxt\\components\\tevep\\tevep.vue' /* webpackChunkName: "components_tevep/tevep" */).then(c => c.default || c)
+export const LazyUserCard = import('../..\\resources\\nuxt\\components\\user\\user-card.vue' /* webpackChunkName: "components_user/user-card" */).then(c => c.default || c)
 export const LazyUiAccordion = import('../..\\resources\\nuxt\\components\\ui\\ui-accordion.vue' /* webpackChunkName: "components_ui/ui-accordion" */).then(c => c.default || c)
 export const LazyUiActions = import('../..\\resources\\nuxt\\components\\ui\\ui-actions.vue' /* webpackChunkName: "components_ui/ui-actions" */).then(c => c.default || c)
 export const LazyUiAddress = import('../..\\resources\\nuxt\\components\\ui\\ui-address.vue' /* webpackChunkName: "components_ui/ui-address" */).then(c => c.default || c)
@@ -105,5 +106,4 @@ export const LazyUiTable = import('../..\\resources\\nuxt\\components\\ui\\ui-ta
 export const LazyUiTabs = import('../..\\resources\\nuxt\\components\\ui\\ui-tabs.vue' /* webpackChunkName: "components_ui/ui-tabs" */).then(c => c.default || c)
 export const LazyUiTimeago = import('../..\\resources\\nuxt\\components\\ui\\ui-timeago.vue' /* webpackChunkName: "components_ui/ui-timeago" */).then(c => c.default || c)
 export const LazyUiUpload = import('../..\\resources\\nuxt\\components\\ui\\ui-upload.vue' /* webpackChunkName: "components_ui/ui-upload" */).then(c => c.default || c)
-export const LazyUserCard = import('../..\\resources\\nuxt\\components\\user\\user-card.vue' /* webpackChunkName: "components_user/user-card" */).then(c => c.default || c)
 export const LazyContent = import('../..\\resources\\nuxt\\components\\ui\\ui-layout\\content.vue' /* webpackChunkName: "components_ui/ui-layout/content" */).then(c => c.default || c)
