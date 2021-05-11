@@ -108,14 +108,6 @@ class User extends Authenticatable implements JWTSubject
         $this->attributes['meta'] = $value;
     }
 
-    
-    protected $appends = ['groupInfo'];
-
-    public function getGroupInfoAttribute() {
-        $group = isset($this->attributes['group'])? $this->attributes['group']: null;
-        return self::getGroup($group);
-    }
-
 
     // https://laravel.com/docs/8.x/validation#available-validation-rules
     public function validate($data=[]) {
@@ -212,61 +204,6 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return $query;
-    }
-
-
-    static function groups() {
-        $groups[] = [
-            'id' => '',
-            'name' => 'User',
-            'menu' => [
-                ['to'=>'/dashboard', 'title'=>'Dashboard', 'icon'=>'fas fa-home', 'children'=>[]],
-                ['to'=>'', 'title'=>'Tevep', 'icon'=>'fas fa-shopping-bag', 'children'=>[
-                    ['to'=>'/tevep/', 'title'=>'Projetos', 'icon'=>'fas fa-shopping-bag', 'children'=>[]],
-                    ['to'=>'/tevep/0/', 'title'=>'Novo', 'icon'=>'fas fa-shopping-bag', 'children'=>[]],
-                ]],
-                ['to'=>'', 'title'=>'Tevep2', 'icon'=>'fas fa-shopping-bag', 'children'=>[
-                    ['to'=>'/admin/tevep/', 'title'=>'Projetos', 'icon'=>'fas fa-shopping-bag', 'children'=>[]],
-                    ['to'=>'/admin/tevep/0/', 'title'=>'Novo', 'icon'=>'fas fa-shopping-bag', 'children'=>[]],
-                ]],
-                ['to'=>'', 'title'=>'Configurações', 'icon'=>'fas fa-cog', 'children'=>[
-                    ['to'=>'/user/me/', 'title'=>'Meus dados', 'icon'=>'fas fa-cog', 'children'=>[]],
-                ]],
-            ],
-        ];
-
-        $groups[] = [
-            'id' => 'root',
-            'name' => 'Root Group',
-            'menu' => [
-                ['to'=>'/dashboard', 'title'=>'Dashboard', 'icon'=>'fas fa-home', 'children'=>[]],
-                ['to'=>'', 'title'=>'Tevep', 'icon'=>'fas fa-shopping-bag', 'children'=>[
-                    ['to'=>'/tevep/', 'title'=>'Projetos', 'icon'=>'fas fa-shopping-bag', 'children'=>[]],
-                    ['to'=>'/tevep/0/', 'title'=>'Novo', 'icon'=>'fas fa-shopping-bag', 'children'=>[]],
-                ]],
-                ['to'=>'', 'title'=>'Tevep2', 'icon'=>'fas fa-shopping-bag', 'children'=>[
-                    ['to'=>'/admin/tevep/', 'title'=>'Projetos', 'icon'=>'fas fa-shopping-bag', 'children'=>[]],
-                    ['to'=>'/admin/tevep/0/', 'title'=>'Novo', 'icon'=>'fas fa-shopping-bag', 'children'=>[]],
-                ]],
-                ['to'=>'/user', 'title'=>'Usuários', 'icon'=>'fas fa-user', 'children'=>[]],
-                ['to'=>'', 'title'=>'Configurações', 'icon'=>'fas fa-cog', 'children'=>[
-                    ['to'=>'/user/me/', 'title'=>'Meus dados', 'icon'=>'fas fa-cog', 'children'=>[]],
-                    ['to'=>'/admin/settings', 'title'=>'Configurações', 'icon'=>'fas fa-cog', 'children'=>[]],
-                ]],
-            ],
-        ];
-
-        return $groups;
-    }
-
-    static function getGroup($id=false) {
-        foreach(self::groups() as $group) {
-            if ($group['id']==$id) {
-                return $group;
-            }
-        }
-
-        return false;
     }
 
 	public function teveps() {

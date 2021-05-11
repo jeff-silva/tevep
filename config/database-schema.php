@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * Gerado em 05/05/2021 às 03:53:54
+ * Gerado em 11/05/2021 às 01:38:22
  * Por favor, não altere manualmente.
  */
 
@@ -12,15 +12,15 @@ return [
       'Engine' => 'InnoDB',
       'Version' => 10,
       'Row_format' => 'Dynamic',
-      'Rows' => 0,
-      'Avg_row_length' => 0,
+      'Rows' => 3,
+      'Avg_row_length' => 5461,
       'Data_length' => 16384,
       'Max_data_length' => 0,
       'Index_length' => 0,
       'Data_free' => 0,
-      'Auto_increment' => 2,
+      'Auto_increment' => 4,
       'Create_time' => '2021-03-23 01:24:38',
-      'Update_time' => NULL,
+      'Update_time' => '2021-05-10 21:17:53',
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -336,9 +336,9 @@ return [
       'Max_data_length' => 0,
       'Index_length' => 32768,
       'Data_free' => 0,
-      'Auto_increment' => NULL,
+      'Auto_increment' => 10,
       'Create_time' => '2021-05-05 00:53:06',
-      'Update_time' => NULL,
+      'Update_time' => '2021-05-10 22:26:38',
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -347,11 +347,11 @@ return [
       'Fields' => [
         'id' => [
           'Field' => 'id',
-          'Type' => 'int(10)',
+          'Type' => 'int(11)',
           'Null' => 'NO',
           'Key' => 'PRI',
-          'Default' => '0',
-          'Extra' => '',
+          'Default' => NULL,
+          'Extra' => 'auto_increment',
         ],
         'tevep_id' => [
           'Field' => 'tevep_id',
@@ -628,7 +628,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => NULL,
       'Create_time' => '2021-03-23 01:24:38',
-      'Update_time' => NULL,
+      'Update_time' => '2021-05-10 22:37:58',
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -699,9 +699,9 @@ return [
           'Default' => NULL,
           'Extra' => '',
         ],
-        'group' => [
-          'Field' => 'group',
-          'Type' => 'varchar(255)',
+        'level' => [
+          'Field' => 'level',
+          'Type' => 'enum(\'admin\')',
           'Null' => 'YES',
           'Key' => '',
           'Default' => NULL,

@@ -18,6 +18,14 @@ export default {
         };
     },
 
+    computed: {
+        navItems() {
+            let level = this.$store.state.auth.user.level;
+            let nav = this.$store.state.nav;
+            return (level? nav[level]: nav['default']);
+        },
+    },
+
     // async fetch() {
     //     this.notifications = await this.$axios.get('/api/user/notifications?seen=0').then(res => res.data);
     // },
@@ -93,7 +101,7 @@ export default {
         <ul class="c-sidebar-nav">
             <li class="c-sidebar-nav-title">Menu</li>
             
-            <template v-for="(m,i) in $auth.user.groupInfo.menu" v-if="$auth && $auth.user && $auth.user.groupInfo && $auth.user.groupInfo.menu">
+            <template v-for="(m,i) in navItems">
                 <li class="c-sidebar-nav-item" v-if="m.children.length==0">
                     <nuxt-link :to="m.to" class="c-sidebar-nav-dropdown-toggle" :class="{'c-active':i==adminMenuIndex}" @click.native="adminMenuIndex=null">
                         <span class="c-sidebar-nav-icon">
@@ -119,6 +127,8 @@ export default {
             
             <li class="c-sidebar-nav-divider"></li>
         </ul>
+
+        <!-- <pre>{{ navItems }}</pre> -->
 
         <button class="c-sidebar-minimizer c-class-toggler" type="button" @click="toggleNav();"></button>
     </div>

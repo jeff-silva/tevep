@@ -22,6 +22,7 @@ let store = {};
   resolveStoreModules(require('..\\resources\\nuxt\\store\\Email.js'), 'Email.js')
   resolveStoreModules(require('..\\resources\\nuxt\\store\\EmailSent.js'), 'EmailSent.js')
   resolveStoreModules(require('..\\resources\\nuxt\\store\\Migration.js'), 'Migration.js')
+  resolveStoreModules(require('..\\resources\\nuxt\\store\\nav.js'), 'nav.js')
   resolveStoreModules(require('..\\resources\\nuxt\\store\\notifications.js'), 'notifications.js')
   resolveStoreModules(require('..\\resources\\nuxt\\store\\PasswordReset.js'), 'PasswordReset.js')
   resolveStoreModules(require('..\\resources\\nuxt\\store\\Setting.js'), 'Setting.js')
@@ -40,6 +41,7 @@ let store = {};
       '..\\resources\\nuxt\\store\\EmailSent.js',
       '..\\resources\\nuxt\\store\\index.js',
       '..\\resources\\nuxt\\store\\Migration.js',
+      '..\\resources\\nuxt\\store\\nav.js',
       '..\\resources\\nuxt\\store\\notifications.js',
       '..\\resources\\nuxt\\store\\PasswordReset.js',
       '..\\resources\\nuxt\\store\\Setting.js',
