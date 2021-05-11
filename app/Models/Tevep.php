@@ -44,8 +44,27 @@ class Tevep extends \Illuminate\Database\Eloquent\Model
         ]);
     }
 
+    // Model::search(['search'=>'Term']);
+    public function scopeMyTeveps($query) {
+        if ($user = \Illuminate\Support\Facades\Auth::user()) {
+			$query = $query->where('user_id', $user->id);
+            
+            $invites_ids = \App\Models\TevepInvite::
+                where('status', 'accepted')
+                ->orWhereNull('status')
+                ->where(['user_id' => $user->id])
+                ->get()->pluck('tevep_id')->toArray();
+
+            if (! empty($invites_ids)) {
+                $query = $query->orWhereIn('id', $invites_ids);
+            }
+		}
+
+        return $query;
+    }
+
 	public function user() {
-		return $this->belongsTo(\App\Models\User::class, 'id', 'user_id');
+		return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
 	}
 
 	public function tevepInvites() {

@@ -82,7 +82,7 @@ class AppMakeModels extends Command
                 if ($fk['TABLE_NAME']==$table_name) {
                     $methodName = (string) \Str::of($fk['REFERENCED_TABLE_NAME'])->camel()->singular();
                     $modelName = (string) '\App\Models\\'. \Str::of($fk['REFERENCED_TABLE_NAME'])->studly()->singular();
-                    $methods[ $methodName ] = "\tpublic function {$methodName}() {\n\t\treturn \$this->belongsTo({$modelName}::class, '{$fk['REFERENCED_COLUMN_NAME']}', '{$fk['COLUMN_NAME']}');\n\t}";
+                    $methods[ $methodName ] = "\tpublic function {$methodName}() {\n\t\treturn \$this->belongsTo({$modelName}::class, '{$fk['COLUMN_NAME']}', '{$fk['REFERENCED_COLUMN_NAME']}');\n\t}";
                 }
             }
 

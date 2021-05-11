@@ -3,6 +3,7 @@
         <template #header>
             <th>Projeto</th>
             <th>Quando</th>
+            <th>Dono</th>
             <th>Alteração</th>
         </template>
 
@@ -12,6 +13,7 @@
                 <div>De &nbsp; {{ item.date_start|datetime }}</div>
                 <div>Até {{ item.date_final|datetime }}</div>
             </td>
+            <td>{{ item.user.name }}</td>
             <td><ui-timeago v-model="item.updated_at"></ui-timeago></td>
         </template>
 

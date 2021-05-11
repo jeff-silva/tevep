@@ -26,7 +26,7 @@ class User extends Authenticatable implements JWTSubject
 		'remember_token',
 		'whatsapp',
 		'meta',
-		'group',
+		'level',
 		'created_at',
 		'updated_at'
 	];

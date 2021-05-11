@@ -100,10 +100,10 @@ class TevepInvite extends Model
     }
 
 	public function user() {
-		return $this->belongsTo(\App\Models\User::class, 'id', 'user_id');
+		return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
 	}
 
 	public function tevep() {
-		return $this->belongsTo(\App\Models\Tevep::class, 'id', 'tevep_id');
+		return $this->belongsTo(\App\Models\Tevep::class, 'tevep_id', 'id');
 	}
 }
