@@ -19,7 +19,9 @@
 
         <template #actions="{item}">
             <nuxt-link :to="`/admin/tevep/${item.id}/`" class="btn btn-primary"><i class="fas fa-fw fa-pen"></i></nuxt-link>
-            <a href="javascript:;" class="btn btn-danger" @click="tevepDelete(item)"><i class="fas fa-fw fa-times"></i></a>
+            <template v-if="$auth.user.id==item.user_id">
+                <a href="javascript:;" class="btn btn-danger" @click="tevepDelete(item)"><i class="fas fa-fw fa-times"></i></a>
+            </template>
         </template>
     </ui-table>
 
