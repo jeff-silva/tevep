@@ -21,7 +21,9 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', [
+            'except' => ['postLogin']
+        ]);
     }
 
     
@@ -36,15 +38,20 @@ class AuthController extends Controller
      *      @OA\Response(response=400, description="Bad request"),
      * )
      */
-    public function login()
+    public function postLogin()
     {
         $credentials = request(['email', 'password']);
+        $token = false;
 
-        // $ttl = \App\Settings::get('jwt-ttl');
-        $ttl = \App\Models\Setting::getValue('jwt.ttl');
-        if (! $token = auth()->setTTL($ttl)->attempt($credentials)) {
+        if ($user = \App\Models\User::where('email', $credentials['email'])->first()) {
+            if (\Hash::check($credentials['password'], $user->password)) {
+                $ttl = \App\Models\Setting::getValue('jwt.ttl', 90);
+                $token = auth()->setTTL($ttl)->login($user);
+            }
+        }
+
+        if (! $token) {
             throw new \Exception('Autenticação inválida');
-            // return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -63,7 +70,7 @@ class AuthController extends Controller
      *      @OA\Response(response=400, description="Bad request"),
      * )
      */
-    public function me()
+    public function postMe()
     {
         return response()->json(auth()->user());
     }
@@ -79,7 +86,7 @@ class AuthController extends Controller
      *      @OA\Response(response=400, description="Bad request"),
      * )
      */
-    public function logout()
+    public function postLogout()
     {
         auth()->logout();
 
@@ -98,7 +105,7 @@ class AuthController extends Controller
      *      @OA\Response(response=400, description="Bad request"),
      * )
      */
-    public function refresh()
+    public function postRefresh()
     {
         return $this->respondWithToken(auth()->refresh());
     }
@@ -131,7 +138,7 @@ class AuthController extends Controller
      *      @OA\Response(response=400, description="Bad request"),
      * )
      */
-    public function passwordToken($request) {
+    public function postPasswordToken($request) {
         return \App\Models\User::passwordToken($request->all());
     }
 
@@ -147,7 +154,7 @@ class AuthController extends Controller
      *      @OA\Response(response=400, description="Bad request"),
      * )
      */
-    public function passwordReset($request) {
+    public function postPasswordReset($request) {
         return \App\Models\User::passwordReset($request->all());
     }
 }

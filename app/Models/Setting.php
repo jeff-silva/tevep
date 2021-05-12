@@ -26,11 +26,11 @@ class Setting extends Model
         'help',
     ];
 
-    static function getValue($name) {
+    static function getValue($name, $default=null) {
         if ($set = \App\Models\Setting::where('name', $name)->first()) {
             return $set->value;
         }
-        return false;
+        return $default;
     }
 
 

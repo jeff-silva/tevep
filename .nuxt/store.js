@@ -12,6 +12,10 @@ let store = {};
 
   // If store is an exported method = classic mode (deprecated)
 
+  if (typeof store === 'function') {
+    return console.warn('Classic mode for store/ is deprecated and will be removed in Nuxt 3.')
+  }
+
   // Enforce store modules
   store.modules = store.modules || {}
 
@@ -29,6 +33,30 @@ let store = {};
   resolveStoreModules(require('..\\resources\\nuxt\\store\\UserNotification.js'), 'UserNotification.js')
 
   // If the environment supports hot reloading...
+
+  if (process.client && module.hot) {
+    // Whenever any Vuex module is updated...
+    module.hot.accept([
+      '..\\resources\\nuxt\\store\\Email.js',
+      '..\\resources\\nuxt\\store\\EmailSent.js',
+      '..\\resources\\nuxt\\store\\index.js',
+      '..\\resources\\nuxt\\store\\Migration.js',
+      '..\\resources\\nuxt\\store\\nav.js',
+      '..\\resources\\nuxt\\store\\notifications.js',
+      '..\\resources\\nuxt\\store\\PasswordReset.js',
+      '..\\resources\\nuxt\\store\\Setting.js',
+      '..\\resources\\nuxt\\store\\Tevep.js',
+      '..\\resources\\nuxt\\store\\tevep2.js',
+      '..\\resources\\nuxt\\store\\TevepInvite.js',
+      '..\\resources\\nuxt\\store\\User.js',
+      '..\\resources\\nuxt\\store\\UserNotification.js',
+    ], () => {
+      // Update `root.modules` with the latest definitions.
+      updateModules()
+      // Trigger a hot update in the store.
+      window.$nuxt.$store.hotUpdate(store)
+    })
+  }
 })()
 
 // createStore

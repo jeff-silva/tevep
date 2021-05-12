@@ -40,18 +40,18 @@ class AppDeploy extends Command
         $this->comment('Iniciando deploy');
         
         $commands[] = [
-            'title' => 'Limpando cache de configurações',
+            'title' => 'Limpando cache de configurações:',
             'command' => 'config:clear',
         ];
 
         $commands[] = [
-            'title' => 'Migrando banco de dados',
+            'title' => 'Migrando banco de dados:',
             'command' => 'app:migrate',
         ];
 
         foreach($commands as $com) {
             $this->comment($com['title']);
-            \Artisan::call($com['command']);
+            $this->call($com['command']);
         }
     }
 }

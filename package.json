@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "dev": "npm run mix:dev && npm run nuxt:dev && php artisan app:deploy",
+        "dev": "npm run mix:dev && npm run nuxt:dev && php artisan app:build",
         "build": "npm run mix:build && npm run nuxt:build",
         "lint": "eslint --ext .js,.vue .",
         "lint:fix": "npm run lint -- --fix",
