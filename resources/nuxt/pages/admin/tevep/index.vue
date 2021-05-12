@@ -26,7 +26,7 @@
     </ui-table>
 
     <ui-actions>
-        <nuxt-link to="/tevep/0/" class="btn btn-primary">
+        <nuxt-link to="/admin/tevep/0/" class="btn btn-primary">
             <i class="fa fa-fw fa-plus"></i> Criar
         </nuxt-link>
     </ui-actions>

@@ -40,13 +40,12 @@
         </ui-form>
 
 
-        <ui-accordion class="mt-3">
-            <ui-accordion-item title="SMTP">
+        <el-collapse v-model="help" accordion class="mt-3">
+            <el-collapse-item name="smtp" title="SMTP">
                 <p>Para enviar e-mail pelo sistema, é necessário configurar uma caixa de e-mail como local de onde as mensagens partirão.</p>
                 <p>Você pode configurar qualquer servidor, desde que saiba corretamente os dados de host e porta, juntamente com seu login e senha.</p>
-            </ui-accordion-item>
-
-            <ui-accordion-item title="SMTP Gmail">
+            </el-collapse-item>
+            <el-collapse-item name="smtp-gmail" title="SMTP Gmail">
                 <p>Uma das maneiras mais simples de configurar é utilizando sua conta Gmail.</p>    
                 <p>Para envio de email através de autenticação SMTP Gmail, siga os passos abaixo:</p>
                 <ol class="my-3 mb-0">
@@ -57,8 +56,8 @@
                     <li>Ao concluir, clique na opção "Senhas de app", no select que vai aparecer a seguir, selecione respectivamente "E-mail" e "Outro". Dê um nome personalizado para sua senha e clique em "Gerar".</li>
                 </ol>
                 <p>Essa será a senha que você vai precisar para que o sistema envie e-mails. <a href="javascript:;" @click="defaultSettings('gmail')">O padrão para conexão Gmail é host <strong>smtp.gmail.com</strong> porta <strong>465</strong></a>.</p>
-            </ui-accordion-item>
-        </ui-accordion>
+            </el-collapse-item>
+        </el-collapse>
 
         <ui-modal v-model="emailTest">
             <template #header>Teste de envio de e-mail</template>
@@ -89,6 +88,7 @@ export default {
         return {
             emailTestLoading: 0,
             emailTest: false,
+            help: '',
         };
     },
 

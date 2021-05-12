@@ -1,6 +1,4 @@
 <template><div>
-    <div v-if="loading>0">Carregando...</div>
-
     <div class="row no-gutters">
         <div class="col-12 col-md-3 bg-white shadow-sm mb-3 mb-md-0">
             <div class="list-group list-group-flush">
