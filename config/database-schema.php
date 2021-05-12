@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * Gerado em 11/05/2021 às 06:38:26
+ * Gerado em 12/05/2021 às 03:13:57
  * Por favor, não altere manualmente.
  */
 
@@ -20,7 +20,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => 5,
       'Create_time' => '2021-03-23 01:24:38',
-      'Update_time' => '2021-05-10 22:51:05',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -338,7 +338,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => 11,
       'Create_time' => '2021-05-05 00:53:06',
-      'Update_time' => '2021-05-10 23:57:36',
+      'Update_time' => '2021-05-11 22:50:42',
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -424,7 +424,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => NULL,
       'Create_time' => '2021-05-11 03:35:05',
-      'Update_time' => '2021-05-11 03:38:11',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -530,13 +530,13 @@ return [
       'Avg_row_length' => 0,
       'Data_length' => 16384,
       'Max_data_length' => 0,
-      'Index_length' => 16384,
+      'Index_length' => 0,
       'Data_free' => 0,
       'Auto_increment' => 1,
-      'Create_time' => '2021-03-23 01:24:38',
+      'Create_time' => '2021-05-11 23:18:12',
       'Update_time' => NULL,
       'Check_time' => NULL,
-      'Collation' => 'utf8_unicode_ci',
+      'Collation' => 'utf8mb4_unicode_ci',
       'Checksum' => NULL,
       'Create_options' => '',
       'Comment' => '',
@@ -549,11 +549,27 @@ return [
           'Default' => NULL,
           'Extra' => 'auto_increment',
         ],
+        'created_at' => [
+          'Field' => 'created_at',
+          'Type' => 'timestamp',
+          'Null' => 'YES',
+          'Key' => '',
+          'Default' => NULL,
+          'Extra' => '',
+        ],
+        'updated_at' => [
+          'Field' => 'updated_at',
+          'Type' => 'timestamp',
+          'Null' => 'YES',
+          'Key' => '',
+          'Default' => NULL,
+          'Extra' => '',
+        ],
         'user_id' => [
           'Field' => 'user_id',
           'Type' => 'int(11)',
           'Null' => 'YES',
-          'Key' => 'MUL',
+          'Key' => '',
           'Default' => NULL,
           'Extra' => '',
         ],
@@ -581,14 +597,6 @@ return [
           'Default' => NULL,
           'Extra' => '',
         ],
-        'url' => [
-          'Field' => 'url',
-          'Type' => 'text',
-          'Null' => 'YES',
-          'Key' => '',
-          'Default' => NULL,
-          'Extra' => '',
-        ],
         'seen' => [
           'Field' => 'seen',
           'Type' => 'int(11)',
@@ -597,17 +605,9 @@ return [
           'Default' => NULL,
           'Extra' => '',
         ],
-        'created_at' => [
-          'Field' => 'created_at',
-          'Type' => 'timestamp',
-          'Null' => 'YES',
-          'Key' => '',
-          'Default' => NULL,
-          'Extra' => '',
-        ],
-        'updated_at' => [
-          'Field' => 'updated_at',
-          'Type' => 'timestamp',
+        'url' => [
+          'Field' => 'url',
+          'Type' => 'text',
           'Null' => 'YES',
           'Key' => '',
           'Default' => NULL,
@@ -628,7 +628,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => NULL,
       'Create_time' => '2021-03-23 01:24:38',
-      'Update_time' => '2021-05-10 22:37:58',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -727,7 +727,7 @@ return [
     ],
   ],
   'fks' => [
-    'tevep_invites-tevep_id-teveps-id' => [
+    'FK_tevep_invites_teveps' => [
       'CONSTRAINT_CATALOG' => 'def',
       'CONSTRAINT_SCHEMA' => 'tevep',
       'CONSTRAINT_NAME' => 'FK_tevep_invites_teveps',
@@ -741,7 +741,7 @@ return [
       'REFERENCED_TABLE_NAME' => 'teveps',
       'REFERENCED_COLUMN_NAME' => 'id',
     ],
-    'tevep_invites-user_id-users-id' => [
+    'FK_tevep_invites_users' => [
       'CONSTRAINT_CATALOG' => 'def',
       'CONSTRAINT_SCHEMA' => 'tevep',
       'CONSTRAINT_NAME' => 'FK_tevep_invites_users',
@@ -755,7 +755,7 @@ return [
       'REFERENCED_TABLE_NAME' => 'users',
       'REFERENCED_COLUMN_NAME' => 'id',
     ],
-    'teveps-parent-teveps-id' => [
+    'FK_teveps_teveps' => [
       'CONSTRAINT_CATALOG' => 'def',
       'CONSTRAINT_SCHEMA' => 'tevep',
       'CONSTRAINT_NAME' => 'FK_teveps_teveps',
@@ -769,27 +769,13 @@ return [
       'REFERENCED_TABLE_NAME' => 'teveps',
       'REFERENCED_COLUMN_NAME' => 'id',
     ],
-    'teveps-user_id-users-id' => [
+    'FK_teveps_users' => [
       'CONSTRAINT_CATALOG' => 'def',
       'CONSTRAINT_SCHEMA' => 'tevep',
       'CONSTRAINT_NAME' => 'FK_teveps_users',
       'TABLE_CATALOG' => 'def',
       'TABLE_SCHEMA' => 'tevep',
       'TABLE_NAME' => 'teveps',
-      'COLUMN_NAME' => 'user_id',
-      'ORDINAL_POSITION' => 1,
-      'POSITION_IN_UNIQUE_CONSTRAINT' => 1,
-      'REFERENCED_TABLE_SCHEMA' => 'tevep',
-      'REFERENCED_TABLE_NAME' => 'users',
-      'REFERENCED_COLUMN_NAME' => 'id',
-    ],
-    'user_notifications-user_id-users-id' => [
-      'CONSTRAINT_CATALOG' => 'def',
-      'CONSTRAINT_SCHEMA' => 'tevep',
-      'CONSTRAINT_NAME' => 'FK_user_notifications_users',
-      'TABLE_CATALOG' => 'def',
-      'TABLE_SCHEMA' => 'tevep',
-      'TABLE_NAME' => 'user_notifications',
       'COLUMN_NAME' => 'user_id',
       'ORDINAL_POSITION' => 1,
       'POSITION_IN_UNIQUE_CONSTRAINT' => 1,

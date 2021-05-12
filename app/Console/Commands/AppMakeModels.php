@@ -86,7 +86,7 @@ class AppMakeModels extends Command
                 }
             }
 
-            dump($model->name.': '. implode(',', array_keys($methods)));
+            // dump($model->name.': '. implode(',', array_keys($methods)));
 
             foreach($methods as $method_name=>$method_content) {
                 $this->classWriteMethod($model->namespace, $method_name, $method_content, $model->file);
@@ -129,6 +129,7 @@ class AppMakeModels extends Command
         return $fileContents;
     }
 
+    // BUG: verificar porque está criando método mais de uma vez
     public function classWriteMethod($class, $method_name, $method_content, $filename) {
         if (is_string($class)) {
             $class = app($class);

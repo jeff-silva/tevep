@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 
 class TevepInviteController extends Controller
 {
-	public function getSearch(Request $request) {
-		return (new \App\Models\TevepInvite)->search($request->all());
+	public function search(Request $request) {
+		return \App\Models\TevepInvite::with([
+			'user',
+		])
+			->where(['deleted_at' => null])
+			->search($request->all());
 	}
 
 	public function getFind($id) {

@@ -96,8 +96,7 @@ class AppSchema extends Command
 
         $database = env('DB_DATABASE');
         foreach(\DB::select("SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA='{$database}' AND CONSTRAINT_NAME != 'PRIMARY' ") as $fk) {
-            $kname = "{$fk->TABLE_NAME}-{$fk->COLUMN_NAME}-{$fk->REFERENCED_TABLE_NAME}-{$fk->REFERENCED_COLUMN_NAME}";
-            $database_schema['fks'][$kname] = $fk;
+            $database_schema['fks'][ $fk->CONSTRAINT_NAME ] = $fk;
         }
 
         return json_decode(json_encode($database_schema), true);

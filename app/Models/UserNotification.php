@@ -16,14 +16,14 @@ class UserNotification extends Model
 
     protected $fillable = [
 		'id',
+		'created_at',
+		'updated_at',
 		'user_id',
 		'title',
 		'body',
 		'image',
-		'url',
 		'seen',
-		'created_at',
-		'updated_at'
+		'url'
 	];
 
     public function validate($data=[]) {

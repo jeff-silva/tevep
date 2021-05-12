@@ -21,8 +21,7 @@ class TevepInvite extends Model
 	];
 
     protected $appends = [
-        'user',
-        'invite_link',
+        'links',
     ];
 
     public static function booted() {
@@ -53,6 +52,7 @@ class TevepInvite extends Model
             $inviteExists = static::where([
                 'tevep_id' => $model->tevep_id,
                 'user_id' => $model->user_id,
+                'deleted_at' => null,
             ])->first();
 
             if ($inviteExists) {
@@ -66,16 +66,24 @@ class TevepInvite extends Model
         });
     }
 
-    public function getUserAttribute() {
-        if ($this->id AND $user=\App\Models\User::find($this->user_id)) {
-            $user = $user->toArray();
-            unset($user['group'], $user['groupInfo']);
-            return $user;
-        }
-    }
+    public function getLinksAttribute() {
+        $links = [];
 
-    public function getInviteLinkAttribute() {
-        return url("/admin/tevep/{$this->tevep_id}");
+        if ($this->tevep_id) {
+            $links['tevep'] = \URL::to("/admin/tevep/{$this->tevep_id}");
+        }
+
+        if ($this->user AND $this->user->whatsapp) {
+            $phone = preg_replace('/[^0-9]/', '', $this->user->whatsapp);
+            $text = urlencode(implode("\n", [
+                'Olá. Você está sendo convidado para editar um projeto Tevep',
+                'Acesse o link abaixo para poder fazer alterações:',
+                $links['tevep'],
+            ]));
+            $links['whatsapp'] = "https://api.whatsapp.com/send?phone={$phone}&text={$text}";
+        }
+
+        return $links;
     }
 
     public function validate($data=[]) {

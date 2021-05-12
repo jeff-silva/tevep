@@ -55,9 +55,21 @@
         <template #body>
             <div class="alert alert-danger" v-if="inviteInfo.status=='denied'">{{ inviteInfo.user.name }} recusou o convite</div>
             <div class="alert alert-success" v-else-if="inviteInfo.status=='accepted'">{{ inviteInfo.user.name }} aceitou o convite</div>
-            <div class="alert alert-warning" v-else>Aguardando resposta de {{ inviteInfo.user.name }}</div>
+            <div class="alert alert-warning" v-else>
+                Aguardando resposta de {{ inviteInfo.user.name }}
+                <a :href="inviteInfo.links.whatsapp" target="_blank"
+                    class="btn bg-whatsapp text-white btn-block mt-3"
+                    v-if="inviteInfo.links.whatsapp"
+                >
+                    <i class="fab fa-whatsapp"></i>
+                    Convidar pelo whatsapp
+                </a>
+            </div>
         </template>
         <template #footer>
+            <button type="button" class="btn btn-danger" @click="inviteRemove()">
+                Remover convite
+            </button>
             <button type="button" class="btn btn-primary" @click="inviteInfo=false">
                 Ok
             </button>
@@ -137,13 +149,29 @@ export default {
 
         inviteResponse(data, merge={}) {
             data = Object.assign({}, data, merge);
+
+            this.loading = true;
             this.$axios.post('/api/tevep-invite/save', data).then(resp => {
+                this.loading = false;
                 this.invitesLoad();
             });
         },
 
         inviteInfoOpen(invite) {
             this.inviteInfo = invite;
+        },
+
+        inviteRemove() {
+            this.$swal('Remover convite', 'Deseja mesmo continuar?').then(resp => {
+                if (!resp.value) return;
+
+                this.loading = true;
+                this.$axios.post(`/api/tevep-invite/delete/${this.inviteInfo.id}`).then(resp => {
+                    this.loading = false;
+                    this.inviteInfo = false;
+                    this.invitesLoad();
+                });
+            });
         },
     },
 
