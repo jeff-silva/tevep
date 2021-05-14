@@ -42,7 +42,7 @@ export default {
             loading: false,
             tevep: {data:[]},
             tevepSearchParams: {
-                search: '',
+                my: 1,
             },
         };
     },
@@ -50,7 +50,7 @@ export default {
     methods: {
         searchTevep() {
             this.loading = true;
-            this.$axios.get('/api/tevep/me', {params:this.tevepSearchParams}).then(resp => {
+            this.$axios.get('/api/tevep/search', {params:this.tevepSearchParams}).then(resp => {
                 this.tevep = resp.data;
                 this.loading = false;
             });

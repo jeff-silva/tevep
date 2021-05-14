@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 class TevepController extends Controller
 {
 	public function getSearch(Request $request) {
-		return (new \App\Models\Tevep)->search($request->all());
-	}
+		$query = \App\Models\Tevep::with(['user']);
 
-	public function getMe(Request $request) {
-		return \App\Models\Tevep::myTeveps()
-			->with(['user'])	
-			->search($request->all());
+		if ($request->input('my')) {
+			$query = $query->myTeveps();
+		}
+
+		return $query->querySearch();
 	}
 
 	public function getFind($id) {
