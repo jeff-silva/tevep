@@ -5,7 +5,8 @@ export default {
             saving: false,
             model: {
                 id: false,
-                parent: false,
+                user_id: null,
+                parent: null,
                 title: '',
                 level: 0,
                 date_start: '',
@@ -38,7 +39,7 @@ export default {
                 search: "",
                 page: 1,
                 perpage: 10,
-                orderby: "id",
+                orderby: "updated_at",
                 order: "desc",
             },
             result: {
@@ -66,8 +67,8 @@ export default {
 
             tevep = Object.assign({
                 id: false,
-                user_id: false,
-                parent: false,
+                user_id: null,
+                parent: null,
                 title: '',
                 level: 0,
                 date_start: '',
@@ -172,12 +173,15 @@ export default {
         },
 
         save(context) {
-            context.state.saving = true;
-            return this.$axios.post('/api/tevep/save', context.state.model).then(resp => {
-                console.log(this);
-                // this.$swal('Tevep salvo', '', 'success');
-            }).catch(e => {
-                // this.$swal('Erro', 'Erro', 'danger');
+            return new Promise((resolve, reject) => {
+                context.state.saving = true;
+                return this.$axios.post('/api/tevep/save', context.state.model).then(resp => {
+                    context.state.saving = false;
+                    resolve(resp);
+                }).catch(e => {
+                    context.state.saving = false;
+                    reject(e);
+                });
             });
         },
 

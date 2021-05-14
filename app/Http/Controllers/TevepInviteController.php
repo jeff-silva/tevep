@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class TevepInviteController extends Controller
 {
-	public function search(Request $request) {
+	public function getSearch(Request $request) {
 		return \App\Models\TevepInvite::with([
 			'user',
 		])

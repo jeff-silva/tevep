@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * Gerado em 12/05/2021 às 03:13:57
+ * Gerado em 14/05/2021 às 05:28:36
  * Por favor, não altere manualmente.
  */
 
@@ -12,13 +12,13 @@ return [
       'Engine' => 'InnoDB',
       'Version' => 10,
       'Row_format' => 'Dynamic',
-      'Rows' => 3,
-      'Avg_row_length' => 5461,
+      'Rows' => 6,
+      'Avg_row_length' => 2730,
       'Data_length' => 16384,
       'Max_data_length' => 0,
       'Index_length' => 0,
       'Data_free' => 0,
-      'Auto_increment' => 5,
+      'Auto_increment' => 7,
       'Create_time' => '2021-03-23 01:24:38',
       'Update_time' => NULL,
       'Check_time' => NULL,
@@ -336,9 +336,9 @@ return [
       'Max_data_length' => 0,
       'Index_length' => 32768,
       'Data_free' => 0,
-      'Auto_increment' => 11,
+      'Auto_increment' => 13,
       'Create_time' => '2021-05-05 00:53:06',
-      'Update_time' => '2021-05-11 22:50:42',
+      'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -422,9 +422,9 @@ return [
       'Max_data_length' => 0,
       'Index_length' => 32768,
       'Data_free' => 0,
-      'Auto_increment' => NULL,
-      'Create_time' => '2021-05-11 03:35:05',
-      'Update_time' => NULL,
+      'Auto_increment' => 3,
+      'Create_time' => '2021-05-14 02:19:07',
+      'Update_time' => '2021-05-14 02:24:18',
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,
@@ -436,8 +436,8 @@ return [
           'Type' => 'int(10)',
           'Null' => 'NO',
           'Key' => 'PRI',
-          'Default' => '0',
-          'Extra' => '',
+          'Default' => NULL,
+          'Extra' => 'auto_increment',
         ],
         'user_id' => [
           'Field' => 'user_id',

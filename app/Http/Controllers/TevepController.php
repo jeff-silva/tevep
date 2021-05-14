@@ -10,7 +10,7 @@ class TevepController extends Controller
 		return (new \App\Models\Tevep)->search($request->all());
 	}
 
-	public function me(Request $request) {
+	public function getMe(Request $request) {
 		return \App\Models\Tevep::myTeveps()
 			->with(['user'])	
 			->search($request->all());
@@ -21,7 +21,9 @@ class TevepController extends Controller
 	}
 
 	public function postSave(Request $request) {
-		return (new \App\Models\Tevep)->store($request->all());
+		$data = $request->all();
+		$data['user_id'] = $data['user_id']? $data['user_id']: auth()->user()->id;
+		return (new \App\Models\Tevep)->store($data);
 	}
 
 	public function postDelete($id) {

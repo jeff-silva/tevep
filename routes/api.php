@@ -79,26 +79,12 @@ foreach((new \Symfony\Component\Finder\Finder)->in($paths)->files() as $file) {
         $method_name = $rmethod->getName();
 
         $ignore = [
-            'middleware',
-            'getMiddleware',
-            'callAction',
-            '__call',
-            'authorize',
-            'authorizeForUser',
-            'parseAbilityAndArguments',
-            'normalizeGuessedAbilityName',
-            'authorizeResource',
-            'resourceAbilityMap',
-            'resourceMethodsWithoutModels',
-            'dispatch',
-            'dispatchNow',
-            'validateWith',
-            'validate',
-            'validateWithBag',
             'getValidationFactory',
+            'getMiddleware',
         ];
 
         if (in_array($method_name, $ignore)) continue;
+        
         $route = [];
         $route['method'] = 'get';
         $route['route'] = [$prefix];
@@ -107,33 +93,25 @@ foreach((new \Symfony\Component\Finder\Finder)->in($paths)->files() as $file) {
         $route['call'] = ['Illuminate\Support\Facades\Route', 'get'];
         $route['callParams'] = [];
 
-        $has_method = false;
         foreach(['any', 'get', 'post', 'put'] as $method) {
             if (\Str::startsWith($method_name, $method)) {
-                $has_method = true;
-                $route['route'][] = \Str::of(str_replace($method, '', $method_name))->studly()->kebab();
-                $route['method'] = $method;
-                $route['call'][1] = $method;
-                break;
+                $paths = [$prefix, (string) \Str::of(str_replace($method, '', $method_name))->studly()->kebab()];
+                $routeName = implode('-', $paths);
+
+                foreach($rmethod->getParameters() as $param) {
+                    if (in_array($param->name, ['request'])) continue;
+                    $paths[] = '{'. $param->name .'}';
+                }
+                $routePath = implode('/', $paths);
+
+                $route = ['method' => $method];
+                $route['name'] = $routeName;
+                $route['call'] = ['\Illuminate\Support\Facades\Route', $method];
+                $route['callParams'] = [$routePath, "{$class}@{$method_name}"];
+                $route['eval'] = implode('::', $route['call']) ."('". implode("', '", $route['callParams']) ."')";
+                
+                call_user_func_array($route['call'], $route['callParams']);
             }
         }
-
-        if (! $has_method AND $method_name!='index') {
-            $route['route'][] = \Str::of($method_name)->studly()->kebab();
-        }
-
-        $route['name'] = implode('.', $route['route']);
-
-        foreach($rmethod->getParameters() as $param) {
-            if (in_array($param->name, ['request'])) continue;
-            $route['route'][] = '{'. $param->name .'}';
-        }
-
-        $route['route'] = implode('/', $route['route']);
-        $route['callParams'][] = $route['route'];
-        $route['callParams'][] = "{$class}@{$method_name}";
-
-        $routes[] = $route;
-        call_user_func_array($route['call'], $route['callParams']);
     }
 }

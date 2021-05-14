@@ -158,10 +158,8 @@ trait Model
 
     public function store($data=[]) {
         $data = array_merge($this->toArray(), $data);
-
-        $table_name = $this->getTable();
-        $table_pk = $this->getKeyName();
-        $id = isset($data[$table_pk])? $data[$table_pk]: false;
+        $pk = $this->getKeyName();
+        $id = isset($data[$pk])? $data[$pk]: false;
 
         if ($validator = $this->validate($data) AND $validator->fails()) {
             throw new \Exception(json_encode([
@@ -170,14 +168,8 @@ trait Model
             ]));
         }
 
-        if ($id AND $save=self::find($id)) {
-            $save->fill($data)->save();
-        }
-        else {
-            $save = self::create($data);
-        }
-
-        return $save;
+        if (!$id) unset($data[$pk]);
+        return self::updateOrCreate([$pk => $id], $data);
     }
 
 

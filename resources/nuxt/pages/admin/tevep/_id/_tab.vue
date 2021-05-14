@@ -25,7 +25,7 @@
             <div v-if="loading">Carregando</div>
             <nuxt-child v-else></nuxt-child>
             <ui-actions>
-                <button type="button" class="btn btn-primary" @click="$store.dispatch('tevep2/save')">
+                <button type="button" class="btn btn-primary" @click="tevepSave()">
                     <i class="fas fa-save"></i> Salvar
                 </button>
             </ui-actions>
@@ -56,6 +56,23 @@ ul.tevep-nav > li:hover > ul {visibility:visible; opacity:1;}
 
 <script>
 export default {
+    methods: {
+        tevepSave() {
+            this.$store.dispatch('tevep2/save').then(resp => {
+                this.$router.push(`/admin/tevep/${resp.data.id}/principios/`);
+                this.$swal('Tevep salvo', '', 'success');
+            });
+        },
+    },
+
+    mounted() {
+        this.$store.dispatch('tevep2/find', +this.$route.params.id).then(resp => {
+            if (3==this.$route.path.split('/').filter(item => !!item).length) {
+                this.$router.push(`/admin/tevep/${this.$route.params.id}/principios/`);
+            }
+        });
+    },
+
     computed: {
         loading() {
             return this.$store.state.tevep2.loading;
