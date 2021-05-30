@@ -4,7 +4,7 @@ export default {
             loading: false,
             saving: false,
             model: {
-                id: false,
+                id: null,
                 user_id: null,
                 parent: null,
                 title: '',
@@ -66,7 +66,7 @@ export default {
             tevep = JSON.parse(JSON.stringify(tevep));
 
             tevep = Object.assign({
-                id: false,
+                id: null,
                 user_id: null,
                 parent: null,
                 title: '',
