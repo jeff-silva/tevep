@@ -60,4 +60,20 @@ class SettingController extends Controller
 
         return $data;
     }
+
+	public function getSearch() {
+		return \App\Models\Setting::querySearch();
+	}
+
+	public function getFind($id) {
+		return \App\Models\Setting::find($id);
+	}
+
+	public function postSave() {
+		return (new \App\Models\Setting)->store(request()->all());
+	}
+
+	public function postDelete($id) {
+		return \App\Models\Setting::find($id)->remove();
+	}
 }

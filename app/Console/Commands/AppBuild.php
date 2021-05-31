@@ -47,6 +47,16 @@ class AppBuild extends Command
         $commands = [];
 
         $commands[] = [
+            'title' => 'Migrate',
+            'command' => 'migrate',
+        ];
+
+        $commands[] = [
+            'title' => 'Seed',
+            'command' => 'db:seed',
+        ];
+
+        $commands[] = [
             'title' => 'Limpar caches',
             'command' => 'app:clear',
         ];
@@ -65,10 +75,20 @@ class AppBuild extends Command
             'title' => 'Gera/altera arquivos de controllers',
             'command' => 'app:make-controllers',
         ];
+        
+        $commands[] = [
+            'title' => 'Gera/altera arquivos de UI',
+            'command' => 'app:make-ui',
+        ];
 
         foreach($commands as $com) {
             $this->comment("⚙️  {$com['title']}");
-            \Artisan::call($com['command']);
+            try {
+                \Artisan::call($com['command']);
+            }
+            catch(\Exception $e) {
+                $this->error($e->getMessage());
+            }
         }
     }
 }

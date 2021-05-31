@@ -13,14 +13,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        $root = \App\Models\User::find(1);
 
-        if (!$root = \App\Models\User::where('email', 'root@grr.la')->first()) {
-            DB::table('users')->insert([
+        if (! $root) {
+            \DB::table('users')->insert([
                 'name' => 'Root User',
                 'email' => 'root@grr.la',
                 'password' => Hash::make('321321'),
             ]);
+            $root = \App\Models\User::find(1);
+        }
+
+        // Settings
+
+        // Email templates
+        foreach(glob(app_path('Mail') .'/*.php') as $file) {
+            $file = realpath($file);
+            $class = pathinfo($file, PATHINFO_FILENAME);
+            $namespace = "\App\Mail\\{$class}";
+
+            if (! $email = \App\Models\Email::where('name', $class)->first()) {
+                \App\Models\Email::create([
+                    'name' => $class,
+                    'subject' => call_user_func([$namespace, 'getSubject']),
+                    'body' => call_user_func([$namespace, 'getBody']),
+                    'params' => call_user_func([$namespace, 'getParams']),
+                ]);
+            }
         }
     }
 }

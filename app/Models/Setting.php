@@ -18,13 +18,13 @@ class Setting extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id',
-        'name',
-        'value',
-        'value_default',
-        'description',
-        'help',
-    ];
+		'id',
+		'name',
+		'value',
+		'value_default',
+		'description',
+		'help'
+	];
 
     static function getValue($name, $default=null) {
         if ($set = \App\Models\Setting::where('name', $name)->first()) {

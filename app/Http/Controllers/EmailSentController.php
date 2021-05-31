@@ -40,4 +40,20 @@ class EmailSentController extends Controller
     // public function delete($id) {
     //     return \App\Models\EmailSent::find($id)->remove();
     // }
+
+	public function getSearch() {
+		return \App\Models\EmailSent::querySearch();
+	}
+
+	public function getFind($id) {
+		return \App\Models\EmailSent::find($id);
+	}
+
+	public function postSave() {
+		return (new \App\Models\EmailSent)->store(request()->all());
+	}
+
+	public function postDelete($id) {
+		return \App\Models\EmailSent::find($id)->remove();
+	}
 }

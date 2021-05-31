@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+
+Artisan::command('app:mail-test', function () {
+    $invite = \App\Models\TevepInvite::find(12);
+    $mail = new \App\Mail\TevepInvite($invite);
+    $mail->sendTo($mail->user->email);
+})->describe('Teste de e-mail');

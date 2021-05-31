@@ -38,6 +38,16 @@ class AppDeploy extends Command
     public function handle()
     {
         $this->comment('Iniciando deploy');
+
+        $commands[] = [
+            'title' => 'Migrate',
+            'command' => 'migrate',
+        ];
+
+        $commands[] = [
+            'title' => 'Seed',
+            'command' => 'db:seed',
+        ];
         
         $commands[] = [
             'title' => 'Limpando cache de configurações:',

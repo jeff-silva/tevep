@@ -107,7 +107,7 @@ class AppMigrate extends Command
         $schema = [ $field['Type'] ];
         $schema[] = (($field['Null']=='NO' || $field['Key']=='PRI')? 'NOT NULL': 'NULL');
         if ($field['Extra']=='auto_increment') $schema[] = 'AUTO_INCREMENT';
-        if ($field['Key'] != 'PRI' AND !\Str::contains($field['Type'], 'varchar') AND !\Str::contains($field['Type'], 'int')) {
+        if ($field['Key'] != 'PRI' AND !\Str::contains($field['Type'], 'varchar') AND !\Str::contains($field['Type'], 'int') AND $field['Type']!='longtext' AND $field['Type']!='timestamp') {
             $schema[] = ($field['Default']===NULL? 'DEFAULT NULL': "DEFAULT '{$field['Default']}'");
         }
         return implode(' ', $schema);

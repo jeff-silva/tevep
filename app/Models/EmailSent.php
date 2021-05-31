@@ -10,12 +10,13 @@ class EmailSent extends Model
     use HasFactory, \App\Traits\Model;
 
     protected $fillable = [
-        'to',
-        'subject',
-        'body',
-        'created_at',
-        'updated_at',
-    ];
+		'id',
+		'to',
+		'subject',
+		'body',
+		'created_at',
+		'updated_at'
+	];
 
     public function getToAttribute($value) {
         if (is_string($value)) {

@@ -10,7 +10,7 @@
 
 <script>
 export default {
-	name: "ui-user",
+	name: "ui-tevep",
 	
 	props: {
 		value: {default:"", type:[Number, String, Array]},
@@ -32,7 +32,7 @@ export default {
 		},
 		
 		remoteSearch(q='', id=null) {
-			this.$axios.get('/api/user/search', {params:{q, id}}).then(resp => {
+			this.$axios.get('/api/tevep/search', {params:{q, id}}).then(resp => {
 				this.items = resp.data.data;
 			});
 		},

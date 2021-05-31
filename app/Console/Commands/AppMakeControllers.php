@@ -39,32 +39,49 @@ class AppMakeControllers extends Command
     {
         // $this->comment('⚙️  Criando/alterando models');
 
-        $endpoints = ['<?php', ''];
-        // Route::get('/user-notification/search', '\App\Http\Controllers\UserNotificationController@search');
-        // Route::get('/user-notification/find/{id}', '\App\Http\Controllers\UserNotificationController@find');
-        // Route::post('/user-notification/save', '\App\Http\Controllers\UserNotificationController@save');
-        // Route::post('/user-notification/delete/{id}', '\App\Http\Controllers\UserNotificationController@delete');
+        $api_generated = ['<?php'];
 
         $tables = config('database-schema.tables', []);
         foreach($tables as $table_name=>$table) {
-            if (config("database-settings.models.{$table_name}")) {
+            if (config("database-settings.controllers.{$table_name}")) {
                 $slug = \Str::of($table_name)->singular()->studly()->kebab();
 
                 $model = new \stdClass;
-                $model->name = (string) \Str::of($table_name)->studly()->singular();
+
+                $model->name = (string) \Str::of($table_name)->studly()->kebab();
+                $model->name = array_map(['\Str', 'singular'], explode('-', $model->name));
+                $model->name = (string) \Str::of(implode('-', $model->name))->studly();
+
                 $model->namespace = "\App\Models\\{$model->name}";
 
                 $controller = new \stdClass;
-                $controller->name = (string) \Str::of($table_name)->studly()->singular() .'Controller';
+
+                $controller->name = (string) \Str::of($table_name)->studly()->kebab();
+                $controller->name = array_map(['\Str', 'singular'], explode('-', $controller->name));
+                $controller->name = (string) \Str::of(implode('-', $controller->name))->studly();
+                $controller->name .= 'Controller';
+                
                 $controller->namespace = "\App\Http\Controllers\\{$controller->name}";
                 $controller->file = app_path(implode(DIRECTORY_SEPARATOR, ['Http', 'Controllers', "{$controller->name}.php"]));
                 $controller->file_exists = !!realpath($controller->file);
 
+                if (! $controller->file_exists) {
+                    file_put_contents($controller->file, implode("\n", [
+                        '<?php',
+                        '',
+                        "namespace App\Http\Controllers;",
+                        '',
+                        "class {$controller->name} extends Controller",
+                        '{',
+                        '}',
+                    ]));
+                }
+
                 $methods = [];
 
                 $methods['getSearch'] = implode("\n", [
-                    "\tpublic function getSearch(Request \$request) {",
-                    "\t\treturn (new {$model->namespace})->search(\$request->all());",
+                    "\tpublic function getSearch() {",
+                    "\t\treturn {$model->namespace}::querySearch();",
                     "\t}",
                 ]);
 
@@ -75,8 +92,8 @@ class AppMakeControllers extends Command
                 ]);
 
                 $methods['postSave'] = implode("\n", [
-                    "\tpublic function postSave(Request \$request) {",
-                    "\t\treturn (new {$model->namespace})->store(\$request->all());",
+                    "\tpublic function postSave() {",
+                    "\t\treturn (new {$model->namespace})->store(request()->all());",
                     "\t}",
                 ]);
 
@@ -90,18 +107,38 @@ class AppMakeControllers extends Command
                     $this->classWriteMethod($controller->namespace, $method_name, $method_content, $controller->file);
                 }
 
-                $endpoints[] = implode("\n", [
-                    "\App\Http\RouteController::load({$controller->namespace}::class, [",
-                    "\t'prefix' => '{$slug}',",
-                    "]);",
-                    '',
-                ]);
+
+                $api_generated[] = '';
+                $prefix = (string) \Str::of($model->name)->kebab();
+        
+                foreach((new \ReflectionClass($controller->namespace))->getMethods() as $rmethod) {
+                    $method_name = $rmethod->getName();
+        
+                    $ignore = ['getValidationFactory', 'getMiddleware'];
+                    if (in_array($method_name, $ignore)) continue;
+        
+                    $methods = ['any', 'get', 'post', 'put', 'delete'];
+                    foreach($methods as $method) {
+                        if (\Str::startsWith($method_name, $method) AND $method_name!=$method) {
+                            $method_path = (string) \Str::of(str_replace($methods, '', $method_name))->kebab();
+
+                            $route = [$prefix, $method_path];
+                            foreach($rmethod->getParameters() as $p) {
+                                $route[] = "{{$p->name}}";
+                            }
+                            $route = implode('/', $route);
+                            
+                            $api_generated[] = "Route::{$method}('{$route}', '{$controller->namespace}@{$method_name}');";
+                        }
+                    }
+                }
             }
         }
 
-        $endpoints = implode("\n", $endpoints);
+
+        $api_generated = implode("\n", $api_generated);
         $file = base_path(implode(DIRECTORY_SEPARATOR, ['routes', 'api-generated.php']));
-        file_put_contents($file, $endpoints);
+        file_put_contents($file, $api_generated);
     }
 
     public function classWriteMethod($class, $method_name, $method_content, $filename) {
@@ -112,7 +149,7 @@ class AppMakeControllers extends Command
         $source = $this->classSource($class);
 
         if (method_exists($class, $method_name)) {
-            $source = preg_replace("/\t+public function {$method_name}(.+?)\}/s", $method_content, $source);
+            // $source = preg_replace("/\t+public function {$method_name}(.+?)\}/s", $method_content, $source);
         }
         else {
             $source = rtrim(rtrim($source), '}') ."\n{$method_content}\n}";

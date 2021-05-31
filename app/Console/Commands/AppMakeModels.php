@@ -42,7 +42,12 @@ class AppMakeModels extends Command
         $tables = config('database-schema.tables', []);
         foreach($tables as $table_name=>$table) {
             $model = new \stdClass;
-            $model->name = (string) \Str::of($table_name)->singular()->studly();
+
+            $model->name = (string) \Str::of($table_name)->studly()->kebab();
+            $model->name = array_map(['\Str', 'singular'], explode('-', $model->name));
+            $model->name = (string) \Str::of(implode('-', $model->name))->studly();
+
+            // $model->name = (string) \Str::of($table_name)->singular()->studly();
             $model->namespace = "\App\Models\\{$model->name}";
             $model->file = app_path(implode(DIRECTORY_SEPARATOR, ['Models', "{$model->name}.php"]));
             $model->file_exists = !!realpath($model->file);
@@ -50,7 +55,22 @@ class AppMakeModels extends Command
             if (config("database-settings.models.{$table_name}")) {
 
                 if (! $model->file_exists) {
-                    // TODO: criar model básico
+                    file_put_contents($model->file, implode("\n", [
+                        '<?php',
+                        '',
+                        "namespace App\Models;",
+                        '',
+                        "class {$model->name} extends \Illuminate\Database\Eloquent\Model",
+                        '{',
+                        "\tuse \App\Traits\Model;",
+                        '',
+                        "\tprotected \$fillable = [\n\t\t'". implode("',\n\t\t'", array_keys($table['Fields'])) ."',\n\t];",
+                        '',
+                        "\tpublic function validate(\$data=[]) {",
+                        "\t\treturn \Validator::make(\$data, ['name' => ['required']]);",
+                        "\t}",
+                        '}',
+                    ]));
                 }
 
                 $content = file_get_contents($model->file);
@@ -129,7 +149,6 @@ class AppMakeModels extends Command
         return $fileContents;
     }
 
-    // BUG: verificar porque está criando método mais de uma vez
     public function classWriteMethod($class, $method_name, $method_content, $filename) {
         if (is_string($class)) {
             $class = app($class);
@@ -138,7 +157,7 @@ class AppMakeModels extends Command
         $source = $this->classSource($class);
 
         if (method_exists($class, $method_name)) {
-            $source = preg_replace("/\t+public function {$method_name}(.+?)\}/s", $method_content, $source);
+            // $source = preg_replace("/\t+public function {$method_name}(.+?)\}/s", $method_content, $source);
         }
         else {
             $source = rtrim(rtrim($source), '}') ."\n{$method_content}\n}";
