@@ -11,7 +11,7 @@ class TevepInviteController extends Controller
 			'user',
 		])
 			->where(['deleted_at' => null])
-			->search($request->all());
+			->querySearch();
 	}
 
 	public function getFind($id) {

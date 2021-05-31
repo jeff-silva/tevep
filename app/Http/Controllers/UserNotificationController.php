@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class UserNotificationController extends Controller
 {
 	public function getSearch(Request $request) {
-		return (new \App\Models\UserNotification)->search($request->all());
+		return (new \App\Models\UserNotification)->querySearch();
 	}
 
 	public function getFind($id) {

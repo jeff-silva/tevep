@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 	public function getSearch(Request $request) {
-		return (new \App\Models\User)->search($request->all());
+		return (new \App\Models\User)->querySearch();
 	}
 
 	public function getFind($id) {

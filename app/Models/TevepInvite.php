@@ -62,7 +62,7 @@ class TevepInvite extends Model
         });
 
         self::created(function($model) {
-            (new \App\Mail\TevepInvite($model))->send($model->user_email);
+            (new \App\Mail\TevepInvite($model))->sendTo($model->user_email);
         });
     }
 

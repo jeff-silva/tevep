@@ -47,22 +47,4 @@ trait Mail {
 
         return \App\Utils::mail($emails, $subject, $body);
     }
-
-    public function send($emails) {
-        $name = \Arr::last(explode('\\', get_called_class()));
-        $subject = $this->subject;
-        $body = $this->body;
-
-        if ($email = \App\Models\Email::where('name', $name)->first()) {
-            $subject = $email->subject;
-            $body = $email->body;
-        }
-
-        $data = get_object_vars($this);
-        $subject = $this->bladeCompile($subject, $data);
-        $body = $this->bladeCompile($body, $data);
-        \App\Utils::mail($emails, $subject, $body);
-
-        return true;
-    }
 }
