@@ -15,7 +15,7 @@ class SettingController extends Controller
 	}
 
 	public function postSave() {
-		return (new \App\Models\Setting)->store(request()->all());
+		return (new \App\Models\Setting)->saveAll(request()->all());
 	}
 
 	public function postDelete($id) {
@@ -23,6 +23,6 @@ class SettingController extends Controller
 	}
 
     public function getAll() {
-        return [];
+        return (new \App\Models\Setting)->getAll();
     }
 }

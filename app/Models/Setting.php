@@ -58,11 +58,23 @@ class Setting extends Model
         return $default;
     }
 
+    public function getAll() {
+        $names = array_keys($this->settingsData);
+        $return = [];
+
+        foreach(static::whereIn('name', $names)->get() as $sett) {
+            $return[ $sett->name ] = $sett;
+        }
+        
+        return $return;
+    }
 
     public function saveAll($settings=[]) {
-        foreach($settings as $i => $setting) {
-            $settings[ $i ] = (new static)->fill($setting)->store();
+        foreach($settings as $name => $data) {
+            unset($data['id']);
+            $settings[$name] = self::updateOrCreate(['name'=>$data['name']], $data);
         }
+
         return $settings;
     }
 }

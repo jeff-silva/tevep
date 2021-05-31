@@ -23,7 +23,9 @@ class EmailController extends Controller
 	}
 
     public function postTest() {
-		// return \App\Models\Email::find($id)->remove();
-        return ['?'];
+        $email = request()->input('email');
+        $subject = request()->input('subject', 'Teste de e-mail');
+        $body = request()->input('body', 'Testando conteúdo de email');
+		return \App\Utils::mail($email, $subject, $body);
 	}
 }

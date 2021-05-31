@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * Gerado em 31/05/2021 às 02:53:43
+ * Gerado em 31/05/2021 às 03:12:32
  * Por favor, não altere manualmente.
  */
 
@@ -268,7 +268,7 @@ return [
       'Data_free' => 0,
       'Auto_increment' => 6,
       'Create_time' => '2021-05-30 22:35:14',
-      'Update_time' => NULL,
+      'Update_time' => '2021-05-31 00:09:46',
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
       'Checksum' => NULL,

@@ -1,46 +1,45 @@
 <template><div>
-    <!-- <ui-axios method="get" action="/api/setting/search" #default="axios">
-        <ui-form method="post" action="/api/setting/save" v-model="axios.resp" #default="{loading, success, error}" v-if="axios.resp" @success="$swal('', 'Dados salvos', 'success')">
-            <ui-field label="Host / Porta">
-                <div class="row no-gutters">
-                    <div class="col-9"><input type="text" class="form-control" v-model="axios.resp['mail.mailers.smtp.host'].value"></div>
-                    <div class="col-3 pl-1"><input type="text" class="form-control" v-model="axios.resp['mail.mailers.smtp.port'].value"></div>
-                </div>
-            </ui-field>
-
-            <ui-field :label="axios.resp['mail.mailers.smtp.username'].description" :help="axios.resp['mail.mailers.smtp.username'].help">
-                <input type="text" class="form-control" v-model="axios.resp['mail.mailers.smtp.username'].value">
-            </ui-field>
-
-            <ui-field :label="axios.resp['mail.mailers.smtp.password'].description" :help="axios.resp['mail.mailers.smtp.password'].help">
-                <ui-password v-model="axios.resp['mail.mailers.smtp.password'].value" :meter="false"></ui-password>
-            </ui-field>
-
-            <div class="text-right">
-                <button type="button" class="btn btn-outline-success" @click="emailTest={email:$auth.user.email, body:'Olá, este é um e-mail de teste.'}">
-                    Testar e-mail
-                </button>
+    <div v-if="!settings"><i class="fas fa-spin fa-spinner"></i> Carregando...</div>
+    
+    <ui-form method="post" action="/api/setting/save" v-model="settings" #default="{loading, success, error}" v-if="settings" @success="$swal('', 'Dados salvos', 'success')">
+        <ui-field label="Host / Porta">
+            <div class="row no-gutters">
+                <div class="col-9"><input type="text" class="form-control" v-model="settings['mail.mailers.smtp.host'].value"></div>
+                <div class="col-3 pl-1"><input type="text" class="form-control" v-model="settings['mail.mailers.smtp.port'].value"></div>
             </div>
+        </ui-field>
 
-            <br>
-            <ui-field :label="axios.resp['jwt.ttl'].description">
-                <div class="input-group">
-                    <input type="number" class="form-control" v-model="axios.resp['jwt.ttl'].value">
-                    <div class="input-group-append"><div class="input-group-text">
-                        Minutos
-                    </div></div>
-                </div>
-            </ui-field>
+        <ui-field :label="settings['mail.mailers.smtp.username'].description" :help="settings['mail.mailers.smtp.username'].help">
+            <input type="text" class="form-control" v-model="settings['mail.mailers.smtp.username'].value">
+        </ui-field>
 
-            <ui-actions>
-                <button type="submit" class="btn btn-primary">
-                    Salvar <span v-html="loading"></span>
-                </button>
-            </ui-actions>
-        </ui-form>
+        <ui-field :label="settings['mail.mailers.smtp.password'].description" :help="settings['mail.mailers.smtp.password'].help">
+            <ui-password v-model="settings['mail.mailers.smtp.password'].value" :meter="false"></ui-password>
+        </ui-field>
 
+        <div class="text-right">
+            <button type="button" class="btn btn-outline-success" @click="emailTest={email:$auth.user.email, body:'Olá, este é um e-mail de teste.'}">
+                Testar e-mail
+            </button>
+        </div>
 
-        <el-collapse v-model="help" accordion class="mt-3">
+        <br>
+        <ui-field :label="settings['jwt.ttl'].description">
+            <div class="input-group">
+                <input type="number" class="form-control" v-model="settings['jwt.ttl'].value">
+                <div class="input-group-append"><div class="input-group-text">
+                    Minutos
+                </div></div>
+            </div>
+        </ui-field>
+
+        <ui-actions>
+            <button type="submit" class="btn btn-primary">
+                Salvar <span v-html="loading"></span>
+            </button>
+        </ui-actions>
+
+        <el-collapse :value="false" accordion class="mt-3">
             <el-collapse-item name="smtp" title="SMTP">
                 <p>Para enviar e-mail pelo sistema, é necessário configurar uma caixa de e-mail como local de onde as mensagens partirão.</p>
                 <p>Você pode configurar qualquer servidor, desde que saiba corretamente os dados de host e porta, juntamente com seu login e senha.</p>
@@ -58,25 +57,33 @@
                 <p>Essa será a senha que você vai precisar para que o sistema envie e-mails. <a href="javascript:;" @click="defaultSettings('gmail')">O padrão para conexão Gmail é host <strong>smtp.gmail.com</strong> porta <strong>465</strong></a>.</p>
             </el-collapse-item>
         </el-collapse>
+    </ui-form>
 
+    <ui-form method="post" action="/api/email/test" v-model="emailTest" #default="{loading, success}">
         <ui-modal v-model="emailTest">
             <template #header>Teste de envio de e-mail</template>
 
             <template #body>
+                <div class="alert alert-success" v-if="success">E-mail enviado</div>
+
                 <ui-field label="E-mail"><input type="text" class="form-control" v-model="emailTest.email"></ui-field>
-                <ui-field label="Mensagem"><textarea class="form-control" v-model="emailTest.body"></textarea></ui-field>
+                <ui-field label="Assunto"><input type="text" class="form-control" v-model="emailTest.subject"></ui-field>
+
+                <div class="form-group">
+                    <label>Mensagem</label>
+                    <textarea class="form-control" v-model="emailTest.body"></textarea>
+                </div>
             </template>
 
             <template #footer>
-                <button type="button" class="btn btn-primary" @click="sendEmailTest()">
-                    <div v-if="emailTestLoading"><i class="fas fa-spin fa-spinner"></i> Enviando</div>    
-                    <div v-else><i class="fas fa-paper-plane mr-2"></i> Enviar</div>
+                <button type="submit" class="btn btn-primary">
+                    <span v-if="loading" v-html="loading"></span>
+                    <i v-else class="fas fa-paper-plane mr-2"></i>
+                    Enviar
                 </button>
             </template>
         </ui-modal>
-    </ui-axios> -->
-
-    <pre>{{ $data }}</pre>
+    </ui-form>
 </div></template>
 
 <script>
@@ -88,9 +95,9 @@ export default {
 
     data() {
         return {
+            settings: false,
             emailTestLoading: 0,
             emailTest: false,
-            help: '',
         };
     },
 
@@ -117,6 +124,16 @@ export default {
                 }
             }
         },
+
+        getSettingsAll() {
+            this.$axios.get('/api/setting/all').then(resp => {
+                this.settings = resp.data;
+            });
+        },
+    },
+
+    mounted() {
+        this.getSettingsAll();
     },
 };
 </script>
