@@ -1,5 +1,5 @@
 <template><div>
-    <ui-axios method="get" action="/api/setting/all" #default="axios">
+    <!-- <ui-axios method="get" action="/api/setting/search" #default="axios">
         <ui-form method="post" action="/api/setting/save" v-model="axios.resp" #default="{loading, success, error}" v-if="axios.resp" @success="$swal('', 'Dados salvos', 'success')">
             <ui-field label="Host / Porta">
                 <div class="row no-gutters">
@@ -74,7 +74,9 @@
                 </button>
             </template>
         </ui-modal>
-    </ui-axios>
+    </ui-axios> -->
+
+    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

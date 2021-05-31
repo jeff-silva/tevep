@@ -44,6 +44,7 @@ class AppCommandsUpdate extends Command
             'AppDeploy.php',
             'AppMakeControllers.php',
             'AppMakeModels.php',
+            'AppMakeRoutes.php',
             'AppMakeUi.php',
             'AppMigrate.php',
             'AppSchema.php',

@@ -14,19 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 // Apps
 // Route::get('/', '\App\Http\Controllers\AppController@index');
 // Route::get('/upload', '\App\Http\Controllers\AppController@upload');
-// Route::get('/test', '\App\Http\Controllers\AppController@test');
+// Route::get('/cron', '\App\Http\Controllers\AppController@cron');
 // Route::get('/dashboard', '\App\Http\Controllers\AppController@dashboard');
 
 
-
-// Auth routes
+// // Auth routes
 // Route::group(['middleware' => 'api'], function($router) {
 //     Route::post('auth/login', '\App\Http\Controllers\AuthController@login');
 //     Route::post('auth/logout', '\App\Http\Controllers\AuthController@logout');
@@ -36,82 +32,5 @@ use Illuminate\Support\Facades\Route;
 //     Route::post('auth/password-reset', '\App\Http\Controllers\AuthController@passwordReset');
 // });
 
+include __DIR__ . '/api-generated.php';
 
-
-
-
-// Route::group(['middleware' => ['auth:api', 'permission']], function($router) {
-// });
-
-
-
-// // Convigurações
-// Route::get('/setting/search', '\App\Http\Controllers\SettingController@search');
-// Route::get('/setting/find/{id}', '\App\Http\Controllers\SettingController@find');
-// Route::post('/setting/save', '\App\Http\Controllers\SettingController@save');
-// Route::post('/setting/delete/{id}', '\App\Http\Controllers\SettingController@delete');
-// Route::get('/setting/all', '\App\Http\Controllers\SettingController@all');
-
-// // E-mails
-// Route::get('/email/search', '\App\Http\Controllers\EmailController@search');
-// Route::get('/email/find/{id}', '\App\Http\Controllers\EmailController@find');
-// Route::post('/email/save', '\App\Http\Controllers\EmailController@save');
-// Route::post('/email/delete/{id}', '\App\Http\Controllers\EmailController@delete');
-
-// // Emails enviados
-// Route::get('/email-sent/search', '\App\Http\Controllers\EmailSentController@search');
-// Route::get('/email-sent/find/{id}', '\App\Http\Controllers\EmailSentController@find');
-// Route::post('/email-sent/save', '\App\Http\Controllers\EmailSentController@save');
-// Route::post('/email-sent/delete/{id}', '\App\Http\Controllers\EmailSentController@delete');
-
-// include __DIR__ . '/api-generated.php';
-
-$routes = [];
-$paths = [app_path(implode(DIRECTORY_SEPARATOR, ['Http', 'Controllers']))];
-foreach((new \Symfony\Component\Finder\Finder)->in($paths)->files() as $file) {
-    $filename = str_replace('.php', '', $file->getFilename());
-    $class= "\App\Http\Controllers\\{$filename}";
-
-    $prefix = (string) \Str::of(str_replace('Controller', '', $filename))->kebab();
-    
-    $r = new \ReflectionClass($class);
-    foreach ($r->getMethods() as $rmethod) {
-        $method_name = $rmethod->getName();
-
-        $ignore = [
-            'getValidationFactory',
-            'getMiddleware',
-        ];
-
-        if (in_array($method_name, $ignore)) continue;
-        
-        $route = [];
-        $route['method'] = 'get';
-        $route['route'] = [$prefix];
-        $route['name'] = '';
-        $route['class'] = $class;
-        $route['call'] = ['Illuminate\Support\Facades\Route', 'get'];
-        $route['callParams'] = [];
-
-        foreach(['any', 'get', 'post', 'put'] as $method) {
-            if (\Str::startsWith($method_name, $method)) {
-                $paths = [$prefix, (string) \Str::of(str_replace($method, '', $method_name))->studly()->kebab()];
-                $routeName = implode('-', $paths);
-
-                foreach($rmethod->getParameters() as $param) {
-                    if (in_array($param->name, ['request'])) continue;
-                    $paths[] = '{'. $param->name .'}';
-                }
-                $routePath = implode('/', $paths);
-
-                $route = ['method' => $method];
-                $route['name'] = $routeName;
-                $route['call'] = ['\Illuminate\Support\Facades\Route', $method];
-                $route['callParams'] = [$routePath, "{$class}@{$method_name}"];
-                $route['eval'] = implode('::', $route['call']) ."('". implode("', '", $route['callParams']) ."')";
-                
-                call_user_func_array($route['call'], $route['callParams']);
-            }
-        }
-    }
-}

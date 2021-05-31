@@ -75,6 +75,11 @@ class AppBuild extends Command
             'title' => 'Gera/altera arquivos de controllers',
             'command' => 'app:make-controllers',
         ];
+
+        $commands[] = [
+            'title' => 'Gera/altera arquivos de rotas',
+            'command' => 'app:make-routes',
+        ];
         
         $commands[] = [
             'title' => 'Gera/altera arquivos de UI',

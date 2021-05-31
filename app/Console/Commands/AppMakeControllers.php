@@ -39,8 +39,6 @@ class AppMakeControllers extends Command
     {
         // $this->comment('⚙️  Criando/alterando models');
 
-        $api_generated = ['<?php'];
-
         $tables = config('database-schema.tables', []);
         foreach($tables as $table_name=>$table) {
             if (config("database-settings.controllers.{$table_name}")) {
@@ -106,39 +104,9 @@ class AppMakeControllers extends Command
                 foreach($methods as $method_name=>$method_content) {
                     $this->classWriteMethod($controller->namespace, $method_name, $method_content, $controller->file);
                 }
-
-
-                $api_generated[] = '';
-                $prefix = (string) \Str::of($model->name)->kebab();
-        
-                foreach((new \ReflectionClass($controller->namespace))->getMethods() as $rmethod) {
-                    $method_name = $rmethod->getName();
-        
-                    $ignore = ['getValidationFactory', 'getMiddleware'];
-                    if (in_array($method_name, $ignore)) continue;
-        
-                    $methods = ['any', 'get', 'post', 'put', 'delete'];
-                    foreach($methods as $method) {
-                        if (\Str::startsWith($method_name, $method) AND $method_name!=$method) {
-                            $method_path = (string) \Str::of(str_replace($methods, '', $method_name))->kebab();
-
-                            $route = [$prefix, $method_path];
-                            foreach($rmethod->getParameters() as $p) {
-                                $route[] = "{{$p->name}}";
-                            }
-                            $route = implode('/', $route);
-                            
-                            $api_generated[] = "Route::{$method}('{$route}', '{$controller->namespace}@{$method_name}');";
-                        }
-                    }
-                }
             }
         }
 
-
-        $api_generated = implode("\n", $api_generated);
-        $file = base_path(implode(DIRECTORY_SEPARATOR, ['routes', 'api-generated.php']));
-        file_put_contents($file, $api_generated);
     }
 
     public function classWriteMethod($class, $method_name, $method_content, $filename) {

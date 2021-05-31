@@ -1,7 +1,7 @@
 <?php 
 
 /*
- * Gerado em 31/05/2021 às 00:06:58
+ * Gerado em 31/05/2021 às 02:53:43
  * Por favor, não altere manualmente.
  */
 
@@ -267,7 +267,7 @@ return [
       'Index_length' => 0,
       'Data_free' => 0,
       'Auto_increment' => 6,
-      'Create_time' => '2021-03-23 01:24:38',
+      'Create_time' => '2021-05-30 22:35:14',
       'Update_time' => NULL,
       'Check_time' => NULL,
       'Collation' => 'utf8_unicode_ci',
@@ -293,30 +293,6 @@ return [
         ],
         'value' => [
           'Field' => 'value',
-          'Type' => 'text',
-          'Null' => 'YES',
-          'Key' => '',
-          'Default' => NULL,
-          'Extra' => '',
-        ],
-        'value_default' => [
-          'Field' => 'value_default',
-          'Type' => 'text',
-          'Null' => 'YES',
-          'Key' => '',
-          'Default' => NULL,
-          'Extra' => '',
-        ],
-        'description' => [
-          'Field' => 'description',
-          'Type' => 'varchar(255)',
-          'Null' => 'YES',
-          'Key' => '',
-          'Default' => NULL,
-          'Extra' => '',
-        ],
-        'help' => [
-          'Field' => 'help',
           'Type' => 'text',
           'Null' => 'YES',
           'Key' => '',

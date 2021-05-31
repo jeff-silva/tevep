@@ -9,14 +9,17 @@ class AppController extends Controller
     /**
      * Lista todas as rotas de API
      */
-    public function index() {
+    public function getRoutes() {
         $routes = [];
 
         foreach(\Route::getRoutes() as $route) {
-            $routes[] = [
-                'methods' => $route->methods(),
-                'uri' => $route->uri(),
-            ];
+            foreach($route->methods() as $method) {
+                if (in_array($method, ['HEAD'])) continue;
+                $routes[] = [
+                    'method' => $method,
+                    'uri' => $route->uri(),
+                ];
+            }
         }
 
         return $routes;
@@ -26,7 +29,7 @@ class AppController extends Controller
     /**
      * Upload geral
      */
-    public function upload($request) {
+    public function getUpload($request) {
         $folder = $request->input('folder', 'uploads');
         $file = $request->file('file');
         
@@ -44,14 +47,11 @@ class AppController extends Controller
         ];
     }
 
-    public function test() {
-        return \App\Models\User::find(1)->notify([
-            'title' => 'Teste',
-            'body' => 'Testando notificação',
-        ]);
+    public function getCron() {
+        return \Artisan::call('schedule:run');
     }
 
-    public function dashboard() {
+    public function getDashboard() {
         $data = [];
 
         $data['counts'] = [];
