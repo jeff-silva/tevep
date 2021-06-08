@@ -106,8 +106,6 @@ class AppMakeModels extends Command
                 }
             }
 
-            // dump($model->name.': '. implode(',', array_keys($methods)));
-
             foreach($methods as $method_name=>$method_content) {
                 $this->classWriteMethod($model->namespace, $method_name, $method_content, $model->file);
             }

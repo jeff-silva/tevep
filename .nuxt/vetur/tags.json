@@ -18,46 +18,46 @@
     "description": "Auto imported from components/VuetifyLogo.vue"
   },
   "UiEmailSent": {
-    "description": "Auto imported from components/generated/ui-email-sent.vue"
+    "description": "Auto imported from components/app/ui-email-sent.vue"
   },
   "LazyUiEmailSent": {
-    "description": "Auto imported from components/generated/ui-email-sent.vue"
+    "description": "Auto imported from components/app/ui-email-sent.vue"
   },
   "UiEmail": {
-    "description": "Auto imported from components/generated/ui-email.vue"
+    "description": "Auto imported from components/app/ui-email.vue"
   },
   "LazyUiEmail": {
-    "description": "Auto imported from components/generated/ui-email.vue"
+    "description": "Auto imported from components/app/ui-email.vue"
   },
   "UiSetting": {
-    "description": "Auto imported from components/generated/ui-setting.vue"
+    "description": "Auto imported from components/app/ui-setting.vue"
   },
   "LazyUiSetting": {
-    "description": "Auto imported from components/generated/ui-setting.vue"
+    "description": "Auto imported from components/app/ui-setting.vue"
   },
   "UiTevepInvite": {
-    "description": "Auto imported from components/generated/ui-tevep-invite.vue"
+    "description": "Auto imported from components/app/ui-tevep-invite.vue"
   },
   "LazyUiTevepInvite": {
-    "description": "Auto imported from components/generated/ui-tevep-invite.vue"
+    "description": "Auto imported from components/app/ui-tevep-invite.vue"
   },
   "UiTevep": {
-    "description": "Auto imported from components/generated/ui-tevep.vue"
+    "description": "Auto imported from components/app/ui-tevep.vue"
   },
   "LazyUiTevep": {
-    "description": "Auto imported from components/generated/ui-tevep.vue"
+    "description": "Auto imported from components/app/ui-tevep.vue"
   },
   "UiUserNotification": {
-    "description": "Auto imported from components/generated/ui-user-notification.vue"
+    "description": "Auto imported from components/app/ui-user-notification.vue"
   },
   "LazyUiUserNotification": {
-    "description": "Auto imported from components/generated/ui-user-notification.vue"
+    "description": "Auto imported from components/app/ui-user-notification.vue"
   },
   "UiUser": {
-    "description": "Auto imported from components/generated/ui-user.vue"
+    "description": "Auto imported from components/app/ui-user.vue"
   },
   "LazyUiUser": {
-    "description": "Auto imported from components/generated/ui-user.vue"
+    "description": "Auto imported from components/app/ui-user.vue"
   },
   "TevepDates": {
     "description": "Auto imported from components/tevep/tevep-dates.vue"

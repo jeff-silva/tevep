@@ -156,7 +156,9 @@ trait Model
         // ?orderby[]=id:desc&updated_at[]=id:desc
         $orders = is_array($params['orderby'])? $params['orderby']: [$params['orderby']];
         foreach($orders as $orderby) {
-            list($field, $order) = explode(':', $orderby);
+            $e = explode(':', $orderby);
+            $field = isset($e[0])? $e[0]: 'id';
+            $order = isset($e[1])? $e[1]: 'desc';
             $query = $query->orderBy($field, $order);
         }
 

@@ -1,13 +1,13 @@
 export { default as Logo } from '../..\\resources\\nuxt\\components\\Logo.vue'
 export { default as UiUserBackup } from '../..\\resources\\nuxt\\components\\ui-user-backup.vue'
 export { default as VuetifyLogo } from '../..\\resources\\nuxt\\components\\VuetifyLogo.vue'
-export { default as UiEmailSent } from '../..\\resources\\nuxt\\components\\generated\\ui-email-sent.vue'
-export { default as UiEmail } from '../..\\resources\\nuxt\\components\\generated\\ui-email.vue'
-export { default as UiSetting } from '../..\\resources\\nuxt\\components\\generated\\ui-setting.vue'
-export { default as UiTevepInvite } from '../..\\resources\\nuxt\\components\\generated\\ui-tevep-invite.vue'
-export { default as UiTevep } from '../..\\resources\\nuxt\\components\\generated\\ui-tevep.vue'
-export { default as UiUserNotification } from '../..\\resources\\nuxt\\components\\generated\\ui-user-notification.vue'
-export { default as UiUser } from '../..\\resources\\nuxt\\components\\generated\\ui-user.vue'
+export { default as UiEmailSent } from '../..\\resources\\nuxt\\components\\app\\ui-email-sent.vue'
+export { default as UiEmail } from '../..\\resources\\nuxt\\components\\app\\ui-email.vue'
+export { default as UiSetting } from '../..\\resources\\nuxt\\components\\app\\ui-setting.vue'
+export { default as UiTevepInvite } from '../..\\resources\\nuxt\\components\\app\\ui-tevep-invite.vue'
+export { default as UiTevep } from '../..\\resources\\nuxt\\components\\app\\ui-tevep.vue'
+export { default as UiUserNotification } from '../..\\resources\\nuxt\\components\\app\\ui-user-notification.vue'
+export { default as UiUser } from '../..\\resources\\nuxt\\components\\app\\ui-user.vue'
 export { default as TevepDates } from '../..\\resources\\nuxt\\components\\tevep\\tevep-dates.vue'
 export { default as TevepList } from '../..\\resources\\nuxt\\components\\tevep\\tevep-list.vue'
 export { default as TevepPrincipios } from '../..\\resources\\nuxt\\components\\tevep\\tevep-principios.vue'
@@ -63,13 +63,13 @@ export { default as Content } from '../..\\resources\\nuxt\\components\\ui\\ui-l
 export const LazyLogo = import('../..\\resources\\nuxt\\components\\Logo.vue' /* webpackChunkName: "components_Logo" */).then(c => c.default || c)
 export const LazyUiUserBackup = import('../..\\resources\\nuxt\\components\\ui-user-backup.vue' /* webpackChunkName: "components_ui-user-backup" */).then(c => c.default || c)
 export const LazyVuetifyLogo = import('../..\\resources\\nuxt\\components\\VuetifyLogo.vue' /* webpackChunkName: "components_VuetifyLogo" */).then(c => c.default || c)
-export const LazyUiEmailSent = import('../..\\resources\\nuxt\\components\\generated\\ui-email-sent.vue' /* webpackChunkName: "components_generated/ui-email-sent" */).then(c => c.default || c)
-export const LazyUiEmail = import('../..\\resources\\nuxt\\components\\generated\\ui-email.vue' /* webpackChunkName: "components_generated/ui-email" */).then(c => c.default || c)
-export const LazyUiSetting = import('../..\\resources\\nuxt\\components\\generated\\ui-setting.vue' /* webpackChunkName: "components_generated/ui-setting" */).then(c => c.default || c)
-export const LazyUiTevepInvite = import('../..\\resources\\nuxt\\components\\generated\\ui-tevep-invite.vue' /* webpackChunkName: "components_generated/ui-tevep-invite" */).then(c => c.default || c)
-export const LazyUiTevep = import('../..\\resources\\nuxt\\components\\generated\\ui-tevep.vue' /* webpackChunkName: "components_generated/ui-tevep" */).then(c => c.default || c)
-export const LazyUiUserNotification = import('../..\\resources\\nuxt\\components\\generated\\ui-user-notification.vue' /* webpackChunkName: "components_generated/ui-user-notification" */).then(c => c.default || c)
-export const LazyUiUser = import('../..\\resources\\nuxt\\components\\generated\\ui-user.vue' /* webpackChunkName: "components_generated/ui-user" */).then(c => c.default || c)
+export const LazyUiEmailSent = import('../..\\resources\\nuxt\\components\\app\\ui-email-sent.vue' /* webpackChunkName: "components_app/ui-email-sent" */).then(c => c.default || c)
+export const LazyUiEmail = import('../..\\resources\\nuxt\\components\\app\\ui-email.vue' /* webpackChunkName: "components_app/ui-email" */).then(c => c.default || c)
+export const LazyUiSetting = import('../..\\resources\\nuxt\\components\\app\\ui-setting.vue' /* webpackChunkName: "components_app/ui-setting" */).then(c => c.default || c)
+export const LazyUiTevepInvite = import('../..\\resources\\nuxt\\components\\app\\ui-tevep-invite.vue' /* webpackChunkName: "components_app/ui-tevep-invite" */).then(c => c.default || c)
+export const LazyUiTevep = import('../..\\resources\\nuxt\\components\\app\\ui-tevep.vue' /* webpackChunkName: "components_app/ui-tevep" */).then(c => c.default || c)
+export const LazyUiUserNotification = import('../..\\resources\\nuxt\\components\\app\\ui-user-notification.vue' /* webpackChunkName: "components_app/ui-user-notification" */).then(c => c.default || c)
+export const LazyUiUser = import('../..\\resources\\nuxt\\components\\app\\ui-user.vue' /* webpackChunkName: "components_app/ui-user" */).then(c => c.default || c)
 export const LazyTevepDates = import('../..\\resources\\nuxt\\components\\tevep\\tevep-dates.vue' /* webpackChunkName: "components_tevep/tevep-dates" */).then(c => c.default || c)
 export const LazyTevepList = import('../..\\resources\\nuxt\\components\\tevep\\tevep-list.vue' /* webpackChunkName: "components_tevep/tevep-list" */).then(c => c.default || c)
 export const LazyTevepPrincipios = import('../..\\resources\\nuxt\\components\\tevep\\tevep-principios.vue' /* webpackChunkName: "components_tevep/tevep-principios" */).then(c => c.default || c)

@@ -81,7 +81,6 @@ class AppSchema extends Command
             $sqls[] = "-- creating fk if not exists";
             $sqls[] = $_procedure("ALTER TABLE {$fk['TABLE_NAME']} ADD CONSTRAINT {$fk_name} FOREIGN KEY ({$fk['COLUMN_NAME']}) REFERENCES {$fk['REFERENCED_TABLE_NAME']}({$fk['REFERENCED_COLUMN_NAME']});");
             $sqls[] = '';
-            dump($fk_name);
         }
         
         $sqls[] = 'SET FOREIGN_KEY_CHECKS = 1;';
