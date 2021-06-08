@@ -1,6 +1,5 @@
 <template><div>
     Relevância
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

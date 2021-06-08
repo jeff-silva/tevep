@@ -1,6 +1,5 @@
 <template><div>
     Máquina
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

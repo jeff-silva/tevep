@@ -5,7 +5,7 @@ import NuxtError from '..\\resources\\nuxt\\layouts\\error.vue'
 import NuxtLoading from './components/nuxt-loading.vue'
 import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
-import '..\\resources\\nuxt\\assets\\app.scss'
+import '..\\resources\\nuxt\\app.scss'
 
 import _77068119 from '..\\resources\\nuxt\\layouts\\admin.vue'
 import _2d217e9e from '..\\resources\\nuxt\\layouts\\auth.vue'

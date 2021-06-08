@@ -1,6 +1,5 @@
 <template><div>
     Qualidade
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

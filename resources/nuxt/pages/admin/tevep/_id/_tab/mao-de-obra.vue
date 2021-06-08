@@ -1,6 +1,5 @@
 <template><div>
     Mão de obra
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

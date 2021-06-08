@@ -43,7 +43,7 @@ class AppMakeUi extends Command
 
                 $model = new \stdClass;
                 $model->name = (string) \Str::of($table_name)->studly()->kebab()->singular();
-                $model->file = base_path(implode(DIRECTORY_SEPARATOR, ['resources', 'nuxt', 'components', 'generated', "ui-{$model->name}.vue"]));
+                $model->file = base_path(implode(DIRECTORY_SEPARATOR, ['resources', 'nuxt', 'components', 'app', "ui-{$model->name}.vue"]));
                 $model->route = (string) \Str::of($table_name)->studly()->kebab()->singular();
 
                 $content = implode("\n", [

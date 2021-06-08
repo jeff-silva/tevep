@@ -51,6 +51,9 @@ $theme-colors: (
 .form-control {border-color:#00000008;}
 .alert {background:none!important; border-radius:0px !important; border-width:1px 1px 1px 10px !important;}
 
-/* Element.io */
+/* Element.ui */
 .el-collapse-item__header {padding-left:10px;}
 .el-collapse-item__content {padding-left:10px;}
+
+/* Element.ui form control */
+.form-control.el-select > .el-input > input {border:none!important;}

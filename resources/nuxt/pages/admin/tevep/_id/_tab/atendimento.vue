@@ -1,6 +1,5 @@
 <template><div>
     Atendimento
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

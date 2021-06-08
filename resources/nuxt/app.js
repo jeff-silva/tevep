@@ -38,7 +38,7 @@ Vue.prototype.$env = {
 	NODE_ENV: process.env.NODE_ENV,
 	APP_NAME: process.env.APP_NAME,
 	APP_DESCRIPTION: process.env.APP_DESCRIPTION,
-	APP_VERSION: (require('../../../package.json').version || '0.0.0'),
+	APP_VERSION: (require('../../package.json').version || '0.0.0'),
 	APP_COLOR: (process.env.APP_COLOR || false),
 	APP_LANG: (process.env.APP_LANG || false),
 };

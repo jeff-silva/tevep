@@ -1,6 +1,5 @@
 <template><div>
     Segurança
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

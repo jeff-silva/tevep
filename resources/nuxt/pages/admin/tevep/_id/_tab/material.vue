@@ -1,6 +1,5 @@
 <template><div>
     Material
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

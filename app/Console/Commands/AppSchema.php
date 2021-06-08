@@ -40,6 +40,55 @@ class AppSchema extends Command
         $this->comment('⚙️  Gerando config/database-schema.php');
 
         $database_schema = $this->getSchema();
+
+        $_procedure = function($query) {
+            $procedureName = '_temporary';
+            return implode("\n", [
+                "DROP PROCEDURE IF EXISTS `{$procedureName}`; DELIMITER //",
+                "CREATE PROCEDURE `{$procedureName}`() BEGIN",
+                "\tDECLARE CONTINUE HANDLER FOR SQLEXCEPTION BEGIN END;",
+                "\t{$query};",
+                "END // DELIMITER ; CALL {$procedureName}();",
+                "DROP PROCEDURE IF EXISTS `{$procedureName}`;",
+            ]);
+        };
+
+        $sqls = ['SET FOREIGN_KEY_CHECKS = 0;', ''];
+        
+        foreach($database_schema['tables'] as $table_name=>$table) {
+            $sqls[] = "-- create table {$table_name} ";
+            $sql = collect(\DB::select("SHOW CREATE TABLE `{$table_name}`;"))->pluck('Create Table')->first();
+            $sql = str_replace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $sql) .';';
+            $sql = preg_replace('/AUTO_INCREMENT=\d+\s/', '', $sql);
+            $sqls[] = $sql;
+            $sqls[] = '';
+        }
+
+        foreach($database_schema['tables'] as $table_name=>$table) {
+            foreach($table['Fields'] as $col_field=>$col) {
+                $fieldSchema = $this->getFieldSchema((array) $col);
+                $sqls[] = "-- create field '{$col_field}' if not exists";
+                $sqls[] = $_procedure("ALTER TABLE `{$table_name}` ADD COLUMN `{$col_field}` {$fieldSchema};");
+                $sqls[] = '';
+                
+                $sqls[] = "-- modify field {$col_field} ";
+                $sqls[] = "ALTER TABLE `{$table_name}` MODIFY COLUMN `{$col_field}` {$fieldSchema};";
+                $sqls[] = '';
+            }
+        }
+
+        foreach($database_schema['fks'] as $fk_name=>$fk) {
+            $sqls[] = "-- creating fk if not exists";
+            $sqls[] = $_procedure("ALTER TABLE {$fk['TABLE_NAME']} ADD CONSTRAINT {$fk_name} FOREIGN KEY ({$fk['COLUMN_NAME']}) REFERENCES {$fk['REFERENCED_TABLE_NAME']}({$fk['REFERENCED_COLUMN_NAME']});");
+            $sqls[] = '';
+            dump($fk_name);
+        }
+        
+        $sqls[] = 'SET FOREIGN_KEY_CHECKS = 1;';
+        file_put_contents(database_path('schema.sql'), implode("\n", $sqls));
+
+
+
         $content = $this->varExport($database_schema);
         $generated = "/*\n * Gerado em ". date('d/m/Y à\s H:i:s') ."\n * Por favor, não altere manualmente.\n */";
         file_put_contents(config_path('database-schema.php'), "<?php \n\n{$generated}\n\nreturn {$content};");
@@ -100,5 +149,15 @@ class AppSchema extends Command
         }
 
         return json_decode(json_encode($database_schema), true);
+    }
+
+    public function getFieldSchema($field) {
+        $schema = [ $field['Type'] ];
+        $schema[] = (($field['Null']=='NO' || $field['Key']=='PRI')? 'NOT NULL': 'NULL');
+        if ($field['Extra']=='auto_increment') $schema[] = 'AUTO_INCREMENT';
+        if ($field['Key'] != 'PRI' AND !\Str::contains($field['Type'], 'varchar') AND !\Str::contains($field['Type'], 'int') AND $field['Type']!='longtext' AND $field['Type']!='timestamp') {
+            $schema[] = ($field['Default']===NULL? 'DEFAULT NULL': "DEFAULT '{$field['Default']}'");
+        }
+        return implode(' ', $schema);
     }
 }

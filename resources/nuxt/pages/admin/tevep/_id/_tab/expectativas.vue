@@ -1,6 +1,5 @@
 <template><div>
     Expectativas
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

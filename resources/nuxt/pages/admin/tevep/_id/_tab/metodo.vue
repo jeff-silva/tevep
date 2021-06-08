@@ -1,6 +1,5 @@
 <template><div>
     Método
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

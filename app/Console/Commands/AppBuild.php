@@ -77,7 +77,7 @@ class AppBuild extends Command
         ];
 
         $commands[] = [
-            'title' => 'Gera/altera arquivos de rotas',
+            'title' => 'Gera/altera arquivo de rotas',
             'command' => 'app:make-routes',
         ];
         
@@ -92,7 +92,7 @@ class AppBuild extends Command
                 \Artisan::call($com['command']);
             }
             catch(\Exception $e) {
-                $this->error($e->getMessage());
+                $this->comment('Error: '. $e->getMessage());
             }
         }
     }

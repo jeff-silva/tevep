@@ -19,8 +19,8 @@ import nuxt_plugin_axios_559e77e3 from 'nuxt_plugin_axios_559e77e3' // Source: .
 import nuxt_plugin_workbox_2c9eff82 from 'nuxt_plugin_workbox_2c9eff82' // Source: .\\workbox.js (mode: 'client')
 import nuxt_plugin_meta_225f31ce from 'nuxt_plugin_meta_225f31ce' // Source: .\\pwa\\meta.js (mode: 'all')
 import nuxt_plugin_icons_18835021 from 'nuxt_plugin_icons_18835021' // Source: .\\pwa\\icons.js (mode: 'all')
+import nuxt_plugin_app_9bbb624a from 'nuxt_plugin_app_9bbb624a' // Source: ..\\resources\\nuxt\\app.js (mode: 'all')
 import nuxt_plugin_axios_397e53b5 from 'nuxt_plugin_axios_397e53b5' // Source: ..\\resources\\nuxt\\plugins\\axios.js (mode: 'all')
-import nuxt_plugin_utils_f95abccc from 'nuxt_plugin_utils_f95abccc' // Source: ..\\resources\\nuxt\\plugins\\utils.js (mode: 'all')
 import nuxt_plugin_auth_3515ae26 from 'nuxt_plugin_auth_3515ae26' // Source: .\\auth.js (mode: 'all')
 
 // Component: <ClientOnly>
@@ -71,7 +71,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"titleTemplate":"%s - TEvEP","title":"TEvEP","link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"manifest","href":"\u002F_nuxt\u002Fmanifest.2669272f.webmanifest","hid":"manifest"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"},{"rel":"shortcut icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_64x64.3f846b.png"},{"rel":"apple-touch-icon","href":"\u002F_nuxt\u002Ficons\u002Ficon_512x512.3f846b.png","sizes":"512x512"}],"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""},{"hid":"charset","charset":"utf-8"},{"hid":"mobile-web-app-capable","name":"mobile-web-app-capable","content":"yes"},{"hid":"apple-mobile-web-app-title","name":"apple-mobile-web-app-title","content":"TEvEP"},{"hid":"author","name":"author","content":"jeferson.i.silva@gmail.com"},{"hid":"og:type","name":"og:type","property":"og:type","content":"website"},{"hid":"og:title","name":"og:title","property":"og:title","content":"TEvEP"},{"hid":"og:site_name","name":"og:site_name","property":"og:site_name","content":"TEvEP"},{"hid":"og:description","name":"og:description","property":"og:description","content":"Gerenciamento TEvEP"}],"style":[],"script":[],"htmlAttrs":{"lang":"pt-br"}},
+    head: {"titleTemplate":"%s - TEvEP","title":"TEvEP","link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""}],"style":[],"script":[]},
 
     store,
     router,
@@ -224,12 +224,12 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_icons_18835021(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_397e53b5 === 'function') {
-    await nuxt_plugin_axios_397e53b5(app.context, inject)
+  if (typeof nuxt_plugin_app_9bbb624a === 'function') {
+    await nuxt_plugin_app_9bbb624a(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_utils_f95abccc === 'function') {
-    await nuxt_plugin_utils_f95abccc(app.context, inject)
+  if (typeof nuxt_plugin_axios_397e53b5 === 'function') {
+    await nuxt_plugin_axios_397e53b5(app.context, inject)
   }
 
   if (typeof nuxt_plugin_auth_3515ae26 === 'function') {

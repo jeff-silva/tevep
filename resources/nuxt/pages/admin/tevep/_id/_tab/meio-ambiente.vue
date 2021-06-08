@@ -1,6 +1,5 @@
 <template><div>
     Meio ambiente
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

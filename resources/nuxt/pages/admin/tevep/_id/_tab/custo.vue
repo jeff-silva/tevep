@@ -1,6 +1,5 @@
 <template><div>
     Custo
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>

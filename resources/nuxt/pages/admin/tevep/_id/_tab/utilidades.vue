@@ -1,6 +1,5 @@
 <template><div>
     Utilidades
-    <pre>{{ $data }}</pre>
 </div></template>
 
 <script>
