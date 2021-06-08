@@ -92,7 +92,7 @@ class AppBuild extends Command
                 \Artisan::call($com['command']);
             }
             catch(\Exception $e) {
-                $this->comment('Error: '. $e->getMessage());
+                $this->info('Info: '. $e->getMessage());
             }
         }
     }
