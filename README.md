@@ -266,10 +266,37 @@ class ProductsController extends Controller
 ```
 
 ## Configurações
+As configurações são definidas na model \App\Models\Settings, no atributo $settingsKeys.
+Lá é informado uma lista de configs que estão disponíveis para serem alteradas.
 
 ## Permissões
+As permissões são definidas em `/config/permissions.php` na chave `keys`.
+Nesse local você precisa informar uma lista de arrays associativas `'name' => 'Descrição'`.
+Name precisa ser obrigatoriamente o name da rota no backend ou o name do componente nuxt.
+O usuário então só poderar executar uma rota ou acessar uma view nuxt se aquele name estiver
+na sua lista de permissões.
+
+Todas as rotas não públicas já são protegidas pelo middleware de segurança de permissão,
+então para o backend você não precisa fazer nada para que a permissão funcione.
+Já no frontend você precisa informar ao nuxt que aquela pagina será protegida pelo
+middleware `permission`, que é basicamente fazer como mostra abaixo:
+```html
+<template>
+   ... content ...
+</template>
+
+<script>
+export default {
+   middleware: ['permission'],
+}
+</script>
+```
 
 ## Templates de e-mail
+Crie uma classe de email em `app/Mail` seguindo as outras classes como exemplo.
+Ao configurar todos os atributos, execute o comando `php artisan app:sync` e deixe
+que o sistema se encarregue de popular este template de e-mail novo para o banco de dados.
+Após isso, tudo o que você precisa fazer é clicar em editar o template pelo admin.
 
 ## Endpoints
 Todas as rotas disponíveis:
@@ -287,67 +314,64 @@ Todas as rotas disponíveis:
 11  GET:    api/emails-templates/find/{id}
 12  POST:   api/emails-templates/save
 13  POST:   api/emails-templates/valid
-14  POST:   api/emails-templates/delete
-15  POST:   api/emails-templates/restore
-16  GET:    api/emails-templates/clone/{id}
-17  POST:   api/emails-templates/import
-18  GET:    api/emails-templates/export
-19  POST:   api/emails-templates/test/{id}
-20  GET:    api/files/search
-21  GET:    api/files/find/{id}
-22  POST:   api/files/save
-23  POST:   api/files/valid
-24  POST:   api/files/delete
-25  POST:   api/files/restore
-26  GET:    api/files/clone/{id}
-27  POST:   api/files/import
-28  GET:    api/files/export
-29  GET:    api/files/view/{slug}.{ext}
-30  GET:    api/pages/search
-31  GET:    api/pages/find/{id}
-32  POST:   api/pages/save
-33  POST:   api/pages/valid
-34  POST:   api/pages/delete
-35  POST:   api/pages/restore
-36  GET:    api/pages/clone/{id}
-37  POST:   api/pages/import
-38  GET:    api/pages/export
-39  POST:   api/settings/import
-40  GET:    api/settings/export
-41  POST:   api/settings/save
-42  GET:    api/settings/all
-43  GET:    api/teveps/search
-44  GET:    api/teveps/find/{id}
-45  POST:   api/teveps/save
-46  POST:   api/teveps/valid
-47  POST:   api/teveps/delete
-48  POST:   api/teveps/restore
-49  GET:    api/teveps/clone/{id}
-50  POST:   api/teveps/import
-51  GET:    api/teveps/export
-52  GET:    api/teveps-invites/search
-53  GET:    api/teveps-invites/find/{id}
-54  POST:   api/teveps-invites/save
-55  POST:   api/teveps-invites/valid
-56  POST:   api/teveps-invites/delete
-57  POST:   api/teveps-invites/restore
-58  GET:    api/teveps-invites/clone/{id}
-59  POST:   api/teveps-invites/import
-60  GET:    api/teveps-invites/export
-61  GET:    api/user/search
-62  GET:    api/user/find/{id}
-63  POST:   api/user/save
-64  POST:   api/user/valid
-65  POST:   api/user/import
-66  GET:    api/user/export
-67  GET:    api/users-groups/search
-68  GET:    api/users-groups/find/{id}
-69  POST:   api/users-groups/save
-70  POST:   api/users-groups/valid
-71  POST:   api/users-groups/delete
-72  POST:   api/users-groups/restore
-73  GET:    api/users-groups/clone/{id}
-74  POST:   api/users-groups/import
-75  GET:    api/users-groups/export
-76  GET:    api/users-groups/permissions
+14  POST:   api/emails-templates/import
+15  GET:    api/emails-templates/export
+16  POST:   api/emails-templates/test/{id}
+17  GET:    api/files/search
+18  GET:    api/files/find/{id}
+19  POST:   api/files/save
+20  POST:   api/files/valid
+21  POST:   api/files/delete
+22  POST:   api/files/restore
+23  GET:    api/files/clone/{id}
+24  POST:   api/files/import
+25  GET:    api/files/export
+26  GET:    api/files/view/{slug}.{ext}
+27  GET:    api/pages/search
+28  GET:    api/pages/find/{id}
+29  POST:   api/pages/save
+30  POST:   api/pages/valid
+31  POST:   api/pages/delete
+32  POST:   api/pages/restore
+33  GET:    api/pages/clone/{id}
+34  POST:   api/pages/import
+35  GET:    api/pages/export
+36  POST:   api/settings/import
+37  GET:    api/settings/export
+38  POST:   api/settings/save
+39  GET:    api/settings/all
+40  GET:    api/teveps/search
+41  GET:    api/teveps/find/{id}
+42  POST:   api/teveps/save
+43  POST:   api/teveps/valid
+44  POST:   api/teveps/delete
+45  POST:   api/teveps/restore
+46  GET:    api/teveps/clone/{id}
+47  POST:   api/teveps/import
+48  GET:    api/teveps/export
+49  GET:    api/teveps-invites/search
+50  GET:    api/teveps-invites/find/{id}
+51  POST:   api/teveps-invites/save
+52  POST:   api/teveps-invites/valid
+53  POST:   api/teveps-invites/delete
+54  POST:   api/teveps-invites/restore
+55  GET:    api/teveps-invites/clone/{id}
+56  POST:   api/teveps-invites/import
+57  GET:    api/teveps-invites/export
+58  GET:    api/user/search
+59  GET:    api/user/find/{id}
+60  POST:   api/user/save
+61  POST:   api/user/valid
+62  POST:   api/user/import
+63  GET:    api/user/export
+64  GET:    api/users-groups/search
+65  GET:    api/users-groups/find/{id}
+66  POST:   api/users-groups/save
+67  POST:   api/users-groups/valid
+68  POST:   api/users-groups/delete
+69  POST:   api/users-groups/restore
+70  GET:    api/users-groups/clone/{id}
+71  POST:   api/users-groups/import
+72  GET:    api/users-groups/export
+73  GET:    api/users-groups/permissions
 ```

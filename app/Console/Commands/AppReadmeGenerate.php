@@ -265,14 +265,41 @@ class AppReadmeGenerate extends AppBase
 
 
         $file[] = '## Configurações';
+        $file[] = 'As configurações são definidas na model \App\Models\Settings, no atributo $settingsKeys.';
+        $file[] = 'Lá é informado uma lista de configs que estão disponíveis para serem alteradas.';
         $file[] = '';
 
 
         $file[] = '## Permissões';
+        $file[] = 'As permissões são definidas em `/config/permissions.php` na chave `keys`.';
+        $file[] = 'Nesse local você precisa informar uma lista de arrays associativas `\'name\' => \'Descrição\'`.';
+        $file[] = 'Name precisa ser obrigatoriamente o name da rota no backend ou o name do componente nuxt.';
+        $file[] = 'O usuário então só poderar executar uma rota ou acessar uma view nuxt se aquele name estiver';
+        $file[] = 'na sua lista de permissões.';
+        $file[] = '';
+        $file[] = 'Todas as rotas não públicas já são protegidas pelo middleware de segurança de permissão,';
+        $file[] = 'então para o backend você não precisa fazer nada para que a permissão funcione.';
+        $file[] = 'Já no frontend você precisa informar ao nuxt que aquela pagina será protegida pelo';
+        $file[] = 'middleware `permission`, que é basicamente fazer como mostra abaixo:';
+        $file[] = $this->cmd('html', [
+            "<template>",
+            "   ... content ...",
+            "</template>",
+            "",
+            "<script>",
+            "export default {",
+            "   middleware: ['permission'],",
+            "}",
+            "</script>",
+        ]);
         $file[] = '';
         
         
         $file[] = '## Templates de e-mail';
+        $file[] = 'Crie uma classe de email em `app/Mail` seguindo as outras classes como exemplo.';
+        $file[] = 'Ao configurar todos os atributos, execute o comando `php artisan app:sync` e deixe';
+        $file[] = 'que o sistema se encarregue de popular este template de e-mail novo para o banco de dados.';
+        $file[] = 'Após isso, tudo o que você precisa fazer é clicar em editar o template pelo admin.';
         $file[] = '';
 
 
