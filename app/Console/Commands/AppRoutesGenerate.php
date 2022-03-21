@@ -18,7 +18,7 @@ class AppRoutesGenerate extends AppBase
         $file[] = '/*';
         $file[] = ' * NÃO EDITE ESTE ARQUIVO: Ele é gerado automaticamente';
         $file[] = ' * Para sobrescrever este arquivo execute o comando "php artisan app:sync"';
-        $file[] = ' * As rotas são criadas dentro de seus respectivos controllers';
+        $file[] = ' * As rotas são criadas dentro dos controllers abaixo:';
         $file[] = ' */';
         $file[] = '';
         

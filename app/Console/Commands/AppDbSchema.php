@@ -60,23 +60,24 @@ class AppDbSchema extends AppBase
                 $files->schema_php[] = '';
                 $files->schema_php[] = "// Create/Update column {$table->Name}.{$col->Field}";
                 $files->schema_php[] = "\Schema::hasColumn('{$table->Name}', '{$col->Field}')?";
-                $files->schema_php[] = "\t\DB::select(\"ALTER TABLE {$table->Name} MODIFY COLUMN {$field_type}\"):";
-                $files->schema_php[] = "\t\DB::select(\"ALTER TABLE {$table->Name} ADD COLUMN {$field_type}\");";
+                $files->schema_php[] = "\t\DB::statement(\"ALTER TABLE {$table->Name} MODIFY COLUMN {$field_type}\"):";
+                $files->schema_php[] = "\t\DB::statement(\"ALTER TABLE {$table->Name} ADD COLUMN {$field_type}\");";
 
-                // Foreign keys
-                // preg_match_all('/CONSTRAINT\s+`(.+?)`.+/', $sql_create, $constraints);
-                // if (isset($constraints[0]) AND is_array($constraints[0])) {
-                //     foreach($constraints[0] as $i => $const_sql) {
-                //         $const_name = $constraints[1][$i];
+            }
 
-                //         $files->schema_php[] = '';
-                //         $files->schema_php[] = '';
-                //         $files->schema_php[] = "// Create fk {$const_name}";
-                //         $files->schema_php[] = "if (! collect(\DB::select(\"SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='{\$database}' AND CONSTRAINT_NAME='{$const_name}'\"))->first()) {";
-                //         $files->schema_php[] = "\t\DB::select(\"ALTER TABLE `{$table->Name}` ADD {$const_sql}\");";
-                //         $files->schema_php[] = "}";
-                //     }
-                // }
+            // Foreign keys
+            preg_match_all('/CONSTRAINT\s+`(.+?)`.+/', $sql_create, $constraints);
+            if (isset($constraints[0]) AND is_array($constraints[0])) {
+                foreach($constraints[0] as $i => $const_sql) {
+                    $const_name = $constraints[1][$i];
+
+                    $files->schema_php[] = '';
+                    $files->schema_php[] = '';
+                    $files->schema_php[] = "// Create fk {$const_name}";
+                    $files->schema_php[] = "if (! collect(\DB::select(\"SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='{\$database}' AND CONSTRAINT_NAME='{$const_name}'\"))->first()) {";
+                    $files->schema_php[] = "\t\DB::select(\"ALTER TABLE `{$table->Name}` ADD {$const_sql}\");";
+                    $files->schema_php[] = "}";
+                }
             }
         }
 
