@@ -34,6 +34,7 @@ class AppParentSync extends AppBase
         $files = $this->filesList($files, 'database/migrations/2022_01_01_000000_create_files_table.php');
         $files = $this->filesList($files, 'database/migrations/2022_01_01_000000_create_pages_table.php');
         $files = $this->filesList($files, 'database/migrations/2022_01_01_000000_create_settings_table.php');
+        $files = $this->filesList($files, 'routes/web.php');
         $files = $this->filesList($files, 'client/app.js');
         $files = $this->filesList($files, 'client/app.css');
         $files = $this->filesList($files, 'client/middleware/permission.js');

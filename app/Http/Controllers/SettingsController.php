@@ -9,10 +9,13 @@ class SettingsController extends Controller
 		$this->model = new \App\Models\Settings;
 
 		$this->middleware('auth:api', [
-			'except' => [],
+			'except' => ['search'],
 		]);
 
-		$this->defaultRoutes();
+		$this->defaultRoutes([
+			'except' => ['search', 'find', 'save', 'valid', 'delete', 'restore', 'clone'],
+		]);
+
 		$this->route('post', '/save', '@saveAll');
 		$this->route('get', '/all', '@getAll');
 	}

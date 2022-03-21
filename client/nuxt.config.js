@@ -56,6 +56,8 @@ export default {
     // https://auth.nuxtjs.org/
     ['@nuxtjs/auth-next', {
 
+      plugins: ['~/plugins/auth.js'],
+
       // https://dev.auth.nuxtjs.org/api/options#redirect
       redirect: {
         login: '/',
@@ -75,7 +77,7 @@ export default {
             login: {method:'POST', url:'/api/auth/login'},
             refresh: {method:'POST', url:'/api/auth/refresh'},
             logout: {method:'POST', url:'/api/auth/logout'},
-            user: {method:'POST', url:'/api/auth/me'},
+            user: {method:'POST', url:'/api/auth/me', data:{test:1}},
           },
           token: {
             property: 'access_token',

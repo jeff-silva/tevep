@@ -13,9 +13,12 @@ class FilesController extends Controller
 		]);
 
 		$this->defaultRoutes();
+
+		// GET: api/files/view/file-name-image.jpg
 		$this->route('get', '/view/{slug}.{ext}', '@view');
 	}
 
+	
 	public function view($slug, $ext=false) {
 		$file = \App\Models\Files::where('slug', $slug)->first();
 

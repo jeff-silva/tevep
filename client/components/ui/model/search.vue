@@ -7,6 +7,30 @@
         @response="searchParamsUrl()"
         class="ui-model-search"
     >
+
+        <ui-teleport-to :to="$refs.bbb||false">
+            <div>
+                <input type="text" class="form-control" v-model="$auth.user.name">
+                <div>{{ $auth.user.name }}</div>
+            </div>
+        </ui-teleport-to>
+
+        <div ref="bbb" style="border:solid 1px green; height:100px;"></div>
+
+        <div ref="hello" style="border: solid 1px brown;">
+            <div>
+                <input type="text" class="form-control" v-model="$auth.user.name" @keyup="$log($event.target.value)">
+                <div>{{ $auth.user.name }}</div>
+            </div>
+        </div>
+
+        <div style="border:solid 1px blue; padding:5px;">
+            <ui-teleport-from :target="$refs.hello||false"></ui-teleport-from>
+        </div>
+        <div style="border:solid 1px blue; padding:5px;">
+            <ui-teleport-from :target="$refs.hello||false"></ui-teleport-from>
+        </div>
+
         <div class="row g-0">
             <div class="col-12 pb-3 px-2">
                 <div class="d-flex align-items-center">

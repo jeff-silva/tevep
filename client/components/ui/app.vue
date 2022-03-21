@@ -1,7 +1,7 @@
 <template>
     <div class="ui-app">
         <div class="d-flex" style="height:100vh;">
-            <div class="d-none d-md-flex ui-app-bg-navs" :style="`min-width:${navWidth}; max-width:${navWidth};`">
+            <div class="d-none d-md-flex" :style="`min-width:${navWidth}; max-width:${navWidth}; background:${barsBackground};`">
                 <div class="w-100 ui-app-vrow">
                     <div class="ui-app-vrow-action">
                         <slot name="nav-header"></slot>
@@ -21,7 +21,7 @@
 
             <div class="flex-grow-1">
                 <div class="ui-app-vrow">
-                    <div class="ui-app-vrow-action ui-app-bg-navs">
+                    <div class="ui-app-vrow-action" :style="`background:${barsBackground};`">
                         <div class="d-flex align-items-center p-2">
                             <div class="d-md-none pe-2">
                                 <a href="javascript:;" @click="drawer=true">
@@ -29,12 +29,13 @@
                                 </a>
                             </div>
 
+                            <div class="flex-grow-1 fw-bold text-uppercase">{{ headTitle }}</div>
+
                             <slot name="header">&nbsp;</slot>
                         </div>
                     </div>
 
-                    <div class="ui-app-vrow-body ui-app-scroll ui-app-bg-content p-0 p-md-4">
-                        <div class="bg-white p-3 mb-3 fw-bold text-uppercase">{{ headTitle }}</div>
+                    <div class="ui-app-vrow-body ui-app-scroll p-1 pt-2 p-md-2" :style="`background:${contentBackground};`">
                         <slot name="content"></slot>
                     </div>
 
@@ -74,6 +75,8 @@
 export default {
     props: {
         navWidth: {default:"250px"},
+        barsBackground: {default:"#fff"},
+        contentBackground: {default:"#eee"},
     },
 
     watch: {
@@ -108,9 +111,6 @@ export default {
 </script>
 
 <style>
-.ui-app-bg-navs {background: #fff;}
-.ui-app-bg-content {background: #eee;}
-
 .ui-app-vrow {display:flex; flex-direction:column; width:100%; height:100vh;}
 .ui-app-vrow-action {display: flex; flex-direction: column;}
 .ui-app-vrow-body {

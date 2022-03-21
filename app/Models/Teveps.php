@@ -8,5 +8,5 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 	use \App\Traits\Model;
 
 	protected $table = 'teveps';
-	protected $fillable = ['id', 'slug', 'name', 'owner_id', 'created_at', 'updated_at', 'deleted_at'];
+	protected $fillable = ['id', 'slug', 'name', 'owner_id', 'parent_id', 'created_at', 'updated_at', 'deleted_at'];
 }

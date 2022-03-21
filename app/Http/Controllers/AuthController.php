@@ -51,6 +51,7 @@ class AuthController extends Controller
     public function me()
     {
         $user = auth()->user();
+        $user->settings = (new \App\Models\Settings)->getAll();
 
         $user->permissions = [];
         if ($group = \App\Models\UsersGroups::select(['permissions'])->find($user->group_id)) {
@@ -58,7 +59,7 @@ class AuthController extends Controller
         }
 
         return $user;
-        // return response()->json();
+        // return response()->json($user);
     }
 
     /**

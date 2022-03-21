@@ -305,6 +305,7 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `owner_id` bigint(20) unsigned DEFAULT NULL,
+  `parent_id` bigint(20) unsigned DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -334,6 +335,12 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \Schema::hasColumn('teveps', 'owner_id')?
 	\DB::statement("ALTER TABLE teveps MODIFY COLUMN `owner_id` bigint(20) unsigned DEFAULT NULL"):
 	\DB::statement("ALTER TABLE teveps ADD COLUMN `owner_id` bigint(20) unsigned DEFAULT NULL");
+
+
+// Create/Update column teveps.parent_id
+\Schema::hasColumn('teveps', 'parent_id')?
+	\DB::statement("ALTER TABLE teveps MODIFY COLUMN `parent_id` bigint(20) unsigned DEFAULT NULL"):
+	\DB::statement("ALTER TABLE teveps ADD COLUMN `parent_id` bigint(20) unsigned DEFAULT NULL");
 
 
 // Create/Update column teveps.created_at

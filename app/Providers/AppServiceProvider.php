@@ -22,9 +22,7 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
-        error_reporting(E_ALL ^ E_NOTICE);
-        
+    {   
         if (\Schema::hasTable('settings')) {
             config(\App\Models\Settings::getAll());
             \App::setLocale(config('app.locale'));
