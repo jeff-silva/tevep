@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use M2S\LaravelNuxt\Facades\Nuxt;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +13,10 @@ use M2S\LaravelNuxt\Facades\Nuxt;
 |
 */
 
-// Route::get('/', function () { return view('welcome'); });
+Route::get('{path}', function() {
+    if ($content = realpath(public_path('app.html'))) {
+        return file_get_contents($content);
+    }
 
-// Nuxt::route('{path?}')->name('nuxt')->where('path', '.*');
-
-return Route::get('{path?}', '\\'.M2S\LaravelNuxt\Http\Controllers\NuxtController::class)->name('nuxt')->where('path', '^(?!api).*$');
+    return 'execute o comando "npm run build" para que a view seja renderizada corretamente';
+})->where('path', '(.*)');

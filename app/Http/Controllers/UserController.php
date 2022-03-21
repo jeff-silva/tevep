@@ -2,30 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-/**
- * @OA\Tag(
- *     name="User",
- *     description="Endpoints de usuário",
- * )
- */
-
 class UserController extends Controller
 {
-	public function getSearch(Request $request) {
-		return (new \App\Models\User)->querySearch();
+	public function __construct()
+	{
+		$this->model = new \App\Models\User;
+
+		$this->middleware('auth:api', [
+			'except' => ['search', 'find'],
+		]);
+
+		$this->defaultRoutes([
+			'except' => ['delete', 'restore', 'clone'],
+		]);
 	}
 
-	public function getFind($id) {
-		return \App\Models\User::find($id);
-	}
-
-	public function postSave(Request $request) {
-		return (new \App\Models\User)->store($request->all());
-	}
-
-	public function postDelete($id) {
-		return \App\Models\User::find($id)->remove();
-	}
+	// public function search()
+    // {
+    //     return $this->model->search()->with(['photo'])->paginate(request('per_page', 15));
+    // }
 }

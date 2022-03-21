@@ -1,67 +1,18 @@
 <?php
 
+// composer require nette/php-generator
+// https://github.com/nette/php-generator
+
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-
-class AppDeploy extends Command
+class AppDeploy extends AppBase
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+
     protected $signature = 'app:deploy';
+    protected $description = 'Deploy da aplicação';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Deploy de aplicação';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
-    {
-        $this->comment('Iniciando deploy');
-
-        $commands[] = [
-            'title' => 'Migrate',
-            'command' => 'migrate',
-        ];
-
-        $commands[] = [
-            'title' => 'Seed',
-            'command' => 'db:seed',
-        ];
-        
-        $commands[] = [
-            'title' => 'Limpando cache de configurações:',
-            'command' => 'config:clear',
-        ];
-
-        $commands[] = [
-            'title' => 'Migrando banco de dados:',
-            'command' => 'app:migrate',
-        ];
-
-        foreach($commands as $com) {
-            $this->comment($com['title']);
-            $this->call($com['command']);
-        }
+    public function handle() {
+        $this->call('app:install');
+        include database_path('schema.php');
     }
 }

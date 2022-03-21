@@ -4,163 +4,447 @@ namespace App\Traits;
 
 trait Model
 {
-    public static function bootModel() {
-        $_function = function($model, $event) {
-            $firebase_databaseurl = env('FIREBASE_DATABASEURL');
-            $settings = json_decode(base64_decode(env('FIREBASE_CREDENTIALS_BASE64_JSON')), true);
-            if (! is_array($settings)) return;
-
-            $service_account = \Cache::remember('firebase-service-account', (60*24), function() use($settings) {
-                return \Kreait\Firebase\ServiceAccount::fromValue($settings);
-            });
-
-            $factory = (new \Kreait\Firebase\Factory())->withServiceAccount($service_account)->withDatabaseUri($firebase_databaseurl);
-
-            $table = $model->getTable();
-            $factory->createDatabase()->getReference('push')->set([
-                'app_name' => env('APP_NAME'),
-                'url' => url('/'),
-                'date' => date('Y-m-d H:i:s'),
-                'session' => "{$table}:{$event}",
-                'table' => $table,
-                'model' => $model,
-            ]);
-        };
-
-        self::created(function($model) use($_function) {
-            $_function($model, 'created');
+    public static function bootModel()
+    {
+        static::retrieved(function($model) {
+            $model->toOutput();
         });
 
-        self::updated(function($model) use($_function) {
-            $_function($model, 'updated');
-        });
+        static::saving(function($model) {
 
-        self::deleted(function($model) use($_function) {
-            $_function($model, 'deleted');
+            if (in_array('slug', $model->getFillable())) {
+                $model->slug = $model->slug? $model->slug: \Str::slug($model->name);
+            }
+
+            $model->toOutput();
+            $validate = $model->validate();
+
+            if ($validate->fails()) {
+                throw new \Exception(json_encode($validate->errors()));
+            }
+
+            foreach($model->attributes as $name => $value) {
+
+                if (in_array($value, ['null', 'false'])) {
+                    $value = null;
+                }
+
+                else if (is_array($value)) {
+                    $value = json_encode($value);
+                }
+
+                if ($file = request()->file($name)) {
+                    $value = $model->upload($file);
+                }
+
+                $model->attributes[ $name ] = $value;
+            }
+
+            return $model;
         });
     }
 
 
-    /* [
-        // Predefined fields
-        'select' => 'id,name',
-        'orderby' => 'id:desc', // order by id desc
-        'orderby' => ['id:desc', 'name:asc'], // order by id desc, name asc
-        'page' => 1,
-        'perpage' => 10,
-        'q' => 'test', // where any field like '%{$q}%'
-
-        // if field is a $fillable item:
-        'age' => 35, // where age=35
-        'age' => [35,36], // where age in (35, 36)
-        'age' => ['op' => '=', 'value' => 35], // where age=35
-        'age' => ['op' => '>', 'value' => 35], // where age > 35
-        'age' => ['op' => '>=', 'value' => 35], // where age >= 35
-        'age' => ['op' => '<', 'value' => 35], // where age < 35
-        'age' => ['op' => '<=', 'value' => 35], // where age <= 35
-        'age' => ['op' => 'in', 'value' => [35, 36]], // where age in (35, 36)
-        'age' => ['op' => 'between', 'value' => [35, 36]], // where age between (35, 36)
-        'age' => ['op' => 'empty'], // where (age is null or age='')
-        'age' => [
-            'relation' => 'or',
-            ['field'=>'age', 'op'=>'=', 'value'=>35],
-            ['field'=>'age', 'op'=>'=', 'value'=>36],
-        ], // where ((age = 35) or (age = 36))
-        'name' => ['op' => 'like', 'value' => 'john'], // where name like '%john%'
-    ] */
+    public function toOutput()
+    {
+        // return $this;
+    }
 
 
-    public function scopeQuerySearch($query, $params=null) {
-        $params = $params? $params: request()->all();
+    public static function permissions()
+    {
+        return [];
+    }
 
-        if (is_array($this->searchParams)) {
-            $params = array_merge($this->searchParams, $params);
+
+    public function userCan($pkeys)
+    {
+        $pkeys = is_array($pkeys)? $pkeys: [$pkeys];
+        $userPermissions = [];
+
+        if ($user = auth()->user()) {
+            if ($user->id==1 OR $user->group_id==1) return true;
+            if ($group = \App\Models\UsersGroups::select(['permissions'])->find($user->group_id)) {
+                $userPermissions = is_array($group->permissions)? $group->permissions: [];
+            }
         }
 
-        $params = array_merge([
-            'q' => '',
-            'relation' => 'or',
-            'page' => 1,
-            'perpage' => 10,
-            'orderby' => 'updated_at:desc',
-        ], $params);
-
-        $operators = [
-            '=' => function($q, $field, $values=[]) {
-                return $q->where($field, '=', $values[0]);
-            },
-            '!=' => function($q, $field, $values=[]) {
-                return $q->where($field, '!=', $values[0]);
-            },
-            '>' => function($q, $field, $values=[]) {
-                return $q->where($field, '>', $values[0]);
-            },
-            '>=' => function($q, $field, $values=[]) {
-                return $q->where($field, '>=', $values[0]);
-            },
-            '<' => function($q, $field, $values=[]) {
-                return $q->where($field, '<', $values[0]);
-            },
-            '<=' => function($q, $field, $values=[]) {
-                return $q->where($field, '<=', $values[0]);
-            },
-            'empty' => function($q, $field, $values=[]) {
-                return $q->where(function($q) use($field) {
-                    $q->whereNull($field);
-                    $q->orWhere($field, '');
-                });
-            },
-            'between' => function($q, $field, $values=[]) {
-                return $q->whereBetween($field, $values);
-            },
-            'in' => function($q, $field, $values=[]) {
-                return $q->whereIn($field, $values);
-            },
-        ];
-
-        $_operate = function($query, $field, $values) use($operators) {
-            $operator = array_shift($values);
-
-            if (isset($operators[ $operator ])) {
-                $query = call_user_func($operators[ $operator ], $query, $field, $values);
+        foreach($pkeys as $i => $pkey) {
+            if ($pkey[0]==':') {
+                $pkey = $this->getTable() . $pkey;
             }
 
-            return $query;
-        };
-
-        foreach($params as $field=>$value) {
-            if (! in_array($field, $this->fillable)) continue;
-            
-            if (is_array($value)) {
-                if (in_array($value[0], array_keys($operators))) {
-                    $query = $_operate($query, $field, $value);
-                    continue;
-                }
-
-                // foreach($value as $value2) {
-                //     if (in_array($value2[0], array_keys($operators))) {
-                //         $query = $_operate($query, $field, $value2);
-                //         continue;
-                //     }
-                // }
-                
+            if (! config("permissions.keys.{$pkey}")) {
                 continue;
             }
 
-            // ?field=value
-            $query = $query->where($field, $value);
+            if (! in_array($pkey, $userPermissions)) {
+                return false;
+            }
         }
 
+        return true;
+    }
 
-        // ?orderby=id:desc
-        // ?orderby[]=id:desc&updated_at[]=id:desc
-        $orders = is_array($params['orderby'])? $params['orderby']: [$params['orderby']];
-        foreach($orders as $orderby) {
-            $e = explode(':', $orderby);
-            $field = isset($e[0])? $e[0]: 'id';
-            $order = isset($e[1])? $e[1]: 'desc';
-            $query = $query->orderBy($field, $order);
+
+    public function validationRules() {
+        return ['name' => 'required'];
+    }
+    
+
+    public function validate($data=null)
+    {
+        $data = $data===null? $this->attributes: $data;
+        return \Validator::make($data, $this->validationRules());
+    }
+
+
+    public function upload($file)
+    {
+        $max_upload_size = intval(config('app_model_files.max_upload_size'));
+        if ($file->getSize() AND $file->getSize() > $max_upload_size) {
+            throw new \Exception('O arquivo enviado ultrapassou o tamanho permitido');
+            return false;
         }
+
+        $storage_type = config('app_model_files.storage_type'); // database | file
+        $value = null;
+
+        if ($storage_type=='database') {
+            $type = preg_replace('/\/.+/', '', $file->getClientMimeType());
+            $ext = $file->getClientOriginalExtension();
+            $texts = ['svg', 'csv'];
+
+            if ($type=='text' OR in_array($ext, $texts)) {
+                $value = file_get_contents($file);
+            }
+            else {
+                $value = 'data:'. $file->getClientMimeType() .';base64,'. base64_encode(file_get_contents($file));
+            }
+        }
+        else if ($storage_type=='file') {
+            $filename = \Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) .'.'. $file->getClientOriginalExtension();
+            \Storage::disk('public')->put($filename, file_get_contents($file));
+            $value = "/uploads/{$filename}";
+        }
+
+        return $value;
+    }
+
+
+    public function clone($id, $data=[]) {
+        $model = self::find($id);
+        if (!$model) {
+            throw new \Exception('Model does not exists');
+        }
+
+        $new = $model->replicate()->fill(request()->all());
+        $new->slug = null;
+        $new->created_at = $new->updated_at = date('Y-m-d H:i:s');
+        $new->deleted_at = null;
+        $new->save();
+
+        return $new;
+    }
+
+
+    public function import($format, $content) {
+        // 
+    }
+
+
+    // public function setSlugAttribute($value)
+    // {
+    //     $slug = isset($this->attributes['slug'])? $this->attributes['slug']: null;
+    //     if (in_array('slug', $this->getFillable()) AND !$slug) {
+    //         $this->attributes['slug'] = \Str::slug($this->name);
+    //     }
+    // }
+
+
+    public function setDeletedAtAttribute($value)
+	{
+		$value = strtotime($value)? $value: null;
+        $this->attributes['deleted_at'] = $value;
+	}
+
+
+    public function scopeNotEmpty($query, $fields)
+    {
+        $fields = is_array($fields)? $fields: [$fields];
+        if (empty($fields)) return;
+
+        $query->where(function($q) use($fields) {
+            foreach($fields as $i => $field) {
+                $q->orWhere(function($q) use($field) {
+                    $q->whereNotNull($field);
+                    $q->orWhere($field, '!=', '');
+                });
+            }
+        });
+    }
+
+
+    public function scopeWithJoin($query, $method, $fields=[], $params=[])
+    {   
+        $relation = call_user_func([$this, $method]);
+
+        $params = (object) array_merge([
+            'method' => 'join',
+            'from' => $query->getModel()->getTable(),
+            'table' => $relation->getRelated()->getTable(),
+            'key' => $relation->getForeignKeyName(),
+            'as' => $relation->getRelated()->getTable(),
+            'field' => $relation->getLocalKeyName(),
+        ], $params);
+
+        call_user_func([$query, $params->method], "{$params->table} as {$params->as}", "{$params->as}.{$params->key}", '=', "{$params->from}.{$params->field}");
+
+        $fields = array_map(function($field) use($params) {
+            return "{$params->as}.{$field} as {$params->as}_{$field}";
+        }, $fields);
+
+        $query->selectRaw(implode(', ', $fields));
+    }
+
+
+    public function scopeFindIdOrSlug($query, $slugid)
+    {
+        $fillable = $this->fillable;
+        $query->where(function($q) use($slugid, $fillable) {
+            $q->where('id', $slugid);
+
+            if (in_array('slug', $fillable)) {
+                $q->orWhere('slug', $slugid);
+            }
+        });
+
+        return $query->first();
+    }
+
+
+    public function scopeExport($query) {
+        $format = request('format', 'json');
+        $filename = uniqid('download-'). ".{$format}";
+        $mime = "application/{$format}";
+        $all = $query->get()->toArray();
+
+        if ($format=='csv') {
+            $f = fopen('php://memory', 'r+');
+            foreach ($all as $item) { fputcsv($f, $item, ';'); }
+            rewind($f);
+            $content = stream_get_contents($f);
+        }
+
+        else if ($format=='html') {
+            $mime = 'text/html';
+            $content = '<!DOCTYPE html><html lang="en"><head><title>'. $format .' export</title>';
+            $content .= '<meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">';
+            $content .= '<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head>';
+            $content .= '<body><table><thead>';
+            foreach($all as $line=>$cols) {
+                if ($line==0) {
+                    $content .= '<thead><tr>';
+                    foreach($cols as $name=>$value) { $content .= '<th>'. $name .'</th>'; }
+                    $content .= '<tr></thead><tbody>';
+                }
+
+                $content .= '<tr>';
+                foreach($cols as $name=>$value) { $content .= '<td>'. $value .'</td>'; }
+                $content .= '</tr>';
+                if ($line==sizeof($all)-1) { $content .= '</tbody>'; }
+            }
+            $content .= '</table></body></html>';
+        }
+
+        else {
+            $content = json_encode($all);
+        }
+
+        return \Response::make($content, 200, [
+            'Content-type' => $mime,
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
+    }
+
+
+    public function scopeDeleteAll($query, $params=null) {
+        $params = $params===null? request()->all(): $params;
+        $params = (object) array_merge([
+            'forced' => '',
+        ], $params);
+        
+        $return = [];
+        $items = $query->get();
+
+        if (\Schema::hasColumn($this->getTable(), 'deleted_at')) {
+            foreach($items as $item) {
+                if ($params->forced) {
+                    $item->delete();
+                    $return[] = $item;
+                    continue;
+                }
+
+                $item->deleted_at = date('Y-m-d H:i:s');
+                $item->save();
+                $return[] = $item;
+            }
+        }
+
+        return $return;
+    }
+
+
+    public function scopeRestoreAll($query)
+    {
+        $return = [];
+        foreach($query->get() as $item) {
+            $item->deleted_at = null;
+            $item->save();
+            $return[] = $item;
+        }
+        return $return;
+    }
+
+    public function scopeWhereDeleted($query, $deleted=true) {
+        if (!in_array('deleted_at', $this->fillable)) return;
+
+        if ($deleted) {
+            $query->where(function($q) {
+                $q->whereNotNull('deleted_at');
+                $q->orWhere('deleted_at', '!=', '');
+            });
+        }
+        else {
+            $query->where(function($q) {
+                $q->whereNull('deleted_at');
+                $q->orWhere('deleted_at', '');
+            });
+        }
+
+        return $query;
+    }
+
+
+    public function scopeSelectExcept($query, $fields=[]) {
+        $select = [];
+        foreach($this->fillable as $col) {
+            if (in_array($col, $fields)) continue;
+            $select[] = $col;
+        }
+        return $query->select($select);
+    }
+    
+
+    public function searchParams() {
+        return [];
+    }
+
+
+    public function searchQuery($query) {
+        return $query;
+    }
+
+
+    public function scopeSearch($query, $params=null) {
+        $searchParams = array_merge([
+            'q' => '',
+            'page' => 1,
+            'perpage' => 20,
+            'orderby' => 'updated_at',
+            'order' => 'desc',
+            'deleted' => '',
+            'limit' => '',
+        ], $this->searchParams());
+
+        $params = $params? $params: request()->all();
+        $params = array_merge($searchParams, $params);
+
+        if ($query2 = $this->searchQuery($query, (object) $params)) {
+            $query = $query2;
+        }
+
+        $query_table = $query->getModel()->getTable();
+
+        foreach($params as $field=>$value) {
+            if (! $value) continue;
+            if (! in_array($field, $this->fillable)) continue;
+            if (in_array($field, $searchParams)) continue;
+            $field = "{$query_table}.{$field}";
+
+
+            $operator = isset($params["{$field}_op"])? $params["{$field}_op"]: false;
+
+            // ?status[]=progress&term[]=payment
+            // where status in ('progress', 'payment')
+            if (is_array($value)) {
+                $query->whereIn($field, $value);
+            }
+
+            // ?price=1000&price_op=lt
+            // where price < 1000
+            else if ($operator=='lt') {
+                $query->where($field, '<', $value);
+            }
+            
+            // ?price=1000&price_op=lte
+            // where price <= 1000
+            else if ($operator=='lte') {
+                $query->where($field, '<=', $value);
+            }
+
+            // ?price=1000&price_op=gt
+            // where price > 1000
+            else if ($operator=='gt') {
+                $query->where($field, '>', $value);
+            }
+
+            // ?price=1000&price_op=gte
+            // where price >= 1000
+            else if ($operator=='gte') {
+                $query->where($field, '>=', $value);
+            }
+
+            // ?status=finished&status_op=neq
+            // where status != 'finished'
+            else if ($operator=='neq') {
+                $query->where($field, '!=', $value);
+            }
+
+            // ?title=search&title_op=like
+            // where title like '%search%'
+            else if ($operator=='like') {
+                $query->where($field, 'like', "%{$value}%");
+            }
+
+            // ?title=search&title_op=nlike
+            // where title not like '%search%'
+            else if ($operator=='nlike') {
+                $query->where($field, 'not like', "%{$value}%");
+            }
+
+            // ?stars[]=3&stars[]=4&stars_op=between
+            // where stars between(3, 4)
+            else if ($operator=='between') {
+                $query->whereBetween($field, $value);
+            }
+
+            // ?stars[]=3&stars[]=4&stars_op=nbetween
+            // where stars not between(3, 4)
+            else if ($operator=='nbetween') {
+                $query->whereNotBetween($field, $value);
+            }
+
+            // ?status=finished
+            // where status='finished'
+            else {
+                $query->where($field, $value);
+            }
+        }
+
+        // ?orderby=id&order=desc
+        $order_by = "{$query_table}.{$params['orderby']}";
+        $query->orderBy($order_by, $params['order']);
 
         // ?q=term+search
         if ($params['q']) {
@@ -168,6 +452,7 @@ trait Model
             $whereLikes = [];
             foreach($terms as $q) {
                 foreach($this->fillable as $field) {
+                    $field = "{$query_table}.{$field}";
                     $whereLikes[] = [$field, 'like', "%{$q}%"];
                 }
             }
@@ -178,62 +463,33 @@ trait Model
             });
         }
 
-        return $query->paginate($params['perpage']);
+        // ?deleted=1
+        $query->whereDeleted($params['deleted']);
+
+        // ?limit=3
+        if ($params['limit']) {
+            $query->limit($params['limit']);
+        }
+
+        return $query;
     }
 
 
-    // Retorna SQL final
-    // $this->where('active', 1)->toRawSql();
-    public function scopeToRawSql($query) {
-        return call_user_func(function($query) {
-            $sql = $query->toSql();
-            $bindings = $query->getBindings();
-            $needle = '?';
-            foreach ($bindings as $replace){
-                $pos = strpos($sql, $needle);
-                if ($pos !== false) {
-                    if (gettype($replace) === "string") {
-                        $replace = ' "'.addslashes($replace).'" ';
-                    }
-                    $sql = substr_replace($sql, $replace, $pos, strlen($needle));
-                }
+
+    public static function scopeToRawSql($query)
+    {
+        $sqlQuery = \Str::replaceArray(
+        '?',
+        collect($query->getBindings())
+            ->map(function ($i) {
+            if (is_object($i)) {
+                $i = (string)$i;
             }
-            return $sql;
-        }, $query);
-    }
-    
-    
-    public function validate($data=[]) {
-        return \Validator::make($data, []);
-    }
+            return (is_string($i)) ? "'$i'" : $i;
+            })->all(),
+        $query->toSql()
+        );
 
-    public function store($data=[]) {
-        $data = array_merge($this->toArray(), $data);
-        $pk = $this->getKeyName();
-        $id = isset($data[$pk])? $data[$pk]: false;
-
-        if ($validator = $this->validate($data) AND $validator->fails()) {
-            throw new \Exception(json_encode([
-                'message' => 'Há erros de validação',
-                'fields' => $validator->errors(),
-            ]));
-        }
-
-        if (!$id) unset($data[$pk]);
-        return self::updateOrCreate([$pk => $id], $data);
-    }
-
-
-    public function remove($forced=false) {
-        if (! $this->id) return false;
-        
-        if ($forced==false AND \Schema::hasColumn($this->getTable(), 'deleted_at')) {
-            $this->deleted_at = date('Y-m-d H:i:s');
-            $this->store();
-            return $this;
-        }
-
-        $this->delete();
-        return $this;
+        return $sqlQuery;
     }
 }

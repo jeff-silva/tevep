@@ -5,13 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-/**
- * @OA\Tag(
- *     name="Auth",
- *     description="Autenticação",
- * )
- */
-
 class AuthController extends Controller
 {
     /**
@@ -22,92 +15,70 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', [
-            'except' => [
-                'postLogin',
-            ],
+            'except' => ['login', 'register', 'passwordResetStart', 'passwordResetChange'],
         ]);
+
+        $this->route('post', '/login', '@login');
+        $this->route('post', '/me', '@me');
+        $this->route('post', '/logout', '@logout');
+        $this->route('post', '/refresh', '@refresh');
+        $this->route('post', '/register', '@register');
+        $this->route('post', '/password-reset-start', '@passwordResetStart');
+        $this->route('post', '/password-reset-change', '@passwordResetChange');
     }
 
-    
     /**
-     * @OA\Post(
-     *      path="/auth/login",
-     *      operationId="authLogin",
-     *      tags={"Auth"},
-     *      summary="Autenticação",
-     *      description="Autenticação",
-     *      @OA\Response(response=200, description="successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     * )
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function postLogin()
+    public function login()
     {
         $credentials = request(['email', 'password']);
-        $token = false;
 
-        if ($user = \App\Models\User::where('email', $credentials['email'])->first()) {
-            if (\Hash::check($credentials['password'], $user->password)) {
-                $ttl = \App\Models\Setting::getValue('jwt.ttl', 90);
-                $token = auth()->setTTL($ttl)->login($user);
-            }
-        }
-
-        if (! $token) {
-            throw new \Exception('Autenticação inválida');
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
     }
 
-
-    
     /**
-     * @OA\Post(
-     *      path="/auth/me",
-     *      operationId="authMe",
-     *      tags={"Auth"},
-     *      summary="Dados do usuário logado",
-     *      description="Dados do usuário logado",
-     *      @OA\Response(response=200, description="successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     * )
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function postMe()
+    public function me()
     {
-        return response()->json(auth()->user());
+        $user = auth()->user();
+
+        $user->permissions = [];
+        if ($group = \App\Models\UsersGroups::select(['permissions'])->find($user->group_id)) {
+            $user->permissions = $group->permissions;    
+        }
+
+        return $user;
+        // return response()->json();
     }
 
     /**
-     * @OA\Post(
-     *      path="/auth/logout",
-     *      operationId="authLogout",
-     *      tags={"Auth"},
-     *      summary="Sair do sistema",
-     *      description="Sair do sistema",
-     *      @OA\Response(response=200, description="successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     * )
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function postLogout()
+    public function logout()
     {
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-
     /**
-     * @OA\Post(
-     *      path="/auth/refresh",
-     *      operationId="authRefresh",
-     *      tags={"Auth"},
-     *      summary="Atualiza token",
-     *      description="Atualiza token",
-     *      @OA\Response(response=200, description="successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     * )
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function postRefresh()
+    public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
     }
@@ -128,35 +99,32 @@ class AuthController extends Controller
         ]);
     }
 
-
-    /**
-     * @OA\Post(
-     *      path="/auth/password-token",
-     *      operationId="authPasswordToken",
-     *      tags={"Auth"},
-     *      summary="Inicia o processo de alteração de senha enviando e-mail com token para usuário",
-     *      description="Inicia o processo de alteração de senha enviando e-mail com token para usuário",
-     *      @OA\Response(response=200, description="successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     * )
-     */
-    public function postPasswordToken($request) {
-        return \App\Models\User::passwordToken($request->all());
+    public function register() {
+        return \App\Models\User::create(request()->all());
     }
 
+    public function passwordResetStart() {
+        $valid = \Validator::make(request()->all(), [
+            'email' => ['required', 'email'],
+        ]);
 
-    /**
-     * @OA\Post(
-     *      path="/auth/password-refresh",
-     *      operationId="authPasswordRefresh",
-     *      tags={"Auth"},
-     *      summary="Finaliza processo de alteração de senha recebendo e-mail, token, nova senha e confirmação de nova senha",
-     *      description="Finaliza processo de alteração de senha recebendo e-mail, token, nova senha e confirmação de nova senha",
-     *      @OA\Response(response=200, description="successful operation"),
-     *      @OA\Response(response=400, description="Bad request"),
-     * )
-     */
-    public function postPasswordReset($request) {
-        return \App\Models\User::passwordReset($request->all());
+        if ($valid->fails()) { throw new \Exception(json_encode($valid->errors())); }
+        $user = \App\Models\User::where('email', request('email'))->first();
+        if (! $user) throw new \Exception('Usuário não encontrado');
+        return $user->passwordResetStart();
+    }
+
+    public function passwordResetChange() {
+        $user = \App\Models\User::where([
+            'email' => request('email'),
+            'remember_token' => request('token'),
+        ])->first();
+
+        if (! $user) throw new \Exception('Usuário não encontrado ou token incorreto');
+        $user->remember_token = null;
+        $user->password = request('password');
+        $user->save();
+
+        return $user;
     }
 }
