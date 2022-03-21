@@ -86,6 +86,7 @@ export default {
             this.$axios.get(`/api/${this.modelName}/find/${this._modelId}`).then(resp => {
                 this.finding = false;
                 this.props.value = resp.data;
+                this.$emit('model-loaded', resp.data);
             });
         },
 
