@@ -305,20 +305,26 @@ class AppReadmeGenerate extends AppBase
 
         $file[] = '## Endpoints';
         $file[] = 'Todas as rotas disponíveis:';
-        $file[] = '```text';
+
+        $table = [['Nº', 'METHODS', 'NAME', 'ROUTE']];
         foreach(\Route::getRoutes() as $index => $item) {
-			if ($item->uri=='{path}') continue;
-			if (\Str::startsWith($item->uri, '_ignition')) continue;
-			if (\Str::startsWith($item->uri, 'sanctum')) continue;
+            if ($item->uri=='{path}') continue;
+            if (\Str::startsWith($item->uri, '_ignition')) continue;
+            if (\Str::startsWith($item->uri, 'sanctum')) continue;
 
             $methods = $item->methods();
             $search = array_search('HEAD', $methods);
             if ($search!==false) unset($methods[$search]);
 
-            $methods = str_pad($index, 4, ' ') . str_pad(implode(', ', $methods) .': ', 8, ' ');
-			$file[] = $methods. $item->uri();
-		}
-        $file[] = '```';
+            $table[] = [
+                $index,
+                implode(',', $methods),
+                $item->getName(),
+                $item->uri(),
+            ];
+        }
+
+        $file[] = $this->makeTable($table);
 
         
 
@@ -329,5 +335,43 @@ class AppReadmeGenerate extends AppBase
     {
         $code = is_array($code)? implode("\n", $code): $code;
         return "```{$type}\n{$code}\n```";
+    }
+
+    public function makeTable($items=[])
+    {
+        // $fieldSize = [];
+
+        // foreach($items as $i => $row) {
+        //     foreach($row as $ii => $value) {
+        //         $fieldSize[$ii] = isset($fieldSize[$ii])? $fieldSize[$ii]: 0;
+        //         $fieldSize[$ii] = max($fieldSize[$ii], strlen($value));
+        //     }
+        // }
+
+        // $table[] = "```text\n";
+        // foreach($items as $i => $row) {
+        //     $table[] = '| ';
+        //     foreach($row as $ii => $value) {
+        //         $table[] = str_pad($value, $fieldSize[$ii], ' ');
+        //         $table[] = ' | ';
+        //     }
+        //     $table[] = "\n";
+        // }
+        // $table[] = '```';
+
+        // return implode('', $table);
+
+
+        $content = '<table width="100%"><tbody>';
+        foreach($items as $i => $row) {
+            $content .= '<tr>';
+            foreach($row as $ii => $value) {
+                $content .= "<td>{$value}</td>";
+            }
+            $content .= '</tr>';
+        }
+        $content .= "</tbody></table>";
+
+        return $content;
     }
 }
