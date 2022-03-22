@@ -66,6 +66,7 @@ namespace App\Models;
 // Nomes de model são sempre gerados no plural, igual as tabelas
 class Products extends \Illuminate\Database\Eloquent\Model {
 
+   // Muitas mágicas são geradas através dessa trait
    use \App\Traits\Model;
    
    // Nomes de tabelas sempre no plural
@@ -81,6 +82,22 @@ class Products extends \Illuminate\Database\Eloquent\Model {
    public function modelMutator()
    {
        $this->price = $this->price? $this->price: 0;
+   }
+
+   /*
+    * A trait Model faz com que os dados sejam sempre validados antes de salvar,
+    * e caso algum erro seja encontrado, uma exceção é jogada. Isso garante consistência
+    * ao que entra no banco impedindo que dados inválidos passem.
+    * É nesse método que definimos as regras de validação do Laravel.
+    * As regras são criadas dentro de um método para que você possa criar regras
+    * condicionais, caso precise por exemplo, definir uma regra específica
+    * quando o $this->id conter um valor.
+    */
+   public function validationRules()
+   {
+       return [
+           'name' => ['required'],
+       ];
    }
 
    /*
@@ -219,7 +236,6 @@ class ProductsController extends Controller
 		]);
 
 		/*
-		 * Criando rotas automaticamente:
 		 * Este método cria rotas básicas em comum para todos os controllers,
 		 * como save, search, find, delete, clone e alguns outros.
 		 * Note o argumento "except": ele define quais dessas rotas
@@ -234,8 +250,10 @@ class ProductsController extends Controller
 		 * Aqui você pode definir rotas customizadas.
 		 * As rotas sempre serão criadas tomando como base o nome do controller
 		 * convertido para kebab case sem o sufixo "Controller". Ou seja:
-		 * ExamplesController       =>  /api/examples/ 
-		 * ExamplesTestsController  =>  /api/examples-tests/ 
+		 * 
+		 * FooController        =>  /api/foo/ 
+		 * FooBarController     =>  /api/foo-bar/ 
+		 * FooBarBazController  =>  /api/foo-bar-baz/ 
 		 * 
 		 * Conforme o exemplo dado, todas as rotas serão criadas
 		 * dentro de /api/products.
