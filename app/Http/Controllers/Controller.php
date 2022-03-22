@@ -13,20 +13,14 @@ class Controller extends BaseController
     
 
     public function route($methods, $path, $callback)
-    {
-        // Se o argumento $callback conter um @ no início da string,
-        // o método insere o namespace completo da classe do controller automaticamente
-        // Ex.: $this->route('get', 'product/refresh/{id}', '@productRefresh');
-        if ('string'==gettype($callback) AND '@'==$callback[0]) {
-            $controller = (new \ReflectionClass($this))->getName();
-            $callback = "{$controller}{$callback}";
-        }
-        
+    {   
         $prefix = (new \ReflectionClass($this))->getShortName();
         $prefix = (string) \Str::of(str_replace('Controller', '', $prefix))->studly()->kebab();
         $path = $prefix .'/'. trim($path, '/');
 
-        return \Illuminate\Support\Facades\Route::match($methods, $path, $callback)->middleware(['permission']);
+        return \Illuminate\Support\Facades\Route::match($methods, $path, [get_class($this), $callback])
+            ->middleware(['permission'])
+            ->name($prefix .'-'. (string) \Str::of($callback)->kebab());
     }
 
 
@@ -42,39 +36,39 @@ class Controller extends BaseController
         $prefix = (string) \Str::of($name)->studly()->kebab();
 
         if (! in_array('search', $params->except)) {
-            $this->route('get', "/search", '@search')->name("{$prefix}-search");
+            $this->route('get', "/search", 'search');
         }
 
         if (! in_array('find', $params->except)) {
-            $this->route('get', "/find/{id}", '@find')->name("{$prefix}-find");
+            $this->route('get', "/find/{id}", 'find');
         }
 
         if (! in_array('save', $params->except)) {
-            $this->route('post', "/save", '@save')->name("{$prefix}-save");
+            $this->route('post', "/save", 'save');
         }
 
         if (! in_array('valid', $params->except)) {
-            $this->route('post', "/valid", '@valid')->name("{$prefix}-valid");
+            $this->route('post', "/valid", 'valid');
         }
 
         if (! in_array('delete', $params->except)) {
-            $this->route('post', "/delete", '@delete')->name("{$prefix}-delete");
+            $this->route('post', "/delete", 'delete');
         }
 
         if (! in_array('restore', $params->except)) {
-            $this->route('post', "/restore", '@restore')->name("{$prefix}-restore");
+            $this->route('post', "/restore", 'restore');
         }
 
         if (! in_array('clone', $params->except)) {
-            $this->route('get', "/clone/{id}", '@clone')->name("{$prefix}-clone");
+            $this->route('get', "/clone/{id}", 'clone');
         }
 
         if (! in_array('import', $params->except)) {
-            $this->route('post', "/import", '@import')->name("{$prefix}-import");
+            $this->route('post', "/import", 'import');
         }
 
         if (! in_array('export', $params->except)) {
-            $this->route('get', "/export", '@export')->name("{$prefix}-export");
+            $this->route('get', "/export", 'export');
         }
     }
 

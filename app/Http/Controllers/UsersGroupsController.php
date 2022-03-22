@@ -13,7 +13,7 @@ class UsersGroupsController extends Controller
 		]);
 
 		$this->defaultRoutes();
-		$this->route('get', '/permissions', '@permissions');
+		$this->route('get', '/permissions', 'permissions');
 	}
 
 

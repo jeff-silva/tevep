@@ -16,8 +16,8 @@ class SettingsController extends Controller
 			'except' => ['search', 'find', 'save', 'valid', 'delete', 'restore', 'clone'],
 		]);
 
-		$this->route('post', '/save', '@saveAll');
-		$this->route('get', '/all', '@getAll');
+		$this->route('post', '/save', 'saveAll');
+		$this->route('get', '/all', 'getAll');
 	}
 
 	public function saveAll() {

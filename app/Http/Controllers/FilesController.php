@@ -15,7 +15,7 @@ class FilesController extends Controller
 		$this->defaultRoutes();
 
 		// GET: api/files/view/file-name-image.jpg
-		$this->route('get', '/view/{slug}.{ext}', '@view');
+		$this->route('get', '/view/{slug}.{ext}', 'view');
 	}
 
 	

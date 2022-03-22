@@ -18,7 +18,7 @@ class EmailsTemplatesController extends Controller
 		]);
 
 		// Custom route example: POST /api/emails-templates/test/123
-		$this->route('post', '/test/{id}', '@test');
+		$this->route('post', '/test/{id}', 'test');
 	}
 
 

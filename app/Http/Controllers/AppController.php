@@ -13,8 +13,8 @@ class AppController extends Controller
 		]);
 
 		// $this->route('get', '/test', '@test');
-		$this->route('get', '/endpoints', '@endpoints');
-		$this->route('get', '/dashboard', '@dashboard');
+		$this->route('get', '/endpoints', 'endpoints');
+		$this->route('get', '/dashboard', 'dashboard');
 	}
 
 
