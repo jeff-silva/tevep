@@ -1,4 +1,5 @@
 # Tevep
+[TOC]
 ## Instalação
 Insira os dados do banco no arquivo `.env` e então execute
 os comandos abaixo, que respectivamente são para:
@@ -316,95 +317,100 @@ Ao configurar todos os atributos, execute o comando `php artisan app:sync` e dei
 que o sistema se encarregue de popular este template de e-mail novo para o banco de dados.
 Após isso, tudo o que você precisa fazer é clicar em editar o template pelo admin.
 
+## Layouts frontend
+## 
+## Componentes mais importantes
+```html
+<!-- /client/components/ui-form.vue -->
+
+<ui-form
+ method="post"
+ action="/api/products/save"
+ v-model="product"
+ #default="form"
+>
+ <!--
+ Este componente apenas cria uma tag form com algumas funções a mais,
+ portanto é possível trabalhar normalmente como em uma tag form
+ como por exemplo, criando botões type=submit para envio do formulário
+ e disparár o envio clicando enter em uma input.
+ 
+ Parâmetros:
+     method: get, post, etc... assim como no axios
+     action: url do endpoint
+     v-model: objeto que será enviado via post
+     #default="form" variavel "form" com alguns dados internos do form como:
+     form.loading: true ou false, informa se o form está em processamento
+     form.response: dados da resposta, request.data do axios.
+     form.error: mensagem de erro do form, em string
+     form.errorFields: objeto javascript com erros de validação, no formato {campo:["erro1", "erro2"]}
+     form.submit: método submit() para envio do formulário
+-->
+</ui-form>
+```
+
+```html
+<!-- /client/components/ui/model/edit.vue -->
+
+<ui-model-edit
+ model-name="products"
+ model-id="153"
+ singular="Produto"
+ plural="Produtos"
+ #default="form"
+>
+ <!--
+ Este componente cria toda a interface básica para edição de dados,
+ fazendo toda a parte repetitiva e deixando para você apenas a tarefa
+ de informar quais os parâmetros básicos e como será o html dos campos.
+ 
+ Parâmetros:
+     model-name: Nome da model/table no formato kebab
+     model-id: ID do registro (o sistema faz a requisição automaticamente para /products/find/153 e te retorna o objeto)
+     singular: Nome no singular para descrições
+     plural: Nome no plural para descrições
+     #default="form" variavel "form" com alguns dados internos do form como:
+     form.value: dados da model que serão editados/enviados via post
+     form.loading: true ou false, informa se o form está em processamento
+     form.error: mensagem de erro do form, em string
+     form.errorFields: objeto javascript com erros de validação, no formato {campo:["erro1", "erro2"]}
+-->
+
+ <!-- Insira os campos normalmente -->
+ <ui-field label="Nome" :error="form.errorFields.owner">
+     <input type="text" class="form-control" value="form.value.name" />
+ </ui-field>
+
+ <!-- Os botões na parte de baixo do formulário serão inseridos automaticamente, -->
+ <!-- mas se você precisar customizar alguma ação, utilize esse slot: -->
+ <slot name="actions">
+     <button type="button" class="btn btn-success">
+         Ação customizada 1
+     </button>
+
+     <button type="button" class="btn btn-success">
+         Ação customizada 2
+     </button>
+ </slot>
+</ui-model-edit>
+```
+
+```html
+<!-- /client/components/ui/model/search.vue -->
+
+<ui-model-search
+>
+</ui-model-search>
+```
+
+```html
+<!-- /client/components/ui/model/select.vue -->
+
+<ui-model-select
+>
+</ui-model-select>
+```
+
 ## Endpoints
 Todas as rotas disponíveis:
-<table width="100%"><tbody><tr><td>Nº</td><td>METHODS</td><td>NAME</td><td>ROUTE</td></tr><tr><td>1</td><td>GET</td><td>app-endpoints</td><td>api/app/endpoints</td></tr><tr><td>2</td><td>GET</td><td>app-dashboard</td><td>api/app/dashboard</td></tr><tr><td>3</td><td>POST</td><td>auth-login</td><td>api/auth/login</td></tr><tr><td>4</td><td>POST</td><td>auth-me</td><td>api/auth/me</td></tr><tr><td>5</td><td>POST</td><td>auth-logout</td><td>api/auth/logout</td></tr><tr><td>6</td><td>POST</td><td>auth-refresh</td><td>api/auth/refresh</td></tr><tr><td>7</td><td>POST</td><td>auth-register</td><td>api/auth/register</td></tr><tr><td>8</td><td>POST</td><td>auth-password-reset-start</td><td>api/auth/password-reset-start</td></tr><tr><td>9</td><td>POST</td><td>auth-password-reset-change</td><td>api/auth/password-reset-change</td></tr><tr><td>10</td><td>GET</td><td>emails-templates-search</td><td>api/emails-templates/search</td></tr><tr><td>11</td><td>GET</td><td>emails-templates-find</td><td>api/emails-templates/find/{id}</td></tr><tr><td>12</td><td>POST</td><td>emails-templates-save</td><td>api/emails-templates/save</td></tr><tr><td>13</td><td>POST</td><td>emails-templates-valid</td><td>api/emails-templates/valid</td></tr><tr><td>14</td><td>POST</td><td>emails-templates-import</td><td>api/emails-templates/import</td></tr><tr><td>15</td><td>GET</td><td>emails-templates-export</td><td>api/emails-templates/export</td></tr><tr><td>16</td><td>POST</td><td>emails-templates-test</td><td>api/emails-templates/test/{id}</td></tr><tr><td>17</td><td>GET</td><td>files-search</td><td>api/files/search</td></tr><tr><td>18</td><td>GET</td><td>files-find</td><td>api/files/find/{id}</td></tr><tr><td>19</td><td>POST</td><td>files-save</td><td>api/files/save</td></tr><tr><td>20</td><td>POST</td><td>files-valid</td><td>api/files/valid</td></tr><tr><td>21</td><td>POST</td><td>files-delete</td><td>api/files/delete</td></tr><tr><td>22</td><td>POST</td><td>files-restore</td><td>api/files/restore</td></tr><tr><td>23</td><td>GET</td><td>files-clone</td><td>api/files/clone/{id}</td></tr><tr><td>24</td><td>POST</td><td>files-import</td><td>api/files/import</td></tr><tr><td>25</td><td>GET</td><td>files-export</td><td>api/files/export</td></tr><tr><td>26</td><td>GET</td><td>files-view</td><td>api/files/view/{slug}.{ext}</td></tr><tr><td>27</td><td>GET</td><td>pages-search</td><td>api/pages/search</td></tr><tr><td>28</td><td>GET</td><td>pages-find</td><td>api/pages/find/{id}</td></tr><tr><td>29</td><td>POST</td><td>pages-save</td><td>api/pages/save</td></tr><tr><td>30</td><td>POST</td><td>pages-valid</td><td>api/pages/valid</td></tr><tr><td>31</td><td>POST</td><td>pages-delete</td><td>api/pages/delete</td></tr><tr><td>32</td><td>POST</td><td>pages-restore</td><td>api/pages/restore</td></tr><tr><td>33</td><td>GET</td><td>pages-clone</td><td>api/pages/clone/{id}</td></tr><tr><td>34</td><td>POST</td><td>pages-import</td><td>api/pages/import</td></tr><tr><td>35</td><td>GET</td><td>pages-export</td><td>api/pages/export</td></tr><tr><td>36</td><td>POST</td><td>settings-import</td><td>api/settings/import</td></tr><tr><td>37</td><td>GET</td><td>settings-export</td><td>api/settings/export</td></tr><tr><td>38</td><td>POST</td><td>settings-save-all</td><td>api/settings/save</td></tr><tr><td>39</td><td>GET</td><td>settings-get-all</td><td>api/settings/all</td></tr><tr><td>40</td><td>GET</td><td>teveps-search</td><td>api/teveps/search</td></tr><tr><td>41</td><td>GET</td><td>teveps-find</td><td>api/teveps/find/{id}</td></tr><tr><td>42</td><td>POST</td><td>teveps-save</td><td>api/teveps/save</td></tr><tr><td>43</td><td>POST</td><td>teveps-valid</td><td>api/teveps/valid</td></tr><tr><td>44</td><td>POST</td><td>teveps-delete</td><td>api/teveps/delete</td></tr><tr><td>45</td><td>POST</td><td>teveps-restore</td><td>api/teveps/restore</td></tr><tr><td>46</td><td>GET</td><td>teveps-clone</td><td>api/teveps/clone/{id}</td></tr><tr><td>47</td><td>POST</td><td>teveps-import</td><td>api/teveps/import</td></tr><tr><td>48</td><td>GET</td><td>teveps-export</td><td>api/teveps/export</td></tr><tr><td>49</td><td>GET</td><td>teveps-invites-search</td><td>api/teveps-invites/search</td></tr><tr><td>50</td><td>GET</td><td>teveps-invites-find</td><td>api/teveps-invites/find/{id}</td></tr><tr><td>51</td><td>POST</td><td>teveps-invites-save</td><td>api/teveps-invites/save</td></tr><tr><td>52</td><td>POST</td><td>teveps-invites-valid</td><td>api/teveps-invites/valid</td></tr><tr><td>53</td><td>POST</td><td>teveps-invites-delete</td><td>api/teveps-invites/delete</td></tr><tr><td>54</td><td>POST</td><td>teveps-invites-restore</td><td>api/teveps-invites/restore</td></tr><tr><td>55</td><td>GET</td><td>teveps-invites-clone</td><td>api/teveps-invites/clone/{id}</td></tr><tr><td>56</td><td>POST</td><td>teveps-invites-import</td><td>api/teveps-invites/import</td></tr><tr><td>57</td><td>GET</td><td>teveps-invites-export</td><td>api/teveps-invites/export</td></tr><tr><td>58</td><td>GET</td><td>user-search</td><td>api/user/search</td></tr><tr><td>59</td><td>GET</td><td>user-find</td><td>api/user/find/{id}</td></tr><tr><td>60</td><td>POST</td><td>user-save</td><td>api/user/save</td></tr><tr><td>61</td><td>POST</td><td>user-valid</td><td>api/user/valid</td></tr><tr><td>62</td><td>POST</td><td>user-import</td><td>api/user/import</td></tr><tr><td>63</td><td>GET</td><td>user-export</td><td>api/user/export</td></tr><tr><td>64</td><td>GET</td><td>users-groups-search</td><td>api/users-groups/search</td></tr><tr><td>65</td><td>GET</td><td>users-groups-find</td><td>api/users-groups/find/{id}</td></tr><tr><td>66</td><td>POST</td><td>users-groups-save</td><td>api/users-groups/save</td></tr><tr><td>67</td><td>POST</td><td>users-groups-valid</td><td>api/users-groups/valid</td></tr><tr><td>68</td><td>POST</td><td>users-groups-delete</td><td>api/users-groups/delete</td></tr><tr><td>69</td><td>POST</td><td>users-groups-restore</td><td>api/users-groups/restore</td></tr><tr><td>70</td><td>GET</td><td>users-groups-clone</td><td>api/users-groups/clone/{id}</td></tr><tr><td>71</td><td>POST</td><td>users-groups-import</td><td>api/users-groups/import</td></tr><tr><td>72</td><td>GET</td><td>users-groups-export</td><td>api/users-groups/export</td></tr><tr><td>73</td><td>GET</td><td>users-groups-permissions</td><td>api/users-groups/permissions</td></tr></tbody></table>
-
-## Database
-```text
-emails_templates:
-	id bigint(20) unsigned
-	slug varchar(255)
-	name varchar(255)
-	subject varchar(255)
-	body text
-	models text
-	params text
-	created_at datetime
-	updated_at datetime
-	deleted_at datetime
-
-files:
-	id bigint(20) unsigned
-	slug varchar(255)
-	name varchar(255)
-	folder varchar(255)
-	size int(11)
-	mime varchar(100)
-	type varchar(20)
-	ext varchar(5)
-	is_text int(1)
-	url varchar(255)
-	content longtext
-	created_at timestamp
-	updated_at timestamp
-	deleted_at datetime
-
-pages:
-	id bigint(20) unsigned
-	slug varchar(255)
-	name varchar(255)
-	content longtext
-	owner_id bigint(20) unsigned
-	created_at timestamp
-	updated_at timestamp
-	deleted_at datetime
-
-settings:
-	id bigint(20) unsigned
-	name varchar(255)
-	value text
-	created_at timestamp
-	updated_at timestamp
-
-teveps:
-	id bigint(20) unsigned
-	slug varchar(255)
-	name varchar(255)
-	owner_id bigint(20) unsigned
-	parent_id bigint(20) unsigned
-	meta text
-	created_at datetime
-	updated_at datetime
-	deleted_at datetime
-
-teveps_invites:
-	id bigint(20) unsigned
-	slug varchar(255)
-	name varchar(255)
-	tevep_id bigint(20) unsigned
-	created_at datetime
-	updated_at datetime
-	deleted_at datetime
-
-users:
-	id bigint(20) unsigned
-	name varchar(255)
-	email varchar(255)
-	photo_id bigint(20) unsigned
-	group_id bigint(20) unsigned
-	email_verified_at timestamp
-	password varchar(255)
-	remember_token varchar(100)
-	created_at timestamp
-	updated_at timestamp
-
-users_groups:
-	id bigint(20) unsigned
-	slug varchar(255)
-	name varchar(255)
-	permissions longtext
-	created_at datetime
-	updated_at datetime
-	deleted_at datetime
-```
+<table width="100%"><tbody><tr><td>Nº</td><td>METHODS</td><td>ROUTE</td><td>NAME</td></tr><tr><td>1</td><td>GET</td><td>/api/app/endpoints</td><td>app-endpoints</td></tr><tr><td>2</td><td>GET</td><td>/api/app/dashboard</td><td>app-dashboard</td></tr><tr><td>3</td><td>POST</td><td>/api/auth/login</td><td>auth-login</td></tr><tr><td>4</td><td>POST</td><td>/api/auth/me</td><td>auth-me</td></tr><tr><td>5</td><td>POST</td><td>/api/auth/logout</td><td>auth-logout</td></tr><tr><td>6</td><td>POST</td><td>/api/auth/refresh</td><td>auth-refresh</td></tr><tr><td>7</td><td>POST</td><td>/api/auth/register</td><td>auth-register</td></tr><tr><td>8</td><td>POST</td><td>/api/auth/password-reset-start</td><td>auth-password-reset-start</td></tr><tr><td>9</td><td>POST</td><td>/api/auth/password-reset-change</td><td>auth-password-reset-change</td></tr><tr><td>10</td><td>GET</td><td>/api/emails-templates/search</td><td>emails-templates-search</td></tr><tr><td>11</td><td>GET</td><td>/api/emails-templates/find/{id}</td><td>emails-templates-find</td></tr><tr><td>12</td><td>POST</td><td>/api/emails-templates/save</td><td>emails-templates-save</td></tr><tr><td>13</td><td>POST</td><td>/api/emails-templates/valid</td><td>emails-templates-valid</td></tr><tr><td>14</td><td>POST</td><td>/api/emails-templates/import</td><td>emails-templates-import</td></tr><tr><td>15</td><td>GET</td><td>/api/emails-templates/export</td><td>emails-templates-export</td></tr><tr><td>16</td><td>POST</td><td>/api/emails-templates/test/{id}</td><td>emails-templates-test</td></tr><tr><td>17</td><td>GET</td><td>/api/files/search</td><td>files-search</td></tr><tr><td>18</td><td>GET</td><td>/api/files/find/{id}</td><td>files-find</td></tr><tr><td>19</td><td>POST</td><td>/api/files/save</td><td>files-save</td></tr><tr><td>20</td><td>POST</td><td>/api/files/valid</td><td>files-valid</td></tr><tr><td>21</td><td>POST</td><td>/api/files/delete</td><td>files-delete</td></tr><tr><td>22</td><td>POST</td><td>/api/files/restore</td><td>files-restore</td></tr><tr><td>23</td><td>GET</td><td>/api/files/clone/{id}</td><td>files-clone</td></tr><tr><td>24</td><td>POST</td><td>/api/files/import</td><td>files-import</td></tr><tr><td>25</td><td>GET</td><td>/api/files/export</td><td>files-export</td></tr><tr><td>26</td><td>GET</td><td>/api/files/view/{slug}.{ext}</td><td>files-view</td></tr><tr><td>27</td><td>GET</td><td>/api/pages/search</td><td>pages-search</td></tr><tr><td>28</td><td>GET</td><td>/api/pages/find/{id}</td><td>pages-find</td></tr><tr><td>29</td><td>POST</td><td>/api/pages/save</td><td>pages-save</td></tr><tr><td>30</td><td>POST</td><td>/api/pages/valid</td><td>pages-valid</td></tr><tr><td>31</td><td>POST</td><td>/api/pages/delete</td><td>pages-delete</td></tr><tr><td>32</td><td>POST</td><td>/api/pages/restore</td><td>pages-restore</td></tr><tr><td>33</td><td>GET</td><td>/api/pages/clone/{id}</td><td>pages-clone</td></tr><tr><td>34</td><td>POST</td><td>/api/pages/import</td><td>pages-import</td></tr><tr><td>35</td><td>GET</td><td>/api/pages/export</td><td>pages-export</td></tr><tr><td>36</td><td>POST</td><td>/api/settings/import</td><td>settings-import</td></tr><tr><td>37</td><td>GET</td><td>/api/settings/export</td><td>settings-export</td></tr><tr><td>38</td><td>POST</td><td>/api/settings/save</td><td>settings-save-all</td></tr><tr><td>39</td><td>GET</td><td>/api/settings/all</td><td>settings-get-all</td></tr><tr><td>40</td><td>GET</td><td>/api/teveps/search</td><td>teveps-search</td></tr><tr><td>41</td><td>GET</td><td>/api/teveps/find/{id}</td><td>teveps-find</td></tr><tr><td>42</td><td>POST</td><td>/api/teveps/save</td><td>teveps-save</td></tr><tr><td>43</td><td>POST</td><td>/api/teveps/valid</td><td>teveps-valid</td></tr><tr><td>44</td><td>POST</td><td>/api/teveps/delete</td><td>teveps-delete</td></tr><tr><td>45</td><td>POST</td><td>/api/teveps/restore</td><td>teveps-restore</td></tr><tr><td>46</td><td>GET</td><td>/api/teveps/clone/{id}</td><td>teveps-clone</td></tr><tr><td>47</td><td>POST</td><td>/api/teveps/import</td><td>teveps-import</td></tr><tr><td>48</td><td>GET</td><td>/api/teveps/export</td><td>teveps-export</td></tr><tr><td>49</td><td>GET</td><td>/api/teveps-invites/search</td><td>teveps-invites-search</td></tr><tr><td>50</td><td>GET</td><td>/api/teveps-invites/find/{id}</td><td>teveps-invites-find</td></tr><tr><td>51</td><td>POST</td><td>/api/teveps-invites/save</td><td>teveps-invites-save</td></tr><tr><td>52</td><td>POST</td><td>/api/teveps-invites/valid</td><td>teveps-invites-valid</td></tr><tr><td>53</td><td>POST</td><td>/api/teveps-invites/delete</td><td>teveps-invites-delete</td></tr><tr><td>54</td><td>POST</td><td>/api/teveps-invites/restore</td><td>teveps-invites-restore</td></tr><tr><td>55</td><td>GET</td><td>/api/teveps-invites/clone/{id}</td><td>teveps-invites-clone</td></tr><tr><td>56</td><td>POST</td><td>/api/teveps-invites/import</td><td>teveps-invites-import</td></tr><tr><td>57</td><td>GET</td><td>/api/teveps-invites/export</td><td>teveps-invites-export</td></tr><tr><td>58</td><td>GET</td><td>/api/user/search</td><td>user-search</td></tr><tr><td>59</td><td>GET</td><td>/api/user/find/{id}</td><td>user-find</td></tr><tr><td>60</td><td>POST</td><td>/api/user/save</td><td>user-save</td></tr><tr><td>61</td><td>POST</td><td>/api/user/valid</td><td>user-valid</td></tr><tr><td>62</td><td>POST</td><td>/api/user/import</td><td>user-import</td></tr><tr><td>63</td><td>GET</td><td>/api/user/export</td><td>user-export</td></tr><tr><td>64</td><td>GET</td><td>/api/users-groups/search</td><td>users-groups-search</td></tr><tr><td>65</td><td>GET</td><td>/api/users-groups/find/{id}</td><td>users-groups-find</td></tr><tr><td>66</td><td>POST</td><td>/api/users-groups/save</td><td>users-groups-save</td></tr><tr><td>67</td><td>POST</td><td>/api/users-groups/valid</td><td>users-groups-valid</td></tr><tr><td>68</td><td>POST</td><td>/api/users-groups/delete</td><td>users-groups-delete</td></tr><tr><td>69</td><td>POST</td><td>/api/users-groups/restore</td><td>users-groups-restore</td></tr><tr><td>70</td><td>GET</td><td>/api/users-groups/clone/{id}</td><td>users-groups-clone</td></tr><tr><td>71</td><td>POST</td><td>/api/users-groups/import</td><td>users-groups-import</td></tr><tr><td>72</td><td>GET</td><td>/api/users-groups/export</td><td>users-groups-export</td></tr><tr><td>73</td><td>GET</td><td>/api/users-groups/permissions</td><td>users-groups-permissions</td></tr></tbody></table>

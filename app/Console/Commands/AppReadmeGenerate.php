@@ -18,6 +18,8 @@ class AppReadmeGenerate extends AppBase
         
         $file = [ '# '. env('APP_NAME') ];
 
+        $file[] = '[TOC]';
+        
         $file[] = '## Instalação';
         $file[] = 'Insira os dados do banco no arquivo `.env` e então execute';
         $file[] = 'os comandos abaixo, que respectivamente são para:';
@@ -322,10 +324,157 @@ class AppReadmeGenerate extends AppBase
         $file[] = '';
 
 
+        $file[] = '## Layouts frontend';
+        $file[] = '## ';
+        
+        
+        $file[] = '## Componentes mais importantes';
+
+        $file[] = '```html';
+        $file[] = '<!-- /client/components/ui-form.vue -->';
+        $file[] = '';
+        $file[] = '<ui-form';
+        $file[] = ' method="post"';
+        $file[] = ' action="/api/products/save"';
+        $file[] = ' v-model="product"';
+        $file[] = ' #default="form"';
+        $file[] = '>';
+        $file[] = ' <!--';
+        $file[] = ' Este componente apenas cria uma tag form com algumas funções a mais,';
+        $file[] = ' portanto é possível trabalhar normalmente como em uma tag form';
+        $file[] = ' como por exemplo, criando botões type=submit para envio do formulário';
+        $file[] = ' e disparár o envio clicando enter em uma input.';
+        $file[] = ' ';
+        $file[] = ' Parâmetros:';
+        $file[] = '     method: get, post, etc... assim como no axios';
+        $file[] = '     action: url do endpoint';
+        $file[] = '     v-model: objeto que será enviado via post';
+        $file[] = '     #default="form" variavel "form" com alguns dados internos do form como:';
+        $file[] = '     form.loading: true ou false, informa se o form está em processamento';
+        $file[] = '     form.response: dados da resposta, request.data do axios.';
+        $file[] = '     form.error: mensagem de erro do form, em string';
+        $file[] = '     form.errorFields: objeto javascript com erros de validação, no formato {campo:["erro1", "erro2"]}';
+        $file[] = '     form.submit: método submit() para envio do formulário';
+        $file[] = '-->';
+        $file[] = '</ui-form>';
+        $file[] = '```';
+        $file[] = '';
+
+
+        $file[] = '```html';
+        $file[] = '<!-- /client/components/ui/model/edit.vue -->';
+        $file[] = '';
+        $file[] = '<ui-model-edit';
+        $file[] = ' model-name="products"';
+        $file[] = ' model-id="153"';
+        $file[] = ' singular="Produto"';
+        $file[] = ' plural="Produtos"';
+        $file[] = ' #default="form"';
+        $file[] = '>';
+        $file[] = ' <!--';
+        $file[] = ' Este componente cria toda a interface básica para edição de dados,';
+        $file[] = ' fazendo toda a parte repetitiva e deixando para você apenas a tarefa';
+        $file[] = ' de informar quais os parâmetros básicos e como será o html dos campos.';
+        $file[] = ' ';
+        $file[] = ' Parâmetros:';
+        $file[] = '     model-name: Nome da model/table no formato kebab';
+        $file[] = '     model-id: ID do registro (o sistema faz a requisição automaticamente para /products/find/153 e te retorna o objeto)';
+        $file[] = '     singular: Nome no singular para descrições';
+        $file[] = '     plural: Nome no plural para descrições';
+        $file[] = '     #default="form" variavel "form" com alguns dados internos do form como:';
+        $file[] = '     form.value: dados da model que serão editados/enviados via post';
+        $file[] = '     form.loading: true ou false, informa se o form está em processamento';
+        $file[] = '     form.error: mensagem de erro do form, em string';
+        $file[] = '     form.errorFields: objeto javascript com erros de validação, no formato {campo:["erro1", "erro2"]}';
+        $file[] = '-->';
+        $file[] = '';
+        $file[] = ' <!-- Insira os campos normalmente -->';
+        $file[] = ' <ui-field label="Nome" :error="form.errorFields.owner">';
+        $file[] = '     <input type="text" class="form-control" value="form.value.name" />';
+        $file[] = ' </ui-field>';
+        $file[] = '';
+        $file[] = ' <!-- Os botões na parte de baixo do formulário serão inseridos automaticamente, -->';
+        $file[] = ' <!-- mas se você precisar customizar alguma ação, utilize esse slot: -->';
+        $file[] = ' <slot name="actions">';
+        $file[] = '     <button type="button" class="btn btn-success">';
+        $file[] = '         Ação customizada 1';
+        $file[] = '     </button>';
+        $file[] = '';
+        $file[] = '     <button type="button" class="btn btn-success">';
+        $file[] = '         Ação customizada 2';
+        $file[] = '     </button>';
+        $file[] = ' </slot>';
+        $file[] = '</ui-model-edit>';
+        $file[] = '```';
+        $file[] = '';
+
+
+        $file[] = '```html';
+        $file[] = '<!-- /client/components/ui/model/search.vue -->';
+        $file[] = '';
+        $file[] = '<ui-model-search';
+        // $file[] = ' method="post"';
+        // $file[] = ' action="/api/products/save"';
+        // $file[] = ' v-model="product"';
+        // $file[] = ' #default="form"';
+        $file[] = '>';
+        // $file[] = ' <!--';
+        // $file[] = ' esse componente apenas cria uma tag form com algumas funções a mais,';
+        // $file[] = ' portanto é possível trabalhar normalmente como em uma tag form';
+        // $file[] = ' como por exemplo, criando botões type=submit para envio do formulário';
+        // $file[] = ' e disparár o envio clicando enter em uma input.';
+        // $file[] = ' ';
+        // $file[] = ' Parâmetros:';
+        // $file[] = '     method: get, post, etc... assim como no axios';
+        // $file[] = '     action: url do endpoint';
+        // $file[] = '     v-model: objeto que será enviado via post';
+        // $file[] = '     #default="form" variavel "form" com alguns dados internos do form como:';
+        // $file[] = '     form.loading: true ou false, informa se o form está em processamento';
+        // $file[] = '     form.response: dados da resposta, request.data do axios.';
+        // $file[] = '     form.error: mensagem de erro do form, em string';
+        // $file[] = '     form.errorFields: objeto javascript com erros de validação, no formato {campo:["erro1", "erro2"]}';
+        // $file[] = '     form.submit: método submit() para envio do formulário';
+        // $file[] = '-->';
+        $file[] = '</ui-model-search>';
+        $file[] = '```';
+        $file[] = '';
+
+
+        $file[] = '```html';
+        $file[] = '<!-- /client/components/ui/model/select.vue -->';
+        $file[] = '';
+        $file[] = '<ui-model-select';
+        // $file[] = ' method="post"';
+        // $file[] = ' action="/api/products/save"';
+        // $file[] = ' v-model="product"';
+        // $file[] = ' #default="form"';
+        $file[] = '>';
+        // $file[] = ' <!--';
+        // $file[] = ' esse componente apenas cria uma tag form com algumas funções a mais,';
+        // $file[] = ' portanto é possível trabalhar normalmente como em uma tag form';
+        // $file[] = ' como por exemplo, criando botões type=submit para envio do formulário';
+        // $file[] = ' e disparár o envio clicando enter em uma input.';
+        // $file[] = ' ';
+        // $file[] = ' Parâmetros:';
+        // $file[] = '     method: get, post, etc... assim como no axios';
+        // $file[] = '     action: url do endpoint';
+        // $file[] = '     v-model: objeto que será enviado via post';
+        // $file[] = '     #default="form" variavel "form" com alguns dados internos do form como:';
+        // $file[] = '     form.loading: true ou false, informa se o form está em processamento';
+        // $file[] = '     form.response: dados da resposta, request.data do axios.';
+        // $file[] = '     form.error: mensagem de erro do form, em string';
+        // $file[] = '     form.errorFields: objeto javascript com erros de validação, no formato {campo:["erro1", "erro2"]}';
+        // $file[] = '     form.submit: método submit() para envio do formulário';
+        // $file[] = '-->';
+        $file[] = '</ui-model-select>';
+        $file[] = '```';
+        $file[] = '';
+
+
         $file[] = '## Endpoints';
         $file[] = 'Todas as rotas disponíveis:';
 
-        $table = [['Nº', 'METHODS', 'NAME', 'ROUTE']];
+        $table = [['Nº', 'METHODS', 'ROUTE', 'NAME']];
         foreach(\Route::getRoutes() as $index => $item) {
             if ($item->uri=='{path}') continue;
             if (\Str::startsWith($item->uri, '_ignition')) continue;
@@ -338,24 +487,13 @@ class AppReadmeGenerate extends AppBase
             $table[] = [
                 $index,
                 implode(',', $methods),
+                '/'.$item->uri(),
                 $item->getName(),
-                $item->uri(),
             ];
         }
 
         $file[] = $this->makeTable($table);
         $file[] = '';
-
-        $file[] = '## Database';
-        $file[] = '```text';
-        foreach(array_values($this->tables) as $i => $table) {
-            $file[] = $table->Name .':';
-            foreach($table->Fields as $field) {
-                $file[] = "\t{$field->Field} {$field->Type}";
-            }
-            if ($i < sizeof($this->tables)-1) { $file[] = ''; }
-        }
-        $file[] = '```';
         
 
         file_put_contents(base_path('README.md'), implode("\n", $file));
