@@ -13,7 +13,8 @@ class AppReadmeGenerate extends AppBase
     protected $description = 'Gera documentação';
 
     public function handle() {
-        $tables = $this->getTables();
+        $this->tables = $this->getTables();
+        // $this->fks = $this->getFks();
         
         $file = [ '# '. env('APP_NAME') ];
 
@@ -65,7 +66,7 @@ class AppReadmeGenerate extends AppBase
         $file[] = '## Models';
         $file[] = 'Estas são todas as models disponíveis no sistema:';
         $file[] = '```php';
-        foreach($tables as $table) {
+        foreach($this->tables as $table) {
             if ($this->isIgnoredTable($table->Name)) continue;
             $file[] = "{$table->Model->NameFull};";
         }
@@ -90,12 +91,12 @@ class AppReadmeGenerate extends AppBase
             "   protected \$fillable = ['id', 'slug', 'name', 'price', 'created_at', 'updated_at', 'deleted_at'];",
             "",
             "   /*",
-            "    * Esse método é sempre executado antes de salvar dados",
+            "    * Esse método é sempre executado antes de salvar/exibir dados",
             "    * para forçar que valores sigam um determinado padrão.",
             "    * Você ainda pode utilizar mutators normalmente, esse método",
             "    * foi criado apenas para simplificar a vida.",
             "    */",
-            "   public function toInput()",
+            "   public function modelMutator()",
             "   {",
             "       \$this->price = \$this->price? \$this->price: 0;",
             "   }",
@@ -176,7 +177,7 @@ class AppReadmeGenerate extends AppBase
         $file[] = '## Controllers';
         $file[] = 'Estes são todos os controllers disponíveis no sistema:';
         $file[] = '```php';
-        foreach($tables as $table) {
+        foreach($this->tables as $table) {
             if ($this->isIgnoredTable($table->Name)) continue;
             $file[] = "{$table->Controller->NameFull};";
         }
@@ -325,7 +326,18 @@ class AppReadmeGenerate extends AppBase
         }
 
         $file[] = $this->makeTable($table);
+        $file[] = '';
 
+        $file[] = '## Database';
+        $file[] = '```text';
+        foreach(array_values($this->tables) as $i => $table) {
+            $file[] = $table->Name .':';
+            foreach($table->Fields as $field) {
+                $file[] = "\t{$field->Field} {$field->Type}";
+            }
+            if ($i < sizeof($this->tables)-1) { $file[] = ''; }
+        }
+        $file[] = '```';
         
 
         file_put_contents(base_path('README.md'), implode("\n", $file));
@@ -339,29 +351,6 @@ class AppReadmeGenerate extends AppBase
 
     public function makeTable($items=[])
     {
-        // $fieldSize = [];
-
-        // foreach($items as $i => $row) {
-        //     foreach($row as $ii => $value) {
-        //         $fieldSize[$ii] = isset($fieldSize[$ii])? $fieldSize[$ii]: 0;
-        //         $fieldSize[$ii] = max($fieldSize[$ii], strlen($value));
-        //     }
-        // }
-
-        // $table[] = "```text\n";
-        // foreach($items as $i => $row) {
-        //     $table[] = '| ';
-        //     foreach($row as $ii => $value) {
-        //         $table[] = str_pad($value, $fieldSize[$ii], ' ');
-        //         $table[] = ' | ';
-        //     }
-        //     $table[] = "\n";
-        // }
-        // $table[] = '```';
-
-        // return implode('', $table);
-
-
         $content = '<table width="100%"><tbody>';
         foreach($items as $i => $row) {
             $content .= '<tr>';

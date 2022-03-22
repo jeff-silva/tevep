@@ -7,16 +7,16 @@ trait Model
     public static function bootModel()
     {
         static::retrieved(function($model) {
-            $model->toOutput();
+            $model->modelMutator();
         });
 
         static::saving(function($model) {
+            $model->modelMutator();
 
             if (in_array('slug', $model->getFillable())) {
                 $model->slug = $model->slug? $model->slug: \Str::slug($model->name);
             }
 
-            $model->toOutput();
             $validate = $model->validate();
 
             if ($validate->fails()) {
@@ -45,9 +45,9 @@ trait Model
     }
 
 
-    public function toOutput()
+    public function modelMutator()
     {
-        // return $this;
+        // 
     }
 
 

@@ -90,7 +90,7 @@ class User extends Authenticatable implements JWTSubject
 	}
 
 
-	public function toOutput()
+	public function modelMutator()
 	{
 		$this->photo_id = is_numeric($this->photo_id)? $this->photo_id: null;
 		$this->email_verified_at = strtotime($this->email_verified_at)? $this->email_verified_at: null;

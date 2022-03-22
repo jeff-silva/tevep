@@ -27,7 +27,7 @@ class EmailsTemplates extends \Illuminate\Database\Eloquent\Model
 	];
 
 
-	public function toOutput()
+	public function modelMutator()
 	{
 		$this->params = app($this->slug)->getParams();
 	}

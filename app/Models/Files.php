@@ -31,7 +31,7 @@ class Files extends \Illuminate\Database\Eloquent\Model
 	];
 
 
-	public function toOutput()
+	public function modelMutator()
 	{
 		$this->slug = $this->slug? $this->slug: \Str::slug($this->name .'-'. uniqid());
 		$this->name = $this->name? $this->name: $this->slug;

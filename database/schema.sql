@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `teveps` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `owner_id` bigint(20) unsigned DEFAULT NULL,
   `parent_id` bigint(20) unsigned DEFAULT NULL,
+  `meta` text COLLATE utf8mb4_unicode_ci COMMENT 'Json data',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,

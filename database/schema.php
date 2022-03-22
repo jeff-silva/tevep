@@ -306,6 +306,7 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `owner_id` bigint(20) unsigned DEFAULT NULL,
   `parent_id` bigint(20) unsigned DEFAULT NULL,
+  `meta` text COLLATE utf8mb4_unicode_ci COMMENT 'Json data',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -341,6 +342,12 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \Schema::hasColumn('teveps', 'parent_id')?
 	\DB::statement("ALTER TABLE teveps MODIFY COLUMN `parent_id` bigint(20) unsigned DEFAULT NULL"):
 	\DB::statement("ALTER TABLE teveps ADD COLUMN `parent_id` bigint(20) unsigned DEFAULT NULL");
+
+
+// Create/Update column teveps.meta
+\Schema::hasColumn('teveps', 'meta')?
+	\DB::statement("ALTER TABLE teveps MODIFY COLUMN `meta` text COLLATE utf8mb4_unicode_ci COMMENT 'Json data'"):
+	\DB::statement("ALTER TABLE teveps ADD COLUMN `meta` text COLLATE utf8mb4_unicode_ci COMMENT 'Json data'");
 
 
 // Create/Update column teveps.created_at
