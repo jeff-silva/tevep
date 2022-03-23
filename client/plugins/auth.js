@@ -1,4 +1,5 @@
 export default function (ctx) {
-    ctx.$auth.settings = ctx.$auth.user.settings || {};
-    delete ctx.$auth.user.settings;
+    console.log(ctx.$auth.user);
+    ctx.$auth.settings = (ctx.$auth.user? ctx.$auth.user.settings: false) || {};
+    if (ctx.$auth.user) { delete ctx.$auth.user.settings; }
 }

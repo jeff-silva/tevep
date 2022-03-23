@@ -1,16 +1,18 @@
 <template>
     <div class="ui-app">
+        <ui-browser-info v-model="browser"></ui-browser-info>
+
         <div class="d-flex" style="height:100vh;">
             <div class="d-none d-md-flex" :style="`min-width:${navWidth}; max-width:${navWidth}; background:${barsBackground};`">
                 <div class="w-100 ui-app-vrow">
                     <div class="ui-app-vrow-action">
-                        <slot name="nav-header"></slot>
+                        <slot name="nav-header" :browser="browser"></slot>
                     </div>
                     <div class="ui-app-vrow-body ui-app-scroll">
-                        <slot name="nav-body"></slot>
+                        <slot name="nav-body" :browser="browser"></slot>
                     </div>
                     <div class="ui-app-vrow-action border-top">
-                        <slot name="nav-footer">
+                        <slot name="nav-footer" :browser="browser">
                             <ui-auth-logout class="btn border-0 shadow-none w-100 rounded-0">
                                 <i class="fas fa-fw fa-power-off"></i> Sair
                             </ui-auth-logout>
@@ -19,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="flex-grow-1" :style="`max-width:calc(100vw - ${navWidth});`">
+            <div class="flex-grow-1" :style="(browser.mobile? 'max-width:100vw;': `max-width:calc(100vw - ${navWidth});`)">
                 <div class="ui-app-vrow">
                     <div class="ui-app-vrow-action" :style="`background:${barsBackground};`">
                         <div class="d-flex align-items-center p-2">
@@ -31,16 +33,16 @@
 
                             <div class="flex-grow-1 fw-bold text-uppercase">{{ headTitle }}</div>
 
-                            <slot name="header">&nbsp;</slot>
+                            <slot name="header" :browser="browser">&nbsp;</slot>
                         </div>
                     </div>
 
                     <div class="ui-app-vrow-body ui-app-scroll p-1 pt-2 p-md-2" :style="`background:${contentBackground};`">
-                        <slot name="content"></slot>
+                        <slot name="content" :browser="browser"></slot>
                     </div>
 
                     <div class="ui-app-vrow-action" v-if="$slots.footer">
-                        <slot name="footer"></slot>
+                        <slot name="footer" :browser="browser"></slot>
                     </div>
                 </div>
             </div>
@@ -53,12 +55,12 @@
                         <a href="javascript:;" class="btn btn-light btn-sm border-0 shadow-none m-1" style="float:right;" @click="drawer=false">
                             <i class="fas fa-fw fa-times"></i>
                         </a>
-                        <slot name="nav-header"></slot>
+                        <slot name="nav-header" :browser="browser"></slot>
                     </div>
                 </div>
 
                 <div class="ui-app-vrow-body ui-app-scroll">
-                    <slot name="nav-body"></slot>
+                    <slot name="nav-body" :browser="browser"></slot>
                 </div>
 
                 <div class="ui-app-vrow-action">
@@ -91,6 +93,7 @@ export default {
         return {
             drawer: false,
             headTitle: document.title,
+            browser: {},
         };
     },
 

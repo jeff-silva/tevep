@@ -58,6 +58,20 @@ export default {
                 this.$emit('close', this.props.value);
             }
         },
+
+        documentKeyup(ev) {
+            if (ev.key!='Escape') return;
+            this.props.value = false;
+            this.$emit('input', this.props.value);
+        },
+    },
+
+    mounted() {
+        document.addEventListener('keyup', this.documentKeyup);
+    },
+
+    beforeDestroy() {
+        document.removeEventListener('keyup', this.documentKeyup);
     },
 }
 </script>

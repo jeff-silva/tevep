@@ -106,9 +106,9 @@ export default {
 
         // TODO: encontrar meio de fazer o preventRedirect para VueRouter
         onBeforeunload(ev) {
-            if (!this.preventMessage || !this.formChanged) return;
-            (ev || window.event).returnValue = this.preventMessage;
-            return this.preventMessage;
+            // if (!this.preventMessage || !this.formChanged) return;
+            // (ev || window.event).returnValue = this.preventMessage;
+            // return this.preventMessage;
         },
     },
 

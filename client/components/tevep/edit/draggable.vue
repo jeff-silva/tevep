@@ -1,33 +1,63 @@
 <template>
     <div class="tevep-edit-draggable d-flex" :class="{'flex-column w-100':(layout=='vertical')}">
-        <draggable v-model="props.value" handle=".handle" :class="{'d-flex':(layout=='horizontal')}">
+        <draggable v-model="props.value" handle=".handle" :class="{'d-flex':(layout=='horizontal')}" @start="dragStart" @end="dragEnd">
             <div v-for="v in props.value" class="p-1" :class="{'flex-grow-1':(layout=='horizontal')}" :style="`${layout=='horizontal'? 'max-width:300px;': ''}`">
                 <div>
-                    <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm tevep-edit-draggable-input-group">
                         <div class="input-group-text handle">
                             <i class="fas fa-fw fa-bars"></i>
                         </div>
-                        <slot :item="v"></slot>
+                        <slot :item="v" :updateNeighDate="updateNeighDate"></slot>
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-light btn-sm rounded-0" @click="v.modal=true">
-                                <i class="fas fa-fw fa-plus"></i>
+                                <i class="fas fa-fw fa-ellipsis-v"></i>
                             </button>
                         </div>
                     </div>
 
-                    <ui-modal v-model="v.modal">
+                    <ui-modal v-model="v.modal" width="500px">
                         <template #header>Alterar dados</template>
                         <template #body>
-                            <ui-field label="Valor">
-                                <slot :item="v"></slot>
+                            <ui-field label="Nome">
+                                <input type="text" class="form-control" v-model="v.name">
                             </ui-field>
+
+                            <ui-field label="Data início">
+                                <el-date-picker
+                                    class="w-100"
+                                    v-model="v.date_start"
+                                    type="datetime"
+                                    placeholder="Selecionar data/hora"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    format="dd/MM/yyyy - HH:mm:ss"
+                                    @input="updateNeighDate(v.date_start, v, -1, 'date_final')"
+                                ></el-date-picker>
+                            </ui-field>
+
+                            <ui-field label="Data fim">
+                                <el-date-picker
+                                    class="w-100"
+                                    v-model="v.date_final"
+                                    type="datetime"
+                                    placeholder="Selecionar data/hora"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    format="dd/MM/yyyy - HH:mm:ss"
+                                    @input="updateNeighDate(v.date_final, v, +1, 'date_start')"
+                                ></el-date-picker>
+                            </ui-field>
+
+                            <pre>{{ v }}</pre>
                         </template>
                         <template #footer>
                             <button type="button" class="btn btn-danger" @click="remove(v)">
                                 <i class="fas fa-fw fa-times"></i> Remover
                             </button>
 
-                            <button type="button" class="btn btn-success" @click="tevepCreate(v)">
+                            <nuxt-link :to="`/admin/teveps/${v.tevep_id}`" class="btn btn-success" v-if="v.tevep_id">
+                                Acessar Tevep
+                            </nuxt-link>
+
+                            <button type="button" class="btn btn-success" @click="tevepCreate(v)" v-if="!v.tevep_id">
                                 <i class="fas fa-fw fa-plus"></i> Criar evento
                             </button>
 
@@ -102,22 +132,51 @@ export default {
         },
 
         tevepCreate(item) {
-
-            // chamada ajax para criar tevep
-            let tevep = {
-                name: (item.name || item.date_start),
-                parent_id: this.$store.state.tevep.edit.id,
-            };
-
-            this.$axios.post('/api/teveps/save', tevep).then(resp => {
-                item.tevep_id = resp.data.id;
-                item.modal = false;
-                // TODO: setar date_start e date_final
-
-                this.$axios.post('/api/teveps/save', this.$store.state.tevep.edit).then(resp2 => {
-                    this.$router.push(`/admin/teveps/${resp.data.id}`);
-                    this.$store.state.tevep.edit = resp2.data;
+            this.$confirm('Tornar este item um evento?').then(resp => {
+                // chamada ajax para criar tevep
+                let tevep = {
+                    name: (item.name || item.date_start),
+                    parent_id: this.$store.state.tevep.edit.id,
+                };
+    
+                this.$axios.post('/api/teveps/save', tevep).then(resp => {
+                    item.tevep_id = resp.data.id;
+                    item.modal = false;
+                    // TODO: setar date_start e date_final
+    
+                    this.$axios.post('/api/teveps/save', this.$store.state.tevep.edit).then(resp2 => {
+                        this.$router.push(`/admin/teveps/${resp.data.id}`);
+                        this.$store.state.tevep.edit = resp2.data;
+                    });
                 });
+            });
+        },
+
+        updateNeighDate(value, item, index, attr) {
+            let currentIndex = this.props.value.indexOf(item);
+            let neigh = this.props.value[ currentIndex+index ] || false;
+            if (!neigh) return;
+            if (!neigh[attr]) return;
+            neigh[attr] = value;
+        },
+
+        dragStart(ev) {
+            this.__fakeDates = [];
+            this.props.value.forEach(item => {
+                this.__fakeDates.push({
+                    date_start: (item.date_start||''),
+                    date_final: (item.date_final||''),
+                });
+            });
+        },
+
+        dragEnd(ev) {
+            if (! typeof this.__fakeDates=="object") return;
+            this.props.value.forEach((item, index) => {
+                let fakeDate = this.__fakeDates[index] || false;
+                if (!fakeDate) return;
+                item.date_start = fakeDate.date_start;
+                item.date_final = fakeDate.date_final;
             });
         },
     },
@@ -127,13 +186,13 @@ export default {
 <style>
 .tevep-edit-draggable .handle {cursor:move;}
 
-.tevep-edit-draggable .el-date-editor--datetime {
+.tevep-edit-draggable-input-group .el-date-editor--datetime {
     height: 28px;
 }
 
-.tevep-edit-draggable .el-date-editor--datetime .el-input__icon {
+.tevep-edit-draggable-input-group .el-date-editor--datetime .el-input__icon {
     line-height: 28px;
 }
 
-.tevep-edit-draggable .el-input__inner {height: 100%;}
+.tevep-edit-draggable-input-group .el-input__inner {height: 100%;}
 </style>
