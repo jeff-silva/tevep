@@ -6,7 +6,11 @@ export default {
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-  proxy: {'/api/': process.env.APP_URL, '/uploads/': process.env.APP_URL},
+  proxy: {
+    '/api/': process.env.APP_URL,
+    '/uploads/': process.env.APP_URL,
+    '/assets/': process.env.APP_URL,
+  },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {

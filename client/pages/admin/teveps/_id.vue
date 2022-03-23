@@ -2,10 +2,10 @@
 	<ui-model-edit
 		model-name="teveps"
 		:model-id="$route.params.id"
+		v-model="$store.state.tevep.edit"
 		singular="Item"
 		plural="Itens"
 		#default="{value, errorFields}"
-		@model-loaded="$store.state.tevep.edit=$event"
 	>
 		<tevep-edit></tevep-edit>
 	</ui-model-edit>

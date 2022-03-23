@@ -13,6 +13,6 @@ class AppDeploy extends AppBase
 
     public function handle() {
         $this->call('app:install');
-        include database_path('schema.php');
+        $this->call('app:seed');
     }
 }

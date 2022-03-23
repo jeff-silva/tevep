@@ -307,6 +307,8 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `owner_id` bigint(20) unsigned DEFAULT NULL,
   `parent_id` bigint(20) unsigned DEFAULT NULL,
   `meta` text COLLATE utf8mb4_unicode_ci COMMENT 'Json data',
+  `date_start` datetime DEFAULT NULL,
+  `date_final` datetime DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -348,6 +350,18 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \Schema::hasColumn('teveps', 'meta')?
 	\DB::statement("ALTER TABLE teveps MODIFY COLUMN `meta` text COLLATE utf8mb4_unicode_ci COMMENT 'Json data'"):
 	\DB::statement("ALTER TABLE teveps ADD COLUMN `meta` text COLLATE utf8mb4_unicode_ci COMMENT 'Json data'");
+
+
+// Create/Update column teveps.date_start
+\Schema::hasColumn('teveps', 'date_start')?
+	\DB::statement("ALTER TABLE teveps MODIFY COLUMN `date_start` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE teveps ADD COLUMN `date_start` datetime DEFAULT NULL");
+
+
+// Create/Update column teveps.date_final
+\Schema::hasColumn('teveps', 'date_final')?
+	\DB::statement("ALTER TABLE teveps MODIFY COLUMN `date_final` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE teveps ADD COLUMN `date_final` datetime DEFAULT NULL");
 
 
 // Create/Update column teveps.created_at

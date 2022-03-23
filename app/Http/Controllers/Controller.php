@@ -10,17 +10,46 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public $generatedRoutes = [];
+
+    public function getGeneratedRoutes()
+    {
+        return $this->generatedRoutes;
+    }
     
 
-    public function route($methods, $path, $callback)
-    {   
+    public function route($methods, $path, $callback, $info=[])
+    {
+        $methods = is_array($methods)? $methods: [$methods];
         $prefix = (new \ReflectionClass($this))->getShortName();
         $prefix = (string) \Str::of(str_replace('Controller', '', $prefix))->studly()->kebab();
         $path = $prefix .'/'. trim($path, '/');
+        $name = $prefix .'-'. (string) \Str::of($callback)->kebab();
 
-        return \Illuminate\Support\Facades\Route::match($methods, $path, [get_class($this), $callback])
-            ->middleware(['permission'])
-            ->name($prefix .'-'. (string) \Str::of($callback)->kebab());
+        $is_public = !empty(array_filter($this->getMiddleware(), function($middle) use($callback) {
+            $except = (isset($middle['options']) AND isset($middle['options']['except']))? $middle['options']['except']: [];
+            $except = is_array($except)? $except: [];
+            if (empty($except)) return false;
+            return in_array($callback, $middle['options']['except']);
+        }));
+
+        $this->generatedRoutes[] = (object) array_merge([
+            'description' => '',
+            'query' => false,
+            'body' => false,
+            'path' => false,
+        ], $info, [
+            'prefix' => $prefix,
+            'path' => $path,
+            'name' => $name,
+            'methods' => $methods,
+            'is_public' => $is_public,
+        ]);
+
+        return \Illuminate\Support\Facades\Route
+            ::match($methods, $path, [get_class($this), $callback])
+            ->middleware(['permission'])->name($name);
     }
 
 
@@ -34,41 +63,68 @@ class Controller extends BaseController
 
         $name = (new \ReflectionClass($this->model))->getShortName();
         $prefix = (string) \Str::of($name)->studly()->kebab();
+        $body = collect(array_flip($this->model->getFillable()))->map(function($value, $key) { return ''; })->toArray();
 
         if (! in_array('search', $params->except)) {
-            $this->route('get', "/search", 'search');
+            $this->route('get', "/search", 'search', [
+                'description' => 'Busca',
+                'query' => $this->model->searchParamsAll(),
+            ]);
         }
 
         if (! in_array('find', $params->except)) {
-            $this->route('get', "/find/{id}", 'find');
+            $this->route('get', "/find/{id}", 'find', [
+                'description' => 'Encontrar por ID',
+                'path' => ['id' => ''],
+            ]);
         }
 
         if (! in_array('save', $params->except)) {
-            $this->route('post', "/save", 'save');
+            $this->route('post', "/save", 'save', [
+                'description' => 'Salvar',
+                'body' => $body,
+            ]);
         }
 
-        if (! in_array('valid', $params->except)) {
-            $this->route('post', "/valid", 'valid');
-        }
+        // if (! in_array('valid', $params->except)) {
+        //     $this->route('post', "/valid", 'valid', [
+        //         'description' => 'Verificar validação',
+        //         'body' => $body,
+        //     ]);
+        // }
 
         if (! in_array('delete', $params->except)) {
-            $this->route('post', "/delete", 'delete');
+            $this->route('post', "/delete", 'delete', [
+                'description' => 'Deletar',
+                'query' => $this->model->searchParamsAll(),
+            ]);
         }
 
         if (! in_array('restore', $params->except)) {
-            $this->route('post', "/restore", 'restore');
+            $this->route('post', "/restore", 'restore', [
+                'description' => 'Restaurar',
+                'query' => $this->model->searchParamsAll(),
+            ]);
         }
 
         if (! in_array('clone', $params->except)) {
-            $this->route('get', "/clone/{id}", 'clone');
+            $this->route('get', "/clone/{id}", 'clone', [
+                'description' => 'Clonar',
+                'path' => ['id' => ''],
+            ]);
         }
 
-        if (! in_array('import', $params->except)) {
-            $this->route('post', "/import", 'import');
-        }
+        // if (! in_array('import', $params->except)) {
+        //     $this->route('post', "/import", 'import', [
+        //         'description' => 'Importar',
+        //     ]);
+        // }
 
         if (! in_array('export', $params->except)) {
-            $this->route('get', "/export", 'export');
+            $this->route('get', "/export", 'export', [
+                'description' => 'Exportar',
+                'query' => $this->model->searchParamsAll(),
+            ]);
         }
     }
 

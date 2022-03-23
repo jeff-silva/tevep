@@ -152,7 +152,7 @@
                                 </slot>
     
                                 <td v-if="tableActions">
-                                    <ui-dropdown type="left" trigger="hover">
+                                    <ui-dropdown type="left-top" trigger="hover">
                                         <button type="button" class="btn btn-light" style="border-radius:50%;">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>

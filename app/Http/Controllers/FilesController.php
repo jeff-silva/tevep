@@ -9,7 +9,7 @@ class FilesController extends Controller
 		$this->model = new \App\Models\Files;
 
 		$this->middleware('auth:api', [
-			'except' => ['search', 'find', 'view'],
+			'except' => ['view'],
 		]);
 
 		$this->defaultRoutes();

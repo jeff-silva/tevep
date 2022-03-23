@@ -1,5 +1,5 @@
 <template>
-    <form action="" @submit.prevent="submit()" @change="formChanged=true">
+    <form action="" @submit.prevent="submit()" @change="formChanged=true" ref="form">
         <slot :loading="loading" :response="response" :error="error" :error-fields="errorFields" :submit="submit"></slot>
     </form>
 </template>
@@ -28,34 +28,42 @@ export default {
     methods: {
         submit() {
             let method=this.method, url=this.action, data=null, params=null;
-            let headers = {'Content-Type': 'multipart/form-data'};
+            // let headers = {'Content-Type': 'multipart/form-data'};
+            let headers = {};
 
             if (this.method=="post") {
-                data = new FormData();
-                for(let name in this.value) {
-                    let value = this.value[name];
+                data = this.value;
+                // data = new FormData();
+                // for(let name in this.value) {
+                //     let value = this.value[name];
 
-                    if (Array.isArray(value)) {
-                        if (value.length==0) {
-                            data.append(`${name}`, '');
-                            continue;
-                        }
+                //     if (Array.isArray(value)) {
+                //         if (value.length==0) {
+                //             data.append(`${name}`, '');
+                //             continue;
+                //         }
 
-                        for(let i in value) {
-                            data.append(`${name}[]`, value[i] || "");
-                        }
-                        continue;
-                    }
+                //         for(let i in value) {
+                //             data.append(`${name}[]`, value[i] || "");
+                //         }
+                //         continue;
+                //     }
 
-                    else if (value && typeof value=="object" && (value.mime && value.content)) {
-                        let arr = value.content.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-                        while(n--) { u8arr[n] = bstr.charCodeAt(n); }
-                        data.append(name, new File([u8arr], value.name, {type:value.mime}));
-                        continue;
-                    }
+                //     else if (typeof value=="object") {
+                //         console.log({name, value});
+                //         data.append(name, JSON.stringify(value));
+                //         continue;
+                //     }
 
-                    data.append(name, value||'');
-                }
+                //     else if (value && typeof value=="object" && (value.mime && value.content)) {
+                //         let arr = value.content.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+                //         while(n--) { u8arr[n] = bstr.charCodeAt(n); }
+                //         data.append(name, new File([u8arr], value.name, {type:value.mime}));
+                //         continue;
+                //     }
+
+                //     data.append(name, value||'');
+                // }
             }
             else {
                 params = this.value;

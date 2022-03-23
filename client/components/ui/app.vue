@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="flex-grow-1">
+            <div class="flex-grow-1" :style="`max-width:calc(100vw - ${navWidth});`">
                 <div class="ui-app-vrow">
                     <div class="ui-app-vrow-action" :style="`background:${barsBackground};`">
                         <div class="d-flex align-items-center p-2">

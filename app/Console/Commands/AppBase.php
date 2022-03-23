@@ -8,6 +8,9 @@ class AppBase extends \Illuminate\Console\Command
     protected $signature = 'app:test';
     protected $description = 'App test';
 
+    public $tables = false;
+    public $fks = false;
+
     public function handle() {
         $this->comment('Hello');
     }
@@ -58,6 +61,10 @@ class AppBase extends \Illuminate\Console\Command
     }
 
     public function getTables() {
+        if ($this->tables) {
+            return $this->tables;
+        }
+
         $database = env('DB_DATABASE');
         $tables = [];
 
@@ -102,6 +109,10 @@ class AppBase extends \Illuminate\Console\Command
     }
 
     public function getFks() {
+        if ($this->fks) {
+            return $this->fks;
+        }
+
         $database = env('DB_DATABASE');
         $fks = [];
 

@@ -1,10 +1,11 @@
 <template>
-    <div>
+    <pre class="bg-dark text-success p-2 m-0">{{ value }}</pre>
+    <!-- <div>
         <el-collapse-transition>
             <div class="alert alert-danger m-0 rounded-0 p-2" v-if="parseError" v-html="parseError"></div>
         </el-collapse-transition>
         <ui-code :value="JSON.stringify(value, 2, ' ')" @input="uiCodeOnInput($event)"></ui-code>
-    </div>
+    </div> -->
 </template>
 
 <script>

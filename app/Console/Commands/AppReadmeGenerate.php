@@ -17,8 +17,6 @@ class AppReadmeGenerate extends AppBase
         // $this->fks = $this->getFks();
         
         $file = [ '# '. env('APP_NAME') ];
-
-        $file[] = '[TOC]';
         
         $file[] = '## Instalação';
         $file[] = 'Insira os dados do banco no arquivo `.env` e então execute';
@@ -474,28 +472,25 @@ class AppReadmeGenerate extends AppBase
         $file[] = '## Endpoints';
         $file[] = 'Todas as rotas disponíveis:';
 
-        $table = [['Nº', 'METHODS', 'ROUTE', 'NAME']];
-        foreach(\Route::getRoutes() as $index => $item) {
-            if ($item->uri=='{path}') continue;
-            if (\Str::startsWith($item->uri, '_ignition')) continue;
-            if (\Str::startsWith($item->uri, 'sanctum')) continue;
-
-            $methods = $item->methods();
-            $search = array_search('HEAD', $methods);
-            if ($search!==false) unset($methods[$search]);
-
-            $table[] = [
-                $index,
-                implode(',', $methods),
-                '/'.$item->uri(),
-                $item->getName(),
-            ];
+        $content = '<table><tbody>';
+        $content .= '<tr><td>Nº</td><td>Methods</td><td>Route</td><td>Name</td><td>Public</td></tr>';
+        foreach($this->getTables() as $table) {
+            if ($this->isIgnoredTable($table->Name)) continue;
+            foreach(app($table->Controller->NameFull)->getGeneratedRoutes() as $index => $route) {
+                $content .= '<tr>';
+                $content .= "<td>{$index}</td>";
+                $content .= '<td>'. implode(', ', $route->methods) .'</td>';
+                $content .= "<td>/api/{$route->path}</td>";
+                $content .= "<td>{$route->name}</td>";
+                $content .= '<td>'. ($route->is_public? 'ok': '') .'</td>';
+                $content .= '</tr>';
+            }
         }
+        $content .= '</tbody></table>';
 
-        $file[] = $this->makeTable($table);
+        $file[] = $content;
         $file[] = '';
         
-
         file_put_contents(base_path('README.md'), implode("\n", $file));
     }
 
@@ -503,20 +498,5 @@ class AppReadmeGenerate extends AppBase
     {
         $code = is_array($code)? implode("\n", $code): $code;
         return "```{$type}\n{$code}\n```";
-    }
-
-    public function makeTable($items=[])
-    {
-        $content = '<table width="100%"><tbody>';
-        foreach($items as $i => $row) {
-            $content .= '<tr>';
-            foreach($row as $ii => $value) {
-                $content .= "<td>{$value}</td>";
-            }
-            $content .= '</tr>';
-        }
-        $content .= "</tbody></table>";
-
-        return $content;
     }
 }

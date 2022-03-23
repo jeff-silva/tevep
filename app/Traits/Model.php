@@ -334,6 +334,19 @@ trait Model
         }
         return $query->select($select);
     }
+
+
+    public function searchParamsAll() {
+        return array_merge([
+            'q' => '',
+            'page' => 1,
+            'perpage' => 20,
+            'orderby' => 'updated_at',
+            'order' => 'desc',
+            'deleted' => '',
+            'limit' => '',
+        ], $this->searchParams());
+    }
     
 
     public function searchParams() {
@@ -347,15 +360,7 @@ trait Model
 
 
     public function scopeSearch($query, $params=null) {
-        $searchParams = array_merge([
-            'q' => '',
-            'page' => 1,
-            'perpage' => 20,
-            'orderby' => 'updated_at',
-            'order' => 'desc',
-            'deleted' => '',
-            'limit' => '',
-        ], $this->searchParams());
+        $searchParams = $this->searchParamsAll();
 
         $params = $params? $params: request()->all();
         $params = array_merge($searchParams, $params);

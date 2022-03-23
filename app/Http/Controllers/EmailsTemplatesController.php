@@ -9,7 +9,7 @@ class EmailsTemplatesController extends Controller
 		$this->model = new \App\Models\EmailsTemplates;
 
 		$this->middleware('auth:api', [
-			'except' => ['search', 'find'],
+			// 'except' => [],
 		]);
 
 		// Generate default routes (search, find, save, delete, etc...)

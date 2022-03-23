@@ -5,6 +5,8 @@
 
 namespace App\Console\Commands;
 
+use OpenApi\Serializer;
+
 class AppSync extends AppBase
 {
 
@@ -21,5 +23,6 @@ class AppSync extends AppBase
         $this->call('app:parent-sync');
         $this->call('app:seed');
         $this->call('app:readme-generate');
+        $this->call('app:swagger');
     }
 }

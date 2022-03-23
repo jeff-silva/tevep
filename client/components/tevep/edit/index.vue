@@ -4,14 +4,22 @@
             <ui-nav :items="navItems" text-color="#fff"></ui-nav>
         </div>
 
-        <div class="flex-grow-1" style="max-width:1150px; overflow:auto;" v-if="tevep.meta">
-            <div class="row g-0" style="width:1500px; border:solid 1px red;">
+        <!--
+        <img style="height:20px;" src="/assets/icons/raquete-amarela.png" alt="">
+        <img style="height:20px;" src="/assets/icons/raquete-preta.png" alt="">
+        <img style="height:20px;" src="/assets/icons/raquete-verde.png" alt="">
+        <img style="height:20px;" src="/assets/icons/raquete-vermelha.png" alt="">
+        -->
+
+        <div class="flex-grow-1" style="overflow:auto;" v-if="tevep.meta">
+            <div class="row g-0" style="width:1400px;">
 
                 <!-- Tempos -->
                 <div class="col-12 p-2">
                     <tevep-edit-draggable v-model="tevep.meta.tempos" layout="horizontal" #default="v">
-                        <div class="form-control p-0">
+                        <div class="form-control form-control-sm p-0">
                             <el-date-picker
+                                class="w-100"
                                 v-model="v.item.date_start"
                                 type="datetime"
                                 placeholder="Selecionar data/hora"
@@ -21,33 +29,70 @@
                 </div>
     
                 <!-- Pilotos -->
-                <div class="col-3 p-2">
+                <div class="col-3 p-2 d-flex align-items-center">
                     <tevep-edit-draggable v-model="tevep.meta.pilotos" layout="vertical" #default="v">
-                        <input type="text" class="form-control" v-model="v.item.name">
+                        <input type="text" class="form-control form-control-sm" v-model="v.item.name">
                     </tevep-edit-draggable>
+
+                    <img style="width:50px;" src="/assets/icons/piloto.png" alt="" class="ms-3">
                 </div>
     
                 <!-- Nome -->
-                <div class="col-6 p-2">
-                    <input type="text" class="form-control" v-model="tevep.name">
+                <div class="col-6 p-2 d-flex align-items-center justify-content-center" style="min-height:200px;">
+                    <div>
+                        <div class="d-flex align-items-center mb-4">
+                            <div>
+                                <el-date-picker
+                                    class="w-100"
+                                    v-model="tevep.date_start"
+                                    type="datetime"
+                                    placeholder="Selecionar data/hora"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    format="dd/MM/yyyy - HH:mm:ss"
+                                ></el-date-picker>
+                            </div>
+                            <div class="flex-grow-1 px-4 text-center">
+                                <img style="height:70px;" src="/assets/icons/ampulheta.png" alt="">
+                            </div>
+                            <div>
+                                <el-date-picker
+                                    class="w-100"
+                                    v-model="tevep.date_final"
+                                    type="datetime"
+                                    placeholder="Selecionar data/hora"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    format="dd/MM/yyyy - HH:mm:ss"
+                                ></el-date-picker>
+                            </div>
+                        </div>
+                        <div class="text-center mb-4">
+                            <img style="height:70px;" src="/assets/icons/evento.png" alt="">
+                        </div>
+                        <input type="text" class="form-control form-control-sm mx-auto" style="max-width:400px;" v-model="tevep.name">
+                    </div>
                 </div>
     
                 <!-- Convidados -->
-                <div class="col-3 p-2">
+                <div class="col-3 p-2 d-flex align-items-center">
+                    <img style="width:70px;" src="/assets/icons/publico.png" alt="" class="me-3">
+
                     <tevep-edit-draggable v-model="tevep.meta.convidados" layout="vertical" #default="v">
-                        <input type="text" class="form-control" v-model="v.item.name">
+                        <input type="text" class="form-control form-control-sm" v-model="v.item.name">
                     </tevep-edit-draggable>
                 </div>
     
                 <!-- Lugares -->
                 <div class="col-12 p-2">
+                    <div class="text-center mb-3">
+                        <img style="height:30px;" src="/assets/icons/espaco.png" alt="">
+                    </div>
                     <tevep-edit-draggable v-model="tevep.meta.lugares" layout="horizontal" #default="v">
-                        <input type="text" class="form-control" v-model="v.item.name">
+                        <input type="text" class="form-control form-control-sm" v-model="v.item.name">
                     </tevep-edit-draggable>
                 </div>
     
                 <div class="col-12 p-2">
-                    <pre>{{ tevep }}</pre>
+                    <!-- <pre>{{ tevep }}</pre> -->
                 </div>
             </div>
         </div>
@@ -56,6 +101,12 @@
 
 <script>
 export default {
+    watch: {
+        '$store.state.tevep.edit': {handler(value) {
+            this.tevep = value;
+        }},
+    },
+
     data() {
         return {
             tevep: this.$store.state.tevep.edit,

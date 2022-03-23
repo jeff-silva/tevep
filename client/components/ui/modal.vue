@@ -41,6 +41,11 @@ export default {
     },
 
     methods: {
+        show() {
+            this.props.value = true;
+            this.$emit('input', this.props.value);
+        },
+
         emitValue() {
             this.$emit('value', this.props.value);
             this.$emit('input', this.props.value);
