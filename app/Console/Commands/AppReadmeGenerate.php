@@ -467,6 +467,11 @@ class AppReadmeGenerate extends AppBase
         $file[] = '</ui-model-select>';
         $file[] = '```';
         $file[] = '';
+        
+        
+        $file[] = '## Estrutura do banco';
+        $file[] = '<img src="database/schema.svg" alt="" width="100%" height="auto">';
+        $file[] = '';
 
 
         $file[] = '## Endpoints';
