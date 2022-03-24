@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+
+  <svg x='0' y='0' width='200' height='220'>
+      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />
+      <rect width='100%' height='20' style='fill:#ddd;' />
+      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>emails_templates</text>
+      <text x='5' y='25' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>id</text>
+      <text x='5' y='45' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>slug</text>
+      <text x='5' y='65' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>name</text>
+      <text x='5' y='85' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>subject</text>
+      <text x='5' y='105' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>body</text>
+      <text x='5' y='125' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>models</text>
+      <text x='5' y='145' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>params</text>
+      <text x='5' y='165' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>created_at</text>
+      <text x='5' y='185' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>updated_at</text>
+      <text x='5' y='205' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>deleted_at</text>
+  </svg>
+
+  <svg x='210' y='0' width='200' height='300'>
+      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />
+      <rect width='100%' height='20' style='fill:#ddd;' />
+      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>files</text>
+      <text x='5' y='25' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>id</text>
+      <text x='5' y='45' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>slug</text>
+      <text x='5' y='65' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>name</text>
+      <text x='5' y='85' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>folder</text>
+      <text x='5' y='105' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>size</text>
+      <text x='5' y='125' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>mime</text>
+      <text x='5' y='145' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>type</text>
+      <text x='5' y='165' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>ext</text>
+      <text x='5' y='185' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>is_text</text>
+      <text x='5' y='205' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>url</text>
+      <text x='5' y='225' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>content</text>
+      <text x='5' y='245' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>created_at</text>
+      <text x='5' y='265' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>updated_at</text>
+      <text x='5' y='285' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>deleted_at</text>
+  </svg>
+
+  <svg x='420' y='0' width='200' height='180'>
+      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />
+      <rect width='100%' height='20' style='fill:#ddd;' />
+      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>pages</text>
+      <text x='5' y='25' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>id</text>
+      <text x='5' y='45' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>slug</text>
+      <text x='5' y='65' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>name</text>
+      <text x='5' y='85' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>content</text>
+      <text x='5' y='105' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>owner_id</text>
+      <text x='5' y='125' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>created_at</text>
+      <text x='5' y='145' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>updated_at</text>
+      <text x='5' y='165' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>deleted_at</text>
+  </svg>
+
+  <svg x='630' y='0' width='200' height='120'>
+      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />
+      <rect width='100%' height='20' style='fill:#ddd;' />
+      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>settings</text>
+      <text x='5' y='25' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>id</text>
+      <text x='5' y='45' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>name</text>
+      <text x='5' y='65' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>value</text>
+      <text x='5' y='85' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>created_at</text>
+      <text x='5' y='105' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>updated_at</text>
+  </svg>
+
+  <svg x='840' y='0' width='200' height='260'>
+      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />
+      <rect width='100%' height='20' style='fill:#ddd;' />
+      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>teveps</text>
+      <text x='5' y='25' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>id</text>
+      <text x='5' y='45' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>slug</text>
+      <text x='5' y='65' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>name</text>
+      <text x='5' y='85' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>owner_id</text>
+      <text x='5' y='105' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>parent_id</text>
+      <text x='5' y='125' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>meta_ref</text>
+      <text x='5' y='145' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>meta</text>
+      <text x='5' y='165' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>date_start</text>
+      <text x='5' y='185' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>date_final</text>
+      <text x='5' y='205' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>created_at</text>
+      <text x='5' y='225' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>updated_at</text>
+      <text x='5' y='245' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>deleted_at</text>
+  </svg>
+
+  <svg x='0' y='171' width='200' height='160'>
+      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />
+      <rect width='100%' height='20' style='fill:#ddd;' />
+      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>teveps_invites</text>
+      <text x='5' y='25' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>id</text>
+      <text x='5' y='45' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>slug</text>
+      <text x='5' y='65' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>name</text>
+      <text x='5' y='85' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>tevep_id</text>
+      <text x='5' y='105' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>created_at</text>
+      <text x='5' y='125' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>updated_at</text>
+      <text x='5' y='145' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>deleted_at</text>
+  </svg>
+
+  <svg x='210' y='231' width='200' height='220'>
+      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />
+      <rect width='100%' height='20' style='fill:#ddd;' />
+      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>users</text>
+      <text x='5' y='25' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>id</text>
+      <text x='5' y='45' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>name</text>
+      <text x='5' y='65' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>email</text>
+      <text x='5' y='85' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>photo_id</text>
+      <text x='5' y='105' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>group_id</text>
+      <text x='5' y='125' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>email_verified_at</text>
+      <text x='5' y='145' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>password</text>
+      <text x='5' y='165' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>remember_token</text>
+      <text x='5' y='185' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>created_at</text>
+      <text x='5' y='205' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>updated_at</text>
+  </svg>
+
+  <svg x='420' y='171' width='200' height='160'>
+      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />
+      <rect width='100%' height='20' style='fill:#ddd;' />
+      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>users_groups</text>
+      <text x='5' y='25' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>id</text>
+      <text x='5' y='45' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>slug</text>
+      <text x='5' y='65' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>name</text>
+      <text x='5' y='85' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>permissions</text>
+      <text x='5' y='105' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>created_at</text>
+      <text x='5' y='125' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>updated_at</text>
+      <text x='5' y='145' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>deleted_at</text>
+  </svg>
+</svg>

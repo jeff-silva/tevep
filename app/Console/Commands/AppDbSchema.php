@@ -90,5 +90,60 @@ class AppDbSchema extends AppBase
 
         file_put_contents(database_path('schema.sql'), implode("\n", $files->schema_sql));
         $this->comment('Generated: '. database_path('schema.sql'));
+
+        $this->makeSvg();
+    }
+
+
+    public function makeSvg() {
+        $svg = (object) [
+            'table_width' => 200,
+            'table_space' => 10,
+            'tables_per_line' => 5,
+            'tables' => [],
+        ];
+
+        $svg_content = [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">',
+        ];
+
+        $table_x = 0;
+        $table_y = 0;
+        $table_index = 0;
+        foreach($this->getTables() as $table) {
+            if ($this->isIgnoredTable($table->Name)) continue;
+            
+            $field_height = 20;
+            $table_height = (sizeof($table->Fields) * $field_height) + $field_height;
+            $x = ($svg->table_width * $table_x) + ($svg->table_space * $table_x);
+            $y = ($table_y * $table_height) + ($table_y? ($table_y+$svg->table_space): $table_y);
+
+            $svg_content[] = '';
+            $svg_content[] = "  <svg x='{$x}' y='{$y}' width='{$svg->table_width}' height='{$table_height}'>";
+            $svg_content[] = "      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />";
+            $svg_content[] = "      <rect width='100%' height='{$field_height}' style='fill:#ddd;' />";
+            $svg_content[] = "      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>{$table->Name}</text>";
+            
+            $field_y = $field_height;
+            foreach($table->Fields as $field) {
+                // $svg_content[] = "      <rect x='0' y='{$field_y}' width='100%' height='{$field_height}' style='fill:none; stroke:#444; stroke-width:1;' />";
+                $svg_content[] = "      <text x='5' y='".($field_y+5)."' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>{$field->Field}</text>";
+                $field_y += $field_height;
+            }
+
+            $svg_content[] = "  </svg>";
+
+            $table_index++;
+            $table_x++;
+            if ($table_x >= $svg->tables_per_line) {
+                $table_x = 0;
+                $table_y++;
+            }
+        }
+        
+        $svg_content[] = '</svg>';
+        file_put_contents(database_path('database.svg'), implode("\n", $svg_content));
+        dd($svg);
     }
 }
