@@ -2,7 +2,7 @@ const p = require('child_process');
 const path = require('path');
 
 require('dotenv').config({
-    path: path.join(__dirname, '../.env')
+    path: path.join(__dirname, '../../.env')
 });
 
 let client = new URL(process.env.CLIENT_URL);
@@ -25,8 +25,8 @@ const _command = function(dirname, command) {
 };
 
 console.clear();
-_command('/..', `php artisan serve --port=${app.port}`);
-_command('', `npm run dev -- --port ${client.port}`);
+_command('/../..', `php artisan serve --port=${app.port}`);
+_command('/..', `npm run dev -- --port ${client.port}`);
 console.log(`\n >> CLIENT: ${client.href} << \n`);
 
 var start = (process.platform == 'darwin'? 'open': (process.platform == 'win32'? 'start': 'xdg-open'));

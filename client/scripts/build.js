@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 require('dotenv').config({
-    path: path.join(__dirname, '../../.env')
+    path: path.join(__dirname, '../../../.env')
 });
 
 const _path = function(filepath) {
@@ -37,7 +37,7 @@ const _files = function(filepath, files=[], level=0) {
     return files;
 }
 
-_command('', 'npm run generate').then(resp => {
+_command('/..', 'npm run generate').then(resp => {
 
     // Renomear /client/dist/index.html para /client/dist/app.html
     if (fs.existsSync(_path('@/dist/index.html'))) {

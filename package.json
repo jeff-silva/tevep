@@ -1,8 +1,8 @@
 {
     "private": true,
     "scripts": {
-        "serve": "node client/app-serve.js",
-        "build": "node client/app-build.js"
+        "serve": "node client/scripts/serve.js",
+        "build": "node client/scripts/build.js"
     },
     "devDependencies": {
         "dotenv": "^16.0.0"

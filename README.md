@@ -411,7 +411,7 @@ Após isso, tudo o que você precisa fazer é clicar em editar o template pelo a
 ```
 
 ## Estrutura do banco
-<img src="database/schema.svg" alt="" width="100%" height="auto">
+<img src="database/schema.svg" alt="" width="100%">
 
 ## Endpoints
 Todas as rotas disponíveis:

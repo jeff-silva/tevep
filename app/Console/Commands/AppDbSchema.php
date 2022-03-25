@@ -90,68 +90,115 @@ class AppDbSchema extends AppBase
 
 
     public function makeSvg() {
-        $tables = $this->getTables();
 
-        $svg = (object) [
-            'table_width' => 200,
-            'table_space' => 15,
-            'tables_per_line' => 5,
-            'tables' => [],
-        ];
+        $_arrayToSvg = function($tags) use(&$_arrayToSvg) {
+            $content = [];
+            foreach($tags as $tag) {
+                if (!isset($tag['tag'])) continue;
+                $tag['attrs'] = isset($tag['attrs'])? $tag['attrs']: [];
+                $tag['attrs'] = is_array($tag['attrs'])? $tag['attrs']: [];
 
-        $table_width = 200;
-        $table_space = 15;
-        $tables_per_line = 5;
-        $svg_width = ($svg->tables_per_line * $svg->table_width) + ($svg->tables_per_line * $svg->table_space) - $svg->table_space;
-
-        $svg_content = [];
-
-        $table_x = 0;
-        $table_y = 0;
-        $tables_heights = [];
-        foreach($tables as $table) {
-            if ($this->isIgnoredTable($table->Name)) continue;
-            
-            $table_lines = 1 + sizeof($table->Fields);
-            $field_height = 20;
-            $table_height = $table_lines * $field_height;
-
-            $svg_content[] = '';
-            $svg_content[] = "  <svg x='{$table_x}' y='{$table_y}' width='{$svg->table_width}' height='{$table_height}'>";
-            $svg_content[] = "      <rect width='100%' height='100%' style='fill:#f5f5f5; stroke:#ddd; stroke-width:1;' />";
-            $svg_content[] = "      <rect width='100%' height='{$field_height}' style='fill:#ddd;' />";
-            $svg_content[] = "      <text x='5' y='5' width='100%' style='alignment-baseline:hanging; font-family:monospace; font-weight:bold;'>{$table->Name}</text>";
-            
-            $field_y = $field_height;
-            foreach($table->Fields as $field) {
-                // $svg_content[] = "      <rect x='0' y='{$field_y}' width='100%' height='{$field_height}' style='fill:none; stroke:#444; stroke-width:1;' />";
-                $svg_content[] = "      <text x='5' y='".($field_y+5)."' width='100%' style='alignment-baseline:hanging; font-family:monospace;'>{$field->Field}</text>";
-                $field_y += $field_height;
+                $tag['inner'] = isset($tag['inner'])? $tag['inner']: '';
+                
+                $content[] = "<{$tag['tag']}";
+                foreach($tag['attrs'] as $name => $value) {
+                    $content[] = " {$name}=\"{$value}\"";
+                }
+                $content[] = '>';
+                $content[] = (is_array($tag['inner'])? $_arrayToSvg($tag['inner']): $tag['inner']);
+                $content[] = "</{$tag['tag']}>";
             }
 
-            $svg_content[] = "  </svg>";
+            return implode('', $content);
+        };
 
-            $tables_heights[] = $table_height;
-            $table_x += ($table_width + $table_space);
-            if ($table_x >= (($tables_per_line * $table_width) + 1)) {
-                $table_x = 0;
-                $table_y += ($table_height + ($table_space*4));
-                $tables_heights = [];
+        $all_tables = $this->getTables();
+        $tables_per_line = 4;
+        $table_width = 180;
+        $table_space = 20;
+        $table_field_height = 25;
+        $table_lines = array_values(array_chunk($all_tables, $tables_per_line));
+        $svg_width = ($table_width * $tables_per_line) + ($table_space * ($tables_per_line - 1));
+        $svg_height = 0;
+
+        $svg = [];
+
+        $table_y = 0;
+        foreach($table_lines as $i => $tables) {
+
+            if (isset($table_lines[ $i-1 ])) {
+                $table_y = array_map(function($table) { return sizeof($table->Fields); }, $table_lines[ $i-1 ]);
+                $table_y = $table_space + $table_field_height * (1+ max($table_y));
+            }
+
+            foreach($tables as $ii => $table) {
+                $table_height = $table_field_height * (1 + sizeof($table->Fields));
+
+                $svg_table = [
+                    'tag' => 'svg',
+                    'attrs' => [
+                        'x' => ($ii * ($table_width + $table_space)),
+                        'y' => $table_y,
+                        'width' => "{$table_width}px",
+                        'height' => "{$table_height}px",
+                    ],
+                    'inner' => [],
+                ];
+
+                $svg_table['inner'][] = [
+                    'tag' => 'rect',
+                    'attrs' => [
+                        'width' => '100%',
+                        'height' => '100%',
+                        'style' => 'fill:#eeeeee;',
+                    ],
+                ];
+
+                $svg_table['inner'][] = [
+                    'tag' => 'rect',
+                    'attrs' => [
+                        'x' => 0,
+                        'y' => 0,
+                        'width' => '100%',
+                        'height' => $table_field_height,
+                        'style' => 'fill:#dddddd;',
+                    ],
+                ];
+
+                $svg_table['inner'][] = [
+                    'tag' => 'text',
+                    'inner' => $table->Name,
+                    'attrs' => [
+                        'x' => 5,
+                        'y' => ($table_field_height / 2),
+                        'style' => 'alignment-baseline:middle; font-family:monospace; font-weight:bold; text-transform:uppercase;',
+                    ],
+                ];
+
+                foreach(array_values($table->Fields) as $iii => $field) {
+                    $svg_table['inner'][] = [
+                        'tag' => 'text',
+                        'inner' => $field->Field,
+                        'attrs' => [
+                            'x' => 5,
+                            'y' => ($table_field_height + ($iii * $table_field_height) + ($table_field_height/2)),
+                            'style' => 'alignment-baseline:middle; font-family:monospace; font-weight:bold;',
+                        ],
+                    ];
+                }
+
+                $svg[] = $svg_table;
             }
         }
 
-        $svg_content[] = '</svg>';
+        $svg_height = array_map(function($table) { return sizeof($table->Fields); }, $tables);
+        $svg_height = $table_y + $table_field_height * (1+ max($svg_height));
 
-        $svg_height = $table_y + max($tables_heights);
-
-        $svg_content = implode("\n", $svg_content);
         $svg_content = implode("\n", [
             '<?xml version="1.0" encoding="UTF-8"?>',
             "<svg width='{$svg_width}px' height='{$svg_height}px' xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\">",
-            $svg_content,
+            $_arrayToSvg($svg), '</svg>',
         ]);
-
-        
         file_put_contents(database_path('schema.svg'), $svg_content);
     }
 }

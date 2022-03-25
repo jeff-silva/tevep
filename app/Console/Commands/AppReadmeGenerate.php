@@ -470,7 +470,8 @@ class AppReadmeGenerate extends AppBase
         
         
         $file[] = '## Estrutura do banco';
-        $file[] = '<img src="database/schema.svg" alt="" width="100%" height="auto">';
+        // $file[] = '<img src="database/schema.svg?r='.uniqid().'" alt="" width="100%">';
+        $file[] = '<img src="database/schema.svg" alt="" width="100%">';
         $file[] = '';
 
 

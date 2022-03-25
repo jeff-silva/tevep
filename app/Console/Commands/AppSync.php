@@ -24,5 +24,6 @@ class AppSync extends AppBase
         $this->call('app:seed');
         $this->call('app:readme-generate');
         $this->call('app:swagger');
+        $this->info('Concluído');
     }
 }
