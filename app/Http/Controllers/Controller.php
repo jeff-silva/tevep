@@ -179,6 +179,6 @@ class Controller extends BaseController
 
     public function export()
     {
-        return $this->model->search()->export();
+        return $this->model->search()->export(request('format'));
     }
 }

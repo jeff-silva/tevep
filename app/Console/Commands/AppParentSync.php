@@ -21,6 +21,7 @@ class AppParentSync extends AppBase
         $files = $this->filesList($files, 'app/Http/Controllers/Controller.php');
         $files = $this->filesList($files, 'app/Providers/AppServiceProvider.php');
         $files = $this->filesList($files, 'app/Console/Commands/App*.php');
+        $files = $this->filesList($files, 'app/Converters/*');
         $files = $this->filesList($files, 'app/Models/Files.php');
         $files = $this->filesList($files, 'app/Models/Settings.php');
         $files = $this->filesList($files, 'app/Providers/AppServiceProvider.php');
@@ -47,6 +48,7 @@ class AppParentSync extends AppBase
         $files = $this->filesList($files, 'client/pages/admin/settings/index.vue');
         $files = $this->filesList($files, 'client/pages/admin/dev/*.vue');
         $files = $this->filesList($files, 'client/pages/admin/dev/**/*.vue');
+        $files = $this->filesList($files, 'client/scripts/*.js');
 
         foreach($files as $from_file) {
             $here = $this->fileInfo($from_file);

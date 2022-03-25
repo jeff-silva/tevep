@@ -55,20 +55,13 @@ export default {
         }},
 
         props: {deep:true, handler(value) {
+            let oldModelId = this.props.modelId;
             this.__preventRecursive = true;
+            this.$emit('input', value.value||false);
             for(let i in value) { this.$emit(`update:${i}`, value[i]); }
             setTimeout(() => { this.__preventRecursive = false; }, 10);
+            if (this.props.modelId!=oldModelId) { this.find(); }
         }},
-    },
-
-    computed: {
-        _modelId() {
-            let modelId = +this.props.modelId;
-            if (typeof this.props.value=="object" && this.props.value.id) {
-                modelId = +this.props.value.id;
-            }
-            return isNaN(modelId)? false: modelId;
-        },
     },
 
     data() {
@@ -81,13 +74,22 @@ export default {
 
     methods: {
         find() {
-            if (!this._modelId) return;
+            let modelId = +this.props.modelId;
+            if (isNaN(modelId)) {
+                this.props.value = {};
+                this.$emit('input', this.props.value);
+                return;
+            }
+
             this.finding = true;
-            this.$axios.get(`/api/${this.modelName}/find/${this._modelId}`).then(resp => {
+            this.$axios.get(`/api/${this.modelName}/find/${this.modelId}`).then(resp => {
                 this.finding = false;
                 this.props.value = resp.data;
                 this.$emit('input', resp.data);
                 this.$emit('model-loaded', resp.data);
+            }).catch(err => {
+                this.props.value = {};
+                this.$emit('input', {});
             });
         },
 

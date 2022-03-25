@@ -1,7 +1,11 @@
 <template>
-    <form action="" @submit.prevent="submit()" @change="formChanged=true" ref="form">
-        <slot :loading="loading" :response="response" :error="error" :error-fields="errorFields" :submit="submit"></slot>
+    <form action="" @submit.prevent="submit()" @change="formChanged=true" ref="form" v-if="tag=='form'">
+        <slot :value="value" :loading="loading" :response="response" :error="error" :error-fields="errorFields" :submit="submit"></slot>
     </form>
+
+    <component v-else :is="tag">
+        <slot :value="value" :loading="loading" :response="response" :error="error" :error-fields="errorFields" :submit="submit"></slot>
+    </component>
 </template>
 
 <script>
@@ -13,6 +17,7 @@ export default {
         mountedSubmit: {default:false, type:Boolean},
         successText: {default:""},
         preventMessage: {default:"Formulário sofreu alterações, deseja prosseguir?", type:[Boolean, String]},
+        tag: {default:"form"},
     },
 
     data() {
@@ -105,20 +110,20 @@ export default {
         },
 
         // TODO: encontrar meio de fazer o preventRedirect para VueRouter
-        onBeforeunload(ev) {
-            // if (!this.preventMessage || !this.formChanged) return;
-            // (ev || window.event).returnValue = this.preventMessage;
-            // return this.preventMessage;
-        },
+        // onBeforeunload(ev) {
+        //     if (!this.preventMessage || !this.formChanged) return;
+        //     (ev || window.event).returnValue = this.preventMessage;
+        //     return this.preventMessage;
+        // },
     },
 
     mounted() {
-        window.addEventListener("beforeunload", this.onBeforeunload);
+        // window.addEventListener("beforeunload", this.onBeforeunload);
         if (this.mountedSubmit) { this.submit(); }
     },
 
     beforeDestroy() {
-        window.removeEventListener("beforeunload", this.onBeforeunload);
+        // window.removeEventListener("beforeunload", this.onBeforeunload);
     },
 }
 </script>

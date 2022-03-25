@@ -2,13 +2,28 @@
 
 namespace App\Console\Commands;
 
-class AppNuxtViewsGenerate extends AppBase
+class AppNuxtGenerate extends AppBase
 {
 
-    protected $signature = 'app:nuxt-views-generate';
-    protected $description = 'Generate nuxt views';
+    protected $signature = 'app:nuxt-generate';
+    protected $description = 'Generate nuxt files';
 
     public function handle() {
+        $this->makeStore();
+        $this->makeViews();
+    }
+
+
+    public function makeStore()
+    {
+        $env['exportFormats'] = \App\Converters\Converter::formats();
+        $env = json_encode($env);
+        file_put_contents(base_path('client/store/env.js'), "export const state = {$env};");
+    }
+    
+    
+    public function makeViews()
+    {
         foreach($this->getTables() as $table) {
             if ($this->isIgnoredTable($table->Name)) continue;
 

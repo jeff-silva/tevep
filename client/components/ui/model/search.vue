@@ -66,9 +66,10 @@
         
                             <template #dropdown>
                                 <div class="p-1">
-                                    <button type="button" class="btn w-100 mb-1" @click="downloadExport('csv')">CSV</button>
-                                    <button type="button" class="btn w-100 mb-1" @click="downloadExport('json')">JSON</button>
-                                    <button type="button" class="btn w-100 mb-0" @click="downloadExport('html')">HTML</button>
+                                    <button type="button" class="btn w-100 mb-1"
+                                        @click="downloadExport(f.ext)"
+                                        v-for="f in $store.state.env.exportFormats"
+                                    > {{ f.name }} </button>
                                 </div>
                             </template>
                         </ui-dropdown>

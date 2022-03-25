@@ -1,0 +1,1 @@
+export const state = {"exportFormats":[{"name":"CSV","mime":"application\/csv","ext":"csv","importable":true,"content":""},{"name":"HTML","mime":"text\/html","ext":"html","importable":false,"content":""},{"name":"JSON","mime":"application\/json","ext":"json","importable":true,"content":""}]};

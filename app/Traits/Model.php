@@ -148,9 +148,7 @@ trait Model
     }
 
 
-    public function import($format, $content) {
-        // 
-    }
+    
 
 
     // public function setSlugAttribute($value)
@@ -223,48 +221,21 @@ trait Model
     }
 
 
-    public function scopeExport($query) {
-        $format = request('format', 'json');
-        $filename = uniqid('download-'). ".{$format}";
-        $mime = "application/{$format}";
-        $all = $query->get()->toArray();
+    public function exportFormats()
+    {
+        return \App\Converters\Converter::formats();
+    }
 
-        if ($format=='csv') {
-            $f = fopen('php://memory', 'r+');
-            foreach ($all as $item) { fputcsv($f, $item, ';'); }
-            rewind($f);
-            $content = stream_get_contents($f);
-        }
 
-        else if ($format=='html') {
-            $mime = 'text/html';
-            $content = '<!DOCTYPE html><html lang="en"><head><title>'. $format .' export</title>';
-            $content .= '<meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">';
-            $content .= '<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head>';
-            $content .= '<body><table><thead>';
-            foreach($all as $line=>$cols) {
-                if ($line==0) {
-                    $content .= '<thead><tr>';
-                    foreach($cols as $name=>$value) { $content .= '<th>'. $name .'</th>'; }
-                    $content .= '<tr></thead><tbody>';
-                }
+    public function import($format, $content)
+    {
+        // 
+    }
 
-                $content .= '<tr>';
-                foreach($cols as $name=>$value) { $content .= '<td>'. $value .'</td>'; }
-                $content .= '</tr>';
-                if ($line==sizeof($all)-1) { $content .= '</tbody>'; }
-            }
-            $content .= '</table></body></html>';
-        }
 
-        else {
-            $content = json_encode($all);
-        }
-
-        return \Response::make($content, 200, [
-            'Content-type' => $mime,
-            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
-        ]);
+    public function scopeExport($query, $format)
+    {
+        return \App\Converters\Converter::format($format)->export($query);
     }
 
 

@@ -1,79 +1,91 @@
 <template>
-    <div class="tevep-edit-draggable d-flex" :class="{'flex-column w-100':(layout=='vertical')}">
-        <draggable v-model="props.value" handle=".handle" :class="{'d-flex':(layout=='horizontal')}" @start="dragStart" @end="dragEnd">
-            <div v-for="v in props.value" class="p-1" :class="{'flex-grow-1':(layout=='horizontal')}" :style="`${layout=='horizontal'? 'max-width:300px;': ''}`">
-                <div>
-                    <div class="input-group input-group-sm tevep-edit-draggable-input-group">
-                        <div class="input-group-text handle">
-                            <i class="fas fa-fw fa-bars"></i>
-                        </div>
-                        <slot :item="v" :updateNeighDate="updateNeighDate"></slot>
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-light btn-sm rounded-0" @click="v.modal=true">
-                                <i class="fas fa-fw fa-ellipsis-v"></i>
-                            </button>
+    <div>
+        <!-- Modal -->
+        <template v-for="(v, i) in props.value" v-if="v.meta_ref==$route.query.meta_ref">
+            <ui-form tag="div" method="post" action="/api/teveps/save" :value="v" #default="form" @success="v={...$event, meta:null}; $emit('input', props.value);">
+                <ui-modal :value="true" width="500px" @close="$router.push({query:{}})">
+                    <template #header>Alterar dados</template>
+                    <template #body>
+                        <ui-field label="Nome" :error="form.errorFields.name">
+                            <input type="text" class="form-control" v-model="form.value.name">
+                        </ui-field>
+    
+                        <ui-field label="Data início" :error="form.errorFields.date_start">
+                            <el-date-picker
+                                class="w-100"
+                                v-model="form.value.date_start"
+                                type="datetime"
+                                placeholder="Selecionar data/hora"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                format="dd/MM/yyyy - HH:mm:ss"
+                                @input="updateNeighDate(v.date_start, v, -1, 'date_final')"
+                            ></el-date-picker>
+                        </ui-field>
+    
+                        <ui-field label="Data fim" :error="form.errorFields.date_final">
+                            <el-date-picker
+                                class="w-100"
+                                v-model="form.value.date_final"
+                                type="datetime"
+                                placeholder="Selecionar data/hora"
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                format="dd/MM/yyyy - HH:mm:ss"
+                                @input="updateNeighDate(v.date_final, v, +1, 'date_start')"
+                            ></el-date-picker>
+                        </ui-field>
+    
+                        <pre>form.value: {{ form.value }}</pre>
+                    </template>
+                    <template #footer>
+                        <nuxt-link :to="{query:{}}" class="btn btn-light me-auto">
+                            Cancelar
+                        </nuxt-link>
+
+                        <button type="button" class="btn btn-danger" @click="remove(v)">
+                            <i class="fas fa-fw fa-times"></i> Deletar
+                        </button>
+    
+                        <nuxt-link :to="`/admin/teveps/${v.id}`" class="btn btn-primary" v-if="v.id">
+                            Acessar Tevep
+                        </nuxt-link>
+    
+                        <button type="button" class="btn btn-success" @click="form.submit();" v-if="v.parent_id" v-loading="form.loading">
+                            <i class="fas fa-fw fa-save"></i> {{ v.id? 'Salvar': 'Criar Tevep filho' }}
+                        </button>
+                    </template>
+                </ui-modal>
+            </ui-form>
+        </template>
+
+
+        <!-- Draggable -->
+        <div class="tevep-edit-draggable d-flex" :class="{'flex-column w-100':(layout=='vertical')}">
+            <draggable v-model="props.value" handle=".handle" :class="{'d-flex':(layout=='horizontal')}" @start="dragStart" @end="dragEnd">
+                <div v-for="v in props.value" class="p-1"
+                    :class="{'flex-grow-1':(layout=='horizontal'), 'tevep-edit-draggable-item-selected':($route.query.meta_ref==v.meta_ref)}"
+                    :style="`${layout=='horizontal'? 'max-width:300px;': ''}`"
+                >
+                    <div>
+                        <div class="input-group input-group-sm tevep-edit-draggable-input-group">
+                            <div class="input-group-text border-end-0 handle">
+                                <i class="fas fa-fw fa-bars"></i>
+                            </div>
+                            <slot :item="v" :updateNeighDate="updateNeighDate"></slot>
+                            <div class="input-group-btn">
+                                <nuxt-link :to="{query:{meta_ref:v.meta_ref}}" class="btn btn-light btn-sm rounded-0">
+                                    <i class="fas fa-fw fa-ellipsis-v"></i>
+                                </nuxt-link>
+                            </div>
                         </div>
                     </div>
-
-                    <ui-modal v-model="v.modal" width="500px">
-                        <template #header>Alterar dados</template>
-                        <template #body>
-                            <ui-field label="Nome">
-                                <input type="text" class="form-control" v-model="v.name">
-                            </ui-field>
-
-                            <ui-field label="Data início">
-                                <el-date-picker
-                                    class="w-100"
-                                    v-model="v.date_start"
-                                    type="datetime"
-                                    placeholder="Selecionar data/hora"
-                                    value-format="yyyy-MM-dd HH:mm:ss"
-                                    format="dd/MM/yyyy - HH:mm:ss"
-                                    @input="updateNeighDate(v.date_start, v, -1, 'date_final')"
-                                ></el-date-picker>
-                            </ui-field>
-
-                            <ui-field label="Data fim">
-                                <el-date-picker
-                                    class="w-100"
-                                    v-model="v.date_final"
-                                    type="datetime"
-                                    placeholder="Selecionar data/hora"
-                                    value-format="yyyy-MM-dd HH:mm:ss"
-                                    format="dd/MM/yyyy - HH:mm:ss"
-                                    @input="updateNeighDate(v.date_final, v, +1, 'date_start')"
-                                ></el-date-picker>
-                            </ui-field>
-
-                            <pre>{{ v }}</pre>
-                        </template>
-                        <template #footer>
-                            <button type="button" class="btn btn-danger" @click="remove(v)">
-                                <i class="fas fa-fw fa-times"></i> Remover
-                            </button>
-
-                            <nuxt-link :to="`/admin/teveps/${v.tevep_id}`" class="btn btn-success" v-if="v.tevep_id">
-                                Acessar Tevep
-                            </nuxt-link>
-
-                            <button type="button" class="btn btn-success" @click="tevepCreate(v)" v-if="!v.tevep_id">
-                                <i class="fas fa-fw fa-plus"></i> Criar evento
-                            </button>
-
-                            <button type="button" class="btn btn-light" @click="v.modal=false">
-                                Fechar
-                            </button>
-                        </template>
-                    </ui-modal>
                 </div>
+            </draggable>
+            
+            <div class="p-1" v-if="props.value.length<max">
+                <button type="button" class="btn btn-light btn-sm w-100 rounded-0" @click="add()">
+                    <i class="fas fa-fw fa-plus"></i>
+                </button>
             </div>
-        </draggable>
-        
-        <div class="p-1" v-if="props.value.length<max">
-            <button type="button" class="btn btn-light btn-sm w-100 rounded-0" @click="add()">
-                <i class="fas fa-fw fa-plus"></i>
-            </button>
         </div>
     </div>
 </template>
@@ -110,6 +122,7 @@ export default {
         return {
             // tevep: this.$store.state.tevep.edit,
             props: JSON.parse(JSON.stringify(this.$props)),
+            errorFields: {},
         };
     },
 
@@ -120,35 +133,32 @@ export default {
 
         add() {
             this.props.value.push({
-                id: this.uuid(),
-                tevep_id: false,
-                modal: false,
+                id: '',
+                name: `${this.$store.state.tevep.edit.name||''} #${this.props.value.length+1}`,
+                date_start: '',
+                date_final: '',
+                meta_ref: this.uuid(),
+                parent_id: (this.$store.state.tevep.edit.id||false),
             });
         },
 
         remove(item) {
+            if (item.id) {
+                return this.$confirm('Deseja deletar este Tevep e seus respectivos filhos?').then(resp => {
+                    this.$axios.post('/api/teveps/delete', {id:item.id}).then(resp => {
+                        let index = this.props.value.indexOf(item);
+                        this.props.value.splice(index, 1);
+                    });
+                });
+            }
+
             let index = this.props.value.indexOf(item);
             this.props.value.splice(index, 1);
         },
 
-        tevepCreate(item) {
-            this.$confirm('Tornar este item um evento?').then(resp => {
-                // chamada ajax para criar tevep
-                let tevep = {
-                    name: (item.name || item.date_start),
-                    parent_id: this.$store.state.tevep.edit.id,
-                };
-    
-                this.$axios.post('/api/teveps/save', tevep).then(resp => {
-                    item.tevep_id = resp.data.id;
-                    item.modal = false;
-                    // TODO: setar date_start e date_final
-    
-                    this.$axios.post('/api/teveps/save', this.$store.state.tevep.edit).then(resp2 => {
-                        this.$router.push(`/admin/teveps/${resp.data.id}`);
-                        this.$store.state.tevep.edit = resp2.data;
-                    });
-                });
+        tevepLoad(item) {
+            this.$axios.post(`/api/teveps/${item.tevep_id}`, tevep).then(resp => {
+                // 
             });
         },
 
@@ -195,4 +205,16 @@ export default {
 }
 
 .tevep-edit-draggable-input-group .el-input__inner {height: 100%;}
+
+.tevep-edit-draggable-item-selected .tevep-edit-draggable-input-group > .input-group-text,
+.tevep-edit-draggable-item-selected .tevep-edit-draggable-input-group > .form-control,
+.tevep-edit-draggable-item-selected .tevep-edit-draggable-input-group > .input-group-btn > .btn {
+    border-color: var(--bs-primary);
+}
+
+.tevep-edit-draggable-item-selected .tevep-edit-draggable-input-group > .input-group-text,
+.tevep-edit-draggable-item-selected .tevep-edit-draggable-input-group > .input-group-btn > .btn {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
 </style>

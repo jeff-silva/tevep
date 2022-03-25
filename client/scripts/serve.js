@@ -1,5 +1,7 @@
 const p = require('child_process');
 const path = require('path');
+const boxen = require('../node_modules/boxen');
+const opener = require('../node_modules/opener');
 
 require('dotenv').config({
     path: path.join(__dirname, '../../.env')
@@ -25,9 +27,16 @@ const _command = function(dirname, command) {
 };
 
 console.clear();
+
 _command('/../..', `php artisan serve --port=${app.port}`);
 _command('/..', `npm run dev -- --port ${client.port}`);
-console.log(`\n >> CLIENT: ${client.href} << \n`);
 
-var start = (process.platform == 'darwin'? 'open': (process.platform == 'win32'? 'start': 'xdg-open'));
-require('child_process').exec(`${start} ${client.href}`);
+console.log(boxen(client.href, {
+    padding: 1,
+    margin: 1,
+    title: '🚀',
+    titleAlignment: 'center',
+    borderStyle: 'double',
+}));
+
+opener(client.href);

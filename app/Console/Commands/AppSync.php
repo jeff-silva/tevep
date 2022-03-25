@@ -19,7 +19,7 @@ class AppSync extends AppBase
         $this->call('app:controllers-generate');
         $this->call('app:routes-generate');
         $this->call('app:db-schema');
-        $this->call('app:nuxt-views-generate');
+        $this->call('app:nuxt-generate');
         $this->call('app:parent-sync');
         $this->call('app:seed');
         $this->call('app:readme-generate');
