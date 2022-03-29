@@ -37,7 +37,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-app-vrow-body ui-app-scroll p-1 pt-2 p-md-2" :style="`background:${contentBackground};`">
+                    <div class="ui-app-vrow-body ui-app-scroll p-1 pt-2 p-md-2" :style="`background:${contentBackground}; overflow-x:hidden;`">
                         <slot name="content" :browser="browser"></slot>
                     </div>
 

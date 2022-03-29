@@ -1,8 +1,14 @@
 <template>
-    <div>
+    <div class="ui-tevep-edit-draggable">
         <!-- Modal -->
         <template v-for="(v, i) in props.value" v-if="v.meta_ref==$route.query.meta_ref">
-            <ui-form tag="div" method="post" action="/api/teveps/save" :value="v" #default="form" @success="v={...$event, meta:null}; $emit('input', props.value);">
+            <ui-form tag="div" method="post" action="/api/teveps/save" :value="v" #default="form"
+                success-text="Tevep filho salvo"
+                :find-action="v.id? `/api/teveps/find/${v.id}`: false"
+                :find-on-mounted="true"
+                @success="delete $event.meta; props.value[i]=$event; $emit('input', props.value); $forceUpdate();"
+                @find="delete $event.meta; props.value[i]=$event; $emit('input', props.value); $forceUpdate();"
+            >
                 <ui-modal :value="true" width="500px" @close="$router.push({query:{}})">
                     <template #header>Alterar dados</template>
                     <template #body>
@@ -33,8 +39,6 @@
                                 @input="updateNeighDate(v.date_final, v, +1, 'date_start')"
                             ></el-date-picker>
                         </ui-field>
-    
-                        <pre>form.value: {{ form.value }}</pre>
                     </template>
                     <template #footer>
                         <nuxt-link :to="{query:{}}" class="btn btn-light me-auto">
@@ -49,7 +53,7 @@
                             Acessar Tevep
                         </nuxt-link>
     
-                        <button type="button" class="btn btn-success" @click="form.submit();" v-if="v.parent_id" v-loading="form.loading">
+                        <button type="button" class="btn btn-success" @click="$confirm('Deseja criar um novo Tevep filho?').then(resp => form.submit())" v-if="v.parent_id" v-loading="form.loading">
                             <i class="fas fa-fw fa-save"></i> {{ v.id? 'Salvar': 'Criar Tevep filho' }}
                         </button>
                     </template>
@@ -59,7 +63,7 @@
 
 
         <!-- Draggable -->
-        <div class="tevep-edit-draggable d-flex" :class="{'flex-column w-100':(layout=='vertical')}">
+        <div class="tevep-edit-draggable d-flex w-100" :class="{'flex-column w-100':(layout=='vertical')}">
             <draggable v-model="props.value" handle=".handle" :class="{'d-flex':(layout=='horizontal')}" @start="dragStart" @end="dragEnd">
                 <div v-for="v in props.value" class="p-1"
                     :class="{'flex-grow-1':(layout=='horizontal'), 'tevep-edit-draggable-item-selected':($route.query.meta_ref==v.meta_ref)}"

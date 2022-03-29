@@ -87,7 +87,9 @@ CREATE TABLE IF NOT EXISTS `teveps_invites` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_teveps_invites_teveps` (`tevep_id`),
+  CONSTRAINT `FK_teveps_invites_teveps` FOREIGN KEY (`tevep_id`) REFERENCES `teveps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 
 

@@ -398,7 +398,9 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_teveps_invites_teveps` (`tevep_id`),
+  CONSTRAINT `FK_teveps_invites_teveps` FOREIGN KEY (`tevep_id`) REFERENCES `teveps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
 
@@ -442,6 +444,12 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \Schema::hasColumn('teveps_invites', 'deleted_at')?
 	\DB::statement("ALTER TABLE teveps_invites MODIFY COLUMN `deleted_at` datetime DEFAULT NULL"):
 	\DB::statement("ALTER TABLE teveps_invites ADD COLUMN `deleted_at` datetime DEFAULT NULL");
+
+
+// Create fk FK_teveps_invites_teveps
+if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='{$database}' AND CONSTRAINT_NAME='FK_teveps_invites_teveps'"))->first()) {
+	\DB::select("ALTER TABLE `teveps_invites` ADD CONSTRAINT `FK_teveps_invites_teveps` FOREIGN KEY (`tevep_id`) REFERENCES `teveps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION");
+}
 
 
 // Create table users

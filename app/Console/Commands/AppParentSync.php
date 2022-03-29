@@ -42,12 +42,13 @@ class AppParentSync extends AppBase
         $files = $this->filesList($files, 'client/components/ui/**/*.vue');
         $files = $this->filesList($files, 'client/components/ui/*.vue');
         $files = $this->filesList($files, 'client/layouts/default/*.vue');
+        $files = $this->filesList($files, 'client/pages/admin/dev/*.vue');
+        $files = $this->filesList($files, 'client/pages/admin/dev/**/*.vue');
         $files = $this->filesList($files, 'client/pages/admin/files/*.vue');
         $files = $this->filesList($files, 'client/pages/admin/settings/email.vue');
         $files = $this->filesList($files, 'client/pages/admin/settings/files.vue');
         $files = $this->filesList($files, 'client/pages/admin/settings/index.vue');
-        $files = $this->filesList($files, 'client/pages/admin/dev/*.vue');
-        $files = $this->filesList($files, 'client/pages/admin/dev/**/*.vue');
+        $files = $this->filesList($files, 'client/pages/admin/users-groups/*.vue');
         $files = $this->filesList($files, 'client/scripts/*.js');
 
         foreach($files as $from_file) {

@@ -18,6 +18,8 @@ export default {
         successText: {default:""},
         preventMessage: {default:"Formulário sofreu alterações, deseja prosseguir?", type:[Boolean, String]},
         tag: {default:"form"},
+        findAction: {default:false, type:[Boolean, String]},
+        findOnMounted: {default:false, type:[Boolean, String]},
     },
 
     data() {
@@ -82,6 +84,7 @@ export default {
                 let respData = this.parseResponseData(resp.data);
                 this.loading = false;
                 this.response = respData;
+                this.$emit('input', respData);
                 this.$emit('success', respData);
                 this.$emit('response', respData);
                 if (this.successText) {
@@ -115,11 +118,30 @@ export default {
         //     (ev || window.event).returnValue = this.preventMessage;
         //     return this.preventMessage;
         // },
+
+        findOnMountedHandler() {
+            if (!this.findOnMounted || !this.findAction) return;
+            ((typeof this.findAction=='object')? this.$axios(this.findAction): this.$axios.get(this.findAction))
+                .then(resp => {
+                    let respData = this.parseResponseData(resp.data);
+                    this.$emit('input', respData);
+                    this.$emit('value', respData);
+                    this.$emit('find', respData);
+                })
+                .catch(err => {
+                    let respData = this.parseResponseData(err.response.data);
+                    this.$emit('input', {});
+                    this.$emit('value', {});
+                    this.$emit('find', {});
+                });
+        },
     },
 
     mounted() {
         // window.addEventListener("beforeunload", this.onBeforeunload);
         if (this.mountedSubmit) { this.submit(); }
+
+        this.findOnMountedHandler();
     },
 
     beforeDestroy() {

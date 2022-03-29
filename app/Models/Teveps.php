@@ -31,6 +31,10 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 
 	public function modelMutator()
 	{
+		if (!$this->owner_id AND $user=auth()->user()) {
+			$this->owner_id = $user->id;
+		}
+
 		$this->meta = is_array($this->meta)? $this->meta: [];
 		$this->meta = array_merge([
 			'tempos' => [],
@@ -55,5 +59,11 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 			'meioambientes' => [],
 			'metodos' => [],
 		], $this->meta);
+	}
+
+
+	public function tevepsInvite()
+	{
+		return $this->belongsTo(App\Models\TevepsInvites::class, 'tevep_id', 'id');
 	}
 }

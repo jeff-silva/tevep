@@ -9,4 +9,16 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 
 	protected $table = 'teveps_invites';
 	protected $fillable = ['id', 'slug', 'name', 'tevep_id', 'created_at', 'updated_at', 'deleted_at'];
+
+
+	public function tevep()
+	{
+		return $this->hasOne(Teveps::class, 'id', 'tevep_id');
+	}
+
+
+	public function teveps()
+	{
+		return $this->hasMany(\App\Models\Teveps::class, 'id', 'tevep_id');
+	}
 }

@@ -11,13 +11,13 @@
 		</ui-field>
 
 		<ui-field label="Permissões" :error="errorFields.permissions">
-			<el-select v-model="value.permissions" class="w-100" filterable multiple>
+			<el-select v-model="value.permissions" class="w-100" filterable multiple :disabled="value.id==1">
 				<el-option v-for="p in permissions" :key="p.key" :value="p.key" :label="p.name">
 					{{ p.name }}
 				</el-option>
 			</el-select>
 
-			<div class="d-flex mt-1">
+			<div class="d-flex mt-1" v-if="value.id!=1">
 				<button type="button" class="btn btn-primary btn-sm" @click="value.permissions=permissions.map(p => p.key)">Adicionar todas</button>
 				<div class="ms-1"></div>
 				<button type="button" class="btn btn-primary btn-sm" @click="value.permissions=[]">Remover todas</button>
