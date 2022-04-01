@@ -47,7 +47,7 @@ class AppReadmeGenerate extends AppBase
         $file[] = '';
 
 
-        $file[] = '## Criando tabelas no banco';
+        $file[] = '## Migration';
         $file[] = 'Criar tabelas na mão pode ser um pouco maçante, mesmo utilizando sua ferramente favorita para gerenciá-las.';
         $file[] = 'Execute o comando abaixo para criar uma tabela básica, e a partir dela modelar conforme necessário:';
         $file[] = $this->cmd('bash', 'php artisan app:table-generate');
@@ -61,6 +61,13 @@ class AppReadmeGenerate extends AppBase
         $file[] = 'para que o sistema gere ou customize as models, controllers e views para você';
         $file[] = $this->cmd('bash', 'php artisan app:sync');
         $file[] = '';
+        
+        
+        $file[] = '## Seed';
+        $file[] = 'O comando criado especificamente para gerar registros básicos para o funcionamento no banco é:';
+        $file[] = $this->cmd('bash', 'php artisan app:seed');
+        $file[] = 'Entretanto, `php artisan app:install` também tem a responsabilidade sobre esse comando,';
+        $file[] = 'portanto você não precisa executá-lo novamente após o processo de instalação.';
 
 
         $file[] = '## Models';

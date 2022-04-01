@@ -123,10 +123,7 @@
                 </div>
 
                 <div class="p-3">
-                    <a href="javascript:;"><img style="height:40px;" src="/assets/icons/raquete-preta.png" alt=""></a>
-                    <a href="javascript:;"><img style="height:40px;" src="/assets/icons/raquete-amarela.png" alt=""></a>
-                    <a href="javascript:;"><img style="height:40px;" src="/assets/icons/raquete-verde.png" alt=""></a>
-                    <a href="javascript:;"><img style="height:40px;" src="/assets/icons/raquete-vermelha.png" alt=""></a>
+                    <tevep-edit-invites></tevep-edit-invites>
                 </div>
             </div>
         </div>

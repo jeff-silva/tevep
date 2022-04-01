@@ -18,7 +18,7 @@
             <template #header>
                 <div class="flex-grow-1"></div>
 
-                <ui-autocomplete action="/api/app/search" :params="{q:'', limit:3}" style="max-width:300px;" class="ms-3 d-none d-md-block">
+                <!-- <ui-autocomplete action="/api/app/search" :params="{q:'', limit:3}" style="max-width:300px;" class="ms-3 d-none d-md-block">
                     <template #input="{ params, loading, search }">
                         <div class="input-group form-control border-0 shadow-none p-0">
                             <input type="text" class="form-control bg-light border-0 shadow-none" v-model="params.q" placeholder="Buscar no sistema" @keyup.enter="search()">
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                     </template>
-                </ui-autocomplete>
+                </ui-autocomplete> -->
 
                 <!-- <div class="ms-3">
                     <ui-dropdown type="bottom-right">

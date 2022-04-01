@@ -9,7 +9,7 @@ class AppController extends Controller
 		$this->model = new \App\Models\Settings;
 
 		$this->middleware('auth:api', [
-			'except' => ['test'],
+			'except' => ['test', 'script'],
 		]);
 
 		// $this->route('get', '/test', 'test');
@@ -48,6 +48,18 @@ class AppController extends Controller
 		}
 
 		return $routes;
+	}
+
+	public function script()
+	{
+		$env = [
+			'aaa' => true,
+		];
+
+		$lines[] = 'console.log(window.$nuxt);';
+		// $lines[] = 'window.$nuxt.$settings = '. json_encode($env) .';';
+
+		return response(implode("\n", $lines), 200)->header('Content-Type', 'application/javascript');
 	}
 
 

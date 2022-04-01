@@ -25,7 +25,7 @@ O comando abaixo faz a build e prepara a aplicação para publicação
 npm run build
 ```
 
-## Criando tabelas no banco
+## Migration
 Criar tabelas na mão pode ser um pouco maçante, mesmo utilizando sua ferramente favorita para gerenciá-las.
 Execute o comando abaixo para criar uma tabela básica, e a partir dela modelar conforme necessário:
 ```bash
@@ -43,6 +43,13 @@ para que o sistema gere ou customize as models, controllers e views para você
 php artisan app:sync
 ```
 
+## Seed
+O comando criado especificamente para gerar registros básicos para o funcionamento no banco é:
+```bash
+php artisan app:seed
+```
+Entretanto, `php artisan app:install` também tem a responsabilidade sobre esse comando,
+portanto você não precisa executá-lo novamente após o processo de instalação.
 ## Models
 Estas são todas as models disponíveis no sistema:
 ```php

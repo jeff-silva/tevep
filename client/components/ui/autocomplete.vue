@@ -1,21 +1,13 @@
 <template>
-    <div class="ui-autocomplete" style="position:relative;">
+    <div class="ui-autocomplete">
 
-        <slot name="input" :params="props.params" :loading="loading" :search="search">
-            <div class="input-group form-control p-0">
-                <input type="text" class="form-control border-0 shadow-none" v-model="props.params.q" :placeholder="placeholder" @keyup.enter="search()">
-
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary border-0 rounded-0" @click="search()" v-loading="loading">
-                        <i class="fas fa-fw fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </slot>
+        <div @keyup="search" style="position:relative;">
+            <slot :params="props.params" :loading="loading" :search="search"></slot>
+        </div>
 
         <el-collapse-transition>
             <div v-if="response && props.responseShow" :style="`${responseFloating? 'position:absolute; top:100%; left:0; width:100%; z-index:9; margin-top:10px; max-height:300px; overflow:auto;': ''}`">
-                <slot name="response" :response="response"></slot>
+                <slot name="response" :response="response" :search="search"></slot>
             </div>
         </el-collapse-transition>
     </div>
@@ -26,7 +18,8 @@ export default {
     props: {
         value: {default:""},
         placeholder: {default:"Buscar"},
-        action: {default:""},
+        action: {default:"", type:[String, Object]},
+
         method: {default:"get"},
         params: {default:()=>({}), type:Object},
         responseFloating: {default:true},
@@ -58,19 +51,18 @@ export default {
 
     methods: {
         search() {
-            this.loading = true;
-
-            this.$axios({
-                url: this.props.action,
-                method: this.props.method,
-                params: this.props.params,
-            }).then(resp => {
-                this.loading = false;
-                this.response = resp.data;
-            }).catch(err => {
-                this.loading = false;
-                this.error = err.response.data;
-            });
+            if (this.__searchTimeout) clearTimeout(this.__searchTimeout);
+            this.__searchTimeout = setTimeout(() => {
+                this.loading = true;
+    
+                (typeof this.action=="object"? this.$axios(this.action): this.$axios.get(this.action)).then(resp => {
+                    this.loading = false;
+                    this.response = resp.data;
+                }).catch(err => {
+                    this.loading = false;
+                    this.error = err.response.data;
+                });
+            }, 1000);
         },
     },
 

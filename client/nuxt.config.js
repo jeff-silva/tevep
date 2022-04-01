@@ -23,7 +23,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
-    ]
+    ],
+    // script: [
+    //   {src: "/assets/app.js", defer:true},
+    // ],
   },
 
   // https://nuxtjs.org/examples/loading/custom-loading-component/

@@ -394,6 +394,8 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `user_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tevep_id` bigint(20) unsigned DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -420,6 +422,18 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \Schema::hasColumn('teveps_invites', 'name')?
 	\DB::statement("ALTER TABLE teveps_invites MODIFY COLUMN `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
 	\DB::statement("ALTER TABLE teveps_invites ADD COLUMN `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL");
+
+
+// Create/Update column teveps_invites.user_id
+\Schema::hasColumn('teveps_invites', 'user_id')?
+	\DB::statement("ALTER TABLE teveps_invites MODIFY COLUMN `user_id` bigint(20) unsigned DEFAULT NULL"):
+	\DB::statement("ALTER TABLE teveps_invites ADD COLUMN `user_id` bigint(20) unsigned DEFAULT NULL");
+
+
+// Create/Update column teveps_invites.user_email
+\Schema::hasColumn('teveps_invites', 'user_email')?
+	\DB::statement("ALTER TABLE teveps_invites MODIFY COLUMN `user_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE teveps_invites ADD COLUMN `user_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column teveps_invites.tevep_id
