@@ -68,6 +68,7 @@ class AppReadmeGenerate extends AppBase
         $file[] = $this->cmd('bash', 'php artisan app:seed');
         $file[] = 'Entretanto, `php artisan app:install` também tem a responsabilidade sobre esse comando,';
         $file[] = 'portanto você não precisa executá-lo novamente após o processo de instalação.';
+        $file[] = 'O usuário padrão do sistema é `root@grr.la` e sua senha é `321321`. Troque-os no primeiro acesso.';
 
 
         $file[] = '## Models';
