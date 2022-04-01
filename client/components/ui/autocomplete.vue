@@ -6,7 +6,7 @@
         </div>
 
         <el-collapse-transition>
-            <div v-if="response && props.responseShow" :style="`${responseFloating? 'position:absolute; top:100%; left:0; width:100%; z-index:9; margin-top:10px; max-height:300px; overflow:auto;': ''}`">
+            <div v-if="response && props.responseShow" :class="{'ui-autocomplete-response':true, 'ui-autocomplete-response-floating':responseFloating}">
                 <slot name="response" :response="response" :search="search"></slot>
             </div>
         </el-collapse-transition>
@@ -19,6 +19,7 @@ export default {
         value: {default:""},
         placeholder: {default:"Buscar"},
         action: {default:"", type:[String, Object]},
+        actionOnMounted: {default:false, type:Boolean},
 
         method: {default:"get"},
         params: {default:()=>({}), type:Object},
@@ -64,12 +65,27 @@ export default {
                 });
             }, 1000);
         },
+
+        responseShowHandler() {
+            this.props.responseShow = this.$el.contains(document.activeElement);
+        },
     },
 
     mounted() {
-        document.addEventListener('click', ev => {
-            this.props.responseShow = this.$el.contains(ev.target);
-        });
+        document.addEventListener('click', this.responseShowHandler);
+
+        if (this.actionOnMounted) {
+            this.search();
+        }
+    },
+
+    beforeDestroy() {
+        document.removeEventListener('click', this.responseShowHandler);
     },
 }
 </script>
+
+<style>
+.ui-autocomplete {position:relative;}
+.ui-autocomplete-response-floating {position:absolute; top:100%; left:0; width:100%; z-index:9; max-height:300px; overflow:auto;}
+</style>

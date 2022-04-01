@@ -87,8 +87,11 @@ trait Model
     }
 
 
-    public function validationRules() {
-        return ['name' => 'required'];
+    public function validationRules()
+	{
+        return [
+			'name' => ['required'],
+		];
     }
     
 

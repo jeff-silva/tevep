@@ -396,6 +396,7 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_id` bigint(20) unsigned DEFAULT NULL,
   `user_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('accepted','denied') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tevep_id` bigint(20) unsigned DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -434,6 +435,12 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \Schema::hasColumn('teveps_invites', 'user_email')?
 	\DB::statement("ALTER TABLE teveps_invites MODIFY COLUMN `user_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
 	\DB::statement("ALTER TABLE teveps_invites ADD COLUMN `user_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL");
+
+
+// Create/Update column teveps_invites.status
+\Schema::hasColumn('teveps_invites', 'status')?
+	\DB::statement("ALTER TABLE teveps_invites MODIFY COLUMN `status` enum('accepted','denied') COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE teveps_invites ADD COLUMN `status` enum('accepted','denied') COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column teveps_invites.tevep_id

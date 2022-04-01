@@ -15,11 +15,28 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 		'name',
 		'user_id',
 		'user_email',
+		'status',
 		'tevep_id',
 		'created_at',
 		'updated_at',
 		'deleted_at',
 	];
+
+
+	public function modelMutator()
+	{
+		if ($this->user_email AND !$this->user_id) {
+			$this->user_id = User::select(['id'])->where('email', $this->user_email)->value('id');
+		}
+	}
+
+
+	public function validationRules()
+	{
+		return [
+			'user_email' => ['required', 'email'],
+		];
+	}
 
 
 	public function tevep()

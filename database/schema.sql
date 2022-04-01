@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS `teveps_invites` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_id` bigint(20) unsigned DEFAULT NULL,
   `user_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` enum('accepted','denied') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tevep_id` bigint(20) unsigned DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,

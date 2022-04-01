@@ -69,10 +69,7 @@ input[type=radio].form-control { border-radius: 50%; }
 
 
 /* Pure CSS scrollbars | https://codepen.io/GhostRider/pen/GHaFw */
-.scrollbar-thin::-webkit-scrollbar-track {background-color: transparent;}
-.scrollbar-thin::-webkit-scrollbar {width: 10px; background-color: transparent;}
-.scrollbar-thin::-webkit-scrollbar-thumb { background-color: #00000066;}
-
-.scrollbar-thin-dark::-webkit-scrollbar-track {background-color: transparent;}
-.scrollbar-thin-dark::-webkit-scrollbar {width: 10px; background-color: transparent;}
-.scrollbar-thin-dark::-webkit-scrollbar-thumb { background-color: #ffffff44;}
+::-webkit-scrollbar-track {background-color:#eee;}
+::-webkit-scrollbar {width:5px; height:5px; background-color: red;}
+*:hover::-webkit-scrollbar {width:10px; height:10px;}
+::-webkit-scrollbar-thumb { background-color: #00000066;}
