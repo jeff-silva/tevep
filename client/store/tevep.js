@@ -1,4 +1,4 @@
-export const string = true;
+export const strict = true;
 
 export const state = () => ({
     edit: {},

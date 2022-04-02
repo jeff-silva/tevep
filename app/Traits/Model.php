@@ -104,13 +104,13 @@ trait Model
 
     public function upload($file)
     {
-        $max_upload_size = intval(config('app_model_files.max_upload_size'));
+        $max_upload_size = intval(config('app_models_files.max_upload_size'));
         if ($file->getSize() AND $file->getSize() > $max_upload_size) {
             throw new \Exception('O arquivo enviado ultrapassou o tamanho permitido');
             return false;
         }
 
-        $storage_type = config('app_model_files.storage_type'); // database | file
+        $storage_type = config('app_models_files.storage_type'); // database | file
         $value = null;
 
         if ($storage_type=='database') {

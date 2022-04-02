@@ -22,8 +22,8 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 		'mail.mailers.smtp.password',
 		'mail.from.address',
 		'mail.from.name',
-		'app_model_files.storage_type',
-		'app_model_files.max_upload_size',
+		'app_models_files.storage_type',
+		'app_models_files.max_upload_size',
 	];
 
 

@@ -44,7 +44,7 @@ class Files extends \Illuminate\Database\Eloquent\Model
 		$this->url = $this->url? $this->url: null;
 
 		if ($file = request()->file('content')) {
-			$storage_type = config('app_model_files.storage_type');
+			$storage_type = config('app_models_files.storage_type');
 
 			$this->size = $file->getSize();
 			$this->mime = strtolower($file->getClientMimeType());
