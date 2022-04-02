@@ -62,6 +62,12 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 	}
 
 
+	public function link()
+	{
+		return $this->id? url("/admin/teveps/{$this->id}"): null;
+	}
+
+
 	public function tevepsInvite()
 	{
 		return $this->belongsTo(App\Models\TevepsInvites::class, 'tevep_id', 'id');

@@ -18,8 +18,8 @@
             <slot :value="props.value" :loading="loading" :error="error" :errorFields="errorFields"></slot>
         </div>
 
-        <div class="ui-model-edit-actions text-end bg-white shadow-sm py-2 mt-md-3 p-md-3" v-if="showActions">
-            <slot name="actions"></slot>
+        <div class="ui-model-edit-actions d-flex align-items-center justify-content-end bg-white shadow-sm py-2 mt-md-3 p-md-3" v-if="showActions">
+            <slot name="actions" :value="props.value" :loading="loading" :error="error" :errorFields="errorFields"></slot>
 
             <nuxt-link :to="`/admin/${modelName}/new`" class="btn btn-light" v-if="props.value.id">
                 Criar {{ singular }}
@@ -144,11 +144,15 @@ export default {
         display: flex;
     }
 
-    .ui-model-edit-actions > .btn {
+    .ui-model-edit-actions > * {
         flex-basis: 100%;
         text-align: center;
-        margin-left: 5px;
-        margin-right: 5px;
+        margin-left: 2px;
+        margin-right: 2px;
     }
+}
+
+.ui-model-edit-actions > * {
+    margin-left: 5px;
 }
 </style>

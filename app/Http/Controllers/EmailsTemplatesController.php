@@ -17,13 +17,19 @@ class EmailsTemplatesController extends Controller
 			'except' => ['delete', 'restore', 'clone'],
 		]);
 
-		// Custom route example: POST /api/emails-templates/test/123
-		$this->route('post', '/test/{id}', 'test');
+		$this->route('post', '/test', 'test', [
+			'description' => 'Testar template de e-mail',
+			'body' => ['id' => '', 'email' => ''],
+		]);
 	}
 
 
-	public function test($id)
+	public function test()
 	{
-		return [ $id ];
+		if ($template = \App\Models\EmailsTemplates::find(request('id'))) {
+			return (array) $template->test();
+		}
+		
+		return false;
 	}
 }

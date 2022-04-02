@@ -150,8 +150,7 @@ class AppBase extends \Illuminate\Console\Command
             $file = str_replace(base_path('app'), '\App', $file);
             $file = str_replace('/', '\\', $file);
             $file = str_replace('.php', '', $file);
-            $file = trim($file, '\\');
-            return app($file);
+            return trim($file, '\\');
         }, $files);
     }
 }

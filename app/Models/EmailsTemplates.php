@@ -8,19 +8,7 @@ class EmailsTemplates extends \Illuminate\Database\Eloquent\Model
 	use \App\Traits\Model;
 
 	protected $table = 'emails_templates';
-
-	protected $fillable = [
-		'id',
-		'slug',
-		'name',
-		'subject',
-		'body',
-		'models',
-		'params',
-		'created_at',
-		'updated_at',
-		'deleted_at',
-	];
+	protected $fillable = ['id', 'slug', 'name', 'subject', 'body', 'params', 'created_at', 'updated_at', 'deleted_at'];
 
 	protected $casts = [
 	    'params' => 'array',
@@ -29,6 +17,14 @@ class EmailsTemplates extends \Illuminate\Database\Eloquent\Model
 
 	public function modelMutator()
 	{
-		$this->params = app($this->slug)->getParams();
+		if (! $this->slug) return [];
+		$this->params = call_user_func([$this->slug, 'getParamsValues']);
+	}
+
+
+	public function test()
+	{
+		if (! $this->slug) return false;
+		return call_user_func([$this->slug, 'test']);
 	}
 }

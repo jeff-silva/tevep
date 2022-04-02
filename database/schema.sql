@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS `emails_templates` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `subject` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `body` text COLLATE utf8mb4_unicode_ci,
-  `models` text COLLATE utf8mb4_unicode_ci,
   `params` text COLLATE utf8mb4_unicode_ci,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,

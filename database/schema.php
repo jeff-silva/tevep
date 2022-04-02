@@ -15,7 +15,6 @@ $database = env('DB_DATABASE');
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `subject` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `body` text COLLATE utf8mb4_unicode_ci,
-  `models` text COLLATE utf8mb4_unicode_ci,
   `params` text COLLATE utf8mb4_unicode_ci,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -52,12 +51,6 @@ $database = env('DB_DATABASE');
 \Schema::hasColumn('emails_templates', 'body')?
 	\DB::statement("ALTER TABLE emails_templates MODIFY COLUMN `body` text COLLATE utf8mb4_unicode_ci"):
 	\DB::statement("ALTER TABLE emails_templates ADD COLUMN `body` text COLLATE utf8mb4_unicode_ci");
-
-
-// Create/Update column emails_templates.models
-\Schema::hasColumn('emails_templates', 'models')?
-	\DB::statement("ALTER TABLE emails_templates MODIFY COLUMN `models` text COLLATE utf8mb4_unicode_ci"):
-	\DB::statement("ALTER TABLE emails_templates ADD COLUMN `models` text COLLATE utf8mb4_unicode_ci");
 
 
 // Create/Update column emails_templates.params

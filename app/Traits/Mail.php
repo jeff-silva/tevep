@@ -2,75 +2,65 @@
 
 namespace App\Traits;
 
+
 trait Mail {
+
+    static function getName()
+    {
+        return preg_replace('/[^a-zA-Z0-9]+/', '', get_called_class());
+    }
+
 
     static function getSubject()
     {
-        return 'no subject';
+        return preg_replace('/[^a-zA-Z0-9]+/', '', get_called_class());
     }
 
 
     static function getBody()
     {
-        return 'no body';
+        return ['hello :)'];
     }
 
-
-    static function getModels()
-    {
-        $models = collect([]);
-
-        foreach((new \ReflectionClass(__class__))->getConstructor()->getParameters() as $param) {
-            $models->push((object) [
-                'id' => $param->getType()->getName(),
-                'name' => $param->getName(),
-                'source' => ('{{ $'. $param->getName() .' }}'),
-            ]);
-        }
-
-        return $models;
-    }
-
-
-    static function getParamsMerge()
+    static function getParams()
     {
         return [];
     }
 
-    static function getParams() {
-        $parent = array_keys(get_class_vars(get_parent_class(get_class())));
-        $self = array_keys(get_class_vars(get_class()));
-        $params = array_diff($self, $parent);
-        
-        $return = collect([]);
 
-        foreach(self::getModels() as $model) {
-            foreach(app($model->id)->getFillable() as $field) {
-                $item = new \stdClass;
-                $item->id = "\${$model->name}->{$field}";
-                $item->name = $field;
-                $item->source = "{{ \${$model->name}->{$field} }}";
-                $return->push($item);
-            }
-        }
-
-        return $return;
+    static function test()
+    {
+        return new self();
     }
 
-    public function getParamsValues() {
-        $parent = array_keys(get_class_vars(get_parent_class(get_class())));
-        $self = array_keys(get_class_vars(get_class()));
-        $params = array_diff($self, $parent);
 
-        foreach($params as $i=>$param) {
-            $params[$param] = $this->$param;
-            unset($params[$i]);
-        }
-        
-        return $params;
+    public function setData($data=[])
+    {
+        $this->name = self::getName();
+
+        $this->subject = self::getSubject();
+        $this->subject = $this->bladeCompile($this->subject, $data);
+
+        $this->body = self::getBody();
+        $this->body = is_array($this->body)? implode("\n", $this->body): $this->body;
+        $this->body = $this->bladeCompile($this->body, $data);
     }
 
-    public function bladeCompile($html, $data=[]) {
+
+    public function getParamsValues()
+    {
+        return collect(static::getParams())->map(function($value, $key) {
+            return [
+                'id' => $key,
+                'name' => $value,
+                'source' => "{{ $key }}",
+            ];
+        })->values();
+    }
+
+
+    public function bladeCompile($html, $data=[])
+    {
         $html = \Blade::compileString($html);
         ob_start() and extract($data, EXTR_SKIP);
         try { eval('?>'.$html); }
@@ -78,15 +68,14 @@ trait Mail {
         return ob_get_clean();
     }
 
-    public function sendTo($emails) {
-        $emails = is_array($emails)? $emails: [$emails];
-        $name = (new \ReflectionClass($this))->getShortName();
-        
-        $data = $this->getParamsValues();
-        $subject = $this->bladeCompile(self::getSubject(), $data);
-        $template = $this->bladeCompile(self::getBody(), $data);
 
-        \Mail::send([], [], function ($message) use ($emails, $subject, $template) {
+    public function sendTo($emails)
+    {
+        $emails = is_array($emails)? $emails: [$emails];
+        $subject = $this->subject;
+        $body = $this->body;
+        
+        \Mail::send([], [], function ($message) use ($emails, $subject, $body) {
             $message->to($emails)->subject($subject)->setBody($template, 'text/html');
         });
     }

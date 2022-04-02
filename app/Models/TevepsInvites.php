@@ -35,6 +35,7 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 	{
 		return [
 			'user_email' => ['required', 'email'],
+			'tevep_id' => ['required'],
 		];
 	}
 

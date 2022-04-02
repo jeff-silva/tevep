@@ -84,7 +84,6 @@ export default {
                 let respData = this.parseResponseData(resp.data);
                 this.loading = false;
                 this.response = respData;
-                this.$emit('input', respData);
                 this.$emit('success', respData);
                 this.$emit('response', respData);
                 if (this.successText) {

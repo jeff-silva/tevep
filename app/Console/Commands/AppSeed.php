@@ -46,16 +46,14 @@ class AppSeed extends AppBase
 
 
     public function emailsTemplates()
-    {
-        foreach($this->getFolderClasses('app/Mail') as $class) {
-            $slug = get_class($class);
-
-            $template = \App\Models\EmailsTemplates::firstOrNew(['slug' => $slug]);
-            $template->name = $template->name? $template->name: $class->getSubject();
-            $template->subject = $template->subject? $template->subject: $class->getSubject();
-            $template->body = $template->body? $template->body: $class->getBody();
-            $template->models = json_encode($class->getModels());
-            $template->params = json_encode($class->getParams());
+    {   
+        foreach($this->getFolderClasses('app/Mails') as $class) {
+            $template = \App\Models\EmailsTemplates::firstOrNew(['slug' => $class]);
+            $template->name = call_user_func([$class, 'getName']);
+            $template->subject = $template->subject? $template->subject: call_user_func([$class, 'getSubject']);
+            $template->body = $template->body? $template->body: call_user_func([$class, 'getBody']);
+            $template->body = is_array($template->body)? implode("\n", $template->body): $template->body;
+            $template->params = json_encode(call_user_func([$class, 'getParamsValues']));
             $template->save();
         }
     }
