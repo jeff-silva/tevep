@@ -23,7 +23,7 @@ class AppInstall extends AppBase
 
         if (! \Schema::hasTable('users')) {
             try {
-                include database_path('install.php');
+                include database_path('schema.php');
             }
             catch(\Exception $e) {
                 $this->error('O erro abaixo foi retornado ao tentar instalar as tabelas do banco:');
