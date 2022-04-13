@@ -254,8 +254,8 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 // Create table settings
 \DB::statement("CREATE TABLE IF NOT EXISTS `settings` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci,
-  `value` text NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -270,14 +270,14 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 
 // Create/Update column settings.name
 \Schema::hasColumn('settings', 'name')?
-	\DB::statement("ALTER TABLE settings MODIFY COLUMN `name` varchar(255) NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci"):
-	\DB::statement("ALTER TABLE settings ADD COLUMN `name` varchar(255) NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci");
+	\DB::statement("ALTER TABLE settings MODIFY COLUMN `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE settings ADD COLUMN `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column settings.value
 \Schema::hasColumn('settings', 'value')?
-	\DB::statement("ALTER TABLE settings MODIFY COLUMN `value` text NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci"):
-	\DB::statement("ALTER TABLE settings ADD COLUMN `value` text NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci");
+	\DB::statement("ALTER TABLE settings MODIFY COLUMN `value` text COLLATE utf8mb4_unicode_ci"):
+	\DB::statement("ALTER TABLE settings ADD COLUMN `value` text COLLATE utf8mb4_unicode_ci");
 
 
 // Create/Update column settings.created_at
