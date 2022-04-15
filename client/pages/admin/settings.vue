@@ -44,7 +44,7 @@ export default {
 
     methods: {
         settingsGetAll() {
-            this.$axios.get('/api/settings/all').then(resp => {
+            this.$axios.get('/api/settings/all?all=1').then(resp => {
                 this.settings = resp.data;
             });
         },

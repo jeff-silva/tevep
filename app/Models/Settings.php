@@ -27,11 +27,20 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 	];
 
 
+	public static function getSettingsKeys($showAll = false)
+	{
+		$front = config('app_models_settings.front', []);
+		if (!$showAll) return $front;
+		$back = config('app_models_settings.back', []);
+		return array_merge($front, $back);
+	}
+
+
 	public static function saveAll($settings = [])
 	{
 		$return = [];
 
-		foreach(self::$settingsKeys as $key) {
+		foreach(self::getSettingsKeys(true) as $key) {
 			$value = isset($settings[ $key ])? $settings[ $key ]: false;
 
 			$testkey = str_replace('.', '_', $key);
@@ -47,12 +56,16 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 	}
 
 
-	public static function getAll()
+	public static function getAll($showAll = false)
 	{
-		$settings = self::select(['name', 'value'])->whereIn('name', self::$settingsKeys)->get()->pluck('value', 'name')->toArray();
+		$settingsKeys = self::getSettingsKeys($showAll);
+
+		$settings = self::select(['name', 'value'])
+			->whereIn('name', $settingsKeys)
+			->get()->pluck('value', 'name')->toArray();
 
 		$return = [];
-		foreach(self::$settingsKeys as $key) {
+		foreach($settingsKeys as $key) {
 			$return[ $key ] = isset($settings[$key])? $settings[$key]: config($key);
 		}
 

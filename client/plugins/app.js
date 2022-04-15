@@ -65,8 +65,15 @@ let helpers = {
 Vue.prototype.$helpers = helpers;
 for(let name in helpers) Vue.filter(name, helpers[name]);
 
+// this.$log(data);
 Vue.prototype.$log = function() {
     Array.prototype.slice.call(arguments).forEach(item => {
         console.log(item);
     });
 };
+
+import axios from 'axios';
+export default async function (ctx) {
+    let resp = await axios.get('/api/settings/all');
+    ctx.store.state.settings = resp.data;
+}

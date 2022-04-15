@@ -199,6 +199,35 @@ class AppReadmeGenerate extends AppBase
         $file[] = '';
 
 
+        $file[] = '## Model App\Models\Settings';
+        $file[] = 'Ela é responsável pelas configurações do sistema.<br>';
+        // $file[] = '<ol>';
+        // $file[] = '<li>Crie o arquivo de configuração normalmente como documenta o Laravel, na pasta `/config`;</li>';
+        // $file[] = '<li>O arquivo `config/app_models_settings.php` serve para definir quais configurações';
+        // $file[] = 'serão sobrescritas pelo banco em tempo de execução, sendo a chave "front" responsável por definir as';
+        // $file[] = 'configurações disponíveis para o frontend (é visível por qualquer visitante, portanto não defina nada secreto aqui)';
+        // $file[] = 'e a chave "back" responsável pelas chaves sobrescritas apenas no backend (aqui você pode definir dados seguros à vontade);</li>';
+        // $file[] = '</ol>';
+        $file[] = 'Vamos supor que você queira configurar uma imagem padrão para produtos sem foto.';
+        $file[] = 'então vamos criar o arquivo `/config/app_models_products.php` que pelo nome, ';
+        $file[] = 'obviamente terá configurações relacionadas à model de produtos, e nela vamos definir:';
+        $file[] = $this->cmd('php', [
+            '<?php // /config/app_models_products.php',
+            '',
+            'return [',
+            '   \'nophoto\' => \'/assets/products/nophoto.jpg\',',
+            '];',
+        ]);
+        $file[] = 'Agora você pode recuperar esse valor simplesmente usando `config(\'app_models_products.nophoto\')` a qualquer momento.';
+        $file[] = 'No entanto, precisamos que esse valor possa ser guardado no banco de dados para persistir da maneira correta,';
+        $file[] = 'e essa parte já está pronta. Tudo o que temos que fazer é falar para o sistema quais chaves podem persistir';
+        $file[] = 'do banco abrindo o arquivo `/config/app_models_settings.php` e inserindo a chave `app_models_products.nophoto`';
+        $file[] = 'dentro das arrays `front` ou `back`. A diferença entre uma e outra é que o que estiver dentro de `front` será';
+        $file[] = 'enviado para o frontend, portanto é uma péssima ideia inserir nele senhas, chaves privadas ou outros dados sensíveis.';
+        $file[] = 'Já o `back` serve para informar todos os outros dados sensíveis, eles nunca irão para o front.';
+        $file[] = '';
+
+
         $file[] = '## Controllers';
         $file[] = 'Estes são todos os controllers disponíveis no sistema:';
         $file[] = '```php';
@@ -208,7 +237,7 @@ class AppReadmeGenerate extends AppBase
         }
         $file[] = '```';
         $file[] = '';
-
+        
 
         $file[] = '## Customizando controllers';
         $file[] = 'Note que o arquivo `/routes/api.php` é bem limpo: tem apenas';

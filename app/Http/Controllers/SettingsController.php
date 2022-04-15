@@ -9,7 +9,7 @@ class SettingsController extends Controller
 		$this->model = new \App\Models\Settings;
 
 		$this->middleware('auth:api', [
-			'except' => ['search'],
+			'except' => ['search', 'getAll'],
 		]);
 
 		$this->defaultRoutes([
@@ -25,6 +25,8 @@ class SettingsController extends Controller
 	}
 
 	public function getAll() {
-		return \App\Models\Settings::getAll();
+		$showAll = request('all', false);
+		if (!auth()->user()) { $showAll = false; }
+		return \App\Models\Settings::getAll($showAll);
 	}
 }
