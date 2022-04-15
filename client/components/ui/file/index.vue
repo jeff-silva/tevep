@@ -1,43 +1,30 @@
 <template>
-    <div class="ui-file" @dragover.prevent @drop.prevent="fileGet($event.dataTransfer.files[0])">
+    <div class="ui-file" @dragover.prevent @drop.prevent="setFile($event.dataTransfer.files[0])">
 
-        <!-- Upload -->
-        <div class="d-flex align-items-center">
-            <div class="flex-grow-1" v-if="!props.value">
-                <button type="button" class="btn btn-light w-100" @click="fileBrowser()">
-                    <div v-if="props.value">{{ props.value.name }}</div>
-                    <div v-else><i class="fas fa-fw fa-file"></i> Browse</div>
-                </button>
-            </div>
+        <div class="d-flex">
+            <button type="button" class="btn btn-light flex-grow-1" @click="fileBrowser()">
+                <i class="fas fa-fw fa-upload me-2"></i> {{ props.value? null: "Upload" }}
+                <span v-if="file">
+                    <span class="me-2 text-uppercase fw-bold">{{ file.name }}</span>
+                    <span class="me-2">{{ file.size|fileSize }}</span>
+                </span>
+            </button>
 
-            <div class="flex-grow-1" v-if="props.value">
-                <input type="text" class="form-control" v-model="props.value.name">
-            </div>
-    
-            <div class="ms-2" v-if="props.value">
-                <button type="button" class="btn btn-light w-100" @click="fileClear()">
+            <div class="ps-2" v-if="props.value">
+                <button type="button" class="btn btn-danger" @click="setFile(false)">
                     <i class="fas fa-fw fa-times"></i>
                 </button>
             </div>
-
-            <slot name="actions"></slot>
         </div>
 
-        <!-- Preview -->
-        <div class="bg-light mt-2 d-flex align-items-center justify-content-center" :style="`height:calc(${previewHeight} + 30px);`" v-if="props.preview">
-            <slot name="preview" :value="props.value" :preview-height="previewHeight">
-                <div v-if="_file && (_file.type||'').includes('image')">
-                    <img :src="_file.url || _file.content" alt="" :style="`height:${previewHeight}; max-width:300px; object-fit:cover;`">
-                    <small class="d-block text-center">{{ _file.size|fileSize }}</small>
-                </div>
-
-                <div v-else-if="_file">
-                    <div style="font-size:40px; line-height:35px; text-transform:uppercase;">{{ _file.ext }}</div>
-                    <small class="d-block text-center">{{ _file.size|fileSize }}</small>
-                </div>
-
-                <div v-else>Arraste o arquivo aqui</div>
-            </slot>
+        <div @click="fileBrowser()"
+            class="mt-2 d-flex align-items-center justify-content-center"
+            :style="`height:${previewHeight}; padding:10px; text-align:center; background:#f5f5f5; border:solid 3px #eee;`"
+        >
+            <template v-if="(file && file.isImage) || (preview && /.jpg|.jpeg|.png|.bmp|.gif/.test(preview))">
+                <img :style="`height:calc(${previewHeight} - 20px);`" :src="(file && file.url)? file.url: preview" alt="">
+            </template>
+            <small class="d-block text-muted" v-else>Solte os arquivos aqui</small>
         </div>
     </div>
 </template>
@@ -45,10 +32,9 @@
 <script>
 export default {
     props: {
-        value: {default: false, type: [Boolean, Object]},
+        value: {default: false, type: [Boolean, Object, File]},
         folder: {default: ""},
-        file: {default: false, type: [Boolean, Object]},
-        preview: {default: true},
+        preview: {default:false, type:[Boolean, String]},
         previewHeight: {default: "200px"},
     },
 
@@ -66,20 +52,9 @@ export default {
         }},
     },
 
-    computed: {
-        _file() {
-            if (this.props.value) {
-                return this.props.value;
-            }
-            else if (this.props.file) {
-                return this.props.file;
-            }
-            return false;
-        },
-    },
-
     data() {
         return {
+            file: false,
             props: JSON.parse(JSON.stringify(this.$props)),
         };
     },
@@ -89,32 +64,28 @@ export default {
             Object.assign(document.createElement("input"), {
                 type: "file",
                 onchange: (ev) => {
-                    this.fileGet(ev.target.files[0]);
+                    this.setFile(ev.target.files[0]);
                 },
             }).click();
         },
 
-        fileGet(file) {
-            let r = new FileReader();
-            r.readAsDataURL(file);
-            r.onload = () => {
-                this.props.value = {
-                    name: file.name,
-                    folder: this.props.folder,
-                    size: file.size,
-                    mime: file.type,
-                    type: file.type.split("/").shift(),
-                    ext: file.name.split(".").pop(),
-                    content: r.result,
-                };
-                this.$emit('input', this.props.value);
-                this.$emit('file-get', file);
-            };
-        },
+        setFile(file) {
+            this.props.value = file;
+            this.file = file;
 
-        fileClear() {
-            this.props.value = false;
-            this.$emit('file-clear', false);
+            if (file && file.constructor.name=="File") {
+                let r = new FileReader();
+                r.readAsDataURL(file);
+                r.onload = () => {
+                    this.file = {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        isImage: file.type.includes("image"),
+                        url: r.result,
+                    };
+                };
+            }
         },
     },
 }

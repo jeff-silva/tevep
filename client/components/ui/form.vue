@@ -35,42 +35,26 @@ export default {
     methods: {
         submit() {
             let method=this.method, url=this.action, data=null, params=null;
-            // let headers = {'Content-Type': 'multipart/form-data'};
-            let headers = {};
+            let headers = {'Content-Type': 'multipart/form-data' };
 
             if (this.method=="post") {
-                data = this.value;
-                // data = new FormData();
-                // for(let name in this.value) {
-                //     let value = this.value[name];
 
-                //     if (Array.isArray(value)) {
-                //         if (value.length==0) {
-                //             data.append(`${name}`, '');
-                //             continue;
-                //         }
+                const jsonToFormData = (data, parentName=false, formData=false) => {
+                    formData = formData || new FormData();
+                    for(let k in data) {
+                        let value = data[k];
+                        k = parentName? `${parentName}[${k}]`: k;
 
-                //         for(let i in value) {
-                //             data.append(`${name}[]`, value[i] || "");
-                //         }
-                //         continue;
-                //     }
+                        if (value && value.constructor.name=="Object") {
+                            formData = jsonToFormData(value, k, formData);
+                        }
+                        else if (value && value.constructor.name=="Array") {}
+                        else { formData.append(k, value); }
+                    }
+                    return formData;
+                };
 
-                //     else if (typeof value=="object") {
-                //         console.log({name, value});
-                //         data.append(name, JSON.stringify(value));
-                //         continue;
-                //     }
-
-                //     else if (value && typeof value=="object" && (value.mime && value.content)) {
-                //         let arr = value.content.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-                //         while(n--) { u8arr[n] = bstr.charCodeAt(n); }
-                //         data.append(name, new File([u8arr], value.name, {type:value.mime}));
-                //         continue;
-                //     }
-
-                //     data.append(name, value||'');
-                // }
+                data = jsonToFormData(this.value);
             }
             else {
                 params = this.value;
