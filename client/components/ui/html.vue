@@ -79,6 +79,10 @@ export default {
 
         htmlKeyup(ev) {
             this.props.value = ev.target.innerHTML || '&nbsp;';
+            this._watchers.forEach(watch => {
+                if (watch.expression!='props') return;
+                watch.cb.call(this, this.props);
+            });
         },
 
         documentClick(ev) {

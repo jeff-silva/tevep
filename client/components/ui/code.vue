@@ -57,11 +57,12 @@ export default {
 
                 this.monaco.getModel().setValue(this.props.value);
                 this.monacoUpdateHeight();
-            }, 100);
+            }, 1000);
         },
 
         setValue(value) {
-            if (this.$el.contains(document.activeElement)) return;
+            return;
+            // if (this.$el.contains(document.activeElement)) return;
             this.monaco.getModel().setValue(value);
         },
         

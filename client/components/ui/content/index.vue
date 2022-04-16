@@ -2,7 +2,11 @@
     <div>
         <!-- Render -->
         <div v-if="!edit">
-            Render
+            <component :is="props.value.layout.name||{template:'<div><slot></slot></div>'}" v-bind="props.value.layout.bind">
+                <div v-for="(s, i) in (props.value.sections||[])" @click="sectionEdit=s._id; tab='edit';">
+                    <component :is="s.component.name" v-bind="s.component.bind"></component>
+                </div>
+            </component>
         </div>
         
         <!-- Edit -->
@@ -21,27 +25,56 @@
                         </div>
 
                         <div class="p-2">
-                            <el-tabs v-model="tab">
-    
-                                <!-- Tab Elementos -->
-                                <el-tab-pane label="Elementos" name="elements">
-                                    <div class="input-group mb-2" v-for="e in elements">
-                                        <div class="form-control">{{ e.label }}</div>
+
+                            <el-collapse v-model="tab" accordion>
+
+                                <!-- Informações básicas -->
+                                <el-collapse-item title="Info" name="info">
+                                    <ui-field label="Layout">
+                                        <select class="form-control" v-model="props.value.layout.name" @change="props.value.layout.bind = props.layouts.filter(l => l.component.name==props.value.layout.name).map(l => l.bind)[0] || {}">
+                                            <option :value="false">Nenhum</option>
+                                            <option :value="l.component.name" v-for="l in props.layouts">{{ l.name }}</option>
+                                        </select>
+                                    </ui-field>
+
+                                    <template v-for="l in props.layouts" v-if="props.value.layout.name && props.value.layout.name==l.component.name">
+                                        <component :is="l.componentEdit" v-bind.sync="props.value.layout.bind" @update="$log($event)"></component>
+                                    </template>
+                                </el-collapse-item>
+
+
+                                <!-- Seções registradas -->
+                                <el-collapse-item title="Inserir seção" name="propsSections">
+                                    <div class="input-group mb-2" v-for="s in props.sections">
+                                        <div class="form-control">{{ s.name }}</div>
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-primary rounded-0" @click="sectionAdd(e).then(resp => sectionEdit=resp._id); tab='edit';">
+                                            <button type="button" class="btn btn-primary rounded-0" @click="sectionAdd(s).then(resp => sectionEdit=resp._id); tab='edit';">
                                                 <i class="fas fa-fw fa-plus"></i>
                                             </button>
                                         </div>
                                     </div>
-                                </el-tab-pane>
-    
-                                <!-- Tab Seções -->
-                                <el-tab-pane label="Seções" name="sections">
+                                </el-collapse-item>
+                                
+                                
+                                <!-- Seções de value -->
+                                <el-collapse-item title="Seções" name="valueSections">
+                                    <div v-if="props.value.sections.length==0" class="border p-2">
+                                        <small class="d-block text-muted text-center">Nenhuma seção inserida.</small>
+                                        <a href="javascript:;" @click="tab='propsSections'" class="d-block text-muted text-center">Inserir</a>
+                                    </div>
+                                    
                                     <draggable v-model="props.value.sections" v-bind="{handle:'.handle', animation:150}" @end="emitValue()">
-                                        <div v-for="(s, i) in (props.value.sections||[])" :key="s._id" @click="sectionEdit=s._id">
+                                        <div v-for="(s, i) in (props.value.sections||[])" :key="s._id">
                                             <div class="input-group form-control p-0 mb-2">
                                                 <div class="input-group-text handle border-0" style="cursor:s-resize;">:::</div>
-                                                <input type="text" class="form-control border-0" v-model="s.label">
+                                                <input type="text" class="form-control border-0" v-model="s.name">
+                                                
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-success rounded-0 border-0" @click="sectionEdit=s._id; tab='edit';">
+                                                        <i class="fas fa-fw fa-edit"></i>
+                                                    </button>
+                                                </div>
+
                                                 <div class="input-group-btn">
                                                     <button type="button" class="btn btn-danger rounded-0 border-0" @click="sectionRemove(s)">
                                                         <i class="fas fa-fw fa-times"></i>
@@ -50,22 +83,24 @@
                                             </div>
                                         </div>
                                     </draggable>
-                                </el-tab-pane>
+                                </el-collapse-item>
+                                
                                 
                                 <!-- Tab Editar -->
-                                <el-tab-pane label="Editar" name="edit" v-if="sectionEdit">
-                                    <div v-for="(s, i) in (props.value.sections||[])" :key="s._id" v-if="s._id==sectionEdit">
-                                        <component :is="getComponent(s).edit" v-bind.sync="s.bind"></component>
-                                    </div>
-                                </el-tab-pane>
-                            </el-tabs>
+                                <el-collapse-item title="Editar" name="edit" v-if="sectionEdit">
+                                    <template v-for="(s, i) in (props.value.sections||[])" v-if="s._id==sectionEdit">
+                                        <template v-for="ss in props.sections" v-if="ss.component.name==s.component.name">
+                                            <component :is="ss.componentEdit" v-bind.sync="s.component.bind"></component>
+                                        </template>
+                                    </template>
+                                </el-collapse-item>
+                            </el-collapse>
                         </div>
                     </div>
     
+                    <!-- Edit render -->
                     <div class="flex-grow-1" style="position:relative; height:100vh; overflow:auto;">
-                        <div v-for="(s, i) in (props.value.sections||[])" @click="sectionEdit=s._id; tab='edit';">
-                            <component :is="getComponent(s).component" v-bind="s.bind"></component>
-                        </div>
+                        <ui-content :value="props.value" :edit="false"></ui-content>
                     </div>
                 </div>
             </transition>
@@ -77,34 +112,45 @@
 import draggable from 'vuedraggable';
 
 export default {
+    components: { draggable },
+
     props: {
         value: {type:[Boolean, Number, String, Array, Object]},
         edit: {default:false, type:Boolean},
         sidebarWidth: {default:"300px"},
+        layouts: {default:()=>([]), type:Array},
+        sections: {default:()=>([]), type:Array},
     },
-
-    components: { draggable },
 
     watch: {
         $props: {deep:true, handler(value) {
-            if (this.$el.contains(document.activeElement)) return;
+            if (this.__preventRecursive) return;
             this.props = JSON.parse(JSON.stringify(value));
             this.props.value = this.validPropsValue(this.props.value||{});
+            this.props.layouts = this.getLayouts();
+            this.props.sections = this.getSections();
+        }},
+
+        props: {deep:true, handler(value) {
+            this.__preventRecursive = true;
+            this.$emit('input', value.value||false);
+            for(let i in value) { this.$emit(`update:${i}`, value[i]); }
+            setTimeout(() => { this.__preventRecursive = false; }, 10);
         }},
     },
 
     data() {
         let props = JSON.parse(JSON.stringify(this.$props));
         props.value = this.validPropsValue(props.value||{});
-
-        let elements = this.getElements();
+        props.layouts = this.getLayouts();
+        props.sections = this.getSections();
 
         return {
             props,
-            elements,
-            modalEditorActive: false,
+            elements: [],
+            modalEditorActive: true,
             sectionEdit: "",
-            tab: "elements",
+            tab: "info",
         };
     },
 
@@ -116,18 +162,29 @@ export default {
             this.$forceUpdate();
         },
 
-        sectionAdd(elem) {
-            return new Promise((resolve, reject) => {
-                elem = JSON.parse(JSON.stringify(elem));
-                elem = {_id: ('section-'+Math.round(Math.random()*99999)), ...elem};
-                delete elem.component;
-                delete elem.edit;
+        getLayouts() {
+            let files = require.context('./layouts', true, /info.js$/);
+            return files.keys().map(file => files(file).default);
+        },
 
-                this.props.value = this.props.value || {};
-                this.props.value.sections = this.props.value.sections||[];
-                this.props.value.sections.push(elem);
-                this.emitValue();
-                resolve(elem);
+        getSections() {
+            let files = require.context('./sections', true, /info.js$/);
+            return files.keys().map(file => files(file).default);
+        },
+
+        sectionAdd(section) {
+            return new Promise((resolve, reject) => {
+                section = {
+                    _id: ('section-'+Math.round(Math.random()*99999)),
+                    name: section.name,
+                    component: {
+                        name: section.component.name,
+                        bind: (section.bind || {}),
+                    },
+                };
+
+                this.props.value.sections.push(section);
+                resolve(section);
             });
         },
 
@@ -151,6 +208,7 @@ export default {
         validPropsValue(value) {
             if (!typeof value=="object") value = {};
             value.title = value.title || "";
+            value.layout = value.layout || {name:false, bind:{}};
             value.sections = value.sections||[];
             return value;
         },
@@ -184,28 +242,6 @@ export default {
             this.emitValue();
             if (!ev.target.classList.contains('el-drawer__container')) return;
             this.sectionEdit = false;
-        },
-
-        getElements() {
-            let files = require.context('./', true, /(index|edit)\.vue$/);
-            return files.keys().map(key => {
-                if (! /edit\.vue$/.test(key)) return null;
-                let edit = files(key).default;
-                
-                let bind = {};
-                for(let i in edit.props) {
-                    let _value = edit.props[i].default || "";
-                    if (typeof _value=="function") { _value = _value(); }
-                    bind[i] = _value;
-                }
-
-                return {
-                    label: edit.name.replace('UiContent', '').replace(/Edit$/, '').replace(/([a-z0-9])([A-Z])/g, '$1 $2'),
-                    bind,
-                    component: files(key.replace('edit.vue', 'index.vue')).default,
-                    edit,
-                };
-            }).filter(item => !!item);
         },
     },
 }

@@ -46,10 +46,13 @@ export default {
                         k = parentName? `${parentName}[${k}]`: k;
 
                         if (value && value.constructor.name=="Object") {
-                            formData = jsonToFormData(value, k, formData);
+                            value = JSON.stringify(value);
                         }
-                        else if (value && value.constructor.name=="Array") {}
-                        else { formData.append(k, value); }
+                        else if (value && value.constructor.name=="Array") {
+                            value = JSON.stringify(value);
+                        }
+                        
+                        formData.append(k, value);
                     }
                     return formData;
                 };

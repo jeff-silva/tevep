@@ -2,10 +2,10 @@ export default {
     state: {
         menu: [
             {label:"Dashboard", to:"/admin"},
-            // {label:"Páginas", children:[
-            //     {label:"Buscar", to:"/admin/pages", children:[]},
-            //     {label:"Novo", to:"/admin/pages/new", children:[]},
-            // ]},
+            {label:"Páginas", children:[
+                {label:"Buscar", to:"/admin/pages", children:[]},
+                {label:"Novo", to:"/admin/pages/new", children:[]},
+            ]},
             {label:"Usuários", children:[
                 {label:"Buscar", to:"/admin/user", children:[]},
                 {label:"Novo", to:"/admin/user/new", children:[]},
