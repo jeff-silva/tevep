@@ -14,5 +14,5 @@ new \App\Http\Controllers\PagesController;
 new \App\Http\Controllers\SettingsController;
 new \App\Http\Controllers\TevepsController;
 new \App\Http\Controllers\TevepsInvitesController;
-new \App\Http\Controllers\UserController;
+new \App\Http\Controllers\UsersController;
 new \App\Http\Controllers\UsersGroupsController;

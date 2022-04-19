@@ -1,6 +1,6 @@
 <template>
     <ui-model-search
-        model-name="user"
+        model-name="users"
         singular="Usuário"
         plural="Usuários"
         :actions-except="['delete', 'clone']"

@@ -27,7 +27,7 @@ class AppNuxtGenerate extends AppBase
         foreach($this->getTables() as $table) {
             if ($this->isIgnoredTable($table->Name)) continue;
 
-            $model_name = (string) \Str::of($table->Name=='users'? 'user': $table->Name)->studly()->kebab();
+            $model_name = (string) \Str::of($table->Name)->studly()->kebab();
             
             $nuxt_admin_folder = base_path("client/pages/admin/{$model_name}");
 

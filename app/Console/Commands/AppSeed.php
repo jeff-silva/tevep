@@ -26,7 +26,7 @@ class AppSeed extends AppBase
         $group->permissions = array_keys(config('permissions.keys', []));
         $group->save();
 
-        $user = \App\Models\User::firstOrNew(['id' => 1]);
+        $user = \App\Models\Users::firstOrNew(['id' => 1]);
         $user->name = $user->name? $user->name: 'Root User';
         $user->email = $user->email? $user->email: 'root@grr.la';
         $user->password = $user->password? $user->password: \Hash::make('321321');

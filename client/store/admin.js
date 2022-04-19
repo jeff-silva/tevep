@@ -7,8 +7,8 @@ export default {
                 {label:"Novo", to:"/admin/pages/new", children:[]},
             ]},
             {label:"Usuários", children:[
-                {label:"Buscar", to:"/admin/user", children:[]},
-                {label:"Novo", to:"/admin/user/new", children:[]},
+                {label:"Buscar", to:"/admin/users", children:[]},
+                {label:"Novo", to:"/admin/users/new", children:[]},
                 {label:"Grupos", to:"/admin/users-groups", children:[]},
             ]},
             {label:"Configurações", to:"/admin/settings", children:[

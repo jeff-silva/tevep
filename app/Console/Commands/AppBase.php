@@ -38,8 +38,6 @@ class AppBase extends \Illuminate\Console\Command
             'suffix' => '',
         ], $params);
 
-        if ($params->name=='users') { $params->name = 'user'; }
-
         $return = (object) ['Name' => ((string) \Str::of($params->name)->slug()->studly()) .$params->suffix ];
         $return->Namespace = $params->namespace;
         $return->NameFull = "{$params->namespace}\\{$return->Name}";
@@ -70,7 +68,6 @@ class AppBase extends \Illuminate\Console\Command
 
         foreach(\DB::select('SHOW TABLE STATUS') as $table) {
             $table->Slug = (string) \Str::of($table->Name)->studly()->kebab();
-            // $table->Slug = $table->Slug=='users'? 'user': $table->Slug;
 
             $deletes = [
                 'Version', 'Row_format', 'Rows', 'Avg_row_length', 'Data_length', 'Max_data_length', 'Index_length',

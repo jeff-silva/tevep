@@ -17,6 +17,6 @@ class UsersGroups extends \Illuminate\Database\Eloquent\Model
 
 	public function user()
 	{
-		return $this->belongsTo(App\Models\User::class, 'group_id', 'id');
+		return $this->belongsTo(App\Models\Users::class, 'group_id', 'id');
 	}
 }

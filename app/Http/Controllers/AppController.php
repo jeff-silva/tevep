@@ -65,7 +65,7 @@ class AppController extends Controller
 
 	public function dashboard()
 	{
-		$return['users'] = \App\Models\User::select(['id'])->count();
+		$return['users'] = \App\Models\Users::select(['id'])->count();
 		$return['filesSize'] = \App\Models\Files::select(['size'])->get()->sum('size');
 		return $return;
 	}
