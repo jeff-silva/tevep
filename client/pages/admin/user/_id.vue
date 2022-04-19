@@ -1,5 +1,5 @@
 <template>
-    <ui-model-edit model-name="user" :model-id="_userId" singular="Usuário" plural="Usuários" #default="{value, errorFields}">
+    <ui-model-edit model-name="user" :model-id="_userId" singular="Usuário" plural="Usuários" :validate="validate" #default="{value, errorFields}">
         <ui-field label="Nome" layout="horizontal" :error="errorFields.name">
             <input type="text" class="form-control" v-model="value.name">
         </ui-field>
@@ -43,6 +43,9 @@ export default {
     data() {
         return {
             baseUrl: ((new URL(location.href)).protocol+ '//'+ (new URL(location.href)).host +'/'),
+            validate: {
+                name: {presence:{allowEmpty: false}},
+            },
         };
     },
 }

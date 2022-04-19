@@ -1,14 +1,32 @@
 <template>
-    <form action="" @submit.prevent="submit()" @change="formChanged=true" ref="form" v-if="tag=='form'">
-        <slot :value="value" :loading="loading" :response="response" :error="error" :error-fields="errorFields" :submit="submit"></slot>
+    <form action="" @submit.prevent="submit()" @change="formChangeHandler($event)" ref="form" v-if="tag=='form'">
+        <slot
+            :value="value"
+            :loading="loading"
+            :valid="valid"
+            :response="response"
+            :error="error"
+            :error-fields="errorFields"
+            :submit="submit"
+        ></slot>
     </form>
 
     <component v-else :is="tag">
-        <slot :value="value" :loading="loading" :response="response" :error="error" :error-fields="errorFields" :submit="submit"></slot>
+        <slot
+            :value="value"
+            :loading="loading"
+            :valid="valid"
+            :response="response"
+            :error="error"
+            :error-fields="errorFields"
+            :submit="submit"
+        ></slot>
     </component>
 </template>
 
 <script>
+import validate from 'validate.js';
+
 export default {
     props: {
         value: [Boolean, Object],
@@ -20,6 +38,14 @@ export default {
         tag: {default:"form"},
         findAction: {default:false, type:[Boolean, String]},
         findOnMounted: {default:false, type:[Boolean, String]},
+        validate: {default:false, type:[Boolean, Object, Function]},
+    },
+
+    computed: {
+        valid() {
+            if (!this.formChanged) return false;
+            return Object.keys(this.errorFields).length==0;
+        },
     },
 
     data() {
@@ -86,6 +112,23 @@ export default {
             });
 
             return axios;
+        },
+
+        formChangeHandler(ev) {
+            let constraints = false;
+
+            if (this.validate.constructor.name=="Function") {
+                constraints = this.validate();
+            }
+            else if (this.validate.constructor.name=="Object") {
+                constraints = this.validate;
+            }
+
+            if (constraints) {
+                this.errorFields = validate(this.value, constraints) || {};
+            }
+
+            this.formChanged = true;
         },
 
         parseResponseData(respData) {

@@ -2,8 +2,9 @@
     <ui-form method="post"
         :action="`/api/${modelName}/save`"
         v-model="props.value"
-        #default="{loading, error, errorFields}"
+        #default="{loading, error, errorFields, valid}"
         @success="onSuccess"
+        :validate="validate"
     >
         <div class="ui-model-edit-fields bg-white p-3 shadow-sm">
             <el-collapse-transition>
@@ -29,7 +30,7 @@
                 Voltar
             </nuxt-link>
 
-            <button type="submit" class="btn btn-primary" v-loading="loading">
+            <button type="submit" class="btn btn-primary" v-loading="loading" :disabled="!valid">
                 Salvar
             </button>
         </div>
@@ -46,6 +47,7 @@ export default {
         plural: {default:"Itens"},
         showActions: {default:true}, // exibir botões de ação (criar, voltar, salvar) do formulário?
         redirect: {default:"edit"}, // edit=/admin/{model}/{model.id}; back=pagina anterior; qualquer outro valor=url direta
+        validate: {default:false, type:[Boolean, Object, Function]},
     },
 
     watch: {
