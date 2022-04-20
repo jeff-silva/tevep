@@ -1,6 +1,6 @@
 <template>
     <div class="ui-field mb-3" :class="{'d-flex':isLarge, 'ui-field-error':_compError}">
-        <div :class="{'py-2':isLarge, 'pb-1':!isLarge}" :style="`min-width:${isLarge? null: labelWidth}; max-width:${isLarge? null: labelWidth};`">
+        <div :class="{'py-2 pe-3':isLarge, 'pb-1':!isLarge}" :style="`min-width:${isLarge? null: labelWidth}; max-width:${isLarge? null: labelWidth};`">
             <slot name="label">{{ label }}</slot>
             
             <small class="d-block text-muted">

@@ -1,6 +1,6 @@
 <template>
     <div class="admin-settings bg-white">
-        <ui-form method="post" action="/api/settings/save" v-model="settings" #default="{loading, response}" success-text="Configurações salvas">
+        <ui-form method="post" action="/api/settings/save" v-model="settings" #default="{loading, response}" @success="onSuccess">
             <el-tabs :value="$route.path" @tab-click="$router.push($event.name)">
                 <el-tab-pane :label="n.label" :name="n.to" :key="n.to" v-for="n in navItems">
                     &nbsp;
@@ -37,6 +37,7 @@ export default {
                 {label:"Principal", to:"/admin/settings"},
                 {label:"E-mail", to:"/admin/settings/email"},
                 {label:"Arquivos", to:"/admin/settings/files"},
+                {label:"Google", to:"/admin/settings/google"},
             ],
             settings: {},
         };
@@ -46,6 +47,12 @@ export default {
         settingsGetAll() {
             this.$axios.get('/api/settings/all?all=1').then(resp => {
                 this.settings = resp.data;
+            });
+        },
+
+        onSuccess() {
+            this.$swal.fire('Dados salvos').then(resp => {
+                location.reload();
             });
         },
     },

@@ -46,8 +46,7 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  ],
+  buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -58,6 +57,18 @@ export default {
     ['@nuxtjs/pwa', {
       manifest: {lang: 'en'},
       icon: {source:'~/static/icon.png'},
+    }],
+
+    // https://github.com/nuxt-community/google-gtag-module
+    ['@nuxtjs/google-gtag', {
+      id: false,
+      config: {
+        anonymize_ip: true, // anonymize IP 
+        send_page_view: false, // might be necessary to avoid duplicated page track on page reload
+        // linker: {domains: ['domain.com','domain.org']}
+      },
+      debug: true, // enable to track in dev mode
+      disableAutoPageTrack: false,
     }],
 
     // https://auth.nuxtjs.org/

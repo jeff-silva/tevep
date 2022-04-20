@@ -73,7 +73,24 @@ Vue.prototype.$log = function() {
 };
 
 import axios from 'axios';
-export default async function (ctx) {
-    let resp = await axios.get('/api/settings/all');
-    ctx.store.state.settings = resp.data;
+export default async function (ctx, inject) {
+    ctx.store.state.settings = (await axios.get('/api/settings/all')).data;
+    let settings = ctx.store.state.settings;
+
+    if (settings['google.analytics.id']) {
+        // console.log(Vue.prototype);
+        // console.log(ctx);
+        // console.log(inject('app'));
+
+        // this.$gtag('config', ctx.store.state.settings['google.analytics.id'], {
+        //     page_title: this.$metaInfo.title,
+        //     page_path: this.$route.fullPath,
+        // });
+    }
+
+    if (settings['app.style']) {
+        document.body.append(Object.assign(document.createElement('style'), {
+            innerHTML: settings['app.style'],
+        }));
+    }
 }

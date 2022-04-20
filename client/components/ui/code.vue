@@ -9,7 +9,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 export default {
     props: {
-        value: [Boolean, String],
+        value: [String],
         language: {default: "html"},
         theme: {default: "vs-dark"},
     },
@@ -38,30 +38,26 @@ export default {
     },
     
     methods: {
-        monacoInit() {
-            setTimeout(() => {
-                let target = this.$refs.monaco;
+        async monacoInit() {
+            let target = this.$refs.monaco;
+            this.monaco = await monaco.editor.create(target, {
+                value: (this.props.value || ""),
+                language: this.props.language,
+                theme: this.props.theme,
+                automaticLayout: true,
+                scrollBeyondLastLine: false,
+            });
 
-                this.monaco = monaco.editor.create(target, {
-                    value: (this.props.value || ""),
-                    language: this.props.language,
-                    theme: this.props.theme,
-                    automaticLayout: true,
-                    scrollBeyondLastLine: false,
-                });
-
-                this.monaco.getModel().onDidChangeContent(evt => {
-                    this.props.value = this.monaco.getModel().getValue();
-                    this.monacoUpdateHeight();
-                });
-
-                this.monaco.getModel().setValue(this.props.value);
+            this.monaco.getModel().onDidChangeContent(evt => {
+                this.props.value = this.monaco.getModel().getValue();
                 this.monacoUpdateHeight();
-            }, 1000);
+            });
+
+            this.monaco.getModel().setValue(this.props.value||"");
+            this.monacoUpdateHeight();
         },
 
         setValue(value) {
-            return;
             // if (this.$el.contains(document.activeElement)) return;
             this.monaco.getModel().setValue(value);
         },

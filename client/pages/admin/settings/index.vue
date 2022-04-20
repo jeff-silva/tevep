@@ -32,6 +32,10 @@
                 <option :value="60*24*30*12">1 ano</option>
             </select>
         </ui-field>
+
+        <ui-field label="CSS customizado">
+            <ui-code language="css" v-model="value['app.style']"></ui-code>
+        </ui-field>
     </div>
 </template>
 

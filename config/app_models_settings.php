@@ -8,6 +8,8 @@ return [
         'app.timezone',
         'app.locale',
         'jwt.ttl',
+        'google.analytics.id',
+        'app.style',
     ],
     
     // Configurações disponíveis apenas para o backend

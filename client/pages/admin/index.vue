@@ -13,7 +13,6 @@
                 </div>
             </div>
         </div>
-        <pre>{{ $store.state.settings }}</pre>
     </ui-form>
 </template>
 
