@@ -30,6 +30,8 @@ Vue.prototype.$confirm = function(html) {
     });
 };
 
+
+
 let helpers = {
     dateFormat: (value, format='DD/MM/YYYY - HH:mm') => {
         let d = moment(value);
@@ -59,6 +61,17 @@ let helpers = {
             minimumFractionDigits: decimals,
             maximumFractionDigits: decimals,
         }).format(number);
+    },
+
+    componentTitle: async (compRoute) => {
+        if (compRoute.components && compRoute.components.default) {
+            let comp = new compRoute.components.default();
+            if (comp.$metaInfo && comp.$metaInfo.title) {
+                return comp.$metaInfo.title;
+            }
+        }
+
+        return 'Sem título';
     },
 };
 

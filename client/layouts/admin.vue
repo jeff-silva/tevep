@@ -1,4 +1,4 @@
-<!-- http://localhost/free-bundle-2022/092%20flat-able-lite/dist/form_elements.html -->
+<!-- https://coreui.io/demo/4.0/free/index.html -->
 <template>
    <div>
       <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
@@ -30,9 +30,9 @@
     </el-drawer>
 
     <div class="wrapper d-flex flex-column min-vh-100 bg-light">
-            <header class="header header-sticky mb-4">
+        <header class="header header-sticky mb-4">
             <div class="container-fluid">
-                <button class="header-toggler px-md-0 me-md-3" type="button" @click="drawer=true">
+                <button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" @click="drawer=true">
                     <i class="fas fa-fw fa-bars"></i>
                 </button>
                 <a class="header-brand d-md-none" href="#">
@@ -108,7 +108,11 @@
             </div>
             <div class="header-divider"></div>
             <div class="container-fluid">
-                <ui-breadcrumb></ui-breadcrumb>
+                <ui-breadcrumb breadcrumb-class="breadcrumb my-0 ms-2">
+                    <template #item="{item}">
+                        <div class="breadcrumb-item">{{ item.label }}</div>
+                    </template>
+                </ui-breadcrumb>
             </div>
          </header>
 
@@ -130,11 +134,8 @@
 <script>
 export default {
     watch: {
-        route() {
-            console.log('route');
-            // setTimeout(() => {
-            //     this.headTitle = document.title;
-            // }, 1000);
+        async $route() {
+            this.headTitle = await this.$helpers.componentTitle(this.$route.matched.at(-1));
         },
     },
 
@@ -143,6 +144,10 @@ export default {
             drawer: false,
             headTitle: document.title,
         };
+    },
+
+    async mounted() {
+        this.headTitle = await this.$helpers.componentTitle(this.$route.matched.at(-1));
     },
 }
 </script>

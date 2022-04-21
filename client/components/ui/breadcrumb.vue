@@ -1,16 +1,25 @@
 <template>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <!-- <li class="breadcrumb-item"><span>Admin</span></li> -->
-            <li class="breadcrumb-item" :class="{active:i.active}" v-for="i in breadcrumbItems">
-                <nuxt-link :to="i.to">{{ i.label }}</nuxt-link>
-            </li>
-        </ol>
+    <nav aria-label="breadcrumb" :style="`--bs-breadcrumb-divider: '${divider}';`">
+        <div :class="breadcrumbClass">
+            <template v-for="i in breadcrumbItems">
+                <slot name="item" :item="i">
+                    <div class="breadcrumb-item" :class="breadcrumbItemClass">
+                        <nuxt-link :to="i.to">{{ i.label }}</nuxt-link>
+                    </div>
+                </slot>
+            </template>
+        </div>
     </nav>
 </template>
 
 <script>
 export default {
+    props: {
+        breadcrumbClass: {default:"breadcrumb"},
+        breadcrumbItemClass: {default:"breadcrumb-item"},
+        divider: {default:"/"},
+    },
+
     methods: {
         async setBreadcrumbPaths() {
             let routes = {};
