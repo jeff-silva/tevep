@@ -8,12 +8,10 @@ export default function (ctx) {
     }
 
     // Permissions
-    if ($auth.loggedIn && $auth.user) {
-        if ($auth.user.id!=1 && $auth.user.group_id!=1) {
-            let permissions = $auth.user.permissions || [];
-            if (permissions.indexOf(route.name) == -1) {
-                return app.router.push("/admin");
-            }
+    if ($auth.user.id!=1 && $auth.user.group_id!=1) {
+        let permissions = $auth.user.permissions || [];
+        if (permissions.indexOf(route.name) == -1) {
+            return app.router.push("/admin");
         }
     }
 

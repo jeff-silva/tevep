@@ -9,7 +9,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 export default {
     props: {
-        value: [String],
+        value: {default:"", type:[String]},
         language: {default: "html"},
         theme: {default: "vs-dark"},
     },
@@ -57,7 +57,7 @@ export default {
 
         setValue(value) {
             // if (this.$el.contains(document.activeElement)) return;
-            this.monaco.getModel().setValue(value);
+            this.monaco.getModel().setValue(value||"");
         },
         
         getValue() {

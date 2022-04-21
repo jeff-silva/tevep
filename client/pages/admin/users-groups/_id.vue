@@ -30,7 +30,7 @@
 export default {
 	head() {
 		return {
-			title: "Editar",
+			title: "Editar grupo",
 		};
 	},
 

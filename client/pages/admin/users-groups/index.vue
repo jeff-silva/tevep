@@ -19,7 +19,7 @@
 export default {
 	head() {
 		return {
-			title: "Buscar",
+			title: "Buscar grupo",
 		};
 	},
 }
