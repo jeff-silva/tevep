@@ -41,7 +41,7 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 		$return = [];
 
 		foreach(self::getSettingsKeys(true) as $key) {
-			$value = isset($settings[ $key ])? $settings[ $key ]: false;
+			$value = isset($settings[ $key ])? $settings[ $key ]: '';
 
 			$testkey = str_replace('.', '_', $key);
 			if (isset($settings[ $testkey ])) {

@@ -93,4 +93,7 @@ export default async function (ctx, inject) {
             innerHTML: settings['app.style'],
         }));
     }
+
+    ctx.app.layout = "flatable/admin";
+    console.log(ctx.app.layout);
 }

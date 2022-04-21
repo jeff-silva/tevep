@@ -33,6 +33,13 @@
             </select>
         </ui-field>
 
+        <ui-field label="Tema admin">
+            <select class="form-control" v-model="value['app.admin_layout']">
+                <option value="">Padrão</option>
+                <option value="coreui/admin">CoreUI</option>
+            </select>
+        </ui-field>
+
         <ui-field label="CSS customizado">
             <ui-code language="css" v-model="value['app.style']"></ui-code>
         </ui-field>

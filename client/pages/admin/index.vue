@@ -18,8 +18,8 @@
 
 <script>
 export default {
-    layout: "admin",
     middleware: ["auth"],
+    layout: "admin",
 
     head() {
         return {

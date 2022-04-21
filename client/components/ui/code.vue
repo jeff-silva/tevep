@@ -18,7 +18,6 @@ export default {
         return {
             props: JSON.parse(JSON.stringify(this.$props)),
             monaco: false,
-            monacoUpdateHeightIgnoreEvent: false,
         };
     },
 
@@ -50,11 +49,10 @@ export default {
 
             this.monaco.getModel().onDidChangeContent(evt => {
                 this.props.value = this.monaco.getModel().getValue();
-                this.monacoUpdateHeight();
             });
 
             this.monaco.getModel().setValue(this.props.value||"");
-            this.monacoUpdateHeight();
+            this.monaco.layout({width:0});
         },
 
         setValue(value) {
@@ -68,21 +66,6 @@ export default {
 
         resizeHandler() {
             this.monaco.layout({width:0});
-        },
-
-        monacoUpdateHeight() {
-            // let codeLines = this.$el.querySelectorAll('.view-lines > *');
-            // let height = Math.max(100, codeLines[0].offsetHeight * codeLines.length);
-            // this.$el.style.height = `${height}px`;
-
-
-            // try {
-            //     this.monacoUpdateHeightIgnoreEvent = true;
-            //     this.monaco.layout({ height });
-            // }
-            // finally {
-            //     this.monacoUpdateHeightIgnoreEvent = false;
-            // }
         },
     },
     

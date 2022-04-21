@@ -10,6 +10,7 @@ return [
         'jwt.ttl',
         'google.analytics.id',
         'app.style',
+        'app.admin_layout',
     ],
     
     // Configurações disponíveis apenas para o backend

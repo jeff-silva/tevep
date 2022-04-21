@@ -153,7 +153,7 @@
                                 </slot>
     
                                 <td v-if="tableActions">
-                                    <ui-dropdown type="left-top" trigger="hover">
+                                    <ui-dropdown type="left" trigger="hover">
                                         <button type="button" class="btn btn-light" style="border-radius:50%;">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
@@ -164,19 +164,19 @@
                                                         
                                                 <slot name="table-actions-default" :item="i">
                                                     <nuxt-link :to="`/admin/${modelName}/${i.id}`" class="btn btn-primary" v-if="actionsExcept.indexOf('edit')<0">
-                                                        <i class="fas fa-fw fa-pen"></i> Editar
+                                                        <i class="fas fa-fw fa-pen"></i>
                                                     </nuxt-link>
                                                     
                                                     <button type="button" class="btn btn-light" @click="modelClone(i)" v-if="actionsExcept.indexOf('clone')<0">
-                                                        <i class="fas fa-fw fa-copy"></i> Clonar
+                                                        <i class="fas fa-fw fa-copy"></i>
                                                     </button>
     
                                                     <button type="button" class="btn btn-success" @click="modelRestore(i.id)" v-if="i.deleted_at">
-                                                        <i class="fas fa-fw fa-undo"></i> Restaurar
+                                                        <i class="fas fa-fw fa-undo"></i>
                                                     </button>
                     
                                                     <button type="button" class="btn btn-danger" @click="modelDelete(i.id)" v-if="!i.deleted_at && actionsExcept.indexOf('delete')<0">
-                                                        <i class="fas fa-fw fa-times"></i> Deletar
+                                                        <i class="fas fa-fw fa-times"></i>
                                                     </button>
                                                 </slot>
                                             </div>
@@ -355,18 +355,18 @@ export default {
 .ui-model-search [data-order="asc"]:after {content: "↓"; float: right;}
 .ui-model-search [data-order="desc"]:after {content: "↑"; float: right;}
 
-.ui-model-search-table-actions > * {
-    width: 100%;
-    margin-bottom: 8px;
+.ui-model-search-table-actions {
+    white-space: nowrap;
 }
 
-.ui-model-search-table-actions > *:last-child {
-    margin-bottom: 0;
-}
-
-@media (min-width: 992px) {
-    .ui-model-search-table-actions {
-        width: 150px;
-    }
+.ui-model-search-table-actions .btn {
+    padding: 10.33px 12px;
+    border-radius: 50%;
+    display: flex-block;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    appearance: button;
+    -webkit-appearance: button;
 }
 </style>
