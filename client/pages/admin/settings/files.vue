@@ -21,8 +21,6 @@
 
 <script>
 export default {
-    middleware: ["auth", "permission"],
-    
     head() {
         return {
             title: "Configurações de arquivos",

@@ -16,9 +16,6 @@
 
 <script>
 export default {
-	layout: "default/admin",
-	middleware: ["auth", "permission"],
-	
 	head() {
 		return {
 			title: "Buscar",

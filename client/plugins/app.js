@@ -94,6 +94,7 @@ export default async function (ctx, inject) {
         }));
     }
 
-    ctx.app.layout = "flatable/admin";
-    console.log(ctx.app.layout);
+    // ctx.app.layout = "flatable/admin";
+    // console.log(ctx);
+    // console.log(await ctx.app.methods.loadLayout("coreui/admin"));
 }

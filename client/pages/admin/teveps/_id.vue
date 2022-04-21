@@ -13,9 +13,6 @@
 
 <script>
 export default {
-	layout: "admin",
-	middleware: ["auth", "permission"],
-	
 	head() {
 		return {
 			title: "Editar",

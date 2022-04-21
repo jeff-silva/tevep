@@ -9,8 +9,6 @@
 
 <script>
 export default {
-    middleware: ["auth", "permission"],
-    
     head() {
         return {
             title: "Google",

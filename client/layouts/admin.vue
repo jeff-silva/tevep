@@ -97,12 +97,12 @@ export default {
     data() {
         return {
             loaded: false,
+            admin_layout: (this.$store.state.settings['app.admin_layout'] || false),
         };
     },
 
     mounted() {
-        let admin_layout = this.$store.state.settings['app.admin_layout'] || false;
-        if (admin_layout) this.$root.setLayout(admin_layout);
+        if (this.admin_layout) this.$root.setLayout(this.admin_layout);
         this.loaded = true;
     },
 }

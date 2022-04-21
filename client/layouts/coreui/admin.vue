@@ -30,21 +30,28 @@
     </el-drawer>
 
     <div class="wrapper d-flex flex-column min-vh-100 bg-light">
-         <header class="header header-sticky mb-4">
+            <header class="header header-sticky mb-4">
             <div class="container-fluid">
-               <button class="header-toggler px-md-0 me-md-3" type="button" @click="drawer=true">
-                  <i class="fas fa-fw fa-bars"></i>
-               </button>
-               <a class="header-brand d-md-none" href="#">
-                  <svg width="118" height="46" alt="CoreUI Logo">
-                     <use xlink:href="assets/brand/coreui.svg#full"></use>
-                  </svg>
-               </a>
-               <ul class="header-nav d-none d-md-flex">
-                  <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
-               </ul>
+                <button class="header-toggler px-md-0 me-md-3" type="button" @click="drawer=true">
+                    <i class="fas fa-fw fa-bars"></i>
+                </button>
+                <a class="header-brand d-md-none" href="#">
+                    <svg width="118" height="46" alt="CoreUI Logo">
+                        <use xlink:href="assets/brand/coreui.svg#full"></use>
+                    </svg>
+                </a>
+                <div class="header-nav d-none d-md-flex">
+                    <div class="nav-item">
+                        <div class="nav-link">
+                            {{ headTitle }}
+                        </div>
+                    </div>
+                </div>
+                <!-- <ul class="header-nav d-none d-md-flex">
+                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+                </ul> -->
                <ul class="header-nav ms-auto">
                   <li class="nav-item">
                      <a class="nav-link" href="#">
@@ -103,11 +110,10 @@
             <div class="container-fluid">
                <nav aria-label="breadcrumb">
                   <ol class="breadcrumb my-0 ms-2">
-                     <li class="breadcrumb-item">
-                        <span>Home</span>
-                     </li>
-                     <li class="breadcrumb-item active"><span>Dashboard</span></li>
+                     <!-- <li class="breadcrumb-item"><span>Admin</span></li> -->
+                     <li class="breadcrumb-item active"><span>{{ headTitle }}</span></li>
                   </ol>
+                  
                </nav>
             </div>
          </header>
@@ -129,9 +135,19 @@
 
 <script>
 export default {
+    watch: {
+        route() {
+            console.log('route');
+            // setTimeout(() => {
+            //     this.headTitle = document.title;
+            // }, 1000);
+        },
+    },
+
     data() {
         return {
             drawer: false,
+            headTitle: document.title,
         };
     },
 }
