@@ -83,7 +83,7 @@
             </div>
     
             <div class="col-12 col-md-3">
-                <div class="bg-white p-2 shadow-sm">
+                <div class="bg-white p-3 shadow-sm">
                     <ui-mobile-action :slot-button="false" ref="searchForm">
                         
                         <div class="ui-model-search-search-fields mb-4">

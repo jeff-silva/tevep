@@ -12,14 +12,16 @@ class AppController extends Controller
 			'except' => ['test', 'script', 'info'],
 		]);
 
-		// $this->route('get', '/test', 'test');
-		// $this->route('get', '/endpoints', 'endpoints');
 		$this->route('get', '/info', 'info', [
 			'description' => 'Informações e variáveis do sistema',
 		]);
 
 		$this->route('get', '/dashboard', 'dashboard', [
 			'description' => 'Dados do dashboard',
+		]);
+		
+		$this->route('post', '/mail-test', 'mailTest', [
+			'description' => 'Teste de envio de e-mail',
 		]);
 	}
 
