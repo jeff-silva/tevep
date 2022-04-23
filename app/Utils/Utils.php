@@ -9,7 +9,7 @@ class Utils {
         $html = \Blade::compileString($html);
         ob_start() and extract($data, EXTR_SKIP);
         try { eval('?>'.$html); }
-        catch (\Exception $e) { ob_get_clean(); throw $e; }
+        catch (\Exception $e) { ob_get_clean(); dd($e->getMessage(), $html); }
         return ob_get_clean();
     }
 }

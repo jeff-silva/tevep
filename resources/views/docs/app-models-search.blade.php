@@ -4,21 +4,26 @@ Sempre que você precisar buscar dados nos bancos, é aconselhável usar o
 método `->search()` da model. Porque? Porquê é mais interessante concentrar
 toda a lógica de busca em um método só, em vez de ficar duplicando linhas de
 queryBuilder toda vez que precisar listar itens novamente.
+
 ```php
 $query = $model->search();
 ```
+
 Este método retorna um queryBuilder, então você já deve ter compreendido que
 com esse valor que retorna, você pode executar um `->paginate()` para obter dados
 paginados, um `->get()` para recuperar todos os itens possíveis ou um `->first()`
 para obter apenas o primeiro registro.
+
 ```php
 $item = $model->search()->first();
 $items = $model->search()->get();
 $data = $model->search()->paginate(15);
 ```
+
 Você também pode concatenar outros métodos, mas se você quer ter um código
 reaproveitável, talvez seja melhor criar um novo parmâmetro em `searchParams`
 e programar a lógica desse parâmetro em `searchQuery`.
+
 ```php
 // Funciona, mas você sempre vai ter que inserir esse where 🙄
 $item = $model->search()->where('status', 'public')->get();
