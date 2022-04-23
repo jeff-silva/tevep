@@ -16,7 +16,7 @@
             </button>
             
             <transition enter-active-class="animate__animated animate__fadeIn" leave-active-class="animate__animated animate__fadeOut">
-                <div class="d-flex" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#fff; z-index:9; animation-duration:200ms;" v-if="modalEditorActive">
+                <div class="d-flex" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#fff; z-index:9999!important; animation-duration:200ms;" v-if="modalEditorActive">
                     <div class="bg-light border-end" :style="`min-width:${sidebarWidth}; max-width:${sidebarWidth}; height:100vh; overflow:auto;`">
                         <div class="bg-primary p-1 text-end text-white">
                             <a href="javascript:;" class="btn btn-sm text-white" @click="modalEditorActive=false; emitValue();">
@@ -148,7 +148,7 @@ export default {
         return {
             props,
             elements: [],
-            modalEditorActive: true,
+            modalEditorActive: false,
             sectionEdit: "",
             tab: "info",
         };

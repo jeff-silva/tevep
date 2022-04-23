@@ -119,73 +119,69 @@
     
             <div class="col-12 col-md-9 pt-3 pt-md-0 ps-md-3">
                 <div class="bg-white shadow-sm">
-                    <table class="table table-striped table-hover table-borderless m-0" style="box-shadow:none;">
-                        <thead>
-                            <tr>
-                                <th width="30px">
-                                    <input type="checkbox" class="form-control" @click="selecteds=$event.target.checked? response.data.map(item => item.id): [];">
-                                </th>
-                                <slot name="table-header">
-                                    <th>-</th>
-                                </slot>
-                                <th width="10px"></th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-        
-                            <!-- Empty -->
-                            <tr v-if="response && response.data && response.data.length==0">
-                                <slot name="table-empty">
-                                    <td class="text-center py-3" colspan="10">
-                                        Nenhum item encontrado
+                    <div style="position:relative; overflow:auto;">
+                        <table class="table table-striped table-hover table-borderless m-0" style="box-shadow:none;">
+                            <thead>
+                                <tr>
+                                    <th width="30px">
+                                        <input type="checkbox" class="form-control" @click="selecteds=$event.target.checked? response.data.map(item => item.id): [];">
+                                    </th>
+                                    <slot name="table-header">
+                                        <th>-</th>
+                                    </slot>
+                                    <th width="10px" style="position:sticky; right:0;"></th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+            
+                                <!-- Empty -->
+                                <tr v-if="response && response.data && response.data.length==0">
+                                    <slot name="table-empty">
+                                        <td class="text-center py-3" colspan="10">
+                                            Nenhum item encontrado
+                                        </td>
+                                    </slot>
+                                </tr>
+            
+                                <tr v-for="i in response.data">
+                                    <td>
+                                        <input type="checkbox" class="form-control" :value="i.id" v-model="selecteds">
                                     </td>
-                                </slot>
-                            </tr>
+                                    
+                                    <slot name="table-row" :item="i">
+                                        <td>{{ i }}</td>
+                                    </slot>
         
-                            <tr v-for="i in response.data">
-                                <td>
-                                    <input type="checkbox" class="form-control" :value="i.id" v-model="selecteds">
-                                </td>
-                                
-                                <slot name="table-row" :item="i">
-                                    <td>{{ i }}</td>
-                                </slot>
-    
-                                <td v-if="tableActions">
-                                    <ui-dropdown type="left" trigger="hover">
-                                        <button type="button" class="btn btn-light" style="border-radius:50%;">
+                                    <td class="ui-model-search-table-actions" style="position:sticky; right:0;" v-if="tableActions">
+                                        <!-- <a href="javascript:;" class="btn btn-light">
                                             <i class="fas fa-ellipsis-v"></i>
-                                        </button>
-
-                                        <template #dropdown>
-                                            <div class="ui-model-search-table-actions p-2">
-                                                <slot name="table-actions" :item="i"></slot>
-                                                        
-                                                <slot name="table-actions-default" :item="i">
-                                                    <nuxt-link :to="`/admin/${modelName}/${i.id}`" class="btn btn-primary" v-if="actionsExcept.indexOf('edit')<0">
-                                                        <i class="fas fa-fw fa-pen"></i>
-                                                    </nuxt-link>
-                                                    
-                                                    <button type="button" class="btn btn-light" @click="modelClone(i)" v-if="actionsExcept.indexOf('clone')<0">
-                                                        <i class="fas fa-fw fa-copy"></i>
-                                                    </button>
-    
-                                                    <button type="button" class="btn btn-success" @click="modelRestore(i.id)" v-if="i.deleted_at">
-                                                        <i class="fas fa-fw fa-undo"></i>
-                                                    </button>
-                    
-                                                    <button type="button" class="btn btn-danger" @click="modelDelete(i.id)" v-if="!i.deleted_at && actionsExcept.indexOf('delete')<0">
-                                                        <i class="fas fa-fw fa-times"></i>
-                                                    </button>
-                                                </slot>
-                                            </div>
-                                        </template>
-                                    </ui-dropdown>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                        </a> -->
+                                        <div style="white-space:nowrap;">
+                                            <slot name="table-actions" :item="i"></slot>
+                                            <slot name="table-actions-default" :item="i">
+                                                <nuxt-link :to="`/admin/${modelName}/${i.id}`" class="btn btn-primary" v-if="actionsExcept.indexOf('edit')<0">
+                                                    <i class="fas fa-fw fa-pen text-white"></i>
+                                                </nuxt-link>
+                                                
+                                                <button type="button" class="btn btn-light" @click="modelClone(i)" v-if="actionsExcept.indexOf('clone')<0">
+                                                    <i class="fas fa-fw fa-copy text-dark"></i>
+                                                </button>
+        
+                                                <button type="button" class="btn btn-success" @click="modelRestore(i.id)" v-if="i.deleted_at">
+                                                    <i class="fas fa-fw fa-undo text-white"></i>
+                                                </button>
+                
+                                                <button type="button" class="btn btn-danger" @click="modelDelete(i.id)" v-if="!i.deleted_at && actionsExcept.indexOf('delete')<0">
+                                                    <i class="fas fa-fw fa-times text-white"></i>
+                                                </button>
+                                            </slot>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div class="p-2">
                         <el-pagination
@@ -356,17 +352,13 @@ export default {
 .ui-model-search [data-order="desc"]:after {content: "↑"; float: right;}
 
 .ui-model-search-table-actions {
-    white-space: nowrap;
+    background: transparent !important;
 }
 
 .ui-model-search-table-actions .btn {
-    padding: 10.33px 12px;
+    width: 40px;
+    height: 40px;
+    padding: 7px;
     border-radius: 50%;
-    display: flex-block;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    appearance: button;
-    -webkit-appearance: button;
 }
 </style>

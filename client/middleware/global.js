@@ -1,4 +1,6 @@
 export default function (ctx) {
+
+    // Admin
     if (!ctx.route.path.match(/^\/admin/i)) return;
     let { store, route, app, $auth } = ctx;
 

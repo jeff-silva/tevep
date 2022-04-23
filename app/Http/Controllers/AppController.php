@@ -9,11 +9,15 @@ class AppController extends Controller
 		$this->model = new \App\Models\Settings;
 
 		$this->middleware('auth:api', [
-			'except' => ['test', 'script'],
+			'except' => ['test', 'script', 'info'],
 		]);
 
 		// $this->route('get', '/test', 'test');
 		// $this->route('get', '/endpoints', 'endpoints');
+		$this->route('get', '/info', 'info', [
+			'description' => 'Informações e variáveis do sistema',
+		]);
+
 		$this->route('get', '/dashboard', 'dashboard', [
 			'description' => 'Dados do dashboard',
 		]);
@@ -63,6 +67,22 @@ class AppController extends Controller
 	}
 
 
+	public function info()
+	{
+		$info = [];
+
+		if ($user = auth()->user()) {
+			// 
+		}
+		else {
+			// 
+		}
+
+		$info['settings'] = \App\Models\Settings::getAll(false);
+
+		return $info;
+	}
+	
 	public function dashboard()
 	{
 		$return['users'] = \App\Models\Users::select(['id'])->count();

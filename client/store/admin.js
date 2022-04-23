@@ -14,13 +14,10 @@ export default {
             {label:"Configurações", to:"/admin/settings", children:[
                 {label:"Configurações", to:"/admin/settings", children:[]},
                 {label:"Templates de e-mails", to:"/admin/emails-templates", children:[]},
-            ]},
-            {label:"Uploads", children:[
-                {label:"Buscar", to:"/admin/files", children:[]},
-                {label:"Novo", to:"/admin/files/new", children:[]},
+                {label:"Uploads", to:"/admin/files", children:[]},
             ]},
             {label:"Tevep", to:"/admin/teveps"},
-            {label:"Meus dados", to:"/admin/user/me"},
+            {label:"Meus dados", to:"/admin/users/me"},
         ],
     },
 }

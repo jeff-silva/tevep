@@ -7,7 +7,6 @@ return [
         'app.name',
         'app.timezone',
         'app.locale',
-        'jwt.ttl',
         'google.analytics.id',
         'app.style',
         'app.admin_layout',
@@ -15,6 +14,7 @@ return [
     
     // Configurações disponíveis apenas para o backend
     'back' => [
+        'jwt.ttl',
         'mail.default',
         'mail.mailers.smtp.host',
         'mail.mailers.smtp.port',

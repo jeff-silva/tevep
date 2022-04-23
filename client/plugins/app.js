@@ -87,27 +87,21 @@ Vue.prototype.$log = function() {
 
 import axios from 'axios';
 export default async function (ctx, inject) {
-    ctx.store.state.settings = (await axios.get('/api/settings/all')).data;
-    let settings = ctx.store.state.settings;
+    let resp = await axios.get('/api/app/info');
+    const { settings } = resp.data;
 
-    if (settings['google.analytics.id']) {
-        // console.log(Vue.prototype);
-        // console.log(ctx);
-        // console.log(inject('app'));
+    ctx.store.state.settings = settings;
 
-        // this.$gtag('config', ctx.store.state.settings['google.analytics.id'], {
-        //     page_title: this.$metaInfo.title,
-        //     page_path: this.$route.fullPath,
-        // });
-    }
+    // if (settings['google.analytics.id']) {
+    //     this.$gtag('config', ctx.store.state.settings['google.analytics.id'], {
+    //         page_title: this.$metaInfo.title,
+    //         page_path: this.$route.fullPath,
+    //     });
+    // }
 
     if (settings['app.style']) {
         document.body.append(Object.assign(document.createElement('style'), {
             innerHTML: settings['app.style'],
         }));
     }
-
-    // ctx.app.layout = "flatable/admin";
-    // console.log(ctx);
-    // console.log(await ctx.app.methods.loadLayout("coreui/admin"));
 }

@@ -46,7 +46,7 @@ export default {
   components: true,
 
   router: {
-    middleware: ["admin"],
+    middleware: ["global"],
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

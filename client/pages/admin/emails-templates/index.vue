@@ -3,6 +3,7 @@
 		model-name="emails-templates"
 		singular="Item"
 		plural="Itens"
+		:actions-except="['clone', 'delete']"
 	>
 		<template #table-header>
 			<th data-orderby="name">Nome</th>
