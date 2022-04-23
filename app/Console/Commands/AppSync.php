@@ -22,7 +22,7 @@ class AppSync extends AppBase
         $this->call('app:nuxt-generate');
         $this->call('app:parent-sync');
         $this->call('app:seed');
-        $this->call('app:readme-generate');
+        $this->call('app:docs');
         $this->call('app:swagger');
         $this->info('Concluído');
     }
