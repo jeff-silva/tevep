@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
 CREATE TABLE IF NOT EXISTS `places` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `formatted` varchar(255) DEFAULT NULL,
   `route` varchar(255) DEFAULT NULL,
   `number` varchar(10) DEFAULT NULL,
   `complement` varchar(255) DEFAULT NULL,

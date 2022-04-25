@@ -12,6 +12,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	protected $fillable = [
 		'id',
 		'name',
+		'formatted',
 		'route',
 		'number',
 		'complement',

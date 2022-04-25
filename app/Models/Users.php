@@ -98,7 +98,7 @@ class Users extends Authenticatable implements JWTSubject
 	public function modelMutator()
 	{
 		$this->photo_id = is_numeric($this->photo_id)? $this->photo_id: null;
-		
+
 		if ($this->password) {
 			if (\Hash::needsRehash($this->password)) {
 				$this->password = \Hash::make($this->password);
