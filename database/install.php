@@ -77,6 +77,7 @@ $database = env('DB_DATABASE');
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `photo_id` bigint(20) unsigned DEFAULT NULL,
   `group_id` bigint(20) unsigned DEFAULT NULL,
+  `address_id` bigint(20) unsigned DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -86,6 +87,8 @@ $database = env('DB_DATABASE');
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_photo_id_foreign` (`photo_id`),
   KEY `FK_users_users_groups` (`group_id`),
+  KEY `FK_users_places` (`address_id`),
+  CONSTRAINT `FK_users_places` FOREIGN KEY (`address_id`) REFERENCES `places` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `FK_users_users_groups` FOREIGN KEY (`group_id`) REFERENCES `users_groups` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `users_photo_id_foreign` FOREIGN KEY (`photo_id`) REFERENCES `files` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");

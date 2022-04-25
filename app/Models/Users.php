@@ -21,6 +21,7 @@ class Users extends Authenticatable implements JWTSubject
 		'email',
 		'photo_id',
 		'group_id',
+		'address_id',
 		'email_verified_at',
 		'password',
 		'remember_token',
@@ -141,5 +142,17 @@ class Users extends Authenticatable implements JWTSubject
 	public function groups()
 	{
 		return $this->hasMany(UsersGroups::class, 'id', 'group_id');
+	}
+
+
+	public function address()
+	{
+		return $this->hasOne(Places::class, 'id', 'address_id');
+	}
+
+
+	public function addresses()
+	{
+		return $this->hasMany(Places::class, 'id', 'address_id');
 	}
 }

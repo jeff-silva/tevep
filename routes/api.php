@@ -11,6 +11,7 @@ new \App\Http\Controllers\AuthController;
 new \App\Http\Controllers\EmailsTemplatesController;
 new \App\Http\Controllers\FilesController;
 new \App\Http\Controllers\PagesController;
+new \App\Http\Controllers\PlacesController;
 new \App\Http\Controllers\SettingsController;
 new \App\Http\Controllers\TevepsController;
 new \App\Http\Controllers\TevepsInvitesController;

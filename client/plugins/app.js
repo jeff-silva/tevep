@@ -73,6 +73,27 @@ let helpers = {
 
         return 'Sem título';
     },
+
+    event: (component, targets, events, callback) => {
+        targets = Array.isArray(targets)? targets: [targets];
+        events = Array.isArray(events)? events: [events];
+        targets.forEach(target => {
+            if (typeof target=="string") {
+                target = component.$el.querySelector(target);
+            }
+            if (!target) return;
+            events.forEach(evt => {
+                if (evt=='now') {
+                    callback(new CustomEvent('now', {target}));
+                    return;
+                }
+                target.addEventListener(evt, callback);
+                component.$on('hook:beforeDestroy', () => {
+                    target.removeEventListener(evt, callback);
+                });
+            });
+        });
+    },
 };
 
 Vue.prototype.$helpers = helpers;

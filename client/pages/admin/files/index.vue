@@ -22,7 +22,7 @@
 export default {
     head() {
         return {
-            title: "Buscar usuários",
+            title: "Buscar arquivos",
         };
     },
 }

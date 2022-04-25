@@ -251,6 +251,110 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 }
 
 
+// Create table places
+\DB::statement("CREATE TABLE IF NOT EXISTS `places` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `route` varchar(255) DEFAULT NULL,
+  `number` varchar(10) DEFAULT NULL,
+  `complement` varchar(255) DEFAULT NULL,
+  `zipcode` varchar(20) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
+  `lat` decimal(10,8) DEFAULT NULL,
+  `lng` decimal(11,8) DEFAULT NULL,
+  `city` varchar(20) DEFAULT NULL,
+  `state` varchar(20) DEFAULT NULL,
+  `state_short` varchar(5) DEFAULT NULL,
+  `country` varchar(20) DEFAULT NULL,
+  `country_short` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1");
+
+
+// Create/Update column places.id
+\Schema::hasColumn('places', 'id')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT");
+
+
+// Create/Update column places.name
+\Schema::hasColumn('places', 'name')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `name` varchar(255) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `name` varchar(255) DEFAULT NULL");
+
+
+// Create/Update column places.route
+\Schema::hasColumn('places', 'route')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `route` varchar(255) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `route` varchar(255) DEFAULT NULL");
+
+
+// Create/Update column places.number
+\Schema::hasColumn('places', 'number')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `number` varchar(10) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `number` varchar(10) DEFAULT NULL");
+
+
+// Create/Update column places.complement
+\Schema::hasColumn('places', 'complement')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `complement` varchar(255) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `complement` varchar(255) DEFAULT NULL");
+
+
+// Create/Update column places.zipcode
+\Schema::hasColumn('places', 'zipcode')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `zipcode` varchar(20) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `zipcode` varchar(20) DEFAULT NULL");
+
+
+// Create/Update column places.district
+\Schema::hasColumn('places', 'district')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `district` varchar(100) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `district` varchar(100) DEFAULT NULL");
+
+
+// Create/Update column places.lat
+\Schema::hasColumn('places', 'lat')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `lat` decimal(10,8) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `lat` decimal(10,8) DEFAULT NULL");
+
+
+// Create/Update column places.lng
+\Schema::hasColumn('places', 'lng')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `lng` decimal(11,8) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `lng` decimal(11,8) DEFAULT NULL");
+
+
+// Create/Update column places.city
+\Schema::hasColumn('places', 'city')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `city` varchar(20) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `city` varchar(20) DEFAULT NULL");
+
+
+// Create/Update column places.state
+\Schema::hasColumn('places', 'state')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `state` varchar(20) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `state` varchar(20) DEFAULT NULL");
+
+
+// Create/Update column places.state_short
+\Schema::hasColumn('places', 'state_short')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `state_short` varchar(5) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `state_short` varchar(5) DEFAULT NULL");
+
+
+// Create/Update column places.country
+\Schema::hasColumn('places', 'country')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `country` varchar(20) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `country` varchar(20) DEFAULT NULL");
+
+
+// Create/Update column places.country_short
+\Schema::hasColumn('places', 'country_short')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `country_short` varchar(5) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `country_short` varchar(5) DEFAULT NULL");
+
+
 // Create table settings
 \DB::statement("CREATE TABLE IF NOT EXISTS `settings` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -473,6 +577,7 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `photo_id` bigint(20) unsigned DEFAULT NULL,
   `group_id` bigint(20) unsigned DEFAULT NULL,
+  `address_id` bigint(20) unsigned DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -482,6 +587,8 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_photo_id_foreign` (`photo_id`),
   KEY `FK_users_users_groups` (`group_id`),
+  KEY `FK_users_places` (`address_id`),
+  CONSTRAINT `FK_users_places` FOREIGN KEY (`address_id`) REFERENCES `places` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `FK_users_users_groups` FOREIGN KEY (`group_id`) REFERENCES `users_groups` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `users_photo_id_foreign` FOREIGN KEY (`photo_id`) REFERENCES `files` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
@@ -517,6 +624,12 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 	\DB::statement("ALTER TABLE users ADD COLUMN `group_id` bigint(20) unsigned DEFAULT NULL");
 
 
+// Create/Update column users.address_id
+\Schema::hasColumn('users', 'address_id')?
+	\DB::statement("ALTER TABLE users MODIFY COLUMN `address_id` bigint(20) unsigned DEFAULT NULL"):
+	\DB::statement("ALTER TABLE users ADD COLUMN `address_id` bigint(20) unsigned DEFAULT NULL");
+
+
 // Create/Update column users.email_verified_at
 \Schema::hasColumn('users', 'email_verified_at')?
 	\DB::statement("ALTER TABLE users MODIFY COLUMN `email_verified_at` timestamp NULL DEFAULT NULL"):
@@ -545,6 +658,12 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \Schema::hasColumn('users', 'updated_at')?
 	\DB::statement("ALTER TABLE users MODIFY COLUMN `updated_at` timestamp NULL DEFAULT NULL"):
 	\DB::statement("ALTER TABLE users ADD COLUMN `updated_at` timestamp NULL DEFAULT NULL");
+
+
+// Create fk FK_users_places
+if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='{$database}' AND CONSTRAINT_NAME='FK_users_places'"))->first()) {
+	\DB::select("ALTER TABLE `users` ADD CONSTRAINT `FK_users_places` FOREIGN KEY (`address_id`) REFERENCES `places` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,");
+}
 
 
 // Create fk FK_users_users_groups
