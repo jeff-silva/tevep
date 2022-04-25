@@ -1,6 +1,3 @@
-## Estrutura do banco
-<img src="database/schema.svg" alt="" width="100%">
-
 ## Endpoints
 Todas as rotas disponíveis:
 
@@ -24,3 +21,6 @@ $content .= '</tbody></table>';
 echo $content;
 
 ?>
+
+## Estrutura do banco
+<img src="../database/schema.svg" alt="" width="100%">
