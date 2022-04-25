@@ -29,6 +29,8 @@ class Users extends Authenticatable implements JWTSubject
 		'updated_at',
 	];
 
+	public $timestamps = false;
+
 	/**
 	 * The attributes that should be hidden for serialization.
 	 *
@@ -46,6 +48,8 @@ class Users extends Authenticatable implements JWTSubject
 	 */
 	protected $casts = [
 	    // 'email_verified_at' => 'datetime',
+	    // 'created_at' => 'datetime',
+	    // 'updated_at' => 'datetime',
 	];
 
 
@@ -94,8 +98,17 @@ class Users extends Authenticatable implements JWTSubject
 	public function modelMutator()
 	{
 		$this->photo_id = is_numeric($this->photo_id)? $this->photo_id: null;
-		$this->email_verified_at = strtotime($this->email_verified_at)? $this->email_verified_at: null;
-		$this->created_at = strtotime($this->created_at)? $this->created_at: null;
+		
+		if ($this->password) {
+			if (\Hash::needsRehash($this->password)) {
+				$this->password = \Hash::make($this->password);
+			}
+		}
+		else { unset($this->password); }
+
+		// $this->email_verified_at = strtotime($this->email_verified_at)? $this->email_verified_at: null;
+		// $this->created_at = strtotime($this->created_at)? $this->created_at: null;
+		// $this->updated_at = strtotime($this->updated_at)? $this->updated_at: null;
 	}
 
 

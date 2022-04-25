@@ -267,6 +267,9 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `state_short` varchar(5) DEFAULT NULL,
   `country` varchar(20) DEFAULT NULL,
   `country_short` varchar(5) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1");
 
@@ -353,6 +356,24 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \Schema::hasColumn('places', 'country_short')?
 	\DB::statement("ALTER TABLE places MODIFY COLUMN `country_short` varchar(5) DEFAULT NULL"):
 	\DB::statement("ALTER TABLE places ADD COLUMN `country_short` varchar(5) DEFAULT NULL");
+
+
+// Create/Update column places.created_at
+\Schema::hasColumn('places', 'created_at')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `created_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `created_at` datetime DEFAULT NULL");
+
+
+// Create/Update column places.updated_at
+\Schema::hasColumn('places', 'updated_at')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `updated_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `updated_at` datetime DEFAULT NULL");
+
+
+// Create/Update column places.deleted_at
+\Schema::hasColumn('places', 'deleted_at')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `deleted_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `deleted_at` datetime DEFAULT NULL");
 
 
 // Create table settings
@@ -578,11 +599,11 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `photo_id` bigint(20) unsigned DEFAULT NULL,
   `group_id` bigint(20) unsigned DEFAULT NULL,
   `address_id` bigint(20) unsigned DEFAULT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `email_verified_at` datetime DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_photo_id_foreign` (`photo_id`),
@@ -632,8 +653,8 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 
 // Create/Update column users.email_verified_at
 \Schema::hasColumn('users', 'email_verified_at')?
-	\DB::statement("ALTER TABLE users MODIFY COLUMN `email_verified_at` timestamp NULL DEFAULT NULL"):
-	\DB::statement("ALTER TABLE users ADD COLUMN `email_verified_at` timestamp NULL DEFAULT NULL");
+	\DB::statement("ALTER TABLE users MODIFY COLUMN `email_verified_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE users ADD COLUMN `email_verified_at` datetime DEFAULT NULL");
 
 
 // Create/Update column users.password
@@ -650,14 +671,14 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 
 // Create/Update column users.created_at
 \Schema::hasColumn('users', 'created_at')?
-	\DB::statement("ALTER TABLE users MODIFY COLUMN `created_at` timestamp NULL DEFAULT NULL"):
-	\DB::statement("ALTER TABLE users ADD COLUMN `created_at` timestamp NULL DEFAULT NULL");
+	\DB::statement("ALTER TABLE users MODIFY COLUMN `created_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE users ADD COLUMN `created_at` datetime DEFAULT NULL");
 
 
 // Create/Update column users.updated_at
 \Schema::hasColumn('users', 'updated_at')?
-	\DB::statement("ALTER TABLE users MODIFY COLUMN `updated_at` timestamp NULL DEFAULT NULL"):
-	\DB::statement("ALTER TABLE users ADD COLUMN `updated_at` timestamp NULL DEFAULT NULL");
+	\DB::statement("ALTER TABLE users MODIFY COLUMN `updated_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE users ADD COLUMN `updated_at` datetime DEFAULT NULL");
 
 
 // Create fk FK_users_places

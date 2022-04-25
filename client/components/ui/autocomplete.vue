@@ -7,7 +7,7 @@
 
         <el-collapse-transition>
             <div v-if="response && props.responseShow" :class="{'ui-autocomplete-response':true, 'ui-autocomplete-response-floating':responseFloating}">
-                <slot name="response" :response="response" :search="search"></slot>
+                <slot name="response" :loading="loading" :search="search" :response="response"></slot>
             </div>
         </el-collapse-transition>
     </div>
@@ -18,13 +18,12 @@ export default {
     props: {
         value: {default:""},
         placeholder: {default:"Buscar"},
-        action: {default:"", type:[String, Object]},
-        actionOnMounted: {default:false, type:Boolean},
-
+        action: {default:"", type:String},
         method: {default:"get"},
         params: {default:()=>({}), type:Object},
         responseFloating: {default:true},
         responseShow: {default:false},
+        submitOnMounted: {default:false, type:Boolean},
     },
 
     watch: {
@@ -52,14 +51,26 @@ export default {
 
     methods: {
         search() {
-            if (this.__searchTimeout) clearTimeout(this.__searchTimeout);
+            this.loading = true;
+            
+            if (this.__searchTimeout) {
+                clearTimeout(this.__searchTimeout);
+            }
+
             this.__searchTimeout = setTimeout(() => {
-                this.loading = true;
-    
-                (typeof this.action=="object"? this.$axios(this.action): this.$axios.get(this.action)).then(resp => {
+                let req = this.$axios({
+                    method: this.method,
+                    url: this.action,
+                    params: this.params,
+                    body: this.params,
+                });
+
+                req.then(resp => {
                     this.loading = false;
                     this.response = resp.data;
-                }).catch(err => {
+                });
+
+                req.catch(err => {
                     this.loading = false;
                     this.error = err.response.data;
                 });
@@ -74,7 +85,7 @@ export default {
     mounted() {
         document.addEventListener('click', this.responseShowHandler);
 
-        if (this.actionOnMounted) {
+        if (this.submitOnMounted) {
             this.search();
         }
     },

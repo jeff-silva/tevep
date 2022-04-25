@@ -9,13 +9,22 @@ class PlacesController extends Controller
 		$this->model = new \App\Models\Places;
 
 		$this->middleware('auth:api', [
-			'except' => ['search', 'find'],
+			'except' => [],
 		]);
 
 		// Generate default routes (search, find, save, delete, etc...)
 		$this->defaultRoutes();
 
+		$this->route('get', '/place-search', 'placeSearch');
+
 		// Custom route example: POST /api/places/test/123
 		// $this->route('post', '/test/{id}', '@test');
+	}
+
+	public function placeSearch()
+	{
+		return $this->model->placeSearch([
+			'search' => request('search', ''),
+		]);
 	}
 }
