@@ -1,12 +1,11 @@
 <template>
     <div class="ui-autocomplete">
-
         <div @keyup="search" style="position:relative;">
             <slot :params="props.params" :loading="loading" :search="search"></slot>
         </div>
 
         <el-collapse-transition>
-            <div v-if="response && props.responseShow" :class="{'ui-autocomplete-response':true, 'ui-autocomplete-response-floating':responseFloating}">
+            <div v-if="response && focused" :class="{'ui-autocomplete-response':true, 'ui-autocomplete-response-floating':responseFloating}">
                 <slot name="response" :loading="loading" :search="search" :response="response"></slot>
             </div>
         </el-collapse-transition>
@@ -22,7 +21,6 @@ export default {
         method: {default:"get"},
         params: {default:()=>({}), type:Object},
         responseFloating: {default:true},
-        responseShow: {default:false},
         submitOnMounted: {default:false, type:Boolean},
     },
 
@@ -45,6 +43,7 @@ export default {
             loading: false,
             response: false,
             error: false,
+            focused: false,
             props: JSON.parse(JSON.stringify(this.$props)),
         };
     },
@@ -76,22 +75,16 @@ export default {
                 });
             }, 1000);
         },
-
-        responseShowHandler() {
-            this.props.responseShow = this.$el.contains(document.activeElement);
-        },
     },
 
     mounted() {
-        document.addEventListener('click', this.responseShowHandler);
-
         if (this.submitOnMounted) {
             this.search();
         }
-    },
 
-    beforeDestroy() {
-        document.removeEventListener('click', this.responseShowHandler);
+        this.$helpers.event(this, [document], ['now', 'click'], ev => {
+            this.focused = (document.activeElement && this.$el.contains(document.activeElement)) || (ev.target && this.$el.contains(ev.target));
+        });
     },
 }
 </script>

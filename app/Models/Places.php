@@ -41,9 +41,11 @@ class Places extends \Illuminate\Database\Eloquent\Model
 
 	public function modelMutator()
 	{
+		$this->country_short = strtoupper($this->country_short);
+		$this->state_short = strtoupper($this->state_short);
 		$this->formatted = implode(array_filter([
 			$this->route,
-			($this->number? "nº {$this->number}": null),
+			(!!$this->number? "nº {$this->number}": null),
 			$this->complement,
 			$this->district,
 			$this->city,
@@ -55,35 +57,113 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	public function placeSearch($params = [])
 	{
 		$params = (object) array_merge([
-			'search' => '',
+			'search' => null,
+			'lat' => null,
+			'lng' => null,
 		], $params);
+
+		$_estadoSigla = function($name) {
+			$name = mb_strtolower($name);
+			$siglas = [
+				'acre' => 'AC',
+				'alagoas' => 'AL',
+				'amapá' => 'AP',
+				'amazonas' => 'AM',
+				'bahia' => 'BA',
+				'ceará' => 'CE',
+				'distrito federal' => 'DF',
+				'espirito santo' => 'ES',
+				'goiás' => 'GO',
+				'maranhão' => 'MA',
+				'mato grosso do sul' => 'MS',
+				'mato grosso' => 'MT',
+				'minas gerais' => 'MG',
+				'pará' => 'PA',
+				'paraíba' => 'PB',
+				'paraná' => 'PR',
+				'pernambuco' => 'PE',
+				'piauí' => 'PI',
+				'rio de janeiro' => 'RJ',
+				'rio grande do norte' => 'RN',
+				'rio grande do sul' => 'RS',
+				'rondônia' => 'RO',
+				'roraima' => 'RR',
+				'santa catarina' => 'SC',
+				'são paulo' => 'SP',
+				'sergipe' => 'SE',
+				'tocantins' => 'TO',
+			];
+
+			return isset($siglas[$name])? $siglas[$name]: null;
+		};
+
+		$_osmToPlace = function($model, $place, $respCep=false) use($_estadoSigla) {
+			$place['route'] = (isset($place['address']['road'])? $place['address']['road']: '');
+			$place['zipcode'] = (isset($place['address']['postcode'])? $place['address']['postcode']: ($respCep? $respCep->cep: ''));
+			$place['district'] = (isset($place['address']['suburb'])? $place['address']['suburb']: '');
+			$place['city'] = (isset($place['address']['city'])? $place['address']['city']: '');
+			$place['state'] = (isset($place['address']['state'])? $place['address']['state']: ($respCep? $respCep->uf: ''));
+			$place['state_short'] = $_estadoSigla($place['state']);
+			$place['country'] = $place['address']['country'];
+			$place['country_short'] = strtoupper(isset($place['address']['country_code'])? $place['address']['country_code']: '');
+			$place['lat'] = $place['lat'];
+			$place['lng'] = $place['lon'];
+
+			return new $model($place);
+		};
 
 
 		// Viacep search
 		$respCep = false;
 		if ($cep = preg_replace('/[^0-9]/i', '', $params->search) AND 8==strlen($cep)) {
-			if ($respCep = (object) \Http::get("https://viacep.com.br/ws/{$cep}/json/")->json()) {
+			
+			$key = md5(json_encode(['viacep', $cep]));
+			$respCep = (object) \Cache::remember($key, 60*60*24*30, function() use($cep) {
+				return \Http::get("https://viacep.com.br/ws/{$cep}/json/")->json();
+			});
+
+			if ($respCep) {
 				$params->search = "{$params->search} {$respCep->logradouro} {$respCep->localidade} {$respCep->uf}";
 			}
 		}
 
+		// Busca coordenadas
+		$respCoords = false;
+		if ($params->lat AND $params->lng) {
+			$key = md5(json_encode(['openstreetmap-coords', $params->lat, $params->lng]));
+			$respCoords = \Cache::remember($key, 60*60*24*30, function() use($params) {
+				return \Http::get('https://nominatim.openstreetmap.org/reverse?'. http_build_query([
+					'format' => 'json',
+					'addressdetails' => '1',
+					'extratags' => '1',
+					'namedetails' => '1',
+					'limit' => '1',
+					'lat' => $params->lat,
+					'lon' => $params->lng,
+				]))->json();
+			});
+			
+			return [ $_osmToPlace($this, $respCoords) ];
+		}
+
+
 		// Open street map results
 		$return = [];
-		$respPlaces = "https://nominatim.openstreetmap.org/search.php?format=json&addressdetails=1&extratags=1&namedetails=1&limit=10&q={$params->search}";
-		if ($respPlaces = \Http::get($respPlaces)->json()) {
+		$key = md5(json_encode(['openstreetmap', $params->search]));
+		$respPlaces = \Cache::remember($key, 60*60*24*30, function() use($params) {
+			return \Http::get('https://nominatim.openstreetmap.org/search.php?'. http_build_query([
+				'format' => 'json',
+				'addressdetails' => '1',
+				'extratags' => '1',
+				'namedetails' => '1',
+				'limit' => '10',
+				'q' => $params->search,
+			]))->json();
+		});
+
+		if (is_array($respPlaces)) {
 			foreach($respPlaces as $place) {
-				$return[] = new self([
-					'route' => $place['address']['road'],
-					'zipcode' => ($respCep? $respCep->cep: ''),
-					'district' => (isset($place['address']['suburb'])? $place['address']['suburb']: ''),
-					'city' => (isset($place['address']['city'])? $place['address']['city']: ''),
-					'state' => $place['address']['state'],
-					'state_short' => ($respCep? $respCep->uf: ''),
-					'country' => $place['address']['country'],
-					'country_short' => $place['address']['country_code'],
-					'lat' => $place['lat'],
-					'lng' => $place['lon'],
-				]);
+				$return[] = $_osmToPlace($this, $place, $respCep);
 			}
 		}
 

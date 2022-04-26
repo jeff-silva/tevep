@@ -23,8 +23,6 @@ class PlacesController extends Controller
 
 	public function placeSearch()
 	{
-		return $this->model->placeSearch([
-			'search' => request('search', ''),
-		]);
+		return $this->model->placeSearch(request()->all());
 	}
 }

@@ -111,6 +111,8 @@ export default {
         },
       },
     }],
+
+    ['nuxt-leaflet', { /* module options */ }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

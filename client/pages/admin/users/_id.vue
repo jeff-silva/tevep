@@ -21,7 +21,7 @@
         </ui-field>
         
         <ui-field label="Endereço" :error="errorFields.group_id">
-            <ui-place v-model="value.address_id"></ui-place>
+            <ui-place-id v-model="value.address_id"></ui-place-id>
         </ui-field>
     </ui-model-edit>
 </template>
