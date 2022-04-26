@@ -15,6 +15,7 @@ export default {
                 {label:"Configurações", to:"/admin/settings", children:[]},
                 {label:"Templates de e-mails", to:"/admin/emails-templates", children:[]},
                 {label:"Uploads", to:"/admin/files", children:[]},
+                {label:"Endereços", to:"/admin/places", children:[]},
             ]},
             {label:"Tevep", to:"/admin/teveps"},
             {label:"Meus dados", to:"/admin/users/me"},

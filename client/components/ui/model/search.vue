@@ -153,29 +153,31 @@
                                         <td>{{ i }}</td>
                                     </slot>
         
-                                    <td class="ui-model-search-table-actions" style="position:sticky; right:0;" v-if="tableActions">
+                                    <td class="ui-model-search-table-actions" style="position:sticky; right:0;">
                                         <!-- <a href="javascript:;" class="btn btn-light">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </a> -->
                                         <div style="white-space:nowrap;">
                                             <slot name="table-actions" :item="i"></slot>
-                                            <slot name="table-actions-default" :item="i">
-                                                <nuxt-link :to="`/admin/${modelName}/${i.id}`" class="btn btn-primary" v-if="actionsExcept.indexOf('edit')<0">
-                                                    <i class="fas fa-fw fa-pen text-white"></i>
-                                                </nuxt-link>
-                                                
-                                                <button type="button" class="btn btn-light" @click="modelClone(i)" v-if="actionsExcept.indexOf('clone')<0">
-                                                    <i class="fas fa-fw fa-copy text-dark"></i>
-                                                </button>
-        
-                                                <button type="button" class="btn btn-success" @click="modelRestore(i.id)" v-if="i.deleted_at">
-                                                    <i class="fas fa-fw fa-undo text-white"></i>
-                                                </button>
-                
-                                                <button type="button" class="btn btn-danger" @click="modelDelete(i.id)" v-if="!i.deleted_at && actionsExcept.indexOf('delete')<0">
-                                                    <i class="fas fa-fw fa-times text-white"></i>
-                                                </button>
-                                            </slot>
+                                            <template v-if="tableActions">
+                                                <slot name="table-actions-default" :item="i">
+                                                    <nuxt-link :to="`/admin/${modelName}/${i.id}`" class="btn btn-primary" v-if="actionsExcept.indexOf('edit')<0">
+                                                        <i class="fas fa-fw fa-pen text-white"></i>
+                                                    </nuxt-link>
+                                                    
+                                                    <button type="button" class="btn btn-light" @click="modelClone(i)" v-if="actionsExcept.indexOf('clone')<0">
+                                                        <i class="fas fa-fw fa-copy text-dark"></i>
+                                                    </button>
+            
+                                                    <button type="button" class="btn btn-success" @click="modelRestore(i.id)" v-if="i.deleted_at">
+                                                        <i class="fas fa-fw fa-undo text-white"></i>
+                                                    </button>
+                    
+                                                    <button type="button" class="btn btn-danger" @click="modelDelete(i.id)" v-if="!i.deleted_at && actionsExcept.indexOf('delete')<0">
+                                                        <i class="fas fa-fw fa-times text-white"></i>
+                                                    </button>
+                                                </slot>
+                                            </template>
                                         </div>
                                     </td>
                                 </tr>

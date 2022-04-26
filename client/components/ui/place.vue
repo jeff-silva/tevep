@@ -23,7 +23,7 @@
 
                             <template #response="{ response }">
                                 <div class="list-group shadow-sm">
-                                    <a href="javascript:;" class="list-group-item" v-for="r in response" @click="place=r">
+                                    <a href="javascript:;" class="list-group-item" v-for="r in response" @click="setValue(r)">
                                         {{ r.route }}, {{ r.city }}, {{ r.state_short }}
                                     </a>
                                 </div>
@@ -142,6 +142,11 @@ export default {
             this.$axios.get(`/api/places/find/${this.props.value}`).then(resp => {
                 this.place = resp.data;
             });
+        },
+
+        setValue(setValue) {
+            this.place = place;
+            this.$emit('input', place);
         },
     },
 }

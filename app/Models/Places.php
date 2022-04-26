@@ -76,7 +76,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 					'route' => $place['address']['road'],
 					'zipcode' => ($respCep? $respCep->cep: ''),
 					'district' => (isset($place['address']['suburb'])? $place['address']['suburb']: ''),
-					'city' => $place['address']['city'],
+					'city' => (isset($place['address']['city'])? $place['address']['city']: ''),
 					'state' => $place['address']['state'],
 					'state_short' => ($respCep? $respCep->uf: ''),
 					'country' => $place['address']['country'],
