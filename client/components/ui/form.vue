@@ -3,7 +3,7 @@
         <slot
             :value="value"
             :loading="loading"
-            :valid="valid"
+            :validate="validate"
             :response="response"
             :error="error"
             :error-fields="errorFields"
@@ -15,7 +15,7 @@
         <slot
             :value="value"
             :loading="loading"
-            :valid="valid"
+            :validate="validate"
             :response="response"
             :error="error"
             :error-fields="errorFields"
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import validate from 'validate.js';
-
 export default {
     props: {
         value: [Boolean, Object],
@@ -38,13 +36,23 @@ export default {
         tag: {default:"form"},
         findAction: {default:false, type:[Boolean, String]},
         findOnMounted: {default:false, type:[Boolean, String]},
-        validate: {default:false, type:[Boolean, Object, Function]},
+        validationRules: {default:false, type:[Boolean, Object, Function]},
     },
 
     computed: {
-        valid() {
-            if (!this.formChanged) return false;
-            return Object.keys(this.errorFields).length==0;
+        validate() {
+            let constraints = false;
+
+            if (this.validationRules.constructor.name=="Function") {
+                constraints = this.validationRules();
+            }
+            else if (this.validationRules.constructor.name=="Object") {
+                constraints = this.validationRules;
+            }
+
+            let v = this.$helpers.validate(this.value, constraints||{});
+            this.errorFields = v.errorFields;
+            return v;
         },
     },
 
@@ -115,19 +123,6 @@ export default {
         },
 
         formChangeHandler(ev) {
-            let constraints = false;
-
-            if (this.validate.constructor.name=="Function") {
-                constraints = this.validate();
-            }
-            else if (this.validate.constructor.name=="Object") {
-                constraints = this.validate;
-            }
-
-            if (constraints) {
-                this.errorFields = validate(this.value, constraints) || {};
-            }
-
             this.formChanged = true;
         },
 
@@ -169,7 +164,6 @@ export default {
     mounted() {
         // window.addEventListener("beforeunload", this.onBeforeunload);
         if (this.mountedSubmit) { this.submit(); }
-
         this.findOnMountedHandler();
     },
 

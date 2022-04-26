@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import moment from 'moment';
+import validate from 'validate.js';
 
 // Element UI
 import Element from 'element-ui';
@@ -93,6 +94,24 @@ let helpers = {
                 });
             });
         });
+    },
+
+    validate: (data={}, constraints={}) => {
+        return new (class {
+            constructor(data, constraints) {
+                let valid = validate(data, constraints);
+                this.valid = !valid;
+                this.invalid = !!valid;
+                this.errorFields = valid || {};
+
+                this.errors = [];
+                for(let i in this.errorFields) {
+                    this.errorFields[i].forEach(err => {
+                        this.errors.push(err);
+                    });
+                }
+            }
+        })(data, constraints);
     },
 };
 
