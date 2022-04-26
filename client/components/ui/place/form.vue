@@ -94,7 +94,7 @@
         </div>
         
         <div class="col-12">
-            <l-map :zoom="21" :center="[parseFloat(props.place.lat||0), parseFloat(props.place.lng||0)]" style="height:300px;">
+            <l-map :zoom="21" :center="[parseFloat(props.place.lat||0), parseFloat(props.place.lng||0)]" style="height:350px;">
                 <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
                 <l-marker :lat-lng="[parseFloat(props.place.lat||0), parseFloat(props.place.lng||0)]" :draggable="true" @update:lat-lng="updateLatLng($event)"></l-marker>
             </l-map>
@@ -140,12 +140,16 @@ export default {
         },
 
         updateLatLng(coords) {
-            // coords = JSON.parse(JSON.stringify(coords));
-            // console.log(coords);
-            this.$axios.get('/api/places/place-search', {params:coords}).then(resp => {
-                if (!resp.data[0]) return;
-                this.props.place = resp.data[0];
-            });
+            if (this._updateLatLngTimeout) {
+                clearTimeout(this._updateLatLngTimeout);
+            }
+
+            this._updateLatLngTimeout = setTimeout(() => {
+                this.$axios.get('/api/places/place-search', {params:coords}).then(resp => {
+                    if (!resp.data[0]) return;
+                    this.props.place = resp.data[0];
+                });
+            }, 500);
         },
     },
 }
