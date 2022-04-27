@@ -25,13 +25,11 @@
 				</select>
 			</ui-field>
 			
-			<ui-field label="Estado">
-				<select class="form-control" v-model="searchParams.state_short">
-					<option :value="null">Estado</option>
-					<option :value="a.state_short" v-for="a in (response.attributes && response.attributes.states)">
-						{{ a.state }}
-					</option>
-				</select>
+			<ui-field label="Estado" v-if="response.attributes && response.attributes.states && response.attributes.states.length">
+				<label class="d-flex align-items-center" v-for="a in (response.attributes && response.attributes.states)">
+					<input type="checkbox" class="form-control" v-model="searchParams.state_short" :true-value="a.state_short" :false-value="null">
+					<span class="ms-2">{{ a.state }}</span>
+				</label>
 			</ui-field>
 		</template>
 	</ui-model-search>

@@ -6,6 +6,7 @@
         :mounted-submit="true"
         @response="searchParamsUrl()"
         class="ui-model-search"
+        @change="submit()"
     >
 
         <!-- <ui-teleport-to :to="$refs.bbb||false">
@@ -43,17 +44,9 @@
                     <ui-mobile-action :slot-button="false" ref="searchForm">
                         
                         <div class="ui-model-search-search-fields mb-4">
-                            <ui-field-float :label="`Buscar ${plural}`">
-                                <input type="text" class="form-control" v-model="searchParams.q">
-
-                                <template #append>
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-primary p-3 rounded-0" v-loading="loading">
-                                            <i class="fas fa-fw fa-search"></i>
-                                        </button>
-                                    </div>
-                                </template>
-                            </ui-field-float>
+                            <ui-field :label="`Buscar ${plural}`">
+                                <input type="text" class="form-control" v-model="searchParams.q" placeholder="Título, nome, conteúdo, etc">
+                            </ui-field>
 
                             <ui-field label="Status">
                                 <select class="form-control" v-model="searchParams.deleted" @change="submit()">
@@ -65,7 +58,7 @@
                             <slot name="search-fields" v-bind="{searchParams, response}"></slot>
                         </div>
             
-                        <button type="submit" class="btn btn-primary shadow-none w-100" v-loading="loading">
+                        <button type="submit" class="btn btn-primary shadow-none w-100" v-loading="loading" :disabled="loading">
                             <i class="fas fa-fw fa-search"></i> Buscar
                         </button>
         

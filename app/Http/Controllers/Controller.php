@@ -132,6 +132,7 @@ class Controller extends BaseController
     public function search()
     {
         $search = $this->model->search()->paginate(request('per_page', 15))->toArray();
+        $search['params'] = $this->model->searchParamsDefault(request()->all());
         $search['attributes'] = $this->model->searchAttributes(request()->all());
         return $search;
     }

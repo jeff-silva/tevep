@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `places` (
   `city` varchar(20) DEFAULT NULL,
   `state` varchar(20) DEFAULT NULL,
   `state_short` varchar(5) DEFAULT NULL,
-  `country` varchar(20) DEFAULT NULL,
+  `country` varchar(50) DEFAULT NULL,
   `country_short` varchar(5) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,

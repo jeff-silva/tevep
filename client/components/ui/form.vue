@@ -118,6 +118,7 @@ export default {
 
         formChangeHandler(ev) {
             this.formChanged = true;
+            this.$emit('change', {});
         },
 
         parseResponseData(respData) {

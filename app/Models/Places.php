@@ -67,10 +67,11 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	}
 
 
-	public function searchAttributes($params=[]) {
+	public function searchAttributes($params = [])
+	{
 		$params = (object) $this->searchParamsDefault($params);
 
-		$attrs['countries'] = self::select(['country', 'country_short'])->distinct()->get();
+		$attrs['countries'] = self::select(['country', 'country_short'])->distinct()->orderBy('country', 'asc')->get();
 
 		$attrs['states'] = [];
 		if ($params->country_short) {
@@ -79,8 +80,8 @@ class Places extends \Illuminate\Database\Eloquent\Model
 				->distinct()->get();
 		}
 
-        return $attrs;
-    }
+		return $attrs;
+	}
 
 
 	public function placeSearch($params = [])
