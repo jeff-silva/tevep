@@ -112,7 +112,8 @@ export default {
       },
     }],
 
-    ['nuxt-leaflet', { /* module options */ }],
+    // https://vue2-leaflet.netlify.app/
+    ['nuxt-leaflet', {}],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

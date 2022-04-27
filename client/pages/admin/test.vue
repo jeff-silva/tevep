@@ -1,22 +1,25 @@
 <template>
-    <div>
-        <ui-form v-model="test" :validate="testValidate" #default="f">
-            <ui-field label="Nome" :error="f.errorFields.name">
+    <div class="p-5">
+        <ui-form v-model="test" :validation-rules="validationRules" #default="f">
+            <ui-field label="Nome" :validate="f.validate.test('name')" info="Isso é uma informação">
                 <input type="text" class="form-control" v-model="test.name">
             </ui-field>
 
-            <ui-field label="E-mail" :error="f.errorFields.email">
+            <ui-field label="E-mail" :validate="f.validate.test('email')">
                 <input type="text" class="form-control" v-model="test.email">
             </ui-field>
-            
-            <ui-field label="Senha" :error="f.errorFields.password">
-                <div class="d-flex">
-                    <ui-password v-model="test.password" class="me-1"></ui-password>
-                    <ui-password v-model="test.password_confirm"></ui-password>
-                </div>
+
+            <hr>
+
+            <ui-field label="Nome" :validate="f.validate.test('name')">
+                <input type="text" class="form-control" v-model="test.name">
             </ui-field>
 
-            <button type="submit" class="btn btn-primary" :disabled="!f.valid">
+            <ui-field label="E-mail" :validate="f.validate.test('email')">
+                <input type="text" class="form-control" v-model="test.email">
+            </ui-field>
+
+            <button type="submit" class="btn btn-primary" :disabled="f.validate.invalid">
                 Enviar
             </button>
 
@@ -28,6 +31,8 @@
 
 <script>
 export default {
+    // layout: "default",
+
     head() {
         return {
             title: "Test",
@@ -37,10 +42,9 @@ export default {
     data() {
         return {
             test: {},
-            testValidate: {
+            validationRules: {
                 name: {presence:{allowEmpty: false}},
                 email: {presence:{allowEmpty: false}, email:true},
-                password: {presence: {allowEmpty: false}, equality: "password_confirm"},
             },
         };
     },

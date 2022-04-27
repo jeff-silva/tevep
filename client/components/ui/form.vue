@@ -6,7 +6,6 @@
             :validate="validate"
             :response="response"
             :error="error"
-            :error-fields="errorFields"
             :submit="submit"
         ></slot>
     </form>
@@ -18,7 +17,6 @@
             :validate="validate"
             :response="response"
             :error="error"
-            :error-fields="errorFields"
             :submit="submit"
         ></slot>
     </component>
@@ -50,9 +48,7 @@ export default {
                 constraints = this.validationRules;
             }
 
-            let v = this.$helpers.validate(this.value, constraints||{});
-            this.errorFields = v.errorFields;
-            return v;
+            return this.$helpers.validate(this.value, constraints||{});
         },
     },
 
@@ -61,7 +57,6 @@ export default {
             loading: false,
             response: false,
             error: false,
-            errorFields: {},
             formChanged: false,
         };
     },
@@ -99,7 +94,6 @@ export default {
 
             this.loading = true;
             this.error = false;
-            this.errorFields = {};
             
             let axios = this.$axios({ method, url, data, params, headers }).then(resp => {
                 let respData = this.parseResponseData(resp.data);
@@ -114,7 +108,7 @@ export default {
                 let respData = this.parseResponseData(err.response.data);
                 this.loading = false;
                 this.error = respData.message;
-                this.errorFields = respData.fields;
+                this.validate.errorFields = respData.fields;
                 this.$emit('error', respData);
                 this.$emit('response', respData);
             });

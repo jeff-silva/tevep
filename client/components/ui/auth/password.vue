@@ -1,7 +1,7 @@
 <template>
     <div>
-        <ui-form method="post" action="/api/auth/password-reset-start" v-model="post" v-if="step=='email'" @success="step='token'" #default="{loading, error, errorFields}">
-            <ui-field label="Informe seu e-mail" :error="errorFields.email || error">
+        <ui-form method="post" action="/api/auth/password-reset-start" v-model="post" v-if="step=='email'" @success="step='token'" #default="{loading, error, validate}">
+            <ui-field label="Informe seu e-mail" :validate="validate.test('email')">
                 <div class="input-group">
                     <input type="text" class="form-control" v-model="post.email" placeholder="seu@email.com">
                     <div class="input-group-btn">

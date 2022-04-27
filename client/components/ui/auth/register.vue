@@ -3,7 +3,7 @@
         <ui-form method="post"
             action="/api/auth/register"
             v-model="post"
-            #default="{loading, response, errorFields}"
+            #default="{loading, response, validate}"
             @success="post={}"
         >
             <div class="alert alert-success" v-if="response">
@@ -11,19 +11,19 @@
             </div>
 
             <slot name="fields">
-                <ui-field label="Nome" :error="errorFields.name">
+                <ui-field label="Nome" :validate="validate.test('name')">
                     <input type="text" class="form-control" v-model="post.name" placeholder="Name">
                 </ui-field>
 
-                <ui-field label="E-mail" :error="errorFields.email">
+                <ui-field label="E-mail" :validate="validate.test('email')">
                     <input type="text" class="form-control" v-model="post.email" placeholder="E-mail">
                 </ui-field>
 
-                <ui-field label="Senha" :error="errorFields.password">
+                <ui-field label="Senha" :validate="validate.test('password')">
                     <ui-password v-model="post.password" placeholder="Senha"></ui-password>
                 </ui-field>
 
-                <!-- <ui-field label="Repita a senha" :error="errorFields.password_confirmation">
+                <!-- <ui-field label="Repita a senha" :validate="validate.test('password_confirmation')">
                     <input type="password" class="form-control" v-model="post.password_confirmation" placeholder="Repita senha">
                 </ui-field> -->
             </slot>

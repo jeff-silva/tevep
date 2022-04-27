@@ -7,16 +7,16 @@
 			singular="Item"
 			plural="Itens"
 		>
-			<template #default="{value, errorFields}">
-				<ui-field label="Nome" :error="errorFields.name">
+			<template #default="{value, validate}">
+				<ui-field label="Nome" :validate="validate.test('name')">
 					<input type="text" class="form-control" v-model="value.name">
 				</ui-field>
 		
-				<ui-field label="Assunto" :error="errorFields.subject">
+				<ui-field label="Assunto" :validate="validate.test('subject')">
 					<input type="text" class="form-control" v-model="value.subject">
 				</ui-field>
 		
-				<ui-field label="Corpo do e-mail" :error="errorFields.body">
+				<ui-field label="Corpo do e-mail" :validate="validate.test('body')">
 					<ui-html v-model="value.body" ref="body"></ui-html>
 		
 					<div class="mt-2 list-inline" v-if="value.params">

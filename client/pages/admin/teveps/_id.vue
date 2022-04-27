@@ -5,7 +5,7 @@
 		v-model="$store.state.tevep.edit"
 		singular="Item"
 		plural="Itens"
-		#default="{value, errorFields}"
+		#default="{value, validate}"
 	>
 		<tevep-edit></tevep-edit>
 	</ui-model-edit>

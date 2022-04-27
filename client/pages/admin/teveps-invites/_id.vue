@@ -4,9 +4,9 @@
 		:model-id="$route.params.id"
 		singular="Item"
 		plural="Itens"
-		#default="{value, errorFields}"
+		#default="{value, validate}"
 	>
-		<ui-field label="Nome" :error="errorFields.name">
+		<ui-field label="Nome" :validate="validate.test('name')">
 			<input type="text" class="form-control" v-model="value.name">
 		</ui-field>
 	</ui-model-edit>

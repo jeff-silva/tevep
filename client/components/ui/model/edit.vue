@@ -2,7 +2,7 @@
     <ui-form method="post"
         :action="`/api/${modelName}/save`"
         v-model="props.value"
-        #default="{loading, error, errorFields, validate}"
+        #default="{loading, error, validate}"
         @success="onSuccess"
         :validationRules="validationRules"
     >
@@ -16,11 +16,11 @@
                 </div>
             </el-collapse-transition>
 
-            <slot :value="props.value" :loading="loading" :error="error" :errorFields="errorFields"></slot>
+            <slot :value="props.value" :loading="loading" :error="error" :validate="validate"></slot>
         </div>
 
         <div class="ui-model-edit-actions d-flex align-items-center justify-content-end bg-white shadow-sm py-2 mt-md-3 p-md-3" v-if="showActions">
-            <slot name="actions" :value="props.value" :loading="loading" :error="error" :errorFields="errorFields"></slot>
+            <slot name="actions" :value="props.value" :loading="loading" :error="error" :validate="validate"></slot>
 
             <nuxt-link :to="`/admin/${modelName}/new`" class="btn btn-light" v-if="props.value.id">
                 Criar {{ singular }}

@@ -51,6 +51,10 @@ class Places extends \Illuminate\Database\Eloquent\Model
 			$this->city,
 			$this->state_short,
 		], 'strlen'), ', ');
+
+		if (!$this->formatted) {
+			$this->formatted = $this->country;
+		}
 	}
 
 
@@ -94,10 +98,16 @@ class Places extends \Illuminate\Database\Eloquent\Model
 				'tocantins' => 'TO',
 			];
 
-			return isset($siglas[$name])? $siglas[$name]: null;
+			return isset($siglas[$name])? $siglas[$name]: '';
 		};
 
 		$_osmToPlace = function($model, $place, $respCep=false) use($_estadoSigla) {
+			if (!isset($place['address'])) {
+				return new $model;
+			}
+
+			// dd($place);
+
 			$place['route'] = (isset($place['address']['road'])? $place['address']['road']: '');
 			$place['zipcode'] = (isset($place['address']['postcode'])? $place['address']['postcode']: ($respCep? $respCep->cep: ''));
 			$place['district'] = (isset($place['address']['suburb'])? $place['address']['suburb']: '');
@@ -108,6 +118,12 @@ class Places extends \Illuminate\Database\Eloquent\Model
 			$place['country_short'] = strtoupper(isset($place['address']['country_code'])? $place['address']['country_code']: '');
 			$place['lat'] = $place['lat'];
 			$place['lng'] = $place['lon'];
+
+			if (isset($place['address']['ISO3166-2-lvl4'])) {
+				$e = explode('-', $place['address']['ISO3166-2-lvl4']);
+				$place['country_short'] = isset($e[0])? $e[0]: $place['country_short'];
+				$place['state_short'] = isset($e[1])? $e[1]: $place['state_short'];
+			}
 
 			return new $model($place);
 		};

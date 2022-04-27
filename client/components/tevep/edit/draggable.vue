@@ -12,11 +12,11 @@
                 <ui-modal :value="true" width="500px" @close="$router.push({query:{}})">
                     <template #header>Alterar dados</template>
                     <template #body>
-                        <ui-field label="Nome" :error="form.errorFields.name">
+                        <ui-field label="Nome" :validate="validate.test('name')">
                             <input type="text" class="form-control" v-model="form.value.name">
                         </ui-field>
     
-                        <ui-field label="Data início" :error="form.errorFields.date_start">
+                        <ui-field label="Data início" :validate="validate.test('date_start')">
                             <el-date-picker
                                 class="w-100"
                                 v-model="form.value.date_start"
@@ -28,7 +28,7 @@
                             ></el-date-picker>
                         </ui-field>
     
-                        <ui-field label="Data fim" :error="form.errorFields.date_final">
+                        <ui-field label="Data fim" :validate="validate.test('date_final')">
                             <el-date-picker
                                 class="w-100"
                                 v-model="form.value.date_final"
@@ -124,9 +124,7 @@ export default {
 
     data() {
         return {
-            // tevep: this.$store.state.tevep.edit,
             props: JSON.parse(JSON.stringify(this.$props)),
-            errorFields: {},
         };
     },
 

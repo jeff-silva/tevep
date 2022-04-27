@@ -3,21 +3,22 @@
         <div class="mb-3 col-12">
             <ui-autocomplete action="/api/places/place-search" :params="autocomplete.params">
                 <template #default="ac">
-                    <div class="input-group">
-                        <div class="form-floating flex-grow-1">
-                            <input type="text" class="form-control border-end-0" placeholder="Buscar" v-model="autocomplete.params.search">
-                            <label>{{ props.place.formatted||'Buscar' }}</label>
-                        </div>
-                        <div class="input-group-text bg-transparent border-start-0" v-if="props.place.formatted">
-                            <a href="javascript:;" class="text-dark" @click="placeClear()">
-                                <i class="fas fa-fw fa-times"></i>
-                            </a>
-                        </div>
-                        <div class="input-group-text bg-transparent border-start-0" v-else>
-                            <i class="fas fa-fw fa-spin fa-spinner" v-if="ac.loading"></i>
-                            <i class="fas fa-fw fa-search" v-else></i>
-                        </div>
-                    </div>
+                    
+                    <ui-field-float :label="props.place.formatted||'Buscar'">
+                        <input type="text" class="form-control border-end-0" placeholder="Buscar" v-model="autocomplete.params.search">
+
+                        <template #append>
+                            <div class="input-group-text bg-transparent border-start-0" v-if="props.place.formatted">
+                                <a href="javascript:;" class="text-dark" @click="placeClear()">
+                                    <i class="fas fa-fw fa-times"></i>
+                                </a>
+                            </div>
+                            <div class="input-group-text bg-transparent border-start-0" v-else>
+                                <i class="fas fa-fw fa-spin fa-spinner" v-if="ac.loading"></i>
+                                <i class="fas fa-fw fa-search" v-else></i>
+                            </div>
+                        </template>
+                    </ui-field-float>
                 </template>
 
                 <template #response="{ response }">
@@ -31,70 +32,61 @@
         </div>
 
         <!-- <div class="mb-3 col-12">
-            <div class="form-floating">
+            <ui-field-float label="Descrição do endereço">
                 <input type="text" class="form-control" placeholder="Descrição do endereço" v-model="props.place.name">
-                <label>Descrição do endereço</label>
-            </div>
+            </ui-field-float>
         </div> -->
 
         <div class="mb-3 col-8 col-md-9">
-            <div class="form-floating">
+            <ui-field-float label="Rua">
                 <input type="text" class="form-control" placeholder="Rua" v-model="props.place.route">
-                <label>Rua</label>
-            </div>
+            </ui-field-float>
         </div>
         
         <div class="mb-3 col-4 col-md-3">
-            <div class="form-floating">
+            <ui-field-float label="Número">
                 <input type="text" class="form-control" placeholder="Número" v-model="props.place.number">
-                <label>Número</label>
-            </div>
+            </ui-field-float>
         </div>
 
         <div class="mb-3 col-12">
-            <div class="form-floating">
+            <ui-field-float label="Complemento">
                 <input type="text" class="form-control" placeholder="Rua" v-model="props.place.complement">
-                <label>Complemento</label>
-            </div>
+            </ui-field-float>
         </div>
 
         <div class="mb-3 col-6 col-md-6">
-            <div class="form-floating">
+            <ui-field-float label="CEP">
                 <input type="text" class="form-control" placeholder="CEP" v-model="props.place.zipcode">
-                <label>CEP</label>
-            </div>
+            </ui-field-float>
         </div>
 
         <div class="mb-3 col-6 col-md-6">
-            <div class="form-floating">
+            <ui-field-float label="Bairro">
                 <input type="text" class="form-control" placeholder="Bairro" v-model="props.place.district">
-                <label>Bairro</label>
-            </div>
+            </ui-field-float>
         </div>
 
         <div class="mb-3 col-12 col-md-6">
-            <div class="form-floating">
+            <ui-field-float label="Cidade">
                 <input type="text" class="form-control" placeholder="Cidade" v-model="props.place.city">
-                <label>Cidade</label>
-            </div>
+            </ui-field-float>
         </div>
 
         <div class="mb-3 col-6 col-md-3">
-            <div class="form-floating">
+            <ui-field-float label="Estado">
                 <input type="text" class="form-control" placeholder="Estado" v-model="props.place.state">
-                <label>Estado</label>
-            </div>
+            </ui-field-float>
         </div>
 
         <div class="mb-3 col-6 col-md-3">
-            <div class="form-floating">
+            <ui-field-float label="País">
                 <input type="text" class="form-control" placeholder="País" v-model="props.place.country">
-                <label>País</label>
-            </div>
+            </ui-field-float>
         </div>
         
         <div class="col-12">
-            <l-map :zoom="21" :center="[parseFloat(props.place.lat||0), parseFloat(props.place.lng||0)]" style="height:350px;">
+            <l-map ref="map" :zoom="21" :center="[parseFloat(props.place.lat||0), parseFloat(props.place.lng||0)]" style="height:350px;">
                 <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
                 <l-marker :lat-lng="[parseFloat(props.place.lat||0), parseFloat(props.place.lng||0)]" :draggable="true" @update:lat-lng="updateLatLng($event)"></l-marker>
             </l-map>
@@ -112,6 +104,7 @@ export default {
         $props: {deep:true, handler(value) {
             if (this.__preventRecursive) return;
             this.props = JSON.parse(JSON.stringify(value));
+            this.mapRecenter();
         }},
 
         props: {deep:true, handler(value) {
@@ -139,7 +132,22 @@ export default {
             this.props.place = {id};
         },
 
+        mapRecenter() {
+            setTimeout(() => {
+                this.$refs.map.mapObject.panTo([
+                    parseFloat(this.props.place.lat||0),
+                    parseFloat(this.props.place.lng||0),
+                ]);
+            }, 100);
+        },
+
         updateLatLng(coords) {
+            if (!this._ignoreFirstUpdateLatLng) {
+                this._ignoreFirstUpdateLatLng = true;
+                this.mapRecenter();
+                return;
+            }
+
             if (this._updateLatLngTimeout) {
                 clearTimeout(this._updateLatLngTimeout);
             }

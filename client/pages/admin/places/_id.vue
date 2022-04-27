@@ -4,7 +4,7 @@
 		:model-id="$route.params.id"
 		singular="Item"
 		plural="Itens"
-		#default="{value, errorFields}"
+		#default="{value, validate}"
 	>
 		<ui-place-form :place="value" @update:place="placeMerge(value, $event)"></ui-place-form>
 	</ui-model-edit>

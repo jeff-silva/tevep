@@ -153,7 +153,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 @charset "UTF-8";/*!* CoreUI - HTML, CSS, and JavaScript UI Components Library
 * @version v4.0.5
 * @link https://coreui.io/

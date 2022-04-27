@@ -110,6 +110,12 @@ let helpers = {
                         this.errors.push(err);
                     });
                 }
+
+                this.single = false;
+            }
+
+            test(field) {
+                return this.errorFields[field] || [];
             }
         })(data, constraints);
     },
