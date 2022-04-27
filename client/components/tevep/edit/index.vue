@@ -84,7 +84,10 @@
                                 <div class="text-center mb-4">
                                     <img style="height:70px;" src="/assets/icons/evento.png" alt="">
                                 </div>
-                                <input type="text" class="form-control form-control-sm mx-auto" style="max-width:400px;" v-model="tevep.name">
+
+                                <ui-field-float label="Nome do projeto" class="mx-auto" style="max-width:400px;">
+                                    <input type="text" class="form-control form-control-sm mx-auto" v-model="tevep.name">
+                                </ui-field-float>
 
                                 <div class="text-center mt-2">
                                     <nuxt-link :to="{path:`/admin/teveps/${tevep.parent_id}`, query:{meta_ref:tevep.meta_ref}}"
