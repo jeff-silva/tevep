@@ -55,7 +55,7 @@ export default {
     data() {
         return {
             loading: false,
-            response: false,
+            response: {},
             error: false,
             formChanged: false,
         };

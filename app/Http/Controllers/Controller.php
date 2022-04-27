@@ -68,7 +68,7 @@ class Controller extends BaseController
         if (! in_array('search', $params->except)) {
             $this->route('get', "/search", 'search', [
                 'description' => 'Busca',
-                'query' => $this->model->searchParamsAll(),
+                'query' => $this->model->searchParamsDefault(),
             ]);
         }
 
@@ -96,14 +96,14 @@ class Controller extends BaseController
         if (! in_array('delete', $params->except)) {
             $this->route('post', "/delete", 'delete', [
                 'description' => 'Deletar',
-                'query' => $this->model->searchParamsAll(),
+                'query' => $this->model->searchParamsDefault(),
             ]);
         }
 
         if (! in_array('restore', $params->except)) {
             $this->route('post', "/restore", 'restore', [
                 'description' => 'Restaurar',
-                'query' => $this->model->searchParamsAll(),
+                'query' => $this->model->searchParamsDefault(),
             ]);
         }
 
@@ -123,7 +123,7 @@ class Controller extends BaseController
         if (! in_array('export', $params->except)) {
             $this->route('get', "/export", 'export', [
                 'description' => 'Exportar',
-                'query' => $this->model->searchParamsAll(),
+                'query' => $this->model->searchParamsDefault(),
             ]);
         }
     }
@@ -131,7 +131,9 @@ class Controller extends BaseController
 
     public function search()
     {
-        return $this->model->search()->paginate(request('per_page', 15));
+        $search = $this->model->search()->paginate(request('per_page', 15))->toArray();
+        $search['attributes'] = $this->model->searchAttributes(request()->all());
+        return $search;
     }
 
 

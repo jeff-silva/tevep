@@ -311,7 +311,7 @@ trait Model
     }
 
 
-    public function searchParamsAll() {
+    public function searchParamsDefault($merge=[]) {
         return array_merge([
             'q' => '',
             'page' => 1,
@@ -320,11 +320,16 @@ trait Model
             'order' => 'desc',
             'deleted' => '',
             'limit' => '',
-        ], $this->searchParams());
+        ], $this->searchParams(), $merge);
     }
     
 
     public function searchParams() {
+        return [];
+    }
+
+
+    public function searchAttributes($params=[]) {
         return [];
     }
 
@@ -335,7 +340,7 @@ trait Model
 
 
     public function scopeSearch($query, $params=null) {
-        $searchParams = $this->searchParamsAll();
+        $searchParams = $this->searchParamsDefault();
 
         $params = $params? $params: request()->all();
         $params = array_merge($searchParams, $params);

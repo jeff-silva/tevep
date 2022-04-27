@@ -43,21 +43,26 @@
                     <ui-mobile-action :slot-button="false" ref="searchForm">
                         
                         <div class="ui-model-search-search-fields mb-4">
-                            <div class="input-group form-control p-0">
-                                <input type="text" class="form-control border-0 bg-transparent" :placeholder="`Buscar ${plural}`" v-model="searchParams.q">
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn border-0 bg-transparent shadow-none" v-loading="loading">
-                                        <i class="fas fa-fw fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <ui-field-float :label="`Buscar ${plural}`">
+                                <input type="text" class="form-control" v-model="searchParams.q">
+
+                                <template #append>
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-primary p-3 rounded-0" v-loading="loading">
+                                            <i class="fas fa-fw fa-search"></i>
+                                        </button>
+                                    </div>
+                                </template>
+                            </ui-field-float>
+
+                            <ui-field label="Status">
+                                <select class="form-control" v-model="searchParams.deleted" @change="submit()">
+                                    <option value="">Ativos</option>
+                                    <option value="1">Deletados</option>
+                                </select>
+                            </ui-field>
         
-                            <select class="form-control" v-model="searchParams.deleted" @change="submit()">
-                                <option value="">Ativos</option>
-                                <option value="1">Deletados</option>
-                            </select>
-        
-                            <slot name="search-fields"></slot>
+                            <slot name="search-fields" v-bind="{searchParams, response}"></slot>
                         </div>
             
                         <button type="submit" class="btn btn-primary shadow-none w-100" v-loading="loading">

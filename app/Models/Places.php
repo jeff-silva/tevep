@@ -58,6 +58,31 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	}
 
 
+	public function searchParams()
+	{
+		return [
+			'country_short' => '',
+			'state_short' => '',
+		];
+	}
+
+
+	public function searchAttributes($params=[]) {
+		$params = (object) $this->searchParamsDefault($params);
+
+		$attrs['countries'] = self::select(['country', 'country_short'])->distinct()->get();
+
+		$attrs['states'] = [];
+		if ($params->country_short) {
+			$attrs['states'] = self::select(['state', 'state_short'])
+				->where('country_short', $params->country_short)
+				->distinct()->get();
+		}
+
+        return $attrs;
+    }
+
+
 	public function placeSearch($params = [])
 	{
 		$params = (object) array_merge([
