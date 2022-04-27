@@ -1,8 +1,19 @@
 export default function (ctx) {
-
-    // Admin
-    if (!ctx.route.path.match(/^\/admin/i)) return;
     let { store, route, app, $auth } = ctx;
+    let settings = store.state.settings;
+    let component = route.matched[0].components.default;
+
+    // Favicon
+    if (settings['app.icon']) {
+        Array.from(document.querySelectorAll('head meta, head link')).forEach(elem => {
+            if (! ['shortcut-icon', 'apple-touch-icon'].includes(elem.dataset.hid)) return;
+            elem.href = settings['app.icon'];
+        });
+    }
+
+
+    // Admin verifications
+    if (!ctx.route.path.match(/^\/admin/i)) return;
 
     // Auth
     if (!$auth.loggedIn) {
@@ -18,7 +29,7 @@ export default function (ctx) {
     }
 
     // Layout
-    let admin_layout_default = route.matched[0].components.default.options.layout;
-    let admin_layout = store.state.settings['app.admin_layout'] || "admin";
-    route.matched[0].components.default.options.layout = admin_layout_default || admin_layout;
+    let admin_layout_default = component.options.layout;
+    let admin_layout = settings['app.admin_layout'] || "admin";
+    component.options.layout = admin_layout_default || admin_layout;
 }

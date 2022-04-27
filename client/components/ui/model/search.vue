@@ -32,54 +32,10 @@
         </div> -->
 
         <div class="row g-0">
-            <div class="col-12 pb-3 px-2">
-                <div class="d-flex align-items-center">
-                    <div class="flex-grow-1 d-md-none pe-2">
-                        <button type="button" class="btn btn-light w-100" @click="$refs.searchForm.show()">
-                            Filtro
-                        </button>
-                    </div>
-
-                    <div class="flex-grow-1 d-none d-md-block">
-                        &nbsp;
-                    </div>
-
-                    <ui-mobile-action>
-                        <slot name="header-actions"></slot>
-        
-                        <transition name="el-fade-in-linear">
-                            <a href="javascript:;" class="btn btn-danger" v-if="selecteds.length && !searchParams.deleted" @click="modelDelete(selecteds)">
-                                <i class="fas fa-times me-1"></i> Deletar {{ selecteds.length }}
-                            </a>
-                        </transition>
-        
-                        <transition name="el-fade-in-linear">
-                            <a href="javascript:;" class="btn btn-success" v-if="selecteds.length && searchParams.deleted" @click="modelRestore(selecteds)">
-                                <i class="fas fa-times me-1"></i> Restaurar {{ selecteds.length }}
-                            </a>
-                        </transition>
-        
-                        <ui-dropdown type="bottom-right">
-                            <a href="javascript:;" class="btn btn-outline-success">
-                                <i class="fas fa-download me-1"></i> Exportar
-                            </a>
-        
-                            <template #dropdown>
-                                <div class="p-1">
-                                    <button type="button" class="btn w-100 mb-1"
-                                        @click="downloadExport(f.ext)"
-                                        v-for="f in $store.state.env.exportFormats"
-                                    > {{ f.name }} </button>
-                                </div>
-                            </template>
-                        </ui-dropdown>
-        
-                        <nuxt-link :to="`/admin/${modelName}/new`" class="btn btn-outline-primary" v-if="actionsDefault">
-                            <i class="fas fa-fw fa-plus me-1"></i> Novo
-                        </nuxt-link>
-                    </ui-mobile-action>
-                </div>
-
+            <div class="col-12 pb-3 d-md-none">
+                <button type="button" class="btn btn-primary w-100" @click="$refs.searchForm.show()">
+                    Filtros e ações
+                </button>
             </div>
     
             <div class="col-12 col-md-3">
@@ -108,9 +64,40 @@
                             <i class="fas fa-fw fa-search"></i> Buscar
                         </button>
         
-                        <button type="button" class="btn shadow-none w-100 mt-2" @click="searchParams=searchParamsDefault(); submit().then(resp => searchParamsUrl())">
+                        <button type="button" class="btn btn-light w-100 mt-2" @click="searchParams=searchParamsDefault(); submit().then(resp => searchParamsUrl())">
                             <i class="fas fa-fw fa-times"></i> Limpar
                         </button>
+
+                        <nuxt-link :to="`/admin/${modelName}/new`" class="btn btn-light w-100 mt-2" v-if="actionsDefault">
+                            <i class="fas fa-fw fa-plus me-1"></i> Novo
+                        </nuxt-link>
+
+                        <ui-dropdown type="right" class="w-100">
+                            <a href="javascript:;" class="btn btn-light w-100 mt-2">
+                                <i class="fas fa-download me-1"></i> Exportar
+                            </a>
+        
+                            <template #dropdown>
+                                <div class="p-1" style="width:200px;">
+                                    <button type="button" class="btn w-100 mb-1"
+                                        @click="downloadExport(f.ext)"
+                                        v-for="f in $store.state.env.exportFormats"
+                                    > {{ f.name }} </button>
+                                </div>
+                            </template>
+                        </ui-dropdown>
+
+                        <transition name="el-zoom-in-top">
+                            <a href="javascript:;" class="btn btn-danger text-white w-100 mt-2" v-if="selecteds.length && !searchParams.deleted" @click="modelDelete(selecteds)">
+                                <i class="fas fa-times me-1"></i> Deletar {{ selecteds.length }}
+                            </a>
+                        </transition>
+        
+                        <transition name="el-zoom-in-top">
+                            <a href="javascript:;" class="btn btn-success text-white w-100 mt-2" v-if="selecteds.length && searchParams.deleted" @click="modelRestore(selecteds)">
+                                <i class="fas fa-times me-1"></i> Restaurar {{ selecteds.length }}
+                            </a>
+                        </transition>
         
                         <slot name="search-actions"></slot>
                     </ui-mobile-action>

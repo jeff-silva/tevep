@@ -5,8 +5,6 @@
 
 namespace App\Console\Commands;
 
-use OpenApi\Serializer;
-
 class AppSync extends AppBase
 {
 

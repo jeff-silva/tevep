@@ -1,47 +1,31 @@
 <template>
-    <div class="ui-file" @dragover.prevent @drop.prevent="setFile($event.dataTransfer.files[0])">
-
-        <div class="d-flex">
-            <button type="button" class="btn btn-light flex-grow-1" @click="fileBrowser()">
-                <i class="fas fa-fw fa-upload me-2"></i> {{ props.value? null: "Upload" }}
-                <span v-if="file">
-                    <span class="me-2 text-uppercase fw-bold">{{ file.name }}</span>
-                    <span class="me-2">{{ file.size|fileSize }}</span>
-                </span>
-            </button>
-
-            <div class="ps-2" v-if="props.value">
-                <button type="button" class="btn btn-danger" @click="setFile(false)">
-                    <i class="fas fa-fw fa-times"></i>
+    <div class="ui-file">
+        <ui-file-content v-model="props.fileData" :preview-url="props.file? props.file.url: false">
+            <template #actions="{ value, file }">
+                <button type="button" class="btn btn-primary" v-if="value" @click="fileUpload()">
+                    <i class="fas fa-fw fa-upload"></i>
                 </button>
-            </div>
-        </div>
-
-        <div @click="fileBrowser()"
-            class="mt-2 d-flex align-items-center justify-content-center"
-            :style="`height:${previewHeight}; padding:10px; text-align:center; background:#f5f5f5; border:solid 3px #eee;`"
-        >
-            <template v-if="(file && file.isImage) || (preview && /.jpg|.jpeg|.png|.bmp|.gif/.test(preview))">
-                <img :style="`height:calc(${previewHeight} - 20px);`" :src="(file && file.url)? file.url: preview" alt="">
             </template>
-            <small class="d-block text-muted" v-else>Solte os arquivos aqui</small>
-        </div>
+        </ui-file-content>
     </div>
 </template>
 
 <script>
 export default {
     props: {
-        value: {default: false, type: [Boolean, Object, File]},
+        value: {default: false, type: [Boolean, String, Object]}, // id, url, object
         folder: {default: ""},
-        preview: {default:false, type:[Boolean, String]},
-        previewHeight: {default: "200px"},
+        preview: {default: "200px", type:[Boolean, String]},
+        file: {default: false, type: [Boolean, Object]}, // Resposta banco de dados
+        fileData: {default: false, type: [Boolean, File]},
+        returnValue: {default: "id", type:[Boolean, String]}, // id, url
     },
 
     watch: {
         $props: {deep:true, handler(value) {
             if (this.__preventRecursive) return;
             this.props = JSON.parse(JSON.stringify(value));
+            this.fileLoad();
         }},
 
         props: {deep:true, handler(value) {
@@ -54,39 +38,48 @@ export default {
 
     data() {
         return {
-            file: false,
             props: JSON.parse(JSON.stringify(this.$props)),
         };
     },
 
     methods: {
-        fileBrowser() {
-            Object.assign(document.createElement("input"), {
-                type: "file",
-                onchange: (ev) => {
-                    this.setFile(ev.target.files[0]);
-                },
-            }).click();
+        fileUpload() {
+            let formData = new FormData();
+            formData.append('name', this.props.fileData.name);
+            formData.append('folder', this.props.folder);
+            formData.append('content', this.props.fileData);
+
+            this.$axios.post('/api/files/save', formData).then(resp => {
+                this.props.file = resp.data;
+                this.props.value = this.getPropsValue();
+            });
         },
 
-        setFile(file) {
-            this.props.value = file;
-            this.file = file;
+        getPropsValue() {
+            let file = this.props.file || {};
+            return file[this.returnValue] || false;
+        },
 
-            if (file && file.constructor.name=="File") {
-                let r = new FileReader();
-                r.readAsDataURL(file);
-                r.onload = () => {
-                    this.file = {
-                        name: file.name,
-                        size: file.size,
-                        type: file.type,
-                        isImage: file.type.includes("image"),
-                        url: r.result,
-                    };
-                };
+        fileLoad() {
+            if (!this.props.value) return;
+
+            if (this.returnValue=="id" && !isNaN(this.props.value)) {
+                this.$axios.get(`/api/files/find/${this.props.value}`).then(resp => {
+                    this.props.file = resp.data;
+                });
+            }
+
+            else if (this.returnValue=="url") {
+                let params = {url: this.props.value};
+                this.$axios.get(`/api/files/search`, {params}).then(resp => {
+                    this.props.file = resp.data.data[0] || false;
+                });
             }
         },
+    },
+
+    mounted() {
+        this.fileLoad();
     },
 }
 </script>

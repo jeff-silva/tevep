@@ -8,8 +8,9 @@ return [
         'app.timezone',
         'app.locale',
         'google.analytics.id',
-        'app.style',
         'app.admin_layout',
+        'app.icon',
+        'app.logo',
     ],
     
     // Configurações disponíveis apenas para o backend

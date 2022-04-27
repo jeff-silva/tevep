@@ -34,7 +34,7 @@ html, body {font-family: 'Assistant', sans-serif;}
 
 /* Bootstrap checkboxes and radios */
 input[type=checkbox].form-control,
-input[type=radio].form-control {--color: var(--bs-primary); display: inline-block; vertical-align: middle; appearance: none !important; box-shadow: none; padding: 0 !important; margin: 0 !important; cursor: pointer; outline: solid 3px var(--color); border: solid 3px #fff; width: 16px; height: 16px; opacity: .7;}
+input[type=radio].form-control {--color: #888; display: inline-block; vertical-align: middle; appearance: none !important; box-shadow: none; padding: 0 !important; margin: 0 !important; cursor: pointer; outline: solid 3px var(--color); border: solid 3px #fff; width: 16px; height: 16px; opacity: .7;}
 input[type=checkbox]:checked.form-control,
 input[type=radio]:checked.form-control { background: var(--color); }
 input[type=radio].form-control { border-radius: 50%; }

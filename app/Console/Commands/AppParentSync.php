@@ -13,7 +13,7 @@ class AppParentSync extends AppBase
 
     public function handle() {
         $app_parent = env('APP_PARENT');
-        if (!$app_parent) return $this->comment('APP_PARENT não definido');
+        if (!$app_parent) return;
 
         $files = [];
 

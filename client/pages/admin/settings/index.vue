@@ -36,12 +36,15 @@
         <ui-field label="Tema admin">
             <select class="form-control" v-model="value['app.admin_layout']">
                 <option value="">Padrão</option>
-                <option value="coreui/admin">CoreUI</option>
             </select>
         </ui-field>
 
-        <ui-field label="CSS customizado">
-            <ui-code language="css" v-model="value['app.style']"></ui-code>
+        <ui-field label="Logo">
+            <ui-file v-model="value['app.logo']" return-value="url"></ui-file>
+        </ui-field>
+
+        <ui-field label="Ícone">
+            <ui-file v-model="value['app.icon']" return-value="url"></ui-file>
         </ui-field>
     </div>
 </template>

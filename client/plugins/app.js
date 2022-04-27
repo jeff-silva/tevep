@@ -144,10 +144,4 @@ export default async function (ctx, inject) {
     //         page_path: this.$route.fullPath,
     //     });
     // }
-
-    if (settings['app.style']) {
-        document.body.append(Object.assign(document.createElement('style'), {
-            innerHTML: settings['app.style'],
-        }));
-    }
 }

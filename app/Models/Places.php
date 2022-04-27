@@ -132,7 +132,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 		// Viacep search
 		$respCep = false;
 		if ($cep = preg_replace('/[^0-9]/i', '', $params->search) AND 8==strlen($cep)) {
-			
+
 			$key = md5(json_encode(['viacep', $cep]));
 			$respCep = (object) \Cache::remember($key, 60*60*24*30, function() use($cep) {
 				return \Http::get("https://viacep.com.br/ws/{$cep}/json/")->json();
@@ -158,7 +158,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 					'lon' => $params->lng,
 				]))->json();
 			});
-			
+
 			return [ $_osmToPlace($this, $respCoords) ];
 		}
 

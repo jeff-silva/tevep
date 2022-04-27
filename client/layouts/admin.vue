@@ -9,7 +9,8 @@
             <svg class="sidebar-brand-narrow" width="46" height="46" alt="CoreUI Logo">
                <use xlink:href="assets/brand/coreui.svg#signet"></use>
             </svg> -->
-            {{ $store.state.settings['app.name'] }}
+            <img :src="settings['app.logo']" alt="" v-if="settings['app.logo']" style="height:50px; margin-right:15px;">
+            <span class="text-uppercase fw-bold">{{ settings['app.name'] }}</span>
          </div>
 
          <ui-nav :items="$store.state.admin.menu" text-color="#fff"></ui-nav>
@@ -136,6 +137,12 @@ export default {
     watch: {
         async $route() {
             this.headTitle = await this.$helpers.componentTitle(this.$route.matched.at(-1));
+        },
+    },
+
+    computed: {
+        settings() {
+            return this.$store.state.settings;
         },
     },
 

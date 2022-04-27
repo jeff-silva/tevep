@@ -7,7 +7,7 @@ namespace App\Console\Commands;
 
 use OpenApi\Serializer;
 
-class AppSync extends AppBase
+class AppRootReset extends AppBase
 {
 
     protected $signature = 'app:root-reset';

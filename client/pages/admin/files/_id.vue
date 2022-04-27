@@ -15,7 +15,7 @@
         </ui-field>
         
         <ui-field label="Arquivo" layout="horizontal">
-            <ui-file v-model="value.content" :preview="value.url"></ui-file>
+            <ui-file-content v-model="value.content" :preview-url="value.url"></ui-file-content>
         </ui-field>
 
         <ui-modal :value="$route.query.contentEdit" width="90vw" v-if="value.type=='image'" @close="$router.push({query:{}})">
