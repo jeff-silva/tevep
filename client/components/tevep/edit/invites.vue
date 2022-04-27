@@ -35,7 +35,7 @@
                 <template #header>Convidar</template>
 
                 <template #body>
-                    <ui-field label="E-mail do convidado" :validate="validate.test('user_id')">
+                    <ui-field label="E-mail do convidado" :validate="validate.user_id">
                         <ui-autocomplete
                             :action="{method:'get', url:'/api/user/search', params:{q:inviteEdit.user_email}}"
                             :action-on-mounted="true"

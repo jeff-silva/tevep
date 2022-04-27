@@ -11,19 +11,19 @@
             </div>
 
             <slot name="fields">
-                <ui-field label="Nome" :validate="validate.test('name')">
+                <ui-field label="Nome" :validate="validate.name">
                     <input type="text" class="form-control" v-model="post.name" placeholder="Name">
                 </ui-field>
 
-                <ui-field label="E-mail" :validate="validate.test('email')">
+                <ui-field label="E-mail" :validate="validate.email">
                     <input type="text" class="form-control" v-model="post.email" placeholder="E-mail">
                 </ui-field>
 
-                <ui-field label="Senha" :validate="validate.test('password')">
+                <ui-field label="Senha" :validate="validate.password">
                     <ui-password v-model="post.password" placeholder="Senha"></ui-password>
                 </ui-field>
 
-                <!-- <ui-field label="Repita a senha" :validate="validate.test('password_confirmation')">
+                <!-- <ui-field label="Repita a senha" :validate="validate.password_confirmation">
                     <input type="password" class="form-control" v-model="post.password_confirmation" placeholder="Repita senha">
                 </ui-field> -->
             </slot>

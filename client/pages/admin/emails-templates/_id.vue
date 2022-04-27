@@ -8,15 +8,15 @@
 			plural="Itens"
 		>
 			<template #default="{value, validate}">
-				<ui-field label="Nome" :validate="validate.test('name')">
+				<ui-field label="Nome" :validate="validate.name">
 					<input type="text" class="form-control" v-model="value.name">
 				</ui-field>
 		
-				<ui-field label="Assunto" :validate="validate.test('subject')">
+				<ui-field label="Assunto" :validate="validate.subject">
 					<input type="text" class="form-control" v-model="value.subject">
 				</ui-field>
 		
-				<ui-field label="Corpo do e-mail" :validate="validate.test('body')">
+				<ui-field label="Corpo do e-mail" :validate="validate.body">
 					<ui-html v-model="value.body" ref="body"></ui-html>
 		
 					<div class="mt-2 list-inline" v-if="value.params">

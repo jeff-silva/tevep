@@ -6,11 +6,11 @@
 		plural="Itens"
 		#default="{value, validate}"
 	>
-		<ui-field label="Nome" :validate="validate.test('name')">
+		<ui-field label="Nome" :validate="validate.name">
 			<input type="text" class="form-control" v-model="value.name">
 		</ui-field>
 
-		<ui-field label="Permissões" :validate="validate.test('permissions')">
+		<ui-field label="Permissões" :validate="validate.permissions">
 			<el-select v-model="value.permissions" class="w-100" filterable multiple :disabled="value.id==1">
 				<el-option v-for="p in permissions" :key="p.key" :value="p.key" :label="p.name">
 					{{ p.name }}

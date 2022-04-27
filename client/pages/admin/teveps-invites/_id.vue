@@ -6,7 +6,7 @@
 		plural="Itens"
 		#default="{value, validate}"
 	>
-		<ui-field label="Nome" :validate="validate.test('name')">
+		<ui-field label="Nome" :validate="validate.name">
 			<input type="text" class="form-control" v-model="value.name">
 		</ui-field>
 	</ui-model-edit>

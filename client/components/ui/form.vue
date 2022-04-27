@@ -67,6 +67,7 @@ export default {
         },
 
         submit() {
+            if (this.validate.invalid()) return;
             let method=this.method, url=this.action, data=null, params=null;
             let headers = {'Content-Type': 'multipart/form-data' };
 

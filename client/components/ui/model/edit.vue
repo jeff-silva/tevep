@@ -25,18 +25,18 @@
             <div class="col-12 col-md-3 mt-3 mt-md-0">
                 <div class="bg-white p-3">
                     <slot name="actions" :value="props.value" :loading="loading" :error="error" :validate="validate"></slot>
+
+                    <button type="submit" class="btn btn-primary w-100" v-loading="loading" :disabled="validate.invalid()">
+                        Salvar
+                    </button>
     
-                    <nuxt-link :to="`/admin/${modelName}/new`" class="btn btn-light w-100" v-if="props.value.id">
+                    <nuxt-link :to="`/admin/${modelName}/new`" class="btn btn-light w-100 mt-3" v-if="props.value.id">
                         Criar {{ singular }}
                     </nuxt-link>
     
                     <nuxt-link :to="backUrl" class="btn btn-light w-100 mt-3">
                         Voltar
                     </nuxt-link>
-    
-                    <button type="submit" class="btn btn-primary w-100 mt-3" v-loading="loading" :disabled="validate.invalid">
-                        Salvar
-                    </button>
                 </div>
             </div>
         </div>

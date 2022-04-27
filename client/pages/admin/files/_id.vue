@@ -6,11 +6,11 @@
         plural="Arquivos"
         #default="{value, validate}"
     >
-        <ui-field label="Nome" layout="horizontal" :validate="validate.test('name')">
+        <ui-field label="Nome" layout="horizontal" :validate="validate.name">
             <input type="text" class="form-control" v-model="value.name">
         </ui-field>
     
-        <ui-field label="Pasta" layout="horizontal" :validate="validate.test('folder')">
+        <ui-field label="Pasta" layout="horizontal" :validate="validate.folder">
             <input type="text" class="form-control" v-model="value.folder">
         </ui-field>
         
