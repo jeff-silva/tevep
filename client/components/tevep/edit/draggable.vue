@@ -2,7 +2,7 @@
     <div class="ui-tevep-edit-draggable">
         <!-- Modal -->
         <template v-for="(v, i) in props.value" v-if="v.meta_ref==$route.query.meta_ref">
-            <ui-form tag="div" method="post" action="/api/teveps/save" :value="v" #default="form"
+            <ui-form tag="div" method="post" action="/api/teveps/save" :params="v" #default="form"
                 success-text="Tevep filho salvo"
                 :find-action="v.id? `/api/teveps/find/${v.id}`: false"
                 :find-on-mounted="true"

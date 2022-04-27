@@ -30,7 +30,7 @@
             </div> -->
         </div>
 
-        <ui-form method="post" action="/api/teveps-invites/save" v-model="inviteEdit" #default="form" @success="inviteEdit=false">
+        <ui-form method="post" action="/api/teveps-invites/save" :params="inviteEdit" #default="form" @success="inviteEdit=false">
             <ui-modal v-model="inviteEdit">
                 <template #header>Convidar</template>
 

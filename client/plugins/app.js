@@ -99,23 +99,34 @@ let helpers = {
     validate: (data={}, constraints={}) => {
         return new (class {
             constructor(data, constraints) {
-                let valid = validate(data, constraints);
-                this.valid = !valid;
-                this.invalid = !!valid;
-                this.errorFields = valid || {};
-
-                this.errors = [];
-                for(let i in this.errorFields) {
-                    this.errorFields[i].forEach(err => {
-                        this.errors.push(err);
-                    });
-                }
-
-                this.single = false;
+                let _validate = validate(data, constraints);
+                let keys = [...Object.keys(data), ...Object.keys(constraints), ...Object.keys(_validate||{})];
+                keys.forEach(k => this[k] = _validate? _validate[k]: []);
+                this._validate = _validate;
             }
 
             test(field) {
-                return this.errorFields[field] || [];
+                // return this.errorFields[field] || [];
+            }
+
+            valid() {
+                return !this.invalid();
+            }
+
+            invalid() {
+                return !!this._validate;
+            }
+
+            errors() {
+                if (!this._validate) return [];
+
+                let errors = [];
+                for(let i in this._validate) {
+                    this._validate[i].forEach(err => {
+                        errors.push(err);
+                    });
+                }
+                return errors;
             }
         })(data, constraints);
     },

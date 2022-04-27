@@ -32,7 +32,7 @@
 			</template>
 			
 			<template #actions="{value}">
-				<ui-form method="post" action="/api/emails-templates/test/" :value="{id:value.id}" #default="form" @success="modalTest=$event">
+				<ui-form method="post" action="/api/emails-templates/test/" :params="{id:value.id}" #default="form" @success="modalTest=$event">
 					<button type="button" class="btn btn-primary w-100" @click="form.submit()" v-loading="form.loading">
 						Testar
 					</button>

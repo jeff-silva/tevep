@@ -1,40 +1,25 @@
 <template>
-    <form action="" @submit.prevent="submit()" @change="formChangeHandler($event)" ref="form" v-if="tag=='form'">
-        <slot
-            :value="value"
-            :loading="loading"
-            :validate="validate"
-            :response="response"
-            :error="error"
-            :submit="submit"
-        ></slot>
+    <form :action="action" @submit.prevent="submit()" @change="formChangeHandler($event)" ref="form" v-if="tag=='form'">
+        <slot v-bind="slotBind()"></slot>
     </form>
 
     <component v-else :is="tag">
-        <slot
-            :value="value"
-            :loading="loading"
-            :validate="validate"
-            :response="response"
-            :error="error"
-            :submit="submit"
-        ></slot>
+        <slot v-bind="slotBind()"></slot>
     </component>
 </template>
 
 <script>
 export default {
     props: {
-        value: [Boolean, Object],
+        value: {type:[Boolean, Object], default:()=>({})},
         method: {default:"get"},
         action: {default:""},
         mountedSubmit: {default:false, type:Boolean},
         successText: {default:""},
-        preventMessage: {default:"Formulário sofreu alterações, deseja prosseguir?", type:[Boolean, String]},
+        // preventMessage: {default:"Formulário sofreu alterações, deseja prosseguir?", type:[Boolean, String]},
         tag: {default:"form"},
-        findAction: {default:false, type:[Boolean, String]},
-        findOnMounted: {default:false, type:[Boolean, String]},
         validationRules: {default:false, type:[Boolean, Object, Function]},
+        params: {type:Object, default:()=>({})},
     },
 
     computed: {
@@ -48,52 +33,63 @@ export default {
                 constraints = this.validationRules;
             }
 
-            return this.$helpers.validate(this.value, constraints||{});
+            return this.$helpers.validate(this.params, constraints||{});
         },
     },
 
     data() {
         return {
             loading: false,
-            response: {},
+            response: {
+                current_page: 1,
+                path: false,
+                to: 0,
+                total: 0,
+                data: [],
+                params: [],
+                attributes: [],
+            },
             error: false,
             formChanged: false,
         };
     },
 
     methods: {
+        slotBind() {
+            return {
+                loading: this.loading,
+                params: this.params,
+                validate: this.validate,
+                error: this.error,
+                response: this.response,
+                submit: this.submit,
+            };
+        },
+
         submit() {
             let method=this.method, url=this.action, data=null, params=null;
             let headers = {'Content-Type': 'multipart/form-data' };
 
             if (this.method=="post") {
+                data = new FormData();
 
-                const jsonToFormData = (data, parentName=false, formData=false) => {
-                    formData = formData || new FormData();
-                    for(let k in data) {
-                        let value = data[k];
-                        k = parentName? `${parentName}[${k}]`: k;
+                for(let i in this.value) {
+                    let value = this.value[i];
 
-                        if (value && value.constructor.name=="Object") {
-                            value = JSON.stringify(value);
-                        }
-                        else if (value && value.constructor.name=="Array") {
-                            value = JSON.stringify(value);
-                        }
-                        
-                        formData.append(k, value);
+                    if (typeof value=="object") {
+                        value = JSON.stringify(value);
                     }
-                    return formData;
-                };
 
-                data = jsonToFormData(this.value);
+                    formData.append(i, value);
+                }
             }
             else {
-                params = this.value;
+                params = this.params;
             }
 
             this.loading = true;
             this.error = false;
+            this.$emit('input', this.slotBind());
             
             let axios = this.$axios({ method, url, data, params, headers }).then(resp => {
                 let respData = this.parseResponseData(resp.data);
@@ -101,6 +97,7 @@ export default {
                 this.response = respData;
                 this.$emit('success', respData);
                 this.$emit('response', respData);
+                this.$emit('input', this.slotBind());
                 if (this.successText) {
                     this.$swal.fire(this.successText);
                 }
@@ -111,6 +108,7 @@ export default {
                 this.validate.errorFields = respData.fields;
                 this.$emit('error', respData);
                 this.$emit('response', respData);
+                this.$emit('input', this.slotBind());
             });
 
             return axios;
@@ -119,6 +117,7 @@ export default {
         formChangeHandler(ev) {
             this.formChanged = true;
             this.$emit('change', {});
+            this.$emit('input', this.slotBind());
         },
 
         parseResponseData(respData) {
@@ -137,29 +136,12 @@ export default {
         //     (ev || window.event).returnValue = this.preventMessage;
         //     return this.preventMessage;
         // },
-
-        findOnMountedHandler() {
-            if (!this.findOnMounted || !this.findAction) return;
-            ((typeof this.findAction=='object')? this.$axios(this.findAction): this.$axios.get(this.findAction))
-                .then(resp => {
-                    let respData = this.parseResponseData(resp.data);
-                    this.$emit('input', respData);
-                    this.$emit('value', respData);
-                    this.$emit('find', respData);
-                })
-                .catch(err => {
-                    let respData = this.parseResponseData(err.response.data);
-                    this.$emit('input', {});
-                    this.$emit('value', {});
-                    this.$emit('find', {});
-                });
-        },
     },
 
     mounted() {
         // window.addEventListener("beforeunload", this.onBeforeunload);
         if (this.mountedSubmit) { this.submit(); }
-        this.findOnMountedHandler();
+        this.$emit('input', this.slotBind());
     },
 
     beforeDestroy() {

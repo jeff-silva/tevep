@@ -2,7 +2,7 @@
     <div>
         <ui-form method="post"
             action="/api/auth/register"
-            v-model="post"
+            :params="post"
             #default="{loading, response, validate}"
             @success="post={}"
         >

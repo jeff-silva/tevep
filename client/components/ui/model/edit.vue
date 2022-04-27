@@ -1,38 +1,44 @@
 <template>
     <ui-form method="post"
         :action="`/api/${modelName}/save`"
-        v-model="props.value"
+        :params="props.value"
         #default="{loading, error, validate}"
         @success="onSuccess"
         :validationRules="validationRules"
     >
-        <div class="ui-model-edit-fields bg-white p-3 shadow-sm">
-            <el-collapse-transition>
-                <div class="alert alert-danger" v-if="error">
-                    <a href="javascript:;" class="float-end text-danger fw-bold" @click="error=false">
-                        <i class="fas fa-fw fa-times"></i>
-                    </a>
-                    <div v-html="error"></div>
+        <div class="row">
+            <div class="col-12 col-md-9">
+                <div class="bg-white p-3">
+                    <el-collapse-transition>
+                        <div class="alert alert-danger" v-if="error">
+                            <a href="javascript:;" class="float-end text-danger fw-bold" @click="error=false">
+                                <i class="fas fa-fw fa-times"></i>
+                            </a>
+                            <div v-html="error"></div>
+                        </div>
+                    </el-collapse-transition>
+    
+                    <slot :value="props.value" :loading="loading" :error="error" :validate="validate"></slot>
                 </div>
-            </el-collapse-transition>
+            </div>
 
-            <slot :value="props.value" :loading="loading" :error="error" :validate="validate"></slot>
-        </div>
-
-        <div class="ui-model-edit-actions d-flex align-items-center justify-content-end bg-white shadow-sm py-2 mt-md-3 p-md-3" v-if="showActions">
-            <slot name="actions" :value="props.value" :loading="loading" :error="error" :validate="validate"></slot>
-
-            <nuxt-link :to="`/admin/${modelName}/new`" class="btn btn-light" v-if="props.value.id">
-                Criar {{ singular }}
-            </nuxt-link>
-
-            <nuxt-link :to="backUrl" class="btn btn-light">
-                Voltar
-            </nuxt-link>
-
-            <button type="submit" class="btn btn-primary" v-loading="loading" :disabled="validate.invalid">
-                Salvar
-            </button>
+            <div class="col-12 col-md-3 mt-3 mt-md-0">
+                <div class="bg-white p-3">
+                    <slot name="actions" :value="props.value" :loading="loading" :error="error" :validate="validate"></slot>
+    
+                    <nuxt-link :to="`/admin/${modelName}/new`" class="btn btn-light w-100" v-if="props.value.id">
+                        Criar {{ singular }}
+                    </nuxt-link>
+    
+                    <nuxt-link :to="backUrl" class="btn btn-light w-100 mt-3">
+                        Voltar
+                    </nuxt-link>
+    
+                    <button type="submit" class="btn btn-primary w-100 mt-3" v-loading="loading" :disabled="validate.invalid">
+                        Salvar
+                    </button>
+                </div>
+            </div>
         </div>
     </ui-form>
 </template>
@@ -130,31 +136,3 @@ export default {
     },
 }
 </script>
-
-
-<style>
-@media (max-width: 768px) {
-    .ui-model-edit-fields {
-        margin-bottom: 50px;
-    }
-
-    .ui-model-edit-actions {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        display: flex;
-    }
-
-    .ui-model-edit-actions > * {
-        flex-basis: 100%;
-        text-align: center;
-        margin-left: 2px;
-        margin-right: 2px;
-    }
-}
-
-.ui-model-edit-actions > * {
-    margin-left: 5px;
-}
-</style>

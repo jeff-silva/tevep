@@ -1,30 +1,39 @@
 <template>
-    <div class="p-5">
-        <ui-form v-model="test" :validation-rules="validationRules" #default="f">
-            <ui-field label="Nome" :validate="f.validate.test('name')" info="Isso é uma informação">
-                <input type="text" class="form-control" v-model="test.name">
-            </ui-field>
+    <div>
+        <ui-form
+            action="/api/places/search"
+            :params="placesParams"
+            v-model="places"
+            :validation-rules="validationRules"
+            :mounted-submit="true"
+            #default="f"
+        >
+            <div class="input-group">
+                <input type="text" class="form-control" v-model="placesParams.q">
+                <select class="form-control" v-model="placesParams.country_short" @change="f.submit()">
+                    <option value="">Qualquer país</option>
+                    <option :value="p.country_short" v-for="p in (f.response.attributes && f.response.attributes.countries)">
+                        {{ p.country }}
+                    </option>
+                </select>
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary" @click="f.submit()" :disabled="f.validate.invalid()">
+                        <i class="fa fa-fw fa-spin fa-spinner" v-if="f.loading"></i>
+                        <i class="fa fa-fw fa-search" v-else></i>
+                    </button>
+                </div>
+            </div>
 
-            <ui-field label="E-mail" :validate="f.validate.test('email')">
-                <input type="text" class="form-control" v-model="test.email">
-            </ui-field>
+            <div>{{ f.response.total }} locais encontrados</div>
 
-            <hr>
-
-            <ui-field label="Nome" :validate="f.validate.test('name')">
-                <input type="text" class="form-control" v-model="test.name">
-            </ui-field>
-
-            <ui-field label="E-mail" :validate="f.validate.test('email')">
-                <input type="text" class="form-control" v-model="test.email">
-            </ui-field>
-
-            <button type="submit" class="btn btn-primary" :disabled="f.validate.invalid">
-                Enviar
-            </button>
-
-            <pre>f: {{ f }}</pre>
-            <pre>$data: {{ $data }}</pre>
+            <div class="row g-0">
+                <div class="col-6">
+                    <pre>f: {{ f }}</pre>
+                </div>
+                <div class="col-6">
+                    <pre>places: {{ places }}</pre>
+                </div>
+            </div>
         </ui-form>
     </div>
 </template>
@@ -41,10 +50,10 @@ export default {
 
     data() {
         return {
-            test: {},
+            placesParams: {q:""},
+            places: {},
             validationRules: {
-                name: {presence:{allowEmpty: false}},
-                email: {presence:{allowEmpty: false}, email:true},
+                q: {presence:{allowEmpty: false}},
             },
         };
     },

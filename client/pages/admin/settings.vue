@@ -1,6 +1,6 @@
 <template>
     <div class="admin-settings bg-white">
-        <ui-form method="post" action="/api/settings/save" v-model="settings" #default="{loading, response}" @success="onSuccess">
+        <ui-form method="post" action="/api/settings/save" :params="settings" #default="{loading, response}" @success="onSuccess">
             <el-tabs :value="$route.path" @tab-click="$router.push($event.name)">
                 <el-tab-pane :label="n.label" :name="n.to" :key="n.to" v-for="n in navItems">
                     &nbsp;

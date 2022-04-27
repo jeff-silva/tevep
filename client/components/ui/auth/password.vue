@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ui-form method="post" action="/api/auth/password-reset-start" v-model="post" v-if="step=='email'" @success="step='token'" #default="{loading, error, validate}">
+        <ui-form method="post" action="/api/auth/password-reset-start" :params="post" v-if="step=='email'" @success="step='token'" #default="{loading, error, validate}">
             <ui-field label="Informe seu e-mail" :validate="validate.test('email')">
                 <div class="input-group">
                     <input type="text" class="form-control" v-model="post.email" placeholder="seu@email.com">
@@ -13,7 +13,7 @@
             </ui-field>
         </ui-form>
 
-        <ui-form method="post" action="/api/auth/password-reset-change" v-model="post" @success="step='success'" #default="{loading}" v-else>
+        <ui-form method="post" action="/api/auth/password-reset-change" :params="post" @success="step='success'" #default="{loading}" v-else>
             <ui-field label="Informe o token recebido" :error="error" v-if="step=='token'">
                 <div class="input-group">
                     <input type="text" class="form-control" v-model="post.token" placeholder="Informe o código recebido" @keydown.enter.prevent="step='password'">

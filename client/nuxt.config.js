@@ -25,7 +25,8 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/icon.png' }
     ],
     // script: [
-    //   {src: "/assets/app.js", defer:true},
+    //   {src: "https://unpkg.com/@vueuse/shared", body:true, defer:true},
+    //   {src: "https://unpkg.com/@vueuse/core", body:true, defer:true},
     // ],
   },
 
@@ -50,7 +51,9 @@ export default {
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
+  buildModules: [
+    
+  ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -62,6 +65,9 @@ export default {
       manifest: {lang: 'en'},
       icon: {source:'~/static/icon.png'},
     }],
+
+    // https://vueuse.org/guide/
+    ['@vueuse/nuxt', {}],
 
     // https://github.com/nuxt-community/google-gtag-module
     ['@nuxtjs/google-gtag', {
