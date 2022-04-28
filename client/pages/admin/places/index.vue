@@ -4,6 +4,7 @@
 		singular="Item"
 		plural="Itens"
 		:actions-except="['clone', 'delete']"
+		@response="handleFormResponse($event)"
 	>
 		<template #table-header>
 			<th data-orderby="name">Nome</th>
@@ -15,22 +16,31 @@
 			<td>{{ [item.city, item.state_short, item.country].filter(item => item).join('/') }}</td>
 		</template>
 
-		<template #search-fields="{ response, searchParams }">
+		<template #search-fields="bind">
 			<ui-field label="País">
-				<select class="form-control" v-model="searchParams.country_short">
+				<select class="form-control" v-model="bind.params.country_short">
 					<option :value="null">País</option>
-					<option :value="a.country_short" v-for="a in (response.attributes && response.attributes.countries)">
+					<option :value="a.country_short" v-for="a in bind.response.attributes.countries||[]">
 						{{ a.country }}
 					</option>
 				</select>
 			</ui-field>
 			
-			<ui-field label="Estado" v-if="response.attributes && response.attributes.states && response.attributes.states.length">
-				<label class="d-flex align-items-center" v-for="a in (response.attributes && response.attributes.states)">
-					<input type="checkbox" class="form-control" v-model="searchParams.state_short" :true-value="a.state_short" :false-value="null">
+			<ui-field label="Estado" v-if="bind.response.attributes.states && bind.response.attributes.states.length">
+				<label class="d-flex align-items-center" v-for="a in (bind.response.attributes && bind.response.attributes.states)">
+					<input type="checkbox" class="form-control" v-model="bind.params.state_short" :true-value="a.state_short" :false-value="null">
 					<span class="ms-2">{{ a.state }}</span>
 				</label>
 			</ui-field>
+		</template>
+
+		<template #resume="resume">
+			<template v-if="resume.response && resume.response.data && resume.response.data[0]">
+				<l-map ref="map" style="height:300px;">
+					<l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+					<l-marker :lat-lng="[p.lat, p.lng]" v-for="p in resume.response.data" :key="p.id"></l-marker>
+				</l-map>
+			</template>
 		</template>
 	</ui-model-search>
 </template>
@@ -41,6 +51,16 @@ export default {
 		return {
 			title: "Buscar endereços",
 		};
+	},
+
+	methods: {
+		handleFormResponse(ev) {
+			setTimeout(() => {
+				if (!this.$refs.map) return;
+				let bounds = new L.LatLngBounds(ev.data.map(place => [place.lat, place.lng]));
+				this.$refs.map.mapObject.fitBounds(bounds);
+			}, 100);
+		},
 	},
 }
 </script>

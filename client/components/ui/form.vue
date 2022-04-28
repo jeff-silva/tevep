@@ -74,14 +74,14 @@ export default {
             if (this.method=="post") {
                 data = new FormData();
 
-                for(let i in this.value) {
-                    let value = this.value[i];
+                for(let i in this.params) {
+                    let value = this.params[i];
 
                     if (typeof value=="object") {
                         value = JSON.stringify(value);
                     }
 
-                    formData.append(i, value);
+                    data.append(i, value);
                 }
             }
             else {

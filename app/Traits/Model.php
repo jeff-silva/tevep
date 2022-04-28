@@ -11,7 +11,6 @@ trait Model
         });
 
         static::saving(function($model) {
-            // dd(request('content'));
             $model->modelMutator();
 
             if (in_array('slug', $model->getFillable())) {

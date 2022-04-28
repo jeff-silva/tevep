@@ -1,12 +1,16 @@
 <template>
-    <ui-form ref="search" method="get"
+    <ui-form
+        ref="search"
+        class="ui-model-search"
+        method="get"
         :action="`/api/${modelName}/search`"
         :params="searchParams"
-        #default="{loading, response}"
         :mounted-submit="true"
-        @response="searchParamsUrl()"
-        class="ui-model-search"
         @change="submit()"
+        @success="handleFormSuccess($event)"
+        @response="handleFormResponse($event)"
+        @error="handleFormError($event)"
+        #default="uiFormBind"
     >
 
         <!-- <ui-teleport-to :to="$refs.bbb||false">
@@ -33,6 +37,12 @@
         </div> -->
 
         <div class="row">
+            <div class="col-12 mb-3">
+                <div class="p-3 bg-white shadow-sm">
+                    <slot name="resume" v-bind="uiFormBind"></slot>
+                </div>
+            </div>
+
             <div class="col-12 col-md-9 pt-3 pt-md-0 ps-md-3">
                 <div class="bg-white shadow-sm">
                     <div style="position:relative; overflow:auto;">
@@ -40,9 +50,9 @@
                             <thead>
                                 <tr>
                                     <th width="30px">
-                                        <input type="checkbox" class="form-control" @click="selecteds=$event.target.checked? response.data.map(item => item.id): [];">
+                                        <input type="checkbox" class="form-control" @click="selecteds=$event.target.checked? uiFormBind.response.data.map(item => item.id): [];">
                                     </th>
-                                    <slot name="table-header">
+                                    <slot name="table-header" v-bind="uiFormBind">
                                         <th>-</th>
                                     </slot>
                                     <th width="10px" style="position:sticky; right:0;"></th>
@@ -52,20 +62,20 @@
                             <tbody>
             
                                 <!-- Empty -->
-                                <tr v-if="response && response.data && response.data.length==0">
-                                    <slot name="table-empty">
+                                <tr v-if="uiFormBind.response && uiFormBind.response.data && uiFormBind.response.data.length==0">
+                                    <slot name="table-empty" v-bind="uiFormBind">
                                         <td class="text-center py-3" colspan="10">
                                             Nenhum item encontrado
                                         </td>
                                     </slot>
                                 </tr>
             
-                                <tr v-for="i in response.data">
+                                <tr v-for="i in uiFormBind.response.data">
                                     <td>
                                         <input type="checkbox" class="form-control" :value="i.id" v-model="selecteds">
                                     </td>
                                     
-                                    <slot name="table-row" :item="i">
+                                    <slot name="table-row" v-bind="{...uiFormBind, item:i}">
                                         <td>{{ i }}</td>
                                     </slot>
         
@@ -74,9 +84,9 @@
                                             <i class="fas fa-ellipsis-v"></i>
                                         </a> -->
                                         <div style="white-space:nowrap;">
-                                            <slot name="table-actions" :item="i"></slot>
+                                            <slot name="table-actions" v-bind="{...uiFormBind, item:i}"></slot>
                                             <template v-if="tableActions">
-                                                <slot name="table-actions-default" :item="i">
+                                                <slot name="table-actions-default" v-bind="{...uiFormBind, item:i}">
                                                     <nuxt-link :to="`/admin/${modelName}/${i.id}`" class="btn btn-primary" v-if="actionsExcept.indexOf('edit')<0">
                                                         <i class="fas fa-fw fa-pen text-white"></i>
                                                     </nuxt-link>
@@ -108,7 +118,7 @@
                             :current-page.sync="searchParams.page"
                             :page-size.sync="searchParams.per_page"
                             :pager-count="11"
-                            :total="(response? response.total: 0)"
+                            :total="(uiFormBind.response? uiFormBind.response.total: 0)"
                             :page-sizes="[5, 10, 25, 50, 100]"
                             @size-change="submit()"
                             @current-change="submit()"
@@ -139,10 +149,10 @@
                                 </select>
                             </ui-field>
         
-                            <slot name="search-fields" v-bind="{searchParams, response}"></slot>
+                            <slot name="search-fields" v-bind="uiFormBind"></slot>
                         </div>
             
-                        <button type="submit" class="btn btn-primary shadow-none w-100" v-loading="loading" :disabled="loading">
+                        <button type="submit" class="btn btn-primary shadow-none w-100" v-loading="uiFormBind.loading" :disabled="uiFormBind.loading">
                             <i class="fas fa-fw fa-search"></i> Buscar
                         </button>
         
@@ -181,7 +191,7 @@
                             </a>
                         </transition>
         
-                        <slot name="search-actions"></slot>
+                        <slot name="search-actions" v-bind="uiFormBind"></slot>
                     </ui-mobile-action>
                 </div>
             </div>
@@ -316,6 +326,19 @@ export default {
                     this.submit();
                 });
             });
+        },
+
+        handleFormSuccess(ev) {
+            this.$emit('success', ev);
+        },
+        
+        handleFormResponse(ev) {
+            this.searchParamsUrl();
+            this.$emit('response', ev);
+        },
+        
+        handleFormError(ev) {
+            this.$emit('error', ev);
         },
     },
 

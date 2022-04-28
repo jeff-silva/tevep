@@ -41,6 +41,8 @@ class Places extends \Illuminate\Database\Eloquent\Model
 
 	public function modelMutator()
 	{
+		$this->lat = floatval($this->lat ?? 0);
+		$this->lng = floatval($this->lng ?? 0);
 		$this->country_short = strtoupper($this->country_short);
 		$this->state_short = strtoupper($this->state_short);
 		$this->formatted = implode(array_filter([
@@ -71,11 +73,16 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	{
 		$params = (object) $this->searchParamsDefault($params);
 
-		$attrs['countries'] = self::select(['country', 'country_short'])->distinct()->orderBy('country', 'asc')->get();
+		$attrs['countries'] = self::select(['country', 'country_short'])
+			->notEmpty('country_short')
+			->distinct()
+			->orderBy('country', 'asc')
+			->get();
 
 		$attrs['states'] = [];
 		if ($params->country_short) {
 			$attrs['states'] = self::select(['state', 'state_short'])
+				->notEmpty('state_short')
 				->where('country_short', $params->country_short)
 				->distinct()->get();
 		}
