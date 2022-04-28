@@ -17,10 +17,10 @@
 <!-- /client/components/ui-form.vue -->
 
 <ui-form
- method="post"
- action="/api/products/save"
- v-model="product"
- #default="form"
+    method="post"
+    action="/api/products/save"
+    :params="product"
+    #default="form"
 >
  <!--
  Este componente apenas cria uma tag form com algumas funções a mais,

@@ -263,7 +263,7 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
   `district` varchar(100) DEFAULT NULL,
   `lat` decimal(10,8) DEFAULT NULL,
   `lng` decimal(11,8) DEFAULT NULL,
-  `city` varchar(20) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
   `state` varchar(20) DEFAULT NULL,
   `state_short` varchar(5) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
@@ -337,8 +337,8 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 
 // Create/Update column places.city
 \Schema::hasColumn('places', 'city')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `city` varchar(20) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `city` varchar(20) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `city` varchar(100) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `city` varchar(100) DEFAULT NULL");
 
 
 // Create/Update column places.state

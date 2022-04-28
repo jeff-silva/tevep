@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `places` (
   `district` varchar(100) DEFAULT NULL,
   `lat` decimal(10,8) DEFAULT NULL,
   `lng` decimal(11,8) DEFAULT NULL,
-  `city` varchar(20) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
   `state` varchar(20) DEFAULT NULL,
   `state_short` varchar(5) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,

@@ -35,12 +35,10 @@
 		</template>
 
 		<template #resume="resume">
-			<template v-if="resume.response && resume.response.data && resume.response.data[0]">
-				<l-map ref="map" style="height:300px;">
-					<l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-					<l-marker :lat-lng="[p.lat, p.lng]" v-for="p in resume.response.data" :key="p.id"></l-marker>
-				</l-map>
-			</template>
+			<l-map ref="map" style="height:300px;">
+				<l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+				<l-marker :lat-lng="[p.lat, p.lng]" v-for="p in resume.response.data" :key="p.id"></l-marker>
+			</l-map>
 		</template>
 	</ui-model-search>
 </template>
@@ -57,8 +55,9 @@ export default {
 		handleFormResponse(ev) {
 			setTimeout(() => {
 				if (!this.$refs.map) return;
-				let bounds = new L.LatLngBounds(ev.data.map(place => [place.lat, place.lng]));
-				this.$refs.map.mapObject.fitBounds(bounds);
+				let bounds = ev.data.map(place => [place.lat, place.lng]);
+				if (bounds.length==0) return;
+				this.$refs.map.mapObject.fitBounds(new L.LatLngBounds(bounds));
 			}, 100);
 		},
 	},
