@@ -4,12 +4,14 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "test": "node ./scripts/test.js"
   },
   "devDependencies": {
     "@vueuse/core": "^8.3.1",
     "@vueuse/nuxt": "^8.3.1",
     "axios": "^0.27.2",
+    "dotenv": "^16.0.0",
     "nuxt": "3.0.0-rc.1"
   }
 }

@@ -1,14 +1,22 @@
-import { useState } from '#app';
-import { onMounted } from 'vue';
-// import axios from 'axios';
+// import { useState } from '#app';
+import { ref } from 'vue';
+import axios from 'axios';
 
 export default async function(params={}) {
-    // const r = useAsync(() => axios(params));
-    // console.log(r);
-
-    onMounted(() => {
-        // console.log('vueAxios mounted', this);
+    const req = ref({
+        loading: false,
+        ...params,
+        resp: [],
     });
 
-    return useState('axios', () => false);
+    req.value.submit = () => {
+        req.value.loading = true;
+        axios(params).then(resp => {
+            req.value.loading = false;
+            req.value.resp = resp.data;
+        });
+    };
+
+    req.value.submit();
+    return req;
 }
