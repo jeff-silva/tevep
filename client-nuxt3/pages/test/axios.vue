@@ -4,7 +4,7 @@
         <hr>
 
         <div class="input-group">
-            <input type="number" class="form-control" v-model="users.params.results">
+            <input type="number" class="form-control" v-model="users.params.results" @keyup.enter="users.submit()">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-primary" @click="users.submit()">
                     {{ users.loading? 'Carregando': 'Buscar' }}
@@ -21,6 +21,7 @@
             </div>
         </div>
 
+        <pre>pages: {{ pages }}</pre>
     </nuxt-layout>
 </template>
 
@@ -29,4 +30,13 @@ const users = await useAxios({
     url: "https://randomuser.me/api/",
     params: {results:5},
 });
+
+users.value.submit();
+
+const pages = await useAxios({
+    url: "/api/pages/search",
+    params: {},
+});
+
+pages.value.submit();
 </script>

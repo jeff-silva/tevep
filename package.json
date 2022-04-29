@@ -2,7 +2,9 @@
     "private": true,
     "scripts": {
         "serve": "node client/scripts/serve.js",
-        "build": "node client/scripts/build.js"
+        "build": "node client/scripts/build.js",
+        "serve3": "node client-nuxt3/scripts/serve.js",
+        "build3": "node client-nuxt3/scripts/build.js"
     },
     "devDependencies": {
         "dotenv": "^16.0.0"

@@ -17,6 +17,5 @@ export default async function(params={}) {
         });
     };
 
-    req.value.submit();
     return req;
 }

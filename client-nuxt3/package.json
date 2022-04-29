@@ -5,7 +5,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "test": "node ./scripts/test.js"
+    "serve": "node ./scripts/serve.js",
+    "build2": "node ./scripts/build.js"
   },
   "devDependencies": {
     "@vueuse/core": "^8.3.1",

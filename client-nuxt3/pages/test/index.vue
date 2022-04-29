@@ -1,5 +1,7 @@
 <template>
-    <nuxt-layout name="test">
-        Test index
-    </nuxt-layout>
+    <div>
+        <nuxt-layout name="test">
+            Test index
+        </nuxt-layout>
+    </div>
 </template>
