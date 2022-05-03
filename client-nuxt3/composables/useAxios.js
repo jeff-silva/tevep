@@ -1,21 +1,22 @@
 // import { useState } from '#app';
 import { ref } from 'vue';
 import axios from 'axios';
-import { useAuthStore } from '@/stores/auth';
+import { useAppStore } from '@/stores/app';
+
 
 export default function(params={}) {
-    const auth = useAuthStore();
+    const app = useAppStore();
     
-    if (auth.token) {
+    if (app.access_token) {
         params.headers = params.headers || {};
-        params.headers['Authorization'] = `Bearer ${auth.token}`;
+        params.headers['Authorization'] = `Bearer ${app.access_token}`;
     }
 
-    if (params.url.startsWith('/api')) {
+    const isDev = process.env.NODE_ENV !== 'production';
+    if (isDev && params.url.startsWith('/api')) {
         params.url = `http://localhost:5001${params.url}`;
     }
 
-    console.log(params);
     const req = ref({
         loading: false,
         ...params,

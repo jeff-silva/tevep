@@ -12,7 +12,7 @@ class AppController extends Controller
 			'except' => ['test', 'script', 'info'],
 		]);
 
-		$this->route('get', '/info', 'info', [
+		$this->route('get', '/load', 'load', [
 			'description' => 'Informações e variáveis do sistema',
 		]);
 
@@ -69,9 +69,9 @@ class AppController extends Controller
 	}
 
 
-	public function info()
+	public function load()
 	{
-		$info = [];
+		$load = [];
 
 		if ($user = auth()->user()) {
 			// 
@@ -80,9 +80,9 @@ class AppController extends Controller
 			// 
 		}
 
-		$info['settings'] = \App\Models\Settings::getAll(false);
+		$load['settings'] = \App\Models\Settings::getAll(false);
 
-		return $info;
+		return $load;
 	}
 	
 	public function dashboard()
