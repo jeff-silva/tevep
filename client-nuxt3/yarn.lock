@@ -461,6 +461,13 @@
     "vite-node" "^0.9.3"
     "vite-plugin-checker" "^0.4.6"
 
+"@pinia/nuxt@^0.1.8":
+  "integrity" "sha512-+M1GH/4XQdooOulPL7aYzli6UE1R5rWJtgcPhx2/97yYRLhKZvuIT33OauUCjYZ+tQVs8lyKfzt6S2agqzcmWg=="
+  "resolved" "https://registry.npmjs.org/@pinia/nuxt/-/nuxt-0.1.8.tgz"
+  "version" "0.1.8"
+  dependencies:
+    "vue-demi" "*"
+
 "@rollup/plugin-alias@^3.1.9":
   "integrity" "sha512-QI5fsEvm9bDzt32k39wpOwZhVzRcL5ydcffUHMyLVaVaLeC70I8TJZ17F1z1eMoLu4E/UOcH9BWVkKpIKdrfiw=="
   "resolved" "https://registry.npmjs.org/@rollup/plugin-alias/-/plugin-alias-3.1.9.tgz"
@@ -694,7 +701,7 @@
     "@vue/compiler-dom" "3.2.33"
     "@vue/shared" "3.2.33"
 
-"@vue/devtools-api@^6.0.0":
+"@vue/devtools-api@^6.0.0", "@vue/devtools-api@^6.1.4":
   "integrity" "sha512-IiA0SvDrJEgXvVxjNkHPFfDx6SXw0b/TUkqMcDZWNg9fnCAHbTpoo59YfJ9QLFkwa3raau5vSlRVzMSLDnfdtQ=="
   "resolved" "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.1.4.tgz"
   "version" "6.1.4"
@@ -3388,6 +3395,14 @@
   "resolved" "https://registry.npmjs.org/pify/-/pify-2.3.0.tgz"
   "version" "2.3.0"
 
+"pinia@^2.0.13", "pinia@~2.0.9":
+  "integrity" "sha512-B7rSqm1xNpwcPMnqns8/gVBfbbi7lWTByzS6aPZ4JOXSJD4Y531rZHDCoYWBwLyHY/8hWnXljgiXp6rRyrofcw=="
+  "resolved" "https://registry.npmjs.org/pinia/-/pinia-2.0.13.tgz"
+  "version" "2.0.13"
+  dependencies:
+    "@vue/devtools-api" "^6.1.4"
+    "vue-demi" "*"
+
 "pkg-types@^0.3.2":
   "integrity" "sha512-eBYzX/7NYsQEOR2alWY4rnQB49G62oHzFpoi9Som56aUr8vB8UGcmcIia9v8fpBeuhH3Ltentuk2OGpp4IQV3Q=="
   "resolved" "https://registry.npmjs.org/pkg-types/-/pkg-types-0.3.2.tgz"
@@ -4670,7 +4685,7 @@
   dependencies:
     "@vue/devtools-api" "^6.0.0"
 
-"vue@^2.6.0 || ^3.2.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.33", "vue@>=3", "vue@3.2.33":
+"vue@^2.6.0 || ^3.2.0", "vue@^2.6.14 || ^3.2.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.33", "vue@>=3", "vue@3.2.33":
   "integrity" "sha512-si1ExAlDUrLSIg/V7D/GgA4twJwfsfgG+t9w10z38HhL/HA07132pUQ2KuwAo8qbCyMJ9e6OqrmWrOCr+jW7ZQ=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.33.tgz"
   "version" "3.2.33"

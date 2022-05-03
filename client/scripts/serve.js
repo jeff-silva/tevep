@@ -7,11 +7,10 @@ require('dotenv').config({
     path: path.join(__dirname, '../../.env')
 });
 
-let client = new URL(process.env.CLIENT_URL);
-client.port = client.port || 5000;
+let client = new URL(process.env.APP_URL);
 
 let app = new URL(process.env.APP_URL);
-app.port = app.port || 5001;
+app.port = ''+(parseInt(client.port)+1);
 
 const _command = function(dirname, command) {
     return new Promise((resolve, reject) => {

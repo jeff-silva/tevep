@@ -8,13 +8,8 @@ back.port = ''+(parseInt(back.port)+1);
 export default defineNuxtConfig({
     ssr: false,
 
-    proxy: {
-        'api': back.toString(),
-        'uploads': back.toString(),
-        'assets': back.toString(),
-    },
-
     buildModules: [
         '@vueuse/nuxt',
+        '@pinia/nuxt',
     ],
 })

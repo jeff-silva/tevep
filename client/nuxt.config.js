@@ -1,5 +1,8 @@
 require('dotenv').config({ path: '../.env' });
 
+let back = new URL(process.env.APP_URL);
+back.port = ''+(parseInt(back.port)+1);
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -7,9 +10,9 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
   proxy: {
-    '/api/': process.env.APP_URL,
-    '/uploads/': process.env.APP_URL,
-    '/assets/': process.env.APP_URL,
+    '/api/': back.toString(),
+    '/uploads/': back.toString(),
+    '/assets/': back.toString(),
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
