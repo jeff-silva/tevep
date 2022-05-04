@@ -9,7 +9,14 @@ export default defineNuxtConfig({
     ssr: false,
 
     buildModules: [
+
+        // https://vueuse.org/
         '@vueuse/nuxt',
+
+        // https://pinia.vuejs.org/
         '@pinia/nuxt',
+
+        // https://vuetifyjs.com/en/getting-started/installation/
+        // ['@nuxtjs/vuetify', {}],
     ],
-})
+});
