@@ -22,4 +22,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
     
     nuxtApp.provide('axios', axios);
+    nuxtApp.provide('log', function() {
+        Array.prototype.slice.call(arguments).forEach(item => {
+            console.log(item);
+        });
+    });
 });

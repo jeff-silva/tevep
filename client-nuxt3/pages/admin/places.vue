@@ -28,7 +28,7 @@
                         <v-col cols="4"><v-text-field class="ma-0" label="Estado" v-model="item.state"></v-text-field></v-col>
 
                         <v-col cols="12">
-                            <l-map ref="map" :zoom="21" :center="[(item.lat||0), (item.lng||0)]" style="height:350px;">
+                            <l-map ref="map" :zoom="18" :center="[(item.lat||0), (item.lng||0)]" style="height:350px;">
                                 <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
                                 <l-marker :lat-lng="[(item.lat||0), (item.lng||0)]" :draggable="false" @update:lat-lng="updateLatLng($event)"></l-marker>
                             </l-map>

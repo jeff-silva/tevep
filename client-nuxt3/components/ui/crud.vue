@@ -34,7 +34,6 @@
                     <div class="bg-white elevation-1">
                         <v-table
                             fixed-header
-                            density="compact"
                             class="ui-crud-search-table"    
                         >
                             <thead>
@@ -55,6 +54,7 @@
                                 <tr>
                                     <td
                                         colspan="100%"
+                                        class="px-0"
                                         style="height:3px; border:none;"
                                     >
                                         <v-progress-linear
@@ -75,7 +75,7 @@
                                         ></v-checkbox>
                                     </td>
                                     <slot name="search-table-item" v-bind="slotBind({item})"></slot>
-                                    <td>
+                                    <td class="py-1">
                                         <v-menu anchor="start">
                                             <template #activator="{ props }">
                                                 <v-btn icon="mdi-dots-vertical" v-bind="props" flat></v-btn>
@@ -129,6 +129,7 @@
 
             <v-bottom-navigation style="margin-left:-15px;">
                 <v-btn icon="mdi-magnify"></v-btn>
+                <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
 
                 <template v-if="selects.length">
                     <v-menu anchor="top">

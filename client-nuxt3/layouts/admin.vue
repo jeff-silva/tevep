@@ -58,19 +58,20 @@ export default {
         return {
             navItems: [
                 {to: '/admin', icon :'mdi-view-dashboard', label :'Dashboard'},
-                {to: '/admin', icon :'mdi-view-dashboard', label :'Teveps', children: [
+                {icon :'mdi-view-dashboard', label :'Teveps', children: [
                     {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/teveps'},
                     {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/teveps?id=new'},
                 ]},
-                {to: '/admin', icon :'mdi-view-dashboard', label :'Páginas', children: [
+                {icon :'mdi-view-dashboard', label :'Páginas', children: [
                     {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/pages'},
                     {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/pages?id=new'},
                 ]},
-                {to: '/admin/users', icon :'mdi-view-dashboard', label :'Usuários', children: [
+                {icon :'mdi-view-dashboard', label :'Usuários', children: [
                     {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/users'},
                     {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/users?id=new'},
                 ]},
-                {to: '/admin', icon :'mdi-view-dashboard', label :'Configurações', children: [
+                {icon :'mdi-view-dashboard', label :'Configurações', children: [
+                    {to: '/admin/settings', icon :'file-search-outline', label :'Configurações'},
                     {to: '/admin/files', icon :'file-search-outline', label :'Arquivos'},
                     {to: '/admin/places', icon :'file-search-outline', label :'Endereços'},
                 ]},
