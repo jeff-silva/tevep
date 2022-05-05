@@ -1,25 +1,25 @@
 <template>
     <form action="">
-        <ui-field label="Nome">
-            <input type="text" class="form-control">
-        </ui-field>
-        
-        <ui-field label="Email">
-            <input type="text" class="form-control">
-        </ui-field>
+        <v-text-field label="Nome"
+            variant="underlined"
+        ></v-text-field>
 
-        <ui-field label="Senha">
-            <input type="text" class="form-control">
-        </ui-field>
-        
-        <ui-field label="Repita senha">
-            <input type="text" class="form-control">
-        </ui-field>
+        <v-text-field label="E-mail"
+            variant="underlined"
+        ></v-text-field>
+
+        <v-text-field label="Senha"
+            variant="underlined"
+        ></v-text-field>
+
+        <v-text-field label="Repita senha"
+            variant="underlined"
+        ></v-text-field>
 
         <div class="text-end">
-            <button type="submit" class="btn btn-primary">
+            <v-btn color="primary" type="submit">
                 Login
-            </button>
+            </v-btn>
         </div>
     </form>
 </template>

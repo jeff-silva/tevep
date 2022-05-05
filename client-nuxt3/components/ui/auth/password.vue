@@ -1,13 +1,13 @@
 <template>
     <form action="">
-        <ui-field label="Email">
-            <input type="text" class="form-control">
-        </ui-field>
+        <v-text-field label="E-mail"
+            variant="underlined"
+        ></v-text-field>
 
         <div class="text-end">
-            <button type="submit" class="btn btn-primary">
-                Enviar código
-            </button>
+            <v-btn color="primary" type="submit">
+                Login
+            </v-btn>
         </div>
     </form>
 </template>
