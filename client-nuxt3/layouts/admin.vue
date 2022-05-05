@@ -7,18 +7,18 @@
         <v-app>
             <v-navigation-drawer app>
                 <v-list>
-                    <v-list-item class="px-2">
+                    <!-- <v-list-item class="px-2">
                         <v-list-item-avatar>
-                        <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
+                            <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
                         </v-list-item-avatar>
-                    </v-list-item>
+                    </v-list-item> -->
 
                     <v-list-item link>
                         <v-list-item-content>
-                        <v-list-item-title class="text-h6">
-                            Sandra Adams
-                        </v-list-item-title>
-                        <v-list-item-subtitle>sandra_a88@gmail.com</v-list-item-subtitle>
+                            <v-list-item-title class="text-h6">
+                                {{ app.user.name }}
+                            </v-list-item-title>
+                            <v-list-item-subtitle>{{ app.user.email }}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
@@ -33,15 +33,11 @@
             </v-app-bar>
 
             <!-- Sizes your content based upon application components -->
-            <v-main>
+            <v-main style="background:#f5f5f5;">
                 <v-container fluid>
                     <slot></slot>
                 </v-container>
             </v-main>
-
-            <v-bottom-navigation>
-                <slot name="actions"></slot>
-            </v-bottom-navigation>
 
             <!-- <v-footer app>
                 Footer
@@ -62,16 +58,24 @@ export default {
         return {
             navItems: [
                 {to: '/admin', icon :'mdi-view-dashboard', label :'Dashboard'},
-                {label: 'Locais', icon: 'mdi-view-dashboard', children: [
-                    {label: 'Brasil', icon: 'mdi-view-dashboard', children: [
-                        {label: 'Minas Gerais', icon: 'mdi-view-dashboard', children: [
-                            {label: 'Belo Horizonte', icon: 'mdi-view-dashboard', to:'?page=belo-horizonte', children: []},
-                        ]},
-                        {label: 'Varginha', icon: 'mdi-view-dashboard', to:'?page=varginha', children: []},
-                    ]},
-                    {label: 'Argentina', to:'?page=argentina', children: []},
+                {to: '/admin', icon :'mdi-view-dashboard', label :'Teveps', children: [
+                    {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/teveps'},
+                    {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/teveps?id=new'},
+                ]},
+                {to: '/admin', icon :'mdi-view-dashboard', label :'Páginas', children: [
+                    {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/pages'},
+                    {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/pages?id=new'},
+                ]},
+                {to: '/admin/users', icon :'mdi-view-dashboard', label :'Usuários', children: [
+                    {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/users'},
+                    {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/users?id=new'},
+                ]},
+                {to: '/admin', icon :'mdi-view-dashboard', label :'Configurações', children: [
+                    {to: '/admin/files', icon :'file-search-outline', label :'Arquivos'},
+                    {to: '/admin/places', icon :'file-search-outline', label :'Endereços'},
                 ]},
             ],
+            app: useApp(),
         };
     },
 }

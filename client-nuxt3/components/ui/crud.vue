@@ -1,0 +1,235 @@
+<template>
+    <div>
+        <!-- Edit -->
+        <div v-if="$route.query.id">
+            <div class="v-row">
+                <div class="v-col-9">
+                    <v-card prepend-icon="mdi-pencil" v-if="edit">
+                        <template #title>{{ edit.id? 'Editar': 'Criar' }}</template>
+                        <v-card-text>
+                            <slot name="edit-fields" v-bind="slotBind({item:edit})"></slot>
+                        </v-card-text>
+                    </v-card>
+                </div>
+                <div class="v-col-3">
+                    <v-card>
+                        <v-card-header>
+                            Aaa
+                        </v-card-header>
+                    </v-card>
+                </div>
+            </div>
+
+            <v-bottom-navigation style="margin-left:-15px;">
+                <v-btn icon="mdi-close" @click="navigateBack()"></v-btn>
+                <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
+                <v-btn icon="mdi-content-save"></v-btn>
+            </v-bottom-navigation>
+        </div>
+
+        <!-- Search -->
+        <div v-if="!$route.query.id">
+            <v-row>
+                <v-col cols="12" lg="9">
+                    <div class="bg-white elevation-1">
+                        <v-table
+                            fixed-header
+                            density="compact"
+                            class="ui-crud-search-table"    
+                        >
+                            <thead>
+                                <tr class="text-uppercase">
+                                    <th class="pe-0" width="30px">
+                                        <v-checkbox
+                                            @click="selectAll($event.target.checked)"
+                                            :hide-details="true"
+                                            class="mx-auto"
+                                        ></v-checkbox>
+                                    </th>
+                                    <slot name="search-table-header" v-bind="slotBind()"></slot>
+                                    <th width="50px"></th>
+                                </tr>
+                            </thead>
+        
+                            <tbody>
+                                <tr>
+                                    <td
+                                        colspan="100%"
+                                        style="height:3px; border:none;"
+                                    >
+                                        <v-progress-linear
+                                            indeterminate
+                                            color="primary"
+                                            height="3"
+                                            v-if="search.loading"
+                                        ></v-progress-linear>
+                                    </td>
+                                </tr>
+                                <tr v-for="item in search.resp.data" v-if="search.resp && search.resp.data">
+                                    <td class="pe-0">
+                                        <v-checkbox
+                                            v-model="selects"
+                                            :value="item.id"
+                                            :hide-details="true"
+                                            class="mx-auto"
+                                        ></v-checkbox>
+                                    </td>
+                                    <slot name="search-table-item" v-bind="slotBind({item})"></slot>
+                                    <td>
+                                        <v-menu anchor="start">
+                                            <template #activator="{ props }">
+                                                <v-btn icon="mdi-dots-vertical" v-bind="props" flat></v-btn>
+                                            </template>
+        
+                                            <div class="search-table-item-actions">
+                                                <slot name="search-table-item-actions"></slot>
+                                                <template v-if="!actionsExcept.includes('edit')">
+                                                    <v-btn icon="mdi-pencil" :to="`/admin/${namespace}?id=${item.id}`"></v-btn>
+                                                </template>
+                                                <template v-if="!actionsExcept.includes('delete')">
+                                                    <v-btn icon="mdi-delete"></v-btn>
+                                                </template>
+                                                <template v-if="!actionsExcept.includes('clone')">
+                                                    <v-btn icon="mdi-content-copy"></v-btn>
+                                                </template>
+                                            </div>
+                                        </v-menu>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </v-table>
+
+                        <v-divider></v-divider>
+        
+                        <v-pagination
+                            v-if="search.resp && search.resp.last_page"
+                            v-model="search.params.page"
+                            :length="search.resp.last_page"
+                            @update:modelValue="search.submit()"
+                        ></v-pagination>
+                    </div>
+                </v-col>
+    
+                <v-col cols="12" lg="3">
+                    <v-card>
+                        <v-card-header>
+                            <div>Busca</div>
+                        </v-card-header>
+                        <v-card-text>
+                            <form @submit.prevent="search.submit()">
+                                <v-text-field label="Buscar" v-model="search.params.q"></v-text-field>
+                                <v-btn type="submit" color="primary" block :disabled="search.loading">
+                                    {{ search.loading? 'Carregando': 'Buscar' }}
+                                </v-btn>
+                            </form>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+
+            <v-bottom-navigation style="margin-left:-15px;">
+                <v-btn icon="mdi-magnify"></v-btn>
+
+                <template v-if="selects.length">
+                    <v-menu anchor="top">
+                        <template #activator="{ props }">
+                            <v-btn icon="mdi-download"></v-btn>
+                        </template>
+
+                        <v-list>
+                            <v-list-item title="CSV"></v-list-item>
+                            <v-list-item title="HTML"></v-list-item>
+                            <v-list-item title="Excel"></v-list-item>
+                        </v-list>
+                    </v-menu>
+
+                    <v-btn icon="mdi-delete"></v-btn>
+                </template>
+            </v-bottom-navigation>
+        </div>
+    </div>
+</template>
+
+<style>
+.search-table-item-actions {
+    max-width: 300px;
+}
+.search-table-item-actions > * {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+</style>
+
+<script>
+export default {
+    props: {
+        namespace: {default:''},
+        actionsExcept: {default:()=>([]), type:Array},
+    },
+
+    watch: {
+        $route: {deep:true, handler(to, from) {
+            to.query.id? this.editInit(): this.searchInit();
+        }},
+    },
+
+    methods: {
+        slotBind(merge={}) {
+            return {
+                ...merge
+            };
+        },
+
+        selectAll(checked) {
+            if (!checked) {
+                return this.selects = [];
+            }
+
+            let selects = [];
+            this.search.resp.data.forEach(item => {
+                selects.push(item.id);
+            });
+            this.selects = selects;
+        },
+
+        navigateBack() {
+            // if (this.backUrl) {
+            //     return this.$router.push(this.backUrl);
+            // }
+            this.$router.go(-1);
+        },
+
+        async searchInit() {
+            this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
+            this.search.submit();
+        },
+
+        async editInit() {
+            this.edit = false;
+            let id = this.$route.query.id || null;
+            if (!id || isNaN(id)) return this.edit = {};
+            (await useAxios({method: "get", url: `/api/${this.namespace}/find/${id}`})).value.submit().then(resp => {
+                this.edit = resp.data;
+            });
+        },
+    },
+
+    data() {
+        return {
+            tableSearchCols: 2,
+            backUrl: false,
+            selects: [],
+            edit: false,
+            search: useAxios({
+                method: "get",
+                url: `/api/${this.namespace}/search`,
+                params: {q:'', page:1, per_page:10},
+            }),
+        };
+    },
+
+    mounted() {
+        this.$route.query.id? this.editInit(): this.searchInit();
+    },
+}
+</script>

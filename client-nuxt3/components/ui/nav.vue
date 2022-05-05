@@ -10,7 +10,6 @@
                 :title="item.label"
                 :to="item.to"
                 :nuxt="true"
-                :exact="true"
             ></v-list-item>
 
             <!-- Children -->
@@ -32,7 +31,6 @@
                         :title="iitem.label"
                         :to="iitem.to"
                         :nuxt="true"
-                        :exact="true"
                     ></v-list-item>
 
                     <!-- Children -->

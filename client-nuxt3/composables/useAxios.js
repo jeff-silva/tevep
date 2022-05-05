@@ -25,6 +25,7 @@ export default function(params={}) {
 
     req.value.submit = () => {
         return new Promise((resolve, reject) => {
+            if (req.value.loading) return;
             req.value.loading = true;
 
             axios(params).then(resp => {
