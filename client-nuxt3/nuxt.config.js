@@ -8,6 +8,14 @@ back.port = ''+(parseInt(back.port)+1);
 export default defineNuxtConfig({
     ssr: false,
 
+    // head: {
+    //     link: [
+    //         {rel:'stylesheet', type: 'text/css', href:'https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css'},
+    //     ],
+    // },
+
+    css: ['vuetify/lib/styles/main.css'],
+
     buildModules: [
 
         // https://vueuse.org/
@@ -19,4 +27,10 @@ export default defineNuxtConfig({
         // https://vuetifyjs.com/en/getting-started/installation/
         // ['@nuxtjs/vuetify', {}],
     ],
+
+    vite: {
+        define: {
+            'process.env.DEBUG': 'false',
+        },
+    },
 });

@@ -15,21 +15,24 @@
     </div>
 
     <form v-else @submit.prevent="app.login(credentials)">
-        <ui-field label="Email">
-            <input type="text" class="form-control" v-model="credentials.email">
-        </ui-field>
+        <v-text-field label="E-mail"
+            v-model="credentials.email"
+            variant="underlined"
+        ></v-text-field>
 
-        <ui-field label="Senha">
-            <input type="password" class="form-control" v-model="credentials.password">
-        </ui-field>
+        <v-text-field label="Senha"
+            v-model="credentials.password"
+            variant="underlined"
+            :type="showPassword? 'text': 'password'"
+            :append-icon="showPassword? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPassword = !showPassword"
+        ></v-text-field>
 
         <div class="text-end">
-            <button type="submit" class="btn btn-primary">
+            <v-btn color="primary" type="submit">
                 Login
-            </button>
+            </v-btn>
         </div>
-
-        <pre>$data: {{ $data }}</pre>
     </form>
 </template>
 
@@ -41,6 +44,7 @@ export default {
 
     data() {
         return {
+            showPassword: false,
             credentials: {
                 email: '',
                 password: '',

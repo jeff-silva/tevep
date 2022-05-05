@@ -2,7 +2,7 @@
     <div>
         <head>
             <title>Testes</title>
-            <Style children="@import url('https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css');"></Style>
+            <!-- <Style children="@import url('https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css');"></Style> -->
         </head>
 
         <div class="row g-0">
