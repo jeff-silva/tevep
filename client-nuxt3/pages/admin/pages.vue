@@ -3,13 +3,14 @@
         <nuxt-layout name="admin">
             <ui-crud namespace="pages">
                 <template #search-table-header>
-                    <th>Nome</th>
-                    <th width="100px">Mime</th>
+                    <th>Página</th>
                 </template>
 
                 <template #search-table-item="{item}">
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.mime }}</td>
+                    <td>
+                        <div class="font-weight-bold">{{ item.name }}</div>
+                        <div class="font-weight-thin">/{{ item.slug }}</div>
+                    </td>
                 </template>
                 
                 <!-- <template #search-table-item-actions="{item}">

@@ -58,22 +58,22 @@ export default {
         return {
             navItems: [
                 {to: '/admin', icon :'mdi-view-dashboard', label :'Dashboard'},
-                {icon :'mdi-view-dashboard', label :'Teveps', children: [
-                    {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/teveps'},
-                    {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/teveps?id=new'},
+                {icon :'mdi-database', label :'Teveps', children: [
+                    {icon :'mdi-database', label :'Procurar', to:'/admin/teveps'},
+                    {icon :'mdi-database', label :'Novo', to:'/admin/teveps?id=new'},
                 ]},
-                {icon :'mdi-view-dashboard', label :'Páginas', children: [
-                    {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/pages'},
-                    {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/pages?id=new'},
+                {icon :'mdi-sitemap', label :'Páginas', children: [
+                    {icon :'mdi-sitemap', label :'Procurar', to:'/admin/pages'},
+                    {icon :'mdi-sitemap', label :'Novo', to:'/admin/pages?id=new'},
                 ]},
-                {icon :'mdi-view-dashboard', label :'Usuários', children: [
-                    {icon :'mdi-view-dashboard', label :'Procurar', to:'/admin/users'},
-                    {icon :'mdi-view-dashboard', label :'Novo', to:'/admin/users?id=new'},
+                {icon :'mdi-account', label :'Usuários', children: [
+                    {icon :'mdi-account', label :'Procurar', to:'/admin/users'},
+                    {icon :'mdi-account', label :'Novo', to:'/admin/users?id=new'},
                 ]},
-                {icon :'mdi-view-dashboard', label :'Configurações', children: [
-                    {to: '/admin/settings', icon :'file-search-outline', label :'Configurações'},
-                    {to: '/admin/files', icon :'file-search-outline', label :'Arquivos'},
-                    {to: '/admin/places', icon :'file-search-outline', label :'Endereços'},
+                {icon :'mdi-cog', label :'Configurações', children: [
+                    {to: '/admin/settings', icon :'file-cog', label :'Configurações'},
+                    {to: '/admin/files', icon :'file-cog', label :'Arquivos'},
+                    {to: '/admin/places', icon :'file-cog', label :'Endereços'},
                 ]},
             ],
             app: useApp(),
