@@ -16,13 +16,13 @@
                     <v-btn icon="mdi-download"></v-btn>
                 </template>
 
-                <template #edit-fields="{item}">
+                <template #edit-fields="crud">
                     <v-row>
                         <v-col size="6">
-                            <v-text-field label="Nome" v-model="item.name"></v-text-field>
+                            <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>
                         </v-col>
                         <v-col size="6">
-                            <v-text-field label="Pasta" v-model="item.folder"></v-text-field>
+                            <v-text-field label="Pasta" v-model="crud.edit.folder"></v-text-field>
                         </v-col>
                     </v-row>
                 </template>
