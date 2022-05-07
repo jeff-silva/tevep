@@ -5,13 +5,15 @@
             <span class="fw-bold">{{ app.user.name }}</span>.
         </div>
 
-        <nuxt-link :to="redirect" class="btn btn-primary w-100 mb-3">
+        <v-btn color="primary" block :to="redirect" :nuxt="true">
             Prosseguir
-        </nuxt-link>
+        </v-btn>
 
-        <a href="javascrit:;" class="btn btn-light w-100" @click="app.logout()">
+        <div class="my-4"></div>
+
+        <v-btn color="white" block @click="app.logout()">
             Sair
-        </a>
+        </v-btn>
     </div>
 
     <form v-else @submit.prevent="app.login(credentials)">

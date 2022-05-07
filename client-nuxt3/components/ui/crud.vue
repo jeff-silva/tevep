@@ -2,29 +2,24 @@
     <div>
         <!-- Edit -->
         <div v-if="$route.query.id">
-            <div class="v-row">
-                <div class="v-col-9">
-                    <v-card prepend-icon="mdi-pencil" v-if="edit">
-                        <template #title>{{ edit.id? 'Editar': 'Criar' }}</template>
-                        <v-card-text>
-                            <slot name="edit-fields" v-bind="slotBind({item:edit})"></slot>
-                        </v-card-text>
-                    </v-card>
-                </div>
-                <div class="v-col-3">
-                    <v-card>
-                        <v-card-header>
-                            Aaa
-                        </v-card-header>
-                    </v-card>
-                </div>
-            </div>
-
-            <v-bottom-navigation style="margin-left:-15px;">
-                <v-btn icon="mdi-close" @click="navigateBack()"></v-btn>
-                <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
-                <v-btn icon="mdi-content-save"></v-btn>
-            </v-bottom-navigation>
+            <form @submit.prevent="save.submit({data:edit}).then(resp => editUpdate(resp.data));">
+                <v-card prepend-icon="mdi-pencil" v-if="edit">
+                    <template #title>{{ edit.id? 'Editar': 'Criar' }}</template>
+                    <v-progress-linear
+                        indeterminate
+                        v-if="save.loading"
+                    ></v-progress-linear>
+                    <v-card-text>
+                        <slot name="edit-fields" v-bind="slotBind()"></slot>
+                    </v-card-text>
+                </v-card>
+    
+                <v-bottom-navigation style="margin-left:-15px;">
+                    <v-btn icon="mdi-close" @click="navigateBack()"></v-btn>
+                    <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
+                    <v-btn icon="mdi-content-save" type="submit"></v-btn>
+                </v-bottom-navigation>
+            </form>
         </div>
 
         <!-- Search -->
@@ -101,12 +96,31 @@
 
                         <v-divider></v-divider>
         
-                        <v-pagination
-                            v-if="search.resp && search.resp.last_page"
-                            v-model="search.params.page"
-                            :length="search.resp.last_page"
-                            @update:modelValue="search.submit()"
-                        ></v-pagination>
+                        <div class="d-flex align-center">
+                            <div class="pa-2">
+                                {{ search.resp.total }} resultados
+                            </div>
+
+                            <div class="flex-grow-1">
+                                <v-pagination
+                                    v-if="search.resp && search.resp.last_page"
+                                    v-model="search.params.page"
+                                    :length="search.resp.last_page"
+                                    @update:modelValue="search.submit()"
+                                ></v-pagination>
+                            </div>
+
+                            <div class="pa-2">
+                                <v-combobox
+                                    v-model="search.params.per_page"
+                                    :items="[5, 10, 25, 50, 100]"
+                                    label="Resultados por página"
+                                    :hide-details="true"
+                                    @update:modelValue="search.submit()"
+                                    density="compact"
+                                ></v-combobox>
+                            </div>
+                        </div>
                     </div>
                 </v-col>
     
@@ -126,24 +140,27 @@
                     </v-card>
                 </v-col>
             </v-row>
-
+            
             <v-bottom-navigation style="margin-left:-15px;">
                 <v-btn icon="mdi-magnify"></v-btn>
                 <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
-
+                
+                <v-menu anchor="top">
+                    <template #activator="{ props }">
+                        <v-btn icon="mdi-download" v-bind="props"></v-btn>
+                    </template>
+    
+                    <v-list>
+                        <v-list-item
+                            :title="e.name"
+                            v-for="e in search.resp.exportUrls"
+                            :href="e.url"
+                            target="_blank"
+                        ></v-list-item>
+                    </v-list>
+                </v-menu>
+                
                 <template v-if="selects.length">
-                    <v-menu anchor="top">
-                        <template #activator="{ props }">
-                            <v-btn icon="mdi-download"></v-btn>
-                        </template>
-
-                        <v-list>
-                            <v-list-item title="CSV"></v-list-item>
-                            <v-list-item title="HTML"></v-list-item>
-                            <v-list-item title="Excel"></v-list-item>
-                        </v-list>
-                    </v-menu>
-
                     <v-btn icon="mdi-delete"></v-btn>
                 </template>
             </v-bottom-navigation>
@@ -177,6 +194,9 @@ export default {
     methods: {
         slotBind(merge={}) {
             return {
+                edit: this.edit,
+                search: this.search,
+                editUpdate: this.editUpdate,
                 ...merge
             };
         },
@@ -200,9 +220,13 @@ export default {
             this.$router.go(-1);
         },
 
+        editUpdate(edit) {
+            this.edit = edit;
+        },
+
         async searchInit() {
             this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
-            this.search.submit();
+            if (!this.search.loading) this.search.submit();
         },
 
         async editInit() {
@@ -225,6 +249,11 @@ export default {
                 method: "get",
                 url: `/api/${this.namespace}/search`,
                 params: {q:'', page:1, per_page:10},
+            }),
+            save: useAxios({
+                method: "post",
+                url: `/api/${this.namespace}/save`,
+                params: {},
             }),
         };
     },

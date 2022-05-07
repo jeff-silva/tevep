@@ -151,6 +151,38 @@ trait Model
     }
 
 
+
+    public function exportUrls($params=[])
+    {
+        $params = $this->searchParamsDefault($params);
+
+        foreach($params as $key => $value) {
+            if (!$value OR in_array($key, ['page', 'per_page'])) {
+                unset($params[ $key ]);
+            }
+        }
+
+        $params = http_build_query($params);
+        $namespace = \Str::of($this->getTable())->studly()->kebab();
+
+        return collect([
+            (object) [
+                'ext' => 'csv',
+                'name' => 'CSV',
+                'url' => "/api/{$namespace}/export?format=csv&{$params}",
+            ],
+            (object) [
+                'ext' => 'json',
+                'name' => 'Json',
+                'url' => "/api/{$namespace}/export?format=json&{$params}",
+            ],
+            (object) [
+                'ext' => 'html',
+                'name' => 'HTML',
+                'url' => "/api/{$namespace}/export?format=html&{$params}",
+            ],
+        ]);
+    }
     
 
 
