@@ -4,17 +4,16 @@
             <ui-crud namespace="teveps">
                 <template #search-table-header>
                     <th>Nome</th>
-                    <th width="100px">Mime</th>
+                    <th>Data</th>
                 </template>
 
                 <template #search-table-item="{item}">
                     <td>{{ item.name }}</td>
-                    <td>{{ item.mime }}</td>
+                    <td>
+                        <div>De {{ $helpers.dateFormat(item.date_start) }}</div>
+                        <div>Até {{ $helpers.dateFormat(item.date_final) }}</div>
+                    </td>
                 </template>
-                
-                <!-- <template #search-table-item-actions="{item}">
-                    <v-btn icon="mdi-download"></v-btn>
-                </template> -->
 
                 <template #edit-fields="crud">
                     <v-row>

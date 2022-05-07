@@ -12,11 +12,21 @@ export default function(params={}) {
         ...params,
         resp: false,
         timeout: false,
+        cancelTokenSource: false,
     });
+
+    req.value.cancel = () => {
+        if (!req.value.cancelTokenSource) return;
+        req.value.cancelTokenSource.cancel();
+        req.value.loading = false;
+    };
 
     req.value.submit = (submitParams={}) => {
         return new Promise((resolve, reject) => {
             req.value.loading = true;
+            
+            req.value.cancelTokenSource = axios.CancelToken.source();
+            params.cancelToken = req.value.cancelTokenSource.token;
 
             if (!isNaN(submitParams.debounce)) {
                 if (req.value.timeout) {

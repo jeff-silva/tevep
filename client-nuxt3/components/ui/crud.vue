@@ -25,74 +25,80 @@
         <!-- Search -->
         <div v-if="!$route.query.id">
             <v-row>
+                <v-col cols="12" v-if="$slots['search-header']">
+                    <slot name="search-header" v-bind="slotBind()"></slot>
+                </v-col>
+
                 <v-col cols="12" lg="9">
                     <div class="bg-white elevation-1">
-                        <v-table
-                            fixed-header
-                            class="ui-crud-search-table"    
-                        >
-                            <thead>
-                                <tr class="text-uppercase">
-                                    <th class="pe-0" width="30px">
-                                        <v-checkbox
-                                            @click="selectAll($event.target.checked)"
-                                            :hide-details="true"
-                                            class="mx-auto"
-                                        ></v-checkbox>
-                                    </th>
-                                    <slot name="search-table-header" v-bind="slotBind()"></slot>
-                                    <th width="50px"></th>
-                                </tr>
-                            </thead>
-        
-                            <tbody>
-                                <tr>
-                                    <td
-                                        colspan="100%"
-                                        class="px-0"
-                                        style="height:3px; border:none;"
-                                    >
-                                        <v-progress-linear
-                                            indeterminate
-                                            color="primary"
-                                            height="3"
-                                            v-if="search.loading"
-                                        ></v-progress-linear>
-                                    </td>
-                                </tr>
-                                <tr v-for="item in search.resp.data" v-if="search.resp && search.resp.data">
-                                    <td class="pe-0">
-                                        <v-checkbox
-                                            v-model="selects"
-                                            :value="item.id"
-                                            :hide-details="true"
-                                            class="mx-auto"
-                                        ></v-checkbox>
-                                    </td>
-                                    <slot name="search-table-item" v-bind="slotBind({item})"></slot>
-                                    <td class="py-1">
-                                        <v-menu anchor="start">
-                                            <template #activator="{ props }">
-                                                <v-btn icon="mdi-dots-vertical" v-bind="props" flat></v-btn>
-                                            </template>
-        
-                                            <div class="search-table-item-actions">
-                                                <slot name="search-table-item-actions"></slot>
-                                                <template v-if="!actionsExcept.includes('edit')">
-                                                    <v-btn icon="mdi-pencil" :to="`/admin/${namespace}?id=${item.id}`"></v-btn>
+                        <slot name="search-table" v-bind="slotBind()">
+                            <v-table
+                                fixed-header
+                                class="ui-crud-search-table"    
+                            >
+                                <thead>
+                                    <tr class="text-uppercase">
+                                        <th class="pe-0" width="30px">
+                                            <v-checkbox
+                                                @click="selectAll($event.target.checked)"
+                                                :hide-details="true"
+                                                class="mx-auto"
+                                            ></v-checkbox>
+                                        </th>
+                                        <slot name="search-table-header" v-bind="slotBind()"></slot>
+                                        <th width="50px"></th>
+                                    </tr>
+                                </thead>
+            
+                                <tbody>
+                                    <tr>
+                                        <td
+                                            colspan="100%"
+                                            class="px-0"
+                                            style="height:3px; border:none;"
+                                        >
+                                            <v-progress-linear
+                                                indeterminate
+                                                color="primary"
+                                                height="3"
+                                                v-if="search.loading"
+                                            ></v-progress-linear>
+                                        </td>
+                                    </tr>
+                                    <tr v-for="item in search.resp.data" v-if="search.resp && search.resp.data">
+                                        <td class="pe-0">
+                                            <v-checkbox
+                                                v-model="selects"
+                                                :value="item.id"
+                                                :hide-details="true"
+                                                class="mx-auto"
+                                            ></v-checkbox>
+                                        </td>
+                                        <slot name="search-table-item" v-bind="slotBind({item})"></slot>
+                                        <td class="py-1">
+                                            <v-menu anchor="start">
+                                                <template #activator="{ props }">
+                                                    <v-btn icon="mdi-dots-vertical" v-bind="props" flat></v-btn>
                                                 </template>
-                                                <template v-if="!actionsExcept.includes('delete')">
-                                                    <v-btn icon="mdi-delete"></v-btn>
-                                                </template>
-                                                <template v-if="!actionsExcept.includes('clone')">
-                                                    <v-btn icon="mdi-content-copy"></v-btn>
-                                                </template>
-                                            </div>
-                                        </v-menu>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </v-table>
+            
+                                                <div class="search-table-item-actions">
+                                                    <slot name="search-table-item-actions"></slot>
+                                                    <template v-if="!actionsExcept.includes('edit')">
+                                                        <v-btn icon="mdi-pencil" :to="`/admin/${namespace}?id=${item.id}`"></v-btn>
+                                                    </template>
+                                                    <template v-if="!actionsExcept.includes('delete')">
+                                                        <v-btn icon="mdi-delete"></v-btn>
+                                                    </template>
+                                                    <template v-if="!actionsExcept.includes('clone')">
+                                                        <v-btn icon="mdi-content-copy"></v-btn>
+                                                    </template>
+                                                </div>
+                                            </v-menu>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </v-table>
+                        </slot>
 
                         <v-divider></v-divider>
         
@@ -106,7 +112,7 @@
                                     v-if="search.resp && search.resp.last_page"
                                     v-model="search.params.page"
                                     :length="search.resp.last_page"
-                                    @update:modelValue="search.submit()"
+                                    @update:modelValue="searchRedirect()"
                                 ></v-pagination>
                             </div>
 
@@ -116,7 +122,7 @@
                                     :items="[5, 10, 25, 50, 100]"
                                     label="Resultados por página"
                                     :hide-details="true"
-                                    @update:modelValue="search.submit()"
+                                    @update:modelValue="searchRedirect()"
                                     density="compact"
                                 ></v-combobox>
                             </div>
@@ -130,8 +136,10 @@
                             <div>Busca</div>
                         </v-card-header>
                         <v-card-text>
-                            <form @submit.prevent="search.submit()">
+                            <form @submit.prevent="searchRedirect()">
                                 <v-text-field label="Buscar" v-model="search.params.q"></v-text-field>
+                                <slot name="search-fields" v-bind="slotBind()"></slot>
+
                                 <v-btn type="submit" color="primary" block :disabled="search.loading">
                                     {{ search.loading? 'Carregando': 'Buscar' }}
                                 </v-btn>
@@ -187,7 +195,8 @@ export default {
 
     watch: {
         $route: {deep:true, handler(to, from) {
-            to.query.id? this.editInit(): this.searchInit();
+            this.editInit();
+            this.searchInit();
         }},
     },
 
@@ -197,6 +206,8 @@ export default {
                 edit: this.edit,
                 search: this.search,
                 editUpdate: this.editUpdate,
+                searchSubmit: this.searchSubmit,
+                searchRedirect: this.searchRedirect,
                 ...merge
             };
         },
@@ -225,13 +236,30 @@ export default {
         },
 
         async searchInit() {
+            if (this.$route.query.id) return;
             this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
-            if (!this.search.loading) this.search.submit();
+            this.searchSubmit();
+        },
+
+        searchRedirect() {
+            this.$router.push({
+                query: this.search.params,
+            });
+        },
+
+        searchSubmit() {
+            this.search.cancel();
+            const params = {...this.search.params, ...this.$route.query};
+            this.search.params = params;
+            this.search.submit({ params }).then(resp => {
+                this.$emit('search', this.slotBind());
+            });
         },
 
         async editInit() {
+            if (!this.$route.query.id) return;
             this.edit = false;
-            let id = this.$route.query.id || null;
+            let id = this.$route.query.id;
             if (!id || isNaN(id)) return this.edit = {};
             (await useAxios({method: "get", url: `/api/${this.namespace}/find/${id}`})).value.submit().then(resp => {
                 this.edit = resp.data;
@@ -248,7 +276,7 @@ export default {
             search: useAxios({
                 method: "get",
                 url: `/api/${this.namespace}/search`,
-                params: {q:'', page:1, per_page:10},
+                params: {q:'', page:1, per_page:10, ...this.$route.query},
             }),
             save: useAxios({
                 method: "post",
@@ -259,7 +287,8 @@ export default {
     },
 
     mounted() {
-        this.$route.query.id? this.editInit(): this.searchInit();
+        this.editInit();
+        this.searchInit();
     },
 }
 </script>

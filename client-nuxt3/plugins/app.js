@@ -37,10 +37,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     });
     nuxtApp.provide('axios', axios);
     nuxtApp.provide('log', console.log);
-
-    // nuxtApp.provide('log', function() {
-    //     Array.prototype.slice.call(arguments).forEach(item => {
-    //         console.log(item);
-    //     });
-    // });
+    
+    nuxtApp.provide('helpers', {
+        dateFormat(value, format='DD/MM/YYYY - HH:mm') {
+            return useDateFormat(value, format).value;
+        },
+        singularPlural(number, singular, plural) {
+            return number==1? singular: plural;
+        },
+    });
 });
