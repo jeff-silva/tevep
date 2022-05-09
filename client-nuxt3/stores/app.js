@@ -13,6 +13,7 @@ export const useAppStore = defineStore({
     actions: {
         async load() {
             try {
+                if (this.user) return;
                 const resp = await useAxios({method:"post", url:"/api/app/load"}).value.submit();
                 this.setUser(resp.data.user);
                 this.setSettings(resp.data.settings);

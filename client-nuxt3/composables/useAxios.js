@@ -4,12 +4,12 @@ import axios from 'axios';
 import { useAppStore } from '@/stores/app';
 
 
-export default function(params={}) {
+export default function(axiosParams={}) {
     const app = useAppStore();
 
     const req = ref({
         loading: false,
-        ...params,
+        ...axiosParams,
         resp: false,
         timeout: false,
         cancelTokenSource: false,
@@ -21,19 +21,22 @@ export default function(params={}) {
         req.value.loading = false;
     };
 
+    const mountedSubmit = !!req.value.submit;
     req.value.submit = (submitParams={}) => {
         return new Promise((resolve, reject) => {
+            submitParams = {...axiosParams, ...submitParams};
+
             req.value.loading = true;
             
             req.value.cancelTokenSource = axios.CancelToken.source();
-            params.cancelToken = req.value.cancelTokenSource.token;
+            axiosParams.cancelToken = req.value.cancelTokenSource.token;
 
             if (!isNaN(submitParams.debounce)) {
                 if (req.value.timeout) {
                     clearTimeout(req.value.timeout);
                 }
                 req.value.timeout = setTimeout(() => {
-                    axios(params).then(resp => {
+                    axios(axiosParams).then(resp => {
                         req.value.loading = false;
                         req.value.resp = resp.data;
                         resolve(resp);
@@ -42,21 +45,17 @@ export default function(params={}) {
                 return;
             }
 
-            if (submitParams.data) {
-                params.data = submitParams.data;
-            }
-
-            if (submitParams.params) {
-                params.params = submitParams.params;
-            }
-
-            axios(params).then(resp => {
+            axios(submitParams).then(resp => {
                 req.value.loading = false;
                 req.value.resp = resp.data;
                 resolve(resp);
             }).catch(reject);
         });
     };
+
+    if (mountedSubmit) {
+        req.value.submit();
+    }
 
     return req;
 }
