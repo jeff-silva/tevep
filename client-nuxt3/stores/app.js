@@ -6,10 +6,20 @@ export const useAppStore = defineStore({
     state: () => ({
         access_token: (localStorage.getItem('access_token') || false),
         user: false,
-        settings: false,
+        userPermissions: [],
+        settings: {},
     }),
 
     actions: {
+        async load() {
+            try {
+                const resp = await useAxios({method:"post", url:"/api/app/load"}).value.submit();
+                this.setUser(resp.data.user);
+                this.setSettings(resp.data.settings);
+            }
+            catch(err) {}
+        },
+
         async login(params={}) {
             try {
                 const data = JSON.parse(JSON.stringify(params));

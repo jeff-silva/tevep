@@ -26,5 +26,11 @@ export default {
             tab: this.$route.path.replace('/admin/settings/', ''),
         };
     },
+
+    watch: {
+        $route: {deep:true, handler(value) {
+            this.tab = value.path.replace('/admin/settings/', '');
+        }},
+    },
 }
 </script>

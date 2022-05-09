@@ -8,7 +8,7 @@ module.exports = (dirname, command) => {
         
         let child = p.exec(command, params, function(error, stdout, stderr) {
             resolve({stdout, stderr});
-            // if (error == null) return;
+            console.log(error, stdout, stderr);
         });
     
         child.stdout.pipe(process.stdout);

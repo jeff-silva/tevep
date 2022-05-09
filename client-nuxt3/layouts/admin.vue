@@ -29,7 +29,7 @@
             </v-navigation-drawer>
 
             <v-app-bar app>
-                app-bar
+                {{ app.settings['app.name'] }}
             </v-app-bar>
 
             <!-- Sizes your content based upon application components -->

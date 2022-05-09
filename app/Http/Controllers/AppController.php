@@ -12,7 +12,7 @@ class AppController extends Controller
 			'except' => ['test', 'script', 'info'],
 		]);
 
-		$this->route('get', '/load', 'load', [
+		$this->route('post', '/load', 'load', [
 			'description' => 'Informações e variáveis do sistema',
 		]);
 
@@ -73,14 +73,17 @@ class AppController extends Controller
 	{
 		$load = [];
 
+		$load['user'] = false;
+		$load['userPermissions'] = [];
 		if ($user = auth()->user()) {
-			// 
-		}
-		else {
-			// 
+			$load['user'] = $user;
+			if ($group = \App\Models\UsersGroups::select(['permissions'])->find($user->group_id)) {
+				$load['userPermissions'] = $group->permissions;
+			}
 		}
 
 		$load['settings'] = \App\Models\Settings::getAll(false);
+		$load['translations'] = [];
 
 		return $load;
 	}
@@ -95,6 +98,7 @@ class AppController extends Controller
 
 	public function search()
 	{
+		// TODO: fazer loop em todas as models utilizando $model->search(['q' => 'busca'])->limit(10)->get();
 		$return = [];
 
 		$return[] = [

@@ -22,6 +22,11 @@
                         <v-col size="12">
                             <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>
                         </v-col>
+                        
+                        <v-col size="12">
+                            <ui-content-edit v-model="crud.edit.content" @update:modelValue="$log"></ui-content-edit>
+                            <pre>{{ crud.edit }}</pre>
+                        </v-col>
                     </v-row>
                 </template>
             </ui-crud>
