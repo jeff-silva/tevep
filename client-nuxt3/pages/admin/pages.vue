@@ -1,7 +1,7 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <ui-crud namespace="pages">
+            <ui-model-crud namespace="pages">
                 <template #search-table-header>
                     <th>Página</th>
                 </template>
@@ -29,7 +29,7 @@
                         </v-col>
                     </v-row>
                 </template>
-            </ui-crud>
+            </ui-model-crud>
         </nuxt-layout>
     </div>
 </template>

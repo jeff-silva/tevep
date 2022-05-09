@@ -1,7 +1,7 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <ui-crud namespace="users" :actions-except="['clone', 'delete']">
+            <ui-model-crud namespace="users" :actions-except="['clone', 'delete']">
                 <template #search-table-header>
                     <th>Nome</th>
                 </template>
@@ -27,7 +27,7 @@
                         </v-col>
                     </v-row>
                 </template>
-            </ui-crud>
+            </ui-model-crud>
         </nuxt-layout>
     </div>
 </template>

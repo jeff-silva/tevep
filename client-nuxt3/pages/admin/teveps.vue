@@ -1,7 +1,7 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <ui-crud namespace="teveps">
+            <ui-model-crud namespace="teveps">
                 <template #search-table-header>
                     <th>Nome</th>
                     <th>Data</th>
@@ -22,7 +22,7 @@
                         </v-col>
                     </v-row>
                 </template>
-            </ui-crud>
+            </ui-model-crud>
         </nuxt-layout>
     </div>
 </template>

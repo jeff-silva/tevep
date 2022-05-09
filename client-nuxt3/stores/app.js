@@ -8,6 +8,8 @@ export const useAppStore = defineStore({
         user: false,
         userPermissions: [],
         settings: {},
+        translations: [],
+        adminNav: [],
     }),
 
     actions: {
@@ -15,8 +17,11 @@ export const useAppStore = defineStore({
             try {
                 if (this.user) return;
                 const resp = await useAxios({method:"post", url:"/api/app/load"}).value.submit();
-                this.setUser(resp.data.user);
-                this.setSettings(resp.data.settings);
+                this.user = resp.data.user;
+                this.userPermissions = resp.data.userPermissions;
+                this.settings = resp.data.settings;
+                this.translations = resp.data.translations;
+                this.adminNav = resp.data.adminNav;
             }
             catch(err) {}
         },
@@ -34,14 +39,14 @@ export const useAppStore = defineStore({
         async logout() {
             const resp = await useAxios({method:"post", url:"/api/auth/logout"}).value.submit();
             this.setAccessToken(false);
-            this.setUser(false);
+            this.user = false;
         },
 
         async me() {
             if (!this.access_token || this.user) return;
             try {
                 const resp = await useAxios({method:"post", url:"/api/auth/me"}).value.submit();
-                this.setUser(resp.data);
+                this.user = resp.data;
             }
             catch(err) {}
         },
@@ -51,14 +56,6 @@ export const useAppStore = defineStore({
             access_token?
                 localStorage.setItem('access_token', access_token):
                 localStorage.removeItem('access_token');
-        },
-
-        setUser(user) {
-            this.user = user;
-        },
-
-        setSettings(settings) {
-            this.settings = settings;
         },
     },
 });

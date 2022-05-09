@@ -25,7 +25,7 @@
 
                 <v-divider></v-divider>
 
-                <ui-nav :items="navItems"></ui-nav>
+                <ui-nav :items="app.adminNav"></ui-nav>
             </v-navigation-drawer>
 
             <v-app-bar app>
@@ -56,26 +56,6 @@
 export default {
     data() {
         return {
-            navItems: [
-                {to: '/admin', icon :'mdi-view-dashboard', label :'Dashboard'},
-                {icon :'mdi-database', label :'Teveps', children: [
-                    {icon :'mdi-database', label :'Procurar', to:'/admin/teveps'},
-                    {icon :'mdi-database', label :'Novo', to:'/admin/teveps?id=new'},
-                ]},
-                {icon :'mdi-sitemap', label :'Páginas', children: [
-                    {icon :'mdi-sitemap', label :'Procurar', to:'/admin/pages'},
-                    {icon :'mdi-sitemap', label :'Novo', to:'/admin/pages?id=new'},
-                ]},
-                {icon :'mdi-account', label :'Usuários', children: [
-                    {icon :'mdi-account', label :'Procurar', to:'/admin/users'},
-                    {icon :'mdi-account', label :'Novo', to:'/admin/users?id=new'},
-                ]},
-                {icon :'mdi-cog', label :'Configurações', children: [
-                    {to: '/admin/settings', icon :'file-cog', label :'Configurações'},
-                    {to: '/admin/files', icon :'file-cog', label :'Arquivos'},
-                    {to: '/admin/places', icon :'file-cog', label :'Endereços'},
-                ]},
-            ],
             app: useApp(),
         };
     },

@@ -84,6 +84,26 @@ class AppController extends Controller
 
 		$load['settings'] = \App\Models\Settings::getAll(false);
 		$load['translations'] = [];
+		$load['adminNav'] = [
+			['to'=>'/admin', 'icon'=>'mdi-view-dashboard', 'label'=>'Dashboard', 'children'=>[]],
+			['to'=>'', 'icon'=>'mdi-database', 'label'=>'Tevep', 'children'=>[
+				['to'=>'/admin/teveps', 'icon'=>'mdi-database', 'label'=>'Procurar', 'children'=>[]],
+				['to'=>'/admin/teveps?id=new', 'icon'=>'mdi-database', 'label'=>'Criar', 'children'=>[]],
+			]],
+			['to'=>'', 'icon'=>'mdi-sitemap', 'label'=>'Páginas', 'children'=>[
+				['to'=>'/admin/pages', 'icon'=>'mdi-sitemap', 'label'=>'Procurar', 'children'=>[]],
+				['to'=>'/admin/pages?id=new', 'icon'=>'mdi-sitemap', 'label'=>'Criar', 'children'=>[]],
+			]],
+			['to'=>'', 'icon'=>'mdi-account', 'label'=>'Usuários', 'children'=>[
+				['to'=>'/admin/users', 'icon'=>'mdi-account', 'label'=>'Procurar', 'children'=>[]],
+				['to'=>'/admin/users?id=new', 'icon'=>'mdi-account', 'label'=>'Criar', 'children'=>[]],
+			]],
+			['to'=>'', 'icon'=>'mdi-cog', 'label'=>'Configurações', 'children'=>[
+				['to'=>'/admin/settings', 'icon'=>'mdi-cog', 'label'=>'Configurações', 'children'=>[]],
+				['to'=>'/admin/files', 'icon'=>'mdi-cog', 'label'=>'Arquivos', 'children'=>[]],
+				['to'=>'/admin/places', 'icon'=>'mdi-cog', 'label'=>'Endereços', 'children'=>[]],
+			]],
+		];
 
 		return $load;
 	}

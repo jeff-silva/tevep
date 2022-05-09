@@ -1,7 +1,7 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <ui-crud namespace="places" :actions-except="['clone', 'delete']" @search="handleFormResponse($event)">
+            <ui-model-crud namespace="places" :actions-except="['clone', 'delete']" @search="handleFormResponse($event)">
                 <template #search-header="crud">
                     <v-card v-if="crud.search.resp">
                         <v-card-text>
@@ -56,7 +56,7 @@
                 <template #edit-fields="crud">
                     <ui-place v-model="crud.edit" @update:modelValue="crud.editUpdate($event)"></ui-place>
                 </template>
-            </ui-crud>
+            </ui-model-crud>
         </nuxt-layout>
     </div>
 </template>
