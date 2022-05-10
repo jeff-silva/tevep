@@ -28,7 +28,10 @@
                 <app-nav :items="app.adminNav"></app-nav>
                 <v-divider></v-divider>
                 <v-list>
-                    <v-list-item @click="app.logout().then(resp => $router.push('/auth'))">
+                    <v-list-item
+                        prepend-icon="mdi-power"
+                        @click="app.logout().then(resp => $router.push('/auth'))"
+                    >
                         Logout
                     </v-list-item>
                 </v-list>

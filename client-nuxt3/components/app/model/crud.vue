@@ -143,6 +143,10 @@
                                 <v-btn type="submit" color="primary" block :disabled="search.loading">
                                     {{ search.loading? 'Carregando': 'Buscar' }}
                                 </v-btn>
+                                
+                                <v-btn type="button" color="white" block class="mt-3" @click="search.clear().then(searchRedirect)">
+                                    Limpar
+                                </v-btn>
                             </form>
                         </v-card-text>
                     </v-card>
@@ -195,8 +199,8 @@ export default {
 
     watch: {
         $route: {deep:true, handler(to, from) {
-            this.editInit();
             this.searchInit();
+            this.editInit();
         }},
     },
 
@@ -238,16 +242,18 @@ export default {
         async searchInit() {
             if (this.$route.query.id) return;
             this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
-            this.searchSubmit();
+            this.search.params = {...this.search.params, ...this.$route.query};
+            await this.search.submit();
+            this.$emit('search', this.slotBind());
         },
 
-        searchRedirect() {
+        async searchRedirect() {
             this.$router.push({
                 query: this.search.params,
             });
         },
 
-        searchSubmit() {
+        async searchSubmit() {
             this.search.cancel();
             const params = {...this.search.params, ...this.$route.query};
             this.search.params = params;
@@ -281,7 +287,7 @@ export default {
             save: useAxios({
                 method: "post",
                 url: `/api/${this.namespace}/save`,
-                params: {},
+                data: {},
             }),
         };
     },
