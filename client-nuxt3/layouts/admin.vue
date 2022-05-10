@@ -25,7 +25,7 @@
 
                 <v-divider></v-divider>
 
-                <ui-nav :items="app.adminNav"></ui-nav>
+                <app-nav :items="app.adminNav"></app-nav>
             </v-navigation-drawer>
 
             <v-app-bar app>

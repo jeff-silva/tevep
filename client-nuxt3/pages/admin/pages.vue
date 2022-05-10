@@ -1,7 +1,7 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <ui-model-crud namespace="pages">
+            <app-model-crud namespace="pages">
                 <template #search-table-header>
                     <th>Página</th>
                 </template>
@@ -24,12 +24,12 @@
                         </v-col>
                         
                         <v-col size="12">
-                            <ui-content-edit v-model="crud.edit.content" @update:modelValue="$log"></ui-content-edit>
+                            <app-content-edit v-model="crud.edit.content" @update:modelValue="$log"></app-content-edit>
                             <pre>{{ crud.edit }}</pre>
                         </v-col>
                     </v-row>
                 </template>
-            </ui-model-crud>
+            </app-model-crud>
         </nuxt-layout>
     </div>
 </template>

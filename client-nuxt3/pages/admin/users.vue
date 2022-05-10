@@ -1,7 +1,7 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <ui-model-crud namespace="users" :actions-except="['clone', 'delete']">
+            <app-model-crud namespace="users" :actions-except="['clone', 'delete']">
                 <template #search-table-header>
                     <th>Nome</th>
                 </template>
@@ -27,16 +27,16 @@
                         </v-col>
                         <v-col cols="12">
                             <pre>address_id: {{ crud.edit.address_id }}</pre>
-                            <ui-model-select
+                            <app-model-select
                                 v-model="crud.edit.address_id"
                                 label="Endereço"
                                 namespace="places"
                                 field-name="formatted"
-                            ></ui-model-select>
+                            ></app-model-select>
                         </v-col>
                     </v-row>
                 </template>
-            </ui-model-crud>
+            </app-model-crud>
         </nuxt-layout>
     </div>
 </template>

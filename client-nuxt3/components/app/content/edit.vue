@@ -23,7 +23,7 @@
                         <pre>propsModelValue: {{ propsModelValue }}</pre>
                     </div>
                     <div class="flex-grow-1">
-                        <ui-content v-model="propsModelValue"></ui-content>
+                        <app-content v-model="propsModelValue"></app-content>
                     </div>
                 </div>
             </v-card>

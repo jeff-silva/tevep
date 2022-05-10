@@ -37,7 +37,7 @@
                     <div v-else>
                         <v-list-item :title="iitem.label"></v-list-item>
                         <v-menu anchor="end" activator="parent">
-                            <ui-nav :items="iitem.children" :icon-show="false"></ui-nav>
+                            <app-nav :items="iitem.children" :icon-show="false"></app-nav>
                         </v-menu>
                     </div>
                 </template>
