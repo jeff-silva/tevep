@@ -31,7 +31,7 @@ export const useAppStore = defineStore({
                 const data = JSON.parse(JSON.stringify(params));
                 const resp = await useAxios({method:"post", url:"/api/auth/login", data}).value.submit();
                 this.setAccessToken(resp.data.access_token);
-                this.me();
+                this.load();
             }
             catch(err) {}
         },

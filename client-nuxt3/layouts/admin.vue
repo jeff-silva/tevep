@@ -26,6 +26,12 @@
                 <v-divider></v-divider>
 
                 <app-nav :items="app.adminNav"></app-nav>
+                <v-divider></v-divider>
+                <v-list>
+                    <v-list-item @click="app.logout().then(resp => $router.push('/auth'))">
+                        Logout
+                    </v-list-item>
+                </v-list>
             </v-navigation-drawer>
 
             <v-app-bar app>

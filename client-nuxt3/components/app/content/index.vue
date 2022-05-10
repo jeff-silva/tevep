@@ -1,7 +1,9 @@
 <template>
     <div class="elevation-1 ma-2 pa-3">
-        <component v-bind="propsModelValue">
-            Content
+        <component :is="propsModelValue.layout.is">
+            <template v-for="s in propsModelValue.sections">
+                <component :is="s.is" @click.native="$emit('section', s)"></component>
+            </template>
         </component>
         <pre>propsModelValue: {{ propsModelValue }}</pre>
     </div>

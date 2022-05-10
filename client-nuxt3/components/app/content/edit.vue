@@ -9,21 +9,25 @@
                     <v-btn @click="editorDialog=false"><v-icon>mdi-close</v-icon></v-btn>
                 </v-toolbar>
                 
-                <div class="d-flex">
+                <div class="d-flex" style="height:calc(100vh - 55px); overflow:auto;">
                     <div style="min-width:300px; max-width:300px;">
-                        <v-btn @click="sectionAdd()">Add</v-btn>
+                        <v-btn @click="sectionAdd(elements[2])">Add</v-btn>
 
                         <v-divider></v-divider>
+                        
                         <div class="font-weight-bold">Layouts</div>
-                        <v-btn block v-for="l in layouts" @click="propsModelValue.layout=l">{{ l.name || 'no name' }}</v-btn>
+                        <v-btn
+                            block
+                            v-for="e in elements"
+                            @click="layoutSet(e)"
+                        >{{ e.name || 'no name' }}</v-btn>
 
-                        <v-divider></v-divider>
-                        <pre>layouts: {{ layouts }}</pre>
-                        <pre>sections: {{ sections }}</pre>
-                        <pre>propsModelValue: {{ propsModelValue }}</pre>
+                        <div v-if="elementEdit">
+                            <component :is="elementEdit.edit"></component>
+                        </div>
                     </div>
-                    <div class="flex-grow-1">
-                        <app-content v-model="propsModelValue"></app-content>
+                    <div class="flex-grow-1 pa-3">
+                        <app-content v-model="propsModelValue" @section="elementEdit=$event"></app-content>
                     </div>
                 </div>
             </v-card>
@@ -32,31 +36,55 @@
 </template>
 
 <script>
-const layouts = [
+const elements = [
     {
-        name: "layoutOne",
-        template: `<slot></slot>`,
+        name: "Layout 1",
+        type: "layout",
+        is: {
+            template: `<slot>Conteúdo</slot>`,
+        },
+        edit: {
+            template: `<div>edit layout 1</div>`,
+        },
     },
     {
-        name: "layoutTwo",
-        template: `<div class="d-flex" style="border:solid 1px red;">Aaa<div><div class="flex-grow-1"><slot></slot></div></div></div>`,
+        name: "Layout 2",
+        type: "layout",
+        is: {
+            template: `<div class="d-flex">
+                <div style="min-width:300px; max-width:300px;">Coluna</div>
+                <div class="flex-grow-1">
+                    <div>Conteúdo</div>
+                    <slot></slot>
+                </div>
+            </div>`,
+        },
+        edit: {
+            template: `<div>edit layout 2</div>`,
+        },
     },
-];
-
-const sections = [
-    {},
+    {
+        name: "Section 1",
+        type: "section",
+        is: {
+            template: `<div>Hello</div>`,
+        },
+        edit: {
+            template: `<div>edit section 1</div>`,
+        },
+    },
 ];
 
 export default {
     props: {
         modelValue: {default:false, type:[Boolean, Object]},
-        layouts: {default:()=>layouts, type:[Array]},
-        sections: {default:()=>sections, type:[Array]},
+        elements: {default:()=>elements, type:[Array]},
     },
 
     data() {
         return {
-            editorDialog: false,
+            editorDialog: true,
+            elementEdit: false,
         };
     },
 
@@ -87,16 +115,18 @@ export default {
             });
         },
 
-        sectionAdd() {
+        sectionAdd(section) {
+            section = JSON.parse(JSON.stringify(section));
             let propsModelValue = this.modelValueParse(this.propsModelValue);
-            propsModelValue.sections.push({
-                key: this.uuid(),
-                is: 'div',
-            });
+            propsModelValue.sections.push({ key: this.uuid(), ...section });
             this.propsModelValue = propsModelValue;
         },
-        
-        sectionRemove() {},
+
+        sectionRemove(section) {},
+
+        layoutSet(layout) {
+            this.propsModelValue.layout = layout;
+        },
     },
-}
+};
 </script>
