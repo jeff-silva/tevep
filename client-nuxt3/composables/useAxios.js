@@ -27,7 +27,6 @@ export default function(axiosParams={}) {
             submitParams = {...axiosParams, ...submitParams};
 
             req.value.loading = true;
-            
             req.value.cancelTokenSource = axios.CancelToken.source();
             axiosParams.cancelToken = req.value.cancelTokenSource.token;
 

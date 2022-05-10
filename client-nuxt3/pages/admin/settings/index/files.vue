@@ -37,13 +37,13 @@ export default {
     data() {
         return {
             itemsStorageType: [
-                {value:'database', text:'Banco de dados'},
-                {value:'file', text:'Arquivo'},
+                {value:'database', title:'Banco de dados'},
+                {value:'file', title:'Arquivo'},
             ],
             itemsMaxFilesize: [
-                {value:(1*1000000), text:'1mb'},
-                {value:(5*1000000), text:'5mb'},
-                {value:(10*1000000), text:'10mb'},
+                {value:(1*1000000), title:'1mb'},
+                {value:(5*1000000), title:'5mb'},
+                {value:(10*1000000), title:'10mb'},
             ],
         };
     },
