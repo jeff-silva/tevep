@@ -3,7 +3,7 @@
         <v-btn block color="primary" @click="editorDialog=true"><div class="py-4">Editar</div></v-btn>
         
         <v-dialog v-model="editorDialog" fullscreen>
-            <v-card>
+            <v-card v-if="elements.resp">
                 <v-toolbar>
                     <v-toolbar-title>Editar</v-toolbar-title>
                     <v-btn @click="editorDialog=false"><v-icon>mdi-close</v-icon></v-btn>
@@ -11,16 +11,18 @@
                 
                 <div class="d-flex" style="height:calc(100vh - 55px); overflow:auto;">
                     <div style="min-width:300px; max-width:300px;">
-                        <v-btn @click="sectionAdd(elements[2])">Add</v-btn>
+                        <v-btn @click="sectionAdd(elements[0])">Add</v-btn>
 
                         <v-divider></v-divider>
                         
                         <div class="font-weight-bold">Layouts</div>
                         <v-btn
                             block
-                            v-for="e in elements"
+                            v-for="e in elementsParsed"
                             @click="layoutSet(e)"
                         >{{ e.name || 'no name' }}</v-btn>
+
+                        <pre>{{ elements }}</pre>
 
                         <div v-if="elementEdit">
                             <component :is="elementEdit.edit"></component>
@@ -36,55 +38,21 @@
 </template>
 
 <script>
-const elements = [
-    {
-        name: "Layout 1",
-        type: "layout",
-        is: {
-            template: `<slot>Conteúdo</slot>`,
-        },
-        edit: {
-            template: `<div>edit layout 1</div>`,
-        },
-    },
-    {
-        name: "Layout 2",
-        type: "layout",
-        is: {
-            template: `<div class="d-flex">
-                <div style="min-width:300px; max-width:300px;">Coluna</div>
-                <div class="flex-grow-1">
-                    <div>Conteúdo</div>
-                    <slot></slot>
-                </div>
-            </div>`,
-        },
-        edit: {
-            template: `<div>edit layout 2</div>`,
-        },
-    },
-    {
-        name: "Section 1",
-        type: "section",
-        is: {
-            template: `<div>Hello</div>`,
-        },
-        edit: {
-            template: `<div>edit section 1</div>`,
-        },
-    },
-];
-
 export default {
     props: {
         modelValue: {default:false, type:[Boolean, Object]},
-        elements: {default:()=>elements, type:[Array]},
     },
 
     data() {
         return {
             editorDialog: true,
             elementEdit: false,
+            elements: useAxios({
+                method: "get",
+                url: "/api/pages-elements/search",
+                params: {},
+                submit: true,
+            }),
         };
     },
 
@@ -92,6 +60,16 @@ export default {
         propsModelValue: {
             get() { return this.modelValueParse(this.modelValue); },
             set(value) { this.$emit('update:modelValue', value); console.log('value', value); },
+        },
+
+        elementsParsed() {
+            if (!this.elements.resp) return [];
+            return this.elements.resp.data.map(element => {
+                element.comp = (new Function(`return ${element.comp};`))();
+                element.edit = (new Function(`return ${element.edit};`))();
+                console.log(element.comp);
+                return element;
+            });
         },
     },
 
@@ -101,7 +79,7 @@ export default {
                 value = {};
             }
             if (typeof value.layout!='object') {
-                value.layout = {is:'div'};
+                value.layout = {comp:'div'};
             }
             if (!Array.isArray(value.sections)) {
                 value.sections = [];
@@ -116,7 +94,6 @@ export default {
         },
 
         sectionAdd(section) {
-            section = JSON.parse(JSON.stringify(section));
             let propsModelValue = this.modelValueParse(this.propsModelValue);
             propsModelValue.sections.push({ key: this.uuid(), ...section });
             this.propsModelValue = propsModelValue;

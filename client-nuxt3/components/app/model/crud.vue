@@ -2,7 +2,7 @@
     <div>
         <!-- Edit -->
         <div v-if="$route.query.id">
-            <form @submit.prevent="save.submit({data:edit}).then(resp => editUpdate(resp.data));">
+            <form @submit.prevent="save.submit({data:edit}).then(saveSuccess);">
                 <v-card prepend-icon="mdi-pencil" v-if="edit">
                     <template #title>{{ edit.id? 'Editar': 'Criar' }}</template>
                     <v-progress-linear
@@ -46,14 +46,14 @@
                                             ></v-checkbox>
                                         </th>
                                         <slot name="search-table-header" v-bind="slotBind()"></slot>
-                                        <th width="50px"></th>
+                                        <th width="50px" class="app-model-crud-table-actions"></th>
                                     </tr>
                                 </thead>
             
                                 <tbody>
                                     <tr>
                                         <td
-                                            colspan="100%"
+                                            :colspan="tableSearchCols"
                                             class="px-0"
                                             style="height:3px; border:none;"
                                         >
@@ -63,6 +63,11 @@
                                                 height="3"
                                                 v-if="search.loading"
                                             ></v-progress-linear>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="search.resp && (search.resp.data && search.resp.data.length==0)">
+                                        <td class="text-center" :colspan="tableSearchCols">
+                                            Nenhum resultado encontrado
                                         </td>
                                     </tr>
                                     <tr v-for="item in search.resp.data" v-if="search.resp && search.resp.data">
@@ -75,7 +80,7 @@
                                             ></v-checkbox>
                                         </td>
                                         <slot name="search-table-item" v-bind="slotBind({item})"></slot>
-                                        <td class="py-1">
+                                        <td class="app-model-crud-table-actions py-1">
                                             <v-menu anchor="start">
                                                 <template #activator="{ props }">
                                                     <v-btn icon="mdi-dots-vertical" v-bind="props" flat></v-btn>
@@ -188,6 +193,8 @@
     margin-right: 10px;
     margin-bottom: 10px;
 }
+
+.app-model-crud-table-actions {position: sticky; right: 0;}
 </style>
 
 <script>
@@ -235,6 +242,13 @@ export default {
             this.$router.go(-1);
         },
 
+        saveSuccess(resp) {
+            this.editUpdate(resp.data);
+            this.$router.push({
+                query: {id: resp.data.id},
+            });
+        },
+
         editUpdate(edit) {
             this.edit = edit;
         },
@@ -263,10 +277,9 @@ export default {
         },
 
         async editInit() {
-            if (!this.$route.query.id) return;
-            this.edit = false;
-            let id = this.$route.query.id;
+            let id = this.$route.query.id || false;
             if (!id || isNaN(id)) return this.edit = {};
+            this.edit = false;
             (await useAxios({method: "get", url: `/api/${this.namespace}/find/${id}`})).value.submit().then(resp => {
                 this.edit = resp.data;
             });

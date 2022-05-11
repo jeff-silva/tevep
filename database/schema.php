@@ -251,6 +251,75 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 }
 
 
+// Create table pages_elements
+\DB::statement("CREATE TABLE IF NOT EXISTS `pages_elements` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comp` longtext COLLATE utf8mb4_unicode_ci,
+  `edit` longtext COLLATE utf8mb4_unicode_ci,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+
+// Create/Update column pages_elements.id
+\Schema::hasColumn('pages_elements', 'id')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT");
+
+
+// Create/Update column pages_elements.slug
+\Schema::hasColumn('pages_elements', 'slug')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL");
+
+
+// Create/Update column pages_elements.name
+\Schema::hasColumn('pages_elements', 'name')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL");
+
+
+// Create/Update column pages_elements.type
+\Schema::hasColumn('pages_elements', 'type')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL");
+
+
+// Create/Update column pages_elements.comp
+\Schema::hasColumn('pages_elements', 'comp')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `comp` longtext COLLATE utf8mb4_unicode_ci"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `comp` longtext COLLATE utf8mb4_unicode_ci");
+
+
+// Create/Update column pages_elements.edit
+\Schema::hasColumn('pages_elements', 'edit')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `edit` longtext COLLATE utf8mb4_unicode_ci"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `edit` longtext COLLATE utf8mb4_unicode_ci");
+
+
+// Create/Update column pages_elements.created_at
+\Schema::hasColumn('pages_elements', 'created_at')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `created_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `created_at` datetime DEFAULT NULL");
+
+
+// Create/Update column pages_elements.updated_at
+\Schema::hasColumn('pages_elements', 'updated_at')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `updated_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `updated_at` datetime DEFAULT NULL");
+
+
+// Create/Update column pages_elements.deleted_at
+\Schema::hasColumn('pages_elements', 'deleted_at')?
+	\DB::statement("ALTER TABLE pages_elements MODIFY COLUMN `deleted_at` datetime DEFAULT NULL"):
+	\DB::statement("ALTER TABLE pages_elements ADD COLUMN `deleted_at` datetime DEFAULT NULL");
+
+
 // Create table places
 \DB::statement("CREATE TABLE IF NOT EXISTS `places` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

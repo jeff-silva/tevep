@@ -93,6 +93,7 @@ class AppController extends Controller
 			['to'=>'', 'icon'=>'mdi-sitemap', 'label'=>'Páginas', 'children'=>[
 				['to'=>'/admin/pages', 'icon'=>'mdi-sitemap', 'label'=>'Procurar', 'children'=>[]],
 				['to'=>'/admin/pages?id=new', 'icon'=>'mdi-sitemap', 'label'=>'Criar', 'children'=>[]],
+				['to'=>'/admin/pages-elements', 'icon'=>'mdi-sitemap', 'label'=>'Elementos', 'children'=>[]],
 			]],
 			['to'=>'', 'icon'=>'mdi-account', 'label'=>'Usuários', 'children'=>[
 				['to'=>'/admin/users', 'icon'=>'mdi-account', 'label'=>'Procurar', 'children'=>[]],

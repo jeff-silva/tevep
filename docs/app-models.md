@@ -20,6 +20,7 @@ Estas são todas as models disponíveis no sistema:
 App\Models\EmailsTemplates;
 App\Models\Files;
 App\Models\Pages;
+App\Models\PagesElements;
 App\Models\Places;
 App\Models\Settings;
 App\Models\Teveps;
