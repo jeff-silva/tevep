@@ -26,17 +26,29 @@
                         </v-col>
                         
                         <v-col cols="12">
-                            <app-code label="Componente" v-model="crud.edit.comp" language="javascript" @update:modelValue="$log"></app-code>
-                            <pre>crud.edit.comp: {{ crud.edit.comp }}</pre>
+                            <v-row>
+                                <v-col cols="8">
+                                    <app-code label="Componente" v-model="crud.edit.comp" language="javascript"></app-code>
+                                </v-col>
+                                <v-col cols="4">
+                                    <app-content-element v-model="crud.edit.comp"></app-content-element>
+                                </v-col>
+                            </v-row>
                         </v-col>
                         
                         <v-col cols="12">
-                            <app-code label="Editor" v-model="crud.edit.edit" language="javascript" @update:modelValue="$log"></app-code>
-                            <pre>crud.edit.edit: {{ crud.edit.edit }}</pre>
+                            <v-row>
+                                <v-col cols="8">
+                                    <app-code label="Editor" v-model="crud.edit.edit" language="javascript"></app-code>
+                                </v-col>
+                                <v-col cols="4">
+                                    <app-content-element v-model="crud.edit.edit"></app-content-element>
+                                </v-col>
+                            </v-row>
                         </v-col>
                     </v-row>
 
-                    <pre>{{ crud }}</pre>
+                    <!-- <pre>{{ crud }}</pre> -->
                 </template>
             </app-model-crud>
         </nuxt-layout>
