@@ -98,6 +98,7 @@ class AppController extends Controller
 			['to'=>'', 'icon'=>'mdi-account', 'label'=>'Usuários', 'children'=>[
 				['to'=>'/admin/users', 'icon'=>'mdi-account', 'label'=>'Procurar', 'children'=>[]],
 				['to'=>'/admin/users?id=new', 'icon'=>'mdi-account', 'label'=>'Criar', 'children'=>[]],
+				['to'=>'/admin/users-groups', 'icon'=>'mdi-account', 'label'=>'Grupos de usuários', 'children'=>[]],
 			]],
 			['to'=>'', 'icon'=>'mdi-cog', 'label'=>'Configurações', 'children'=>[
 				['to'=>'/admin/settings', 'icon'=>'mdi-cog', 'label'=>'Configurações', 'children'=>[]],

@@ -108,7 +108,7 @@
                         <v-divider></v-divider>
         
                         <div class="d-flex align-center">
-                            <div class="pa-2">
+                            <div class="pa-2 d-none d-md-block">
                                 {{ search.resp.total }} resultados
                             </div>
 
@@ -121,7 +121,7 @@
                                 ></v-pagination>
                             </div>
 
-                            <div class="pa-2">
+                            <div class="pa-2 d-none d-md-block">
                                 <v-combobox
                                     v-model="search.params.per_page"
                                     :items="[5, 10, 25, 50, 100]"

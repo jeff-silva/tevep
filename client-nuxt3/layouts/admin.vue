@@ -5,7 +5,7 @@
         </head>
 
         <v-app>
-            <v-navigation-drawer app>
+            <v-navigation-drawer v-model="drawer">
                 <v-list>
                     <!-- <v-list-item class="px-2">
                         <v-list-item-avatar>
@@ -38,7 +38,10 @@
             </v-navigation-drawer>
 
             <v-app-bar app>
-                {{ app.settings['app.name'] }}
+                <div class="d-lg-none me-2">
+                    <v-btn icon="mdi-menu" @click="drawer=true"></v-btn>
+                </div>
+                <div>{{ app.settings['app.name'] }}</div>
             </v-app-bar>
 
             <!-- Sizes your content based upon application components -->
@@ -65,6 +68,7 @@
 export default {
     data() {
         return {
+            drawer: useWindowSize().width.value>1200,
             app: useApp(),
         };
     },
