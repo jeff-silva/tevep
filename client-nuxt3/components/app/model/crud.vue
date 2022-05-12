@@ -168,15 +168,14 @@
                 
                 <v-menu anchor="top">
                     <template #activator="{ props }">
-                        <v-btn icon="mdi-download" v-bind="props"></v-btn>
+                        <v-btn icon="mdi-cloud-download" v-bind="props"></v-btn>
                     </template>
     
-                    <v-list>
+                    <v-list style="width:180px;">
                         <v-list-item
                             :title="e.name"
                             v-for="e in search.resp.exportUrls"
-                            :href="e.url"
-                            target="_blank"
+                            @click="exportDownload(e)"
                         ></v-list-item>
                     </v-list>
                 </v-menu>
@@ -286,6 +285,15 @@ export default {
             this.edit = false;
             (await useAxios({method: "get", url: `/api/${this.namespace}/find/${id}`})).value.submit().then(resp => {
                 this.edit = resp.data;
+            });
+        },
+
+        exportDownload(item) {
+            this.$axios.get(item.url).then(resp => {
+                Object.assign(document.createElement('a'), {
+                    href: resp.data.base64,
+                    download: resp.data.name,
+                }).click();
             });
         },
     },

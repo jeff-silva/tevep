@@ -4,9 +4,9 @@ namespace App\Converters;
 
 class Converter
 {
+    public $ext;
     public $name;
     public $mime;
-    public $ext;
     public $importable = false;
     public $content = '';
 
@@ -16,24 +16,37 @@ class Converter
         // return true;
     }
 
-
-    public function export($query)
+    
+    public function exportQuery($query)
     {
-        $this->content = '';
         return $this;
     }
 
-
-    static function format($format_id)
+    public function getFilename()
     {
-        $format_id = 'App\Converters\\'. \Str::studly($format_id);
+        return 'download-'. date('YmdHis');
+    }
+
+
+    public function export($query)
+    {
+        $this->exportQuery($query);
+        return [
+            'name' => ($this->getFilename() .'.'. $this->ext),
+            'base64' => ("data:{$this->mime};base64,". base64_encode($this->content)),
+        ];
+    }
+
+
+    static function format($ext)
+    {
         foreach(self::formats() as $format) {
-            if ($format_id==get_class($format)) {
+            if ($ext==$format->ext) {
                 return $format;
             }
         }
 
-        return new class extends Converter {};
+        return false;
     }
 
 
@@ -45,7 +58,7 @@ class Converter
             if ($class=='Converter') continue;
             $return[] = app("\App\Converters\\{$class}");
         }
-
+        
         return collect($return);
     }
 }

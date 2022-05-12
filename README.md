@@ -8,8 +8,11 @@
 - [x] Componente base de CRUD
     - [ ] Ação de deletar
     - [ ] Ação de clonar
-- [ ] Conversão padrão de JSON para FormData no axios (para possibilitar upload)
-    - [ ] Gerenciador de arquivo
+    - [x] Ação de exportar
+    - [ ] Validações
+    - [ ] Máscaras
+- [x] Conversão padrão de JSON para FormData no axios (para possibilitar upload)
+    - [x] Gerenciador de arquivo
     - [ ] Configuração: Upload de logo
     - [ ] Configuração: Upload de favicon
 - [ ] Dropdown dados de usuário

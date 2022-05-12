@@ -165,23 +165,16 @@ trait Model
         $params = http_build_query($params);
         $namespace = \Str::of($this->getTable())->studly()->kebab();
 
-        return collect([
-            (object) [
-                'ext' => 'csv',
-                'name' => 'CSV',
-                'url' => "/api/{$namespace}/export?format=csv&{$params}",
-            ],
-            (object) [
-                'ext' => 'json',
-                'name' => 'Json',
-                'url' => "/api/{$namespace}/export?format=json&{$params}",
-            ],
-            (object) [
-                'ext' => 'html',
-                'name' => 'HTML',
-                'url' => "/api/{$namespace}/export?format=html&{$params}",
-            ],
-        ]);
+        $return = [];
+        foreach(\App\Converters\Converter::formats() as $format) {
+            $return[] = [
+                'ext' => $format->ext,
+                'name' => $format->name,
+                'url' => "/api/{$namespace}/export?format={$format->ext}&{$params}",
+            ];
+        }
+        
+        return collect($return);
     }
     
 
@@ -270,6 +263,7 @@ trait Model
 
     public function scopeExport($query, $format)
     {
+        // dd(\App\Converters\Converter::format($format)->export($query));
         return \App\Converters\Converter::format($format)->export($query);
     }
 

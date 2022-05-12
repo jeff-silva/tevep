@@ -5,9 +5,9 @@ namespace App\Converters;
 class Json extends Converter
 {
 
+    public $ext = 'json';
     public $name = 'JSON';
     public $mime = 'application/json';
-    public $ext = 'json';
     public $importable = true;
 
     public function import($model, $items=[])
@@ -15,9 +15,8 @@ class Json extends Converter
         // return json_decode($items, true);
     }
 
-    public function export($query)
+    public function exportQuery($query)
     {
         $this->content = json_encode($query->get());
-        return $this;
     }
 }

@@ -5,21 +5,21 @@ namespace App\Converters;
 class Html extends Converter
 {
 
-    public $name = 'HTML';
-    public $mime = 'text/html';
     public $ext = 'html';
+    public $name = 'Tabela HTML';
+    public $mime = 'text/html';
 
     public function import($model, $items=[])
     {
         // return json_decode($items, true);
     }
 
-    public function export($query)
+    public function exportQuery($query)
     {
         $content[] = '<!DOCTYPE html><html lang="en"><head>';
         $content[] = '<meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">';
         $content[] = '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-        $content[] = '<title>Document</title></head><body><table><tbody>';
+        $content[] = '<title>Document</title><style>html, body {font-family: monospace;}</style></head><body><table><tbody>';
 
         foreach($query->get() as $i => $model) {
             if ($i==0) {
@@ -39,6 +39,5 @@ class Html extends Converter
 
         $content[] = '</tbody></table></body></html>';
         $this->content = implode('', $content);
-        return $this;
     }
 }
