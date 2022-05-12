@@ -7,8 +7,8 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	protected $singular = 'Convite de Tevep';
-	protected $plural = 'Convites de Teveps';
+	public $singular = 'Convite de Tevep';
+	public $plural = 'Convites de Teveps';
 	protected $table = 'teveps_invites';
 
 	protected $fillable = [

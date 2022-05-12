@@ -7,8 +7,8 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	protected $singular = 'Local';
-	protected $plural = 'Locais';
+	public $singular = 'Local';
+	public $plural = 'Locais';
 	protected $table = 'places';
 
 	protected $fillable = [

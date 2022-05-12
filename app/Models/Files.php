@@ -7,8 +7,8 @@ class Files extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	protected $singular = 'Arquivo';
-	protected $plural = 'Arquivos';
+	public $singular = 'Arquivo';
+	public $plural = 'Arquivos';
 	protected $table = 'files';
 
 	protected $fillable = [

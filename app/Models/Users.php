@@ -13,8 +13,8 @@ class Users extends Authenticatable implements JWTSubject
 {
 	use \App\Traits\Model;
 
-	protected $singular = 'Usuário';
-	protected $plural = 'Usuários';
+	public $singular = 'Usuário';
+	public $plural = 'Usuários';
 	protected $table = 'users';
 
 	protected $fillable = [

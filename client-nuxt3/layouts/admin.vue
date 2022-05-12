@@ -41,6 +41,37 @@
                 <div class="d-lg-none me-2">
                     <v-btn icon="mdi-menu" @click="drawer=true"></v-btn>
                 </div>
+
+                <div class="d-none d-md-block">
+                    <v-menu anchor="bottom">
+                        <template #activator="{ props }">
+                            <v-btn icon="mdi-magnify" v-bind="props"></v-btn>
+                        </template>
+                        
+                        <div class="bg-white elevation-1" style="width:300px;">
+                            <v-text-field
+                                label="Busca"
+                                v-model="search.params.q"
+                                @keyup="search.submit({debounce:2000})"
+                                :hide-details="true"
+                            ></v-text-field>
+                            <v-progress-linear
+                                indeterminate
+                                v-if="search.loading"
+                            ></v-progress-linear>
+                            <v-list v-if="search.resp">
+                                <template v-for="i in search.resp">
+                                    <v-list-item :to="i.url">{{ i.name }}</v-list-item>
+        
+                                    <template v-for="ii in i.data">
+                                        <v-list-item :to="ii.url">{{ ii.name || 'name' }}</v-list-item>
+                                    </template>
+                                </template>
+                            </v-list>
+                        </div>
+                    </v-menu>
+                </div>
+                
                 <div>{{ app.settings['app.name'] }}</div>
             </v-app-bar>
 
@@ -70,6 +101,10 @@ export default {
         return {
             drawer: useWindowSize().width.value>1200,
             app: useApp(),
+            search: useAxios({
+                url: '/api/app/search',
+                params: {q:''},
+            }),
         };
     },
 }

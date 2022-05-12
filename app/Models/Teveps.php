@@ -7,8 +7,8 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	protected $singular = 'Tevep';
-	protected $plural = 'Teveps';
+	public $singular = 'Tevep';
+	public $plural = 'Teveps';
 	protected $table = 'teveps';
 
 	protected $fillable = [

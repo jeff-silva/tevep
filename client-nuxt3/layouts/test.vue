@@ -22,7 +22,6 @@
 
             <div class="col-10 p-3">
                 <slot></slot>
-                <pre>app: {{ app }}</pre>
             </div>
         </div>
     </div>

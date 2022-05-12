@@ -7,8 +7,8 @@ class Pages extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	protected $singular = 'Página';
-	protected $plural = 'Páginas';
+	public $singular = 'Página';
+	public $plural = 'Páginas';
 	protected $table = 'pages';
 	protected $fillable = ['id', 'slug', 'name', 'content', 'owner_id', 'created_at', 'updated_at', 'deleted_at'];
 

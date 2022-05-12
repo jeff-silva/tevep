@@ -7,8 +7,8 @@ class UsersGroups extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	protected $singular = 'Grupo de usuário';
-	protected $plural = 'Grupos de usuários';
+	public $singular = 'Grupo de usuário';
+	public $plural = 'Grupos de usuários';
 	protected $table = 'users_groups';
 	protected $fillable = ['id', 'slug', 'name', 'permissions', 'created_at', 'updated_at', 'deleted_at'];
 

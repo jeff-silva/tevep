@@ -7,8 +7,8 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	protected $singular = 'Configuração';
-	protected $plural = 'Configurações';
+	public $singular = 'Configuração';
+	public $plural = 'Configurações';
 	protected $table = 'settings';
 	protected $fillable = ['id', 'name', 'value', 'created_at', 'updated_at'];
 

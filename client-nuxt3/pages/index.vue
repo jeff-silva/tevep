@@ -5,3 +5,17 @@
         </nuxt-layout>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            search: useAxios({
+                url: '/api/app/search',
+                params: {q:''},
+                submit: true,
+            }),
+        };
+    },
+};
+</script>
