@@ -1,5 +1,7 @@
 <template>
-    <v-list>
+    <v-list class="app-nav">
+        <slot name="prepend"></slot>
+
         <!-- Level 0 -->
         <template v-for="(item, i) in items">
 
@@ -43,6 +45,7 @@
                 </template>
             </v-list-group>
         </template>
+        <slot name="append"></slot>
     </v-list>
 </template>
 
@@ -61,3 +64,7 @@ export default {
     },
 }
 </script>
+
+<style>
+.app-nav .v-icon {color:#777;}
+</style>

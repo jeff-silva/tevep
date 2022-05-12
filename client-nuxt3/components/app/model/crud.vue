@@ -79,7 +79,11 @@
                                                 class="mx-auto"
                                             ></v-checkbox>
                                         </td>
+                                        
+                                        <!-- Item -->
                                         <slot name="search-table-item" v-bind="slotBind({item})"></slot>
+
+                                        <!-- Actions -->
                                         <td class="app-model-crud-table-actions py-1">
                                             <v-menu anchor="start">
                                                 <template #activator="{ props }">

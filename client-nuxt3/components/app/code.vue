@@ -1,6 +1,8 @@
 <template>
     <div class="app-code">
-        <div ref="monacoRef" style="min-height:300px;"></div>
+        <v-input :label="label" :hide-details="true">
+            <div ref="monacoRef" style="min-height:300px;"></div>
+        </v-input>
     </div>
 </template>
 
@@ -18,39 +20,49 @@ export default {
 
     data() {
         return {
+            monacoId: false,
             monacoEditor: false,
-            resizeHandler: false,
         };
     },
 
     methods: {
         monacoInit() {
-            const monacoEditor = monaco.editor.create(this.$refs.monacoRef, {
+            window.monacoInstances = window.monacoInstances||{};
+            if (this.monacoId) return window.monacoInstances[this.monacoId];
+
+            let monacoEditor = monaco.editor.create(this.$refs.monacoRef, {
                 value: this.modelValue,
                 language: this.language,
                 theme: this.theme,
-                autoIndent: true,
                 readOnly: this.disabled,
+                autoIndent: true,
+                automaticLayout: true,
             });
             
             monacoEditor.getModel().onDidChangeContent(ev => {
                 this.$emit('update:modelValue', monacoEditor.getValue());
             });
 
-            this.resizeHandler = () => {
-                // monacoEditor.layout({width:0});
-            };
+            this.monacoId = 'monaco-'+(Math.round(Math.random()*9999));
+            window.monacoInstances[this.monacoId] = monacoEditor;
+            return monacoEditor;
+        },
 
-            window.addEventListener('resize', this.resizeHandler);
+        resizeHandler() {
+            let monacoEditor = this.monacoInit();
+            if (!monacoEditor) return;
+            monacoEditor.layout({width:0});
         },
     },
 
     mounted() {
         this.monacoInit();
+        window.addEventListener('resize', this.resizeHandler);
     },
 
     unmounted() {
         window.removeEventListener('resize', this.resizeHandler);
+        delete window.monacoInstances[this.monacoId];
     },
 };
 </script>

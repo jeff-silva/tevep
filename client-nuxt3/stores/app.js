@@ -4,6 +4,7 @@ export const useAppStore = defineStore({
     id: 'app',
     
     state: () => ({
+        devMode: true,
         access_token: (localStorage.getItem('access_token') || false),
         user: false,
         userPermissions: [],
@@ -17,6 +18,7 @@ export const useAppStore = defineStore({
             try {
                 if (this.user) return;
                 const resp = await useAxios({method:"post", url:"/api/app/load"}).value.submit();
+                this.devMode = resp.data.devMode;
                 this.user = resp.data.user;
                 this.userPermissions = resp.data.userPermissions;
                 this.settings = resp.data.settings;

@@ -3,3 +3,14 @@
 <img height="25px" src="https://wakatime.com/badge/github/jeff-silva/tevep.svg" alt="">
 
 [Documentação](/docs/index.md)
+
+#### Conversão para Vue 3 + Nuxt 3
+- [x] Componente base de CRUD
+    - [ ] Ação de deletar
+    - [ ] Ação de clonar
+- [ ] Conversão padrão de JSON para FormData no axios (para possibilitar upload)
+    - [ ] Gerenciador de arquivo
+    - [ ] Configuração: Upload de logo
+    - [ ] Configuração: Upload de favicon
+- [ ] Dropdown dados de usuário
+- [ ] Manter conteúdo principal do admin dentro de um v-container

@@ -30,7 +30,14 @@ export default defineNuxtConfig({
 
     vite: {
         define: {
-            'process.env.DEBUG': 'false',
+            'process.env.DEBUG': false,
+        },
+        server: {
+            proxy: {
+                '/api/': { target: back.toString() },
+                '/uploads/': { target: back.toString() },
+                '/assets/': { target: back.toString() },
+            },
         },
     },
 

@@ -25,16 +25,32 @@
 
                 <v-divider></v-divider>
 
-                <app-nav :items="app.adminNav"></app-nav>
-                <v-divider></v-divider>
-                <v-list>
-                    <v-list-item
-                        prepend-icon="mdi-power"
-                        @click="app.logout().then(resp => $router.push('/auth'))"
-                    >
-                        Logout
-                    </v-list-item>
-                </v-list>
+                <app-nav :items="app.adminNav">
+                    <template #append>
+                        <template v-if="app.devMode">
+                            <v-divider></v-divider>
+    
+                            <v-list-item
+                                prepend-icon="mdi-wrench"
+                                to="/admin/dev"
+                                v-if="app.devMode"
+                            >
+                                Developers
+                            </v-list-item>
+                        </template>
+
+                        <v-divider></v-divider>
+
+                        <v-list-item
+                            prepend-icon="mdi-power"
+                            @click="app.logout().then(resp => $router.push('/auth'))"
+                        >
+                            Logout
+                        </v-list-item>
+
+                        <v-divider></v-divider>
+                    </template>
+                </app-nav>
             </v-navigation-drawer>
 
             <v-app-bar app>
@@ -42,13 +58,13 @@
                     <v-btn icon="mdi-menu" @click="drawer=true"></v-btn>
                 </div>
 
-                <div class="d-none d-md-block">
+                <div class="d-none d-md-block me-2">
                     <v-menu anchor="bottom">
                         <template #activator="{ props }">
                             <v-btn icon="mdi-magnify" v-bind="props"></v-btn>
                         </template>
                         
-                        <div class="bg-white elevation-1" style="width:300px;">
+                        <div class="bg-white elevation-1 mt-2" style="width:300px;">
                             <v-text-field
                                 label="Busca"
                                 v-model="search.params.q"

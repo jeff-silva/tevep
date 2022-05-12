@@ -9,7 +9,7 @@ class AppController extends Controller
 		$this->model = new \App\Models\Settings;
 
 		$this->middleware('auth:api', [
-			'except' => ['load', 'search', 'test', 'script', 'info'],
+			'except' => ['load', 'endpoints', 'test', 'script', 'info'],
 		]);
 
 		$this->route('post', '/load', 'load', [
@@ -18,6 +18,10 @@ class AppController extends Controller
 		
 		$this->route('get', '/search', 'search', [
 			'description' => 'Busca geral do sistema',
+		]);
+		
+		$this->route('get', '/endpoints', 'endpoints', [
+			'description' => 'Lista de endpoints do sistema',
 		]);
 
 		$this->route('get', '/dashboard', 'dashboard', [
@@ -34,6 +38,7 @@ class AppController extends Controller
 	{
 		$load = [];
 
+		$load['devMode'] = !\App::environment('production');
 		$load['user'] = false;
 		$load['userPermissions'] = [];
 		if ($user = auth()->user()) {
@@ -135,20 +140,6 @@ class AppController extends Controller
 		return $routes;
 	}
 
-	public function script()
-	{
-		$env = [
-			'aaa' => true,
-		];
-
-		$lines[] = 'console.log(window.$nuxt);';
-		// $lines[] = 'window.$nuxt.$settings = '. json_encode($env) .';';
-
-		return response(implode("\n", $lines), 200)->header('Content-Type', 'application/javascript');
-	}
-
-
-	
 	
 	public function dashboard()
 	{

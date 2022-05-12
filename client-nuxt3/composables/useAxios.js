@@ -5,6 +5,9 @@ import { useAppStore } from '@/stores/app';
 
 
 export default function(axiosParams={}) {
+    axiosParams.headers = axiosParams.headers||{};
+    axiosParams.headers['Content-Type'] = 'multipart/form-data';
+
     const app = useAppStore();
 
     let req = ref({
@@ -42,6 +45,7 @@ export default function(axiosParams={}) {
     req.value.submit = async (submitParams={}) => {
         return new Promise((resolve, reject) => {
             req.value.loading = true;
+            
 
             if (submitParams.params) {
                 req.value.params = submitParams.params;
@@ -52,7 +56,18 @@ export default function(axiosParams={}) {
             }
 
             req.value.axios.params = req.value.params;
-            req.value.axios.data = req.value.data;
+
+            let formData = new FormData();
+            for(let i in req.value.data) {
+                let value = req.value.data[i];
+
+                if (value!==null && (value.constructor.name=='Object' || value.constructor.name=='Array')) {
+                    value = JSON.stringify(value);
+                }
+
+                formData.append(i, value);
+            }
+            req.value.axios.data = formData;
 
             // Debounce submit
             if (!isNaN(submitParams.debounce)) {
