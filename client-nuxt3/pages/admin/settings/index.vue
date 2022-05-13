@@ -1,7 +1,7 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <form @submit.prevent="formSubmit()">
+            <form @submit.prevent="formSubmit()" v-if="settings && settings.data && Object.keys(settings.data).length">
                 <v-card>
                     <v-tabs
                         v-model="tab"
@@ -13,7 +13,7 @@
                         <v-tab value="files">Arquivos</v-tab>
                     </v-tabs>
                     <v-card-text>
-                        <nuxt-child :settings="settings"></nuxt-child>
+                        <nuxt-child :settings="settings.data"></nuxt-child>
                     </v-card-text>
                 </v-card>
     
@@ -34,7 +34,7 @@ export default {
     data() {
         return {
             tab: this.$route.path.replace('/admin/settings/', ''),
-            settings: useAxios({url:"/api/settings/all", submit:true}),
+            settings: useAxios({method:'post', url:'/api/settings/save', data:{}}),
         };
     },
 
@@ -46,9 +46,14 @@ export default {
 
     methods: {
         formSubmit() {
-            this.settings.submit({method:'post', url:'/api/settings/save', data:this.settings.resp})
-                .then(resp => { location.reload(); });
+            this.settings.submit({method:'post', url:'/api/settings/save'}).then(resp => {
+                location.reload();
+            });
         },
+    },
+
+    async mounted() {
+        this.settings.data = (await useAxios({url:"/api/settings/all"}).value.submit()).data;
     },
 }
 </script>

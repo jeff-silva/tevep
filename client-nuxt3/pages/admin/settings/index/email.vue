@@ -5,7 +5,7 @@
                 <v-text-field
                     label="Tipo de conexão"
                     :hide-details="true"
-                    v-model="sets.resp['mail.default']"
+                    v-model="sets['mail.default']"
                 ></v-text-field>
             </v-col>
 
@@ -13,7 +13,7 @@
                 <v-text-field
                     label="Host"
                     :hide-details="true"
-                    v-model="sets.resp['mail.mailers.smtp.host']"
+                    v-model="sets['mail.mailers.smtp.host']"
                 ></v-text-field>
             </v-col>
 
@@ -21,7 +21,7 @@
                 <v-text-field
                     label="Porta"
                     :hide-details="true"
-                    v-model="sets.resp['mail.mailers.smtp.port']"
+                    v-model="sets['mail.mailers.smtp.port']"
                 ></v-text-field>
             </v-col>
             
@@ -29,7 +29,7 @@
                 <v-text-field
                     label="Usuário"
                     :hide-details="true"
-                    v-model="sets.resp['mail.mailers.smtp.username']"
+                    v-model="sets['mail.mailers.smtp.username']"
                 ></v-text-field>
             </v-col>
             
@@ -37,7 +37,7 @@
                 <v-text-field
                     label="Senha"
                     :hide-details="true"
-                    v-model="sets.resp['mail.mailers.smtp.password']"
+                    v-model="sets['mail.mailers.smtp.password']"
                 ></v-text-field>
             </v-col>
         </v-row>

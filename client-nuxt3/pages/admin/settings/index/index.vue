@@ -5,7 +5,7 @@
                 <v-text-field
                     label="Nome app"
                     :hide-details="true"
-                    v-model="sets.resp['app.name']"
+                    v-model="sets['app.name']"
                 ></v-text-field>
             </v-col>
 
@@ -13,7 +13,7 @@
                 <v-text-field
                     label="Timezone"
                     :hide-details="true"
-                    v-model="sets.resp['app.timezone']"
+                    v-model="sets['app.timezone']"
                 ></v-text-field>
             </v-col>
 
@@ -21,7 +21,7 @@
                 <v-text-field
                     label="Idioma"
                     :hide-details="true"
-                    v-model="sets.resp['app.locale']"
+                    v-model="sets['app.locale']"
                 ></v-text-field>
             </v-col>
         </v-row>

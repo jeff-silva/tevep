@@ -6,7 +6,7 @@
                     label="Storage type"
                     :hide-details="true"
                     :items="itemsStorageType"
-                    v-model="sets.resp['app_models_files.storage_type']"
+                    v-model="sets['app_models_files.storage_type']"
                 ></v-select>
             </v-col>
 
@@ -15,7 +15,7 @@
                     label="Tamanho máximo de arquivo"
                     :hide-details="true"
                     :items="itemsMaxFilesize"
-                    v-model="sets.resp['app_models_files.max_upload_size']"
+                    v-model="sets['app_models_files.max_upload_size']"
                 ></v-select>
             </v-col>
         </v-row>
