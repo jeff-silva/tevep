@@ -16,6 +16,6 @@
     - [ ] Configuração: Upload de logo
     - [ ] Configuração: Upload de favicon
 - [ ] Bugs menores
-    - [ ] Manter conteúdo principal do admin dentro de um v-container
+    - [x] Manter conteúdo principal do admin dentro de um v-container
     - [ ] Redirecionamento recursivo no componente app-model-crud
 - [x] Select de models por ID

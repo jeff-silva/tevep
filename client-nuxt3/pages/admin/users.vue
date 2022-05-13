@@ -19,18 +19,13 @@
 
                 <template #edit-fields="crud">
                     <v-row>
-                        <v-col cols="6">
-                            <v-text-field label="Nome" v-model="crud.edit.name" :hide-details="true"></v-text-field>
+                        <v-col cols="12" md="4">
+                            <app-model-file v-model="crud.edit.photo_id"></app-model-file>
                         </v-col>
-                        <v-col cols="6">
-                            <v-text-field label="E-mail" v-model="crud.edit.email" :hide-details="true"></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                            <app-model-select
-                                v-model="crud.edit.address_id"
-                                label="Endereço"
-                                namespace="places"
-                            ></app-model-select>
+                        <v-col cols="12" md="8">
+                            <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>
+                            <v-text-field label="E-mail" v-model="crud.edit.email"></v-text-field>
+                            <app-model-place label="Endereço" v-model="crud.edit.address_id"></app-model-place>
                         </v-col>
                     </v-row>
                 </template>

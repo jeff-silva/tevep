@@ -96,7 +96,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	public function placeSearch($params = [])
 	{
 		$params = (object) array_merge([
-			'search' => null,
+			'q' => null,
 			'lat' => null,
 			'lng' => null,
 		], $params);
@@ -166,7 +166,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 
 		// Viacep search
 		$respCep = false;
-		if ($cep = preg_replace('/[^0-9]/i', '', $params->search) AND 8==strlen($cep)) {
+		if ($cep = preg_replace('/[^0-9]/i', '', $params->q) AND 8==strlen($cep)) {
 
 			$key = md5(json_encode(['viacep', $cep]));
 			$respCep = (object) \Cache::remember($key, 60*60*24*30, function() use($cep) {
@@ -174,7 +174,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 			});
 
 			if ($respCep) {
-				$params->search = "{$params->search} {$respCep->logradouro} {$respCep->localidade} {$respCep->uf}";
+				$params->q = "{$params->q} {$respCep->logradouro} {$respCep->localidade} {$respCep->uf}";
 			}
 		}
 
@@ -200,7 +200,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 
 		// Open street map results
 		$return = [];
-		$key = md5(json_encode(['openstreetmap', $params->search]));
+		$key = md5(json_encode(['openstreetmap', $params->q]));
 		$respPlaces = \Cache::remember($key, 60*60*24*30, function() use($params) {
 			return \Http::get('https://nominatim.openstreetmap.org/search.php?'. http_build_query([
 				'format' => 'json',
@@ -208,7 +208,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 				'extratags' => '1',
 				'namedetails' => '1',
 				'limit' => '10',
-				'q' => $params->search,
+				'q' => $params->q,
 			]))->json();
 		});
 

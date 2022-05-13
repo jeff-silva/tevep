@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-menu v-model="focus">
+        <v-menu v-model="focus.focused">
             <template #activator="{ props }">
                 <v-text-field
                     :label="label"
