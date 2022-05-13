@@ -5,6 +5,59 @@
         </head>
 
         <v-app>
+
+            <!-- searchDrawer -->
+            <v-navigation-drawer temporary position="right" v-model="searchDrawer" width="300">
+                <v-card-header>
+                    <v-card-title>Busca</v-card-title>
+                </v-card-header>
+
+                <div class="pa-2">
+                    <v-text-field
+                        label="Pesquisar"
+                        v-model="search.params.q"
+                        @keyup="search.submit({debounce:2000})"
+                        :hide-details="true"
+                        :loading="search.loading"
+                        class="mb-3"
+                    ></v-text-field>
+                    <v-list v-if="search.resp">
+                        <template v-for="i in search.resp">
+                            <v-list-item :to="i.url">{{ i.name }}</v-list-item>
+    
+                            <template v-for="ii in i.data">
+                                <v-list-item :to="ii.url">{{ ii.name || 'name' }}</v-list-item>
+                            </template>
+                        </template>
+                    </v-list>
+                </div>
+            </v-navigation-drawer>
+            
+            <!-- notificationshDrawer -->
+            <v-navigation-drawer temporary position="right" v-model="notificationshDrawer" width="300">
+                <v-card-header>
+                    <v-card-title>Notificações</v-card-title>
+                </v-card-header>
+
+                <v-list>
+                    <v-list-item>
+                        Sem notificações
+                    </v-list-item>
+                </v-list>
+            </v-navigation-drawer>
+
+            <!-- userDrawer -->
+            <v-navigation-drawer temporary position="right" v-model="userDrawer" width="300">
+                <v-card-header>
+                    <v-card-title>Usuário</v-card-title>
+                </v-card-header>
+
+                <v-card-text>
+                    <pre>{{ app.user }}</pre>
+                </v-card-text>
+            </v-navigation-drawer>
+
+            <!-- App drawer -->
             <v-navigation-drawer v-model="drawer">
                 <v-list>
                     <!-- <v-list-item class="px-2">
@@ -54,41 +107,20 @@
             </v-navigation-drawer>
 
             <v-app-bar app>
-                <div class="d-lg-none me-2">
-                    <v-btn icon="mdi-menu" @click="drawer=true"></v-btn>
-                </div>
-
-                <div class="d-none d-md-block me-2">
-                    <v-menu anchor="bottom">
-                        <template #activator="{ props }">
-                            <v-btn icon="mdi-magnify" v-bind="props"></v-btn>
-                        </template>
-                        
-                        <div class="bg-white elevation-1 mt-2" style="width:300px;">
-                            <v-text-field
-                                label="Busca"
-                                v-model="search.params.q"
-                                @keyup="search.submit({debounce:2000})"
-                                :hide-details="true"
-                            ></v-text-field>
-                            <v-progress-linear
-                                indeterminate
-                                v-if="search.loading"
-                            ></v-progress-linear>
-                            <v-list v-if="search.resp">
-                                <template v-for="i in search.resp">
-                                    <v-list-item :to="i.url">{{ i.name }}</v-list-item>
-        
-                                    <template v-for="ii in i.data">
-                                        <v-list-item :to="ii.url">{{ ii.name || 'name' }}</v-list-item>
-                                    </template>
-                                </template>
-                            </v-list>
-                        </div>
-                    </v-menu>
-                </div>
-                
-                <div>{{ app.settings['app.name'] }}</div>
+                <v-app-bar-nav-icon
+                    @click="drawer=true"
+                    class="d-lg-none"
+                ></v-app-bar-nav-icon>
+    
+                <v-toolbar-title>
+                    {{ app.settings['app.name'] }}
+                </v-toolbar-title>
+    
+                <v-spacer></v-spacer>
+    
+                <v-btn icon="mdi-magnify" @click="searchDrawer=!searchDrawer"></v-btn>
+                <v-btn icon="mdi-bell" @click="notificationshDrawer=!notificationshDrawer"></v-btn>
+                <v-btn icon="mdi-dots-vertical" @click="userDrawer=!userDrawer"></v-btn>
             </v-app-bar>
 
             <!-- Sizes your content based upon application components -->
@@ -116,6 +148,9 @@ export default {
     data() {
         return {
             drawer: useWindowSize().width.value>1200,
+            searchDrawer: false,
+            notificationshDrawer: false,
+            userDrawer: false,
             app: useApp(),
             search: useAxios({
                 url: '/api/app/search',

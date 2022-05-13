@@ -12,11 +12,8 @@
                         <div class="font-weight-thin">{{ item.email }}</div>
                     </td>
                 </template>
-                
-                <!-- <template #search-table-item-actions="{item}">
-                    <v-btn icon="mdi-download"></v-btn>
-                </template> -->
 
+                <!-- Edit -->
                 <template #edit-fields="crud">
                     <v-row>
                         <v-col cols="12" md="4">

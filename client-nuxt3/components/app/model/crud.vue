@@ -32,7 +32,7 @@
                         <slot name="search-header" v-bind="slotBind()"></slot>
                     </v-col>
     
-                    <v-col cols="12" lg="9">
+                    <v-col cols="12" md="8">
                         <div class="bg-white elevation-1">
                             <slot name="search-table" v-bind="slotBind()">
                                 <v-table
@@ -142,7 +142,7 @@
                         </div>
                     </v-col>
         
-                    <v-col cols="12" lg="3">
+                    <v-col cols="12" md="4">
                         <v-card>
                             <v-card-header>
                                 <div>Busca</div>
@@ -209,8 +209,8 @@ export default {
     props: {
         namespace: {default:''},
         actionsExcept: {default:()=>([]), type:Array},
-        searchWidth: {default:'1000px'},
-        editWidth: {default:'1000px'},
+        searchWidth: {default:'1200px'},
+        editWidth: {default:'1200px'},
     },
 
     watch: {
