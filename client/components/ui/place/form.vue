@@ -4,11 +4,11 @@
             <ui-autocomplete action="/api/places/place-search" :params="autocomplete.params">
                 <template #default="ac">
                     
-                    <ui-field-float :label="props.place.formatted||'Buscar'">
+                    <ui-field-float :label="props.place.name||'Buscar'">
                         <input type="text" class="form-control border-end-0" placeholder="Buscar" v-model="autocomplete.params.search">
 
                         <template #append>
-                            <div class="input-group-text bg-transparent border-start-0" v-if="props.place.formatted">
+                            <div class="input-group-text bg-transparent border-start-0" v-if="props.place.name">
                                 <a href="javascript:;" class="text-dark" @click="placeClear()">
                                     <i class="fas fa-fw fa-times"></i>
                                 </a>

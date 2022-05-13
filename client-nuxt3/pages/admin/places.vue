@@ -22,7 +22,7 @@
 
                 <template #search-table-item="{item}">
                     <td>
-                        <div class="font-weight-bold">{{ item.formatted }}</div>
+                        <div class="font-weight-bold">{{ item.name }}</div>
                         <div class="font-weight-thin">{{ [item.city, item.state, item.country].filter(item => item).join(', ') }}</div>
                     </td>
                 </template>

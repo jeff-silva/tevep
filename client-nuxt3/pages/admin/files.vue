@@ -20,7 +20,7 @@
                 </template>
                 
                 <template #search-table-item-actions="{item}">
-                    <v-btn icon="mdi-download"></v-btn>
+                    <v-btn icon="mdi-download" :href="item.url" :download="`${item.slug}.${item.ext}`"></v-btn>
                 </template>
 
                 <template #edit-fields="crud">

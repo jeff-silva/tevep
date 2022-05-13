@@ -1,23 +1,30 @@
 <template>
     <div>
-        <v-text-field
-            :label="label"
-            :hide-details="true"
-            @keyup="modelSearch.submit({debounce:1500})"
-            v-model="modelSearch.params.q"
-        ></v-text-field>
+        <v-menu v-model="focus">
+            <template #activator="{ props }">
+                <v-text-field
+                    :label="label"
+                    v-model="modelSearch.params.q"
+                    v-bind="props"
+                    @keyup="modelSearch.submit({debounce:1500})"
+                    :loading="modelSearch.loading"
+                ></v-text-field>
+            </template>
 
-        <v-card v-if="focus.focused">
-            <v-list>
-                <template v-for="item in (modelSearch.resp.data || [])">
-                    <v-list-item @click="setModelValue(item)">
+            <v-list class="mt-2" style="margin-left:-15px;">
+                <v-list-item v-if="(modelSearch.resp? modelSearch.resp.data: []).length==0">
+                    Pesquise um item
+                </v-list-item>
+
+                <template v-for="item in (modelSearch.resp? modelSearch.resp.data: [])">
+                    <v-list-item @click="selectItemHandler(item)">
                         <slot name="item" :item="item">
-                            {{ item[ fieldName ] }}
+                            {{ item.name }}
                         </slot>
                     </v-list-item>
                 </template>
             </v-list>
-        </v-card>
+        </v-menu>
     </div>
 </template>
 
@@ -33,38 +40,33 @@ export default {
     },
 
     methods: {
-        setModelValue(item) {
-            // if (this.multiple) {
-            //     this.propsModelValue = Array.isArray(this.propsModelValue)? this.propsModelValue: [];
-            //     this.propsModelValue.push(item.id);
-            //     this.items.push(item);
-            //     return;
-            // }
-
-            this.modelSearch.params.q = item[ this.fieldName ];
-            this.propsModelValue = item.id;
-            this.items = [ item ];
-        },
-
         modelFind() {
             useAxios({url:`/api/${this.namespace}/search`, params:{id:this.modelValue}})
                 .value.submit().then(resp => {
-                    if (!this.items[0]) return;
-                    this.items = resp.data.data;
-                    this.modelSearch.params.q = this.items[0][ this.fieldName ];
+                    if (!resp.data.data[0]) return;
+                    this.modelSearch.params.q = resp.data.data[0][ this.fieldName ];
                 });
+        },
+
+        async keyupHandler(ev) {
+            this.modelSearch.params.q = ev.target.value;
+            await this.modelSearch.submit({debounce:2000});
+            ev.target.value = '';
+        },
+
+        selectItemHandler(item) {
+            this.modelSearch.params.q = item[ this.fieldName ];
+            this.$emit('update:modelValue', item[this.fieldId]);
         },
     },
 
     data() {
         return {
-            items: [],
+            focus: false,
             modelSearch: useAxios({
                 url: `/api/${this.namespace}/search`,
                 params: {q:''},
-                submit: true,
             }),
-            focus: false,
         };
     },
 
@@ -72,12 +74,6 @@ export default {
         propsModelValue: {
             get() { return this.modelValue; },
             set(value) { this.$emit('update:modelValue', value); },
-        },
-
-        itemsLabel() {
-            return this.items.map(item => {
-                return item[ this.fieldName ] || 'no field';
-            }).join(', ');
         },
     },
 

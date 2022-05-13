@@ -15,5 +15,7 @@
     - [x] Gerenciador de arquivo
     - [ ] Configuração: Upload de logo
     - [ ] Configuração: Upload de favicon
-- [ ] Dropdown dados de usuário
-- [ ] Manter conteúdo principal do admin dentro de um v-container
+- [ ] Bugs menores
+    - [ ] Manter conteúdo principal do admin dentro de um v-container
+    - [ ] Redirecionamento recursivo no componente app-model-crud
+- [x] Select de models por ID

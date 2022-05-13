@@ -1,6 +1,6 @@
 <template>
     <div class="ui-place">
-        <div class="form-control" @click="modal=true">{{ props.place.formatted || 'Sem endereço' }}</div>
+        <div class="form-control" @click="modal=true">{{ props.place.name || 'Sem endereço' }}</div>
 
         <ui-modal v-model="modal" width="600px">
             <template #header>Endereço</template>

@@ -324,7 +324,7 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 \DB::statement("CREATE TABLE IF NOT EXISTS `places` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `formatted` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `route` varchar(255) DEFAULT NULL,
   `number` varchar(10) DEFAULT NULL,
   `complement` varchar(255) DEFAULT NULL,
@@ -356,10 +356,10 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 	\DB::statement("ALTER TABLE places ADD COLUMN `name` varchar(255) DEFAULT NULL");
 
 
-// Create/Update column places.formatted
-\Schema::hasColumn('places', 'formatted')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `formatted` varchar(255) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `formatted` varchar(255) DEFAULT NULL");
+// Create/Update column places.description
+\Schema::hasColumn('places', 'description')?
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `description` varchar(255) DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `description` varchar(255) DEFAULT NULL");
 
 
 // Create/Update column places.route

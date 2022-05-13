@@ -91,7 +91,7 @@
                                                 </template>
             
                                                 <div class="search-table-item-actions">
-                                                    <slot name="search-table-item-actions"></slot>
+                                                    <slot name="search-table-item-actions" v-bind="slotBind({item})"></slot>
                                                     <template v-if="!actionsExcept.includes('edit')">
                                                         <v-btn icon="mdi-pencil" :to="`/admin/${namespace}?id=${item.id}`"></v-btn>
                                                     </template>

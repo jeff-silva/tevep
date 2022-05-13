@@ -8,7 +8,7 @@
                         <v-text-field
                             v-bind="activator.props"
                             :hide-details="true"
-                            :label="props.modelValue.formatted||'Busca'"
+                            :label="props.modelValue.name||'Busca'"
                             prepend-icon="mdi-magnify"
                             v-model="search.params.search"
                             @keyup="search.submit({debounce:1000})"

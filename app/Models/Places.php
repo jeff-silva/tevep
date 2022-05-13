@@ -14,7 +14,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	protected $fillable = [
 		'id',
 		'name',
-		'formatted',
+		'description',
 		'route',
 		'number',
 		'complement',
@@ -47,7 +47,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 		$this->lng = floatval($this->lng ?? 0);
 		$this->country_short = strtoupper($this->country_short);
 		$this->state_short = strtoupper($this->state_short);
-		$this->formatted = implode(array_filter([
+		$this->name = implode(array_filter([
 			$this->route,
 			(!!$this->number? "nº {$this->number}": null),
 			$this->complement,
@@ -56,8 +56,8 @@ class Places extends \Illuminate\Database\Eloquent\Model
 			$this->state_short,
 		], 'strlen'), ', ');
 
-		if (!$this->formatted) {
-			$this->formatted = $this->country;
+		if (!$this->name) {
+			$this->name = $this->country;
 		}
 	}
 

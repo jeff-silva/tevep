@@ -26,12 +26,10 @@
                             <v-text-field label="E-mail" v-model="crud.edit.email" :hide-details="true"></v-text-field>
                         </v-col>
                         <v-col cols="12">
-                            <pre>address_id: {{ crud.edit.address_id }}</pre>
                             <app-model-select
                                 v-model="crud.edit.address_id"
                                 label="Endereço"
                                 namespace="places"
-                                field-name="formatted"
                             ></app-model-select>
                         </v-col>
                     </v-row>

@@ -12,7 +12,7 @@
 		</template>
 		
 		<template #table-row="{item}">
-			<td>{{ item.formatted }}</td>
+			<td>{{ item.name }}</td>
 			<td>{{ [item.city, item.state_short, item.country].filter(item => item).join('/') }}</td>
 		</template>
 
