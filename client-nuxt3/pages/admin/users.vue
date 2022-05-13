@@ -15,18 +15,39 @@
 
                 <!-- Edit -->
                 <template #edit-fields="crud">
-                    <v-row>
-                        <v-col cols="12" md="4">
-                            <app-model-file v-model="crud.edit.photo_id"></app-model-file>
-                        </v-col>
-                        <v-col cols="12" md="8">
-                            <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>
-                            <v-text-field label="E-mail" v-model="crud.edit.email"></v-text-field>
+                    <v-tabs v-model="tab" class="mb-4">
+                        <v-tab value="home">Dados</v-tab>
+                        <v-tab value="address">Endereço</v-tab>
+                    </v-tabs>
+
+                    <v-window v-model="tab">
+                        <v-window-item value="home">
+                            <v-row>
+                                <v-col cols="12" md="4">
+                                    <app-model-file v-model="crud.edit.photo_id"></app-model-file>
+                                </v-col>
+                                <v-col cols="12" md="8">
+                                    <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>
+                                    <v-text-field label="E-mail" v-model="crud.edit.email"></v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-window-item>
+                        <v-window-item value="address">
                             <app-model-place label="Endereço" v-model="crud.edit.address_id"></app-model-place>
-                        </v-col>
-                    </v-row>
+                        </v-window-item>
+                    </v-window>
                 </template>
             </app-model-crud>
         </nuxt-layout>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            tab: 'home',
+        };
+    },
+};
+</script>
