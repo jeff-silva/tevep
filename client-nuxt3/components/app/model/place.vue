@@ -156,6 +156,8 @@ export default {
 
         mapRecenter() {
             setTimeout(() => {
+                if (!this.$refs.map.leafletObject) return;
+                if (!this.$refs.map.leafletObject.panTo) return;
                 this.$refs.map.leafletObject.panTo([
                     (this.placeSave.data.lat || 0),
                     (this.placeSave.data.lng || 0),
