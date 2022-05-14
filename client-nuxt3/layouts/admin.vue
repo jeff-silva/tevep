@@ -138,6 +138,7 @@
 </template>
 
 <style>
+.v-container:not(.v-container--fluid) {width:1200px;}
 .layout-admin-actions-lg * {
     margin-left: 15px;
 }

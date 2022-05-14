@@ -3,7 +3,7 @@
         <!-- Edit -->
         <div v-if="$route.query.id">
             <form @submit.prevent="modelSave.submit({data:edit}).then(saveSuccess);">
-                <v-container fluid :style="editWidth? `max-width:${editWidth}`: null">
+                <v-container :fluid="editFluid">
                     <v-card v-if="edit">
                         <v-alert type="success" v-if="modelSave.status==200">Dados salvos</v-alert>
                         <v-progress-linear
@@ -26,7 +26,7 @@
 
         <!-- Search -->
         <div v-if="!$route.query.id">
-            <v-container fluid :style="searchWidth? `max-width:${searchWidth}`: null">
+            <v-container :fluid="searchFluid">
                 <v-row>
 
                     <!-- Search header -->
@@ -221,8 +221,8 @@ export default {
         actionsExcept: {default:()=>([]), type:Array},
         singular: {default:'Item'},
         plural: {default:'Itens'},
-        searchWidth: {default:'1100px'},
-        editWidth: {default:'1100px'},
+        searchFluid: {default:false},
+        editFluid: {default:false},
     },
 
     watch: {

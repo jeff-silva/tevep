@@ -25,7 +25,7 @@
                 ></v-text-field>
             </v-col>
             
-            <v-col cols="12" md="6">
+            <v-col cols="12">
                 <app-model-file-select
                     label="Selecionar ícone"
                     v-model="sets['app.icon']"
@@ -33,7 +33,7 @@
                 ></app-model-file-select>
             </v-col>
             
-            <v-col cols="12" md="6">
+            <v-col cols="12">
                 <app-model-file-select
                     label="Selecionar logo"
                     v-model="sets['app.logo']"

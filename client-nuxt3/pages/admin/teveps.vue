@@ -5,6 +5,7 @@
                 namespace="teveps"
                 singular="Tevep"
                 plural="Teveps"
+                :edit-fluid="true"
             >
                 <template #search-table-header>
                     <th>Nome</th>
