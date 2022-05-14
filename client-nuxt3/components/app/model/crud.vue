@@ -40,7 +40,7 @@
                             <slot name="search-table" v-bind="slotBind()">
                                 <v-table
                                     fixed-header
-                                    class="ui-crud-search-table"    
+                                    class="ui-crud-search-table"
                                 >
                                     <thead>
                                         <tr class="text-uppercase">
@@ -123,6 +123,7 @@
                                 </div>
     
                                 <div class="flex-grow-1">
+                                    <!-- <app-model-pagination v-model="modelSearch"></app-model-pagination> -->
                                     <v-pagination
                                         v-if="modelSearch.resp && modelSearch.resp.last_page"
                                         v-model="modelSearch.params.page"

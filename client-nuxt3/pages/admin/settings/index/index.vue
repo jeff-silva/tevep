@@ -26,19 +26,19 @@
             </v-col>
             
             <v-col cols="12" md="6">
-                <app-model-file
-                    label="Ícone"
+                <app-model-file-select
+                    label="Selecionar ícone"
                     v-model="sets['app.icon']"
                     return-type="url"
-                ></app-model-file>
+                ></app-model-file-select>
             </v-col>
             
             <v-col cols="12" md="6">
-                <app-model-file
-                    label="Logo"
+                <app-model-file-select
+                    label="Selecionar logo"
                     v-model="sets['app.logo']"
                     return-type="url"
-                ></app-model-file>
+                ></app-model-file-select>
             </v-col>
         </v-row>
     </div>
