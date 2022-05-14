@@ -20,7 +20,7 @@ export default function(axiosParams={}) {
         },
         params: (axiosParams.params||{}),
         data: (axiosParams.data||{}),
-        resp: false,
+        resp: (axiosParams.data||false),
         timeout: false,
         cancelTokenSource: false,
     });

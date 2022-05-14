@@ -125,6 +125,7 @@ class Files extends \Illuminate\Database\Eloquent\Model
 
 	public function dashboardData()
 	{
+		$return['filesTotal'] = \App\Models\Files::select(['id'])->count('size') ?? 0;
 		$return['filesTotalSize'] = \App\Models\Files::select(['size'])->get()->sum('size') ?? 0;
 		$return['filesFormats'] = \App\Models\Files::query()
 			->select('files.ext', \DB::raw('count(files.id) as total'))

@@ -13,6 +13,19 @@ import * as leafletComponents from '@vue-leaflet/vue-leaflet';
 
 const devMode = process.env.NODE_ENV !== 'production';
 
+// value.filesizeHuman()
+// String.prototype.filesizeHuman = Number.prototype.filesizeHuman = function() {
+//     let size = +this;
+//     if (!size) return '0Kb';
+//     let i = Math.floor( Math.log(size) / Math.log(1024) );
+//     return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+// };
+
+// // '1986-02-11 00:15:23'.dateHuman()
+// String.prototype.dateHuman = function(format='DD/MM/YYYY - HH:mm') {
+//     return useDateFormat(this, format).value;
+// };
+
 export default defineNuxtPlugin((nuxtApp) => {
     const vuetify = createVuetify({
         components: vuetifyComponents,
@@ -20,6 +33,17 @@ export default defineNuxtPlugin((nuxtApp) => {
     });
     
     nuxtApp.vueApp.use(vuetify);
+    
+    nuxtApp.vueApp.config.globalProperties.$filters = {
+        dateHuman(value, format='DD/MM/YYYY - HH:mm') {
+            return useDateFormat(value, format).value;
+        },
+        filesizeHuman(value) {
+            if (!value || isNaN(value)) return '0kB';
+            let i = Math.floor( Math.log(+value) / Math.log(1024) );
+            return ( +value / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+        },
+    };
 
     for(let i in leafletComponents) {
         nuxtApp.vueApp.component(i, leafletComponents[i]);
@@ -42,9 +66,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.provide('log', console.log);
     
     nuxtApp.provide('helpers', {
-        dateFormat(value, format='DD/MM/YYYY - HH:mm') {
-            return useDateFormat(value, format).value;
-        },
         singularPlural(number, singular, plural) {
             return number==1? singular: plural;
         },
