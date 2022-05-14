@@ -372,7 +372,6 @@ trait Model
 
     public function scopeSearch($query, $params=null) {
         $searchParams = $this->searchParamsDefault();
-
         $params = $params? $params: request()->all();
         $params = array_merge($searchParams, $params);
 
@@ -385,11 +384,10 @@ trait Model
         foreach($params as $field=>$value) {
             if (! $value) continue;
             if (! in_array($field, $this->fillable)) continue;
-            if (in_array($field, $searchParams)) continue;
+            // if (in_array($field, $searchParams)) continue;
             $field = "{$query_table}.{$field}";
-
-
-            $operator = isset($params["{$field}_op"])? $params["{$field}_op"]: false;
+            $operator = isset($params["{$field}_op"])? $params["{$field}_op"]: 'eq';
+            
 
             // ?status[]=progress&term[]=payment
             // where status in ('progress', 'payment')
