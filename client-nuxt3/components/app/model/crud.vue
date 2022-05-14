@@ -171,6 +171,7 @@
                 </v-row>
             </v-container>
             
+            <!-- Search bottom actions -->
             <v-bottom-navigation style="margin-left:-15px;">
                 <v-btn icon="mdi-magnify"></v-btn>
 
@@ -247,7 +248,7 @@ export default {
             }
 
             let selects = [];
-            this.search.resp.data.forEach(item => {
+            this.modelSearch.resp.data.forEach(item => {
                 selects.push(item.id);
             });
             this.selects = selects;
@@ -318,9 +319,12 @@ export default {
         },
 
         searchDelete(id=null) {
-            id = Array.isArray(id)? id: this.selects;
-            // this.$axios.post(`/api/${this.namespace}/delete`, { id }).then(resp => {
-            // });
+            this.$helpers.confirm('Deseja deletar?').then(() => {
+                id = Array.isArray(id)? id: this.selects;
+                // this.$axios.post(`/api/${this.namespace}/delete`, { id }).then(resp => {
+                // });
+                alert('aaa');
+            });
         },
     },
 
