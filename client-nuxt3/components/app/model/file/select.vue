@@ -16,23 +16,25 @@
                     <div class="text-center py-3 text-grey" v-if="(fileSearch.resp.data||[]).length==0">
                         Nenhum arquivo encontrado
                     </div>
-                    <div class="d-inline-block ma-2"
-                        v-for="f in fileSearch.resp.data"
-                        :style="`width:${itemSize};`"
-                        @click="setValue(f)"
-                    >
-                        <v-sheet class="elevation-1 pa-2" :color="selectedColor(f)">
-                            <v-img :src="f.url" width="100%" :height="itemSize" v-if="f.type='image'" cover :key="f.id">
-                                <template #placeholder>
-                                    <div class="d-flex align-center justify-center" :style="`height:${itemSize};`">
-                                        <v-avatar color="primary">{{ f.ext }}</v-avatar>
-                                    </div>
-                                </template>
-                            </v-img>
-                            <div v-else class="d-flex align-center justify-center" :style="`height:${itemSize};`">
-                                <v-avatar color="primary">{{ f.ext }}</v-avatar>
-                            </div>
-                        </v-sheet>
+                    <div class="d-flex flex-wrap">
+                        <div class="ma-2"
+                            v-for="f in fileSearch.resp.data"
+                            :style="`width:${itemSize};`"
+                            @click="setValue(f)"
+                        >
+                            <v-sheet class="elevation-1 pa-2" :color="selectedColor(f)">
+                                <v-img :src="f.url" width="100%" :height="itemSize" style="`height:${};`" v-if="f.type='image'" :key="f.id" class="ma-0">
+                                    <template #placeholder>
+                                        <div class="d-flex align-center justify-center" :style="`height:calc(${itemSize} - 15px);`">
+                                            <v-avatar color="primary">{{ f.ext }}</v-avatar>
+                                        </div>
+                                    </template>
+                                </v-img>
+                                <div v-else class="d-flex align-center justify-center" :style="`height:${itemSize};`">
+                                    <v-avatar color="primary">{{ f.ext }}</v-avatar>
+                                </div>
+                            </v-sheet>
+                        </div>
                     </div>
                 </div>
                 <app-model-pagination v-model="fileSearch"></app-model-pagination>
@@ -48,14 +50,14 @@ export default {
         returnType: {default:'id', type:String}, // object, id, url
         label: {default:'Selecionar'},
         sidebarWidth: {default:'200px'},
-        itemSize: {default:'150px'},
+        itemSize: {default:'80px'},
     },
 
     data() {
         return {
             fileSearch: useAxios({
                 url: '/api/files/search',
-                params: {q:'', folder:'', per_page:9},
+                params: {q:'', folder:'', per_page:15},
                 submit: true,
                 resp: {
                     data: [],
