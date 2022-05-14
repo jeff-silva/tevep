@@ -115,6 +115,13 @@ class Files extends \Illuminate\Database\Eloquent\Model
 		}, $folders);
 	}
 
+	
+	public function searchAttributes($params=[])
+	{
+		$return['folders'] = static::folders();
+		return $return;
+	}
+
 
 	public function user()
 	{

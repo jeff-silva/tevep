@@ -8,7 +8,8 @@
                 :actions-except="['clone', 'add']"
             >
                 <template #search-table-header>
-                    <th>ARquivo</th>
+                    <th>Arquivo</th>
+                    <th>Pasta</th>
                     <th width="100px">Mime</th>
                 </template>
 
@@ -22,11 +23,24 @@
                             <div class="ms-3">{{ item.name }}</div>
                         </div>
                     </td>
+                    <td>{{ item.folder }}</td>
                     <td>{{ item.mime }}</td>
                 </template>
                 
                 <template #search-table-item-actions="{item}">
                     <v-btn icon="mdi-download" :href="item.url" :download="`${item.slug}.${item.ext}`"></v-btn>
+                </template>
+
+                <!-- Search fields -->
+                <template #search-fields="crud">
+                    <template v-if="crud.search.resp.attributes">
+                        <v-select
+                            label="Pasta"
+                            v-model="crud.search.params.folder"
+                            :items="crud.search.resp.attributes.folders.map(item => item.name)"
+                            @update:modelValue="crud.searchSubmit()"
+                        ></v-select>
+                    </template>
                 </template>
 
                 <template #edit-fields="crud">

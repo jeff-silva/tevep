@@ -35,12 +35,4 @@ class FilesController extends Controller
 			// 'Content-Disposition' => 'attachment; filename="logs.txt',
 		]);
 	}
-	
-
-	// public function search()
-	// {
-	// 	$search = $this->model->search()->paginate(request('per_page', 15))->toArray();
-	// 	$search['folders'] = \App\Models\Files::folders();
-	// 	return $search;
-	// }
 }
