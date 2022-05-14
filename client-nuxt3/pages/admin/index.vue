@@ -5,3 +5,11 @@
         </nuxt-layout>
     </div>
 </template>
+
+<script>
+export default {
+    mounted() {
+        useApp().setTitle('Dashboard');
+    },
+};
+</script>

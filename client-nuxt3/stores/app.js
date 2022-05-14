@@ -5,6 +5,7 @@ export const useAppStore = defineStore({
     
     state: () => ({
         devMode: true,
+        title: '',
         access_token: (localStorage.getItem('access_token') || false),
         user: false,
         userPermissions: [],
@@ -58,6 +59,10 @@ export const useAppStore = defineStore({
             access_token?
                 localStorage.setItem('access_token', access_token):
                 localStorage.removeItem('access_token');
+        },
+
+        setTitle(title) {
+            this.title = title;
         },
     },
 });

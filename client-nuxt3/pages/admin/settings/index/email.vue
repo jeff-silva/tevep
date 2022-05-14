@@ -55,5 +55,9 @@ export default {
             return this.settings;
         },
     },
+
+    mounted() {
+        useApp().setTitle('Configurações de e-mail');
+    },
 };
 </script>

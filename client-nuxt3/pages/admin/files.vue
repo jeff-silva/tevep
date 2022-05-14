@@ -1,7 +1,12 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <app-model-crud namespace="files" :actions-except="['clone', 'add']">
+            <app-model-crud
+                namespace="files"
+                singular="Arquivo"
+                plural="Arquivos"
+                :actions-except="['clone', 'add']"
+            >
                 <template #search-table-header>
                     <th>ARquivo</th>
                     <th width="100px">Mime</th>

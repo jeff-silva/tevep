@@ -1,7 +1,11 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <app-model-crud namespace="pages">
+            <app-model-crud
+                namespace="pages"
+                singular="Página"
+                plural="Páginas"
+            >
                 <template #search-table-header>
                     <th>Página</th>
                 </template>

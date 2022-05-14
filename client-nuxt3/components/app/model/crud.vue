@@ -217,6 +217,8 @@ export default {
     props: {
         namespace: {default:''},
         actionsExcept: {default:()=>([]), type:Array},
+        singular: {default:'Item'},
+        plural: {default:'Itens'},
         searchWidth: {default:'1100px'},
         editWidth: {default:'1100px'},
     },
@@ -277,6 +279,7 @@ export default {
             this.modelSearch.cancel();
             const resp = await this.modelSearch.submit();
             this.$emit('search', this.slotBind());
+            this.app.setTitle(`Pesquisar ${this.plural}`);
         },
 
         async searchSubmit() {
@@ -293,9 +296,9 @@ export default {
             if (!id || isNaN(id)) return this.edit = {};
             this.edit = false;
             this.modelSave.status = false;
-            (await useAxios({method: "get", url: `/api/${this.namespace}/find/${id}`})).value.submit().then(resp => {
-                this.edit = resp.data;
-            });
+            let resp = await useAxios({method: "get", url: `/api/${this.namespace}/find/${id}`}).value.submit();
+            this.edit = resp.data;
+            this.app.setTitle(`Editar ${this.singular} | ${resp.data.name}`);
         },
 
         exportDownload(item) {
@@ -337,6 +340,7 @@ export default {
                 url: `/api/${this.namespace}/save`,
                 data: {},
             }),
+            app: useApp(),
         };
     },
 

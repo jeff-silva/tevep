@@ -1,7 +1,12 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <app-model-crud namespace="users-groups" :actions-except="['clone', 'delete']">
+            <app-model-crud
+                namespace="users-groups"
+                singular="Grupo de usuário"
+                plural="Grupos de usuários"
+                :actions-except="['clone', 'delete']"
+            >
                 <template #search-table-header>
                     <th>Nome</th>
                 </template>

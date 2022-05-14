@@ -1,7 +1,7 @@
 <template>
     <div>
         <head>
-            <title>Admin</title>
+            <title>{{ app.title }} | {{ app.settings['app.name'] }}</title>
         </head>
 
         <v-app>
@@ -113,7 +113,7 @@
                 ></v-app-bar-nav-icon>
     
                 <v-toolbar-title>
-                    {{ app.settings['app.name'] }}
+                    {{ app.title }}
                 </v-toolbar-title>
     
                 <v-spacer></v-spacer>

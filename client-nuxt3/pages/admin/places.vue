@@ -1,7 +1,13 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <app-model-crud namespace="places" :actions-except="['clone', 'delete']" @search="handleFormResponse($event)">
+            <app-model-crud
+                namespace="places"
+                singular="Endereço"
+                plural="Endereços"
+                :actions-except="['clone', 'delete']"
+                @search="handleFormResponse($event)"
+            >
                 <template #search-header="crud">
                     <v-card v-if="crud.search.resp">
                         <v-card-text>

@@ -39,5 +39,9 @@ export default {
             return this.settings;
         },
     },
+
+    mounted() {
+        useApp().setTitle('Configurações principais');
+    },
 };
 </script>

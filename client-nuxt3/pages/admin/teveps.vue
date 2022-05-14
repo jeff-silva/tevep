@@ -1,7 +1,11 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <app-model-crud namespace="teveps">
+            <app-model-crud
+                namespace="teveps"
+                singular="Tevep"
+                plural="Teveps"
+            >
                 <template #search-table-header>
                     <th>Nome</th>
                     <th>Data</th>

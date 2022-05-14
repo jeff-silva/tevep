@@ -47,5 +47,9 @@ export default {
             ],
         };
     },
+
+    mounted() {
+        useApp().setTitle('Configurações de arquivo');
+    },
 }
 </script>
