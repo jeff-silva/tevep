@@ -11,6 +11,7 @@
 
         <div class="layout-auth-pattern v-col-12 v-col-md-7 v-col-lg-5 px-5 d-flex align-center justify-content-center" style="height:100vh;">
             <div class="bg-primary pa-4 w-100">
+                <v-img :src="app.settings['app.logo']" width="200px" class="mx-auto mb-5"></v-img>
                 <slot></slot>
             </div>
         </div>
@@ -31,3 +32,13 @@
     background-position: 0 0,20px 20px;
 }
 </style>
+
+<script>
+export default {
+    data() {
+        return {
+            app: useApp(),
+        };
+    },
+};
+</script>

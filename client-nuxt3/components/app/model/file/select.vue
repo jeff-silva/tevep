@@ -1,17 +1,27 @@
 <template>
-    <div>
-        <div class="elevation-1 font-weight-bold" style="padding:17px;">{{ label }}</div>
-        <div class="d-flex">
-            <div class="elevation-1" :style="`min-width:${sidebarWidth}; max-width:${sidebarWidth};`">
-                <v-text-field label="Filtro" v-model="fileSearch.params.q" hide-details @keyup="fileSearch.submit({debounce:1500})"></v-text-field>
-                <v-list v-if="fileSearch.resp.attributes">
-                    <v-list-item v-for="f in fileSearch.resp.attributes.folders" :key="f.id" @click="fileSearch.params.folder=f.name; fileSearch.submit()">
-                        /{{ f.name }}
-                    </v-list-item>
-                </v-list>
-                <v-divider></v-divider>
+    <div class="elevation-2">
+        <div class="d-flex font-weight-bold">
+            <div class="flex-grow-1 pa-4">{{ label }}</div>
+            <div class="pe-4" style="width:300px;">
+                <v-text-field
+                    label="Filtro"
+                    v-model="fileSearch.params.q"
+                    hide-details
+                    @keyup="fileSearch.submit({debounce:1500})"
+                    append-icon="mdi-magnify"
+                    :loading="fileSearch.loading"
+                ></v-text-field>
             </div>
-            <div class="elevation-1 flex-grow-1">
+        </div>
+        <div class="d-flex">
+            <div :style="`min-width:${sidebarWidth}; max-width:${sidebarWidth};`">
+                <v-img
+                    v-if="fileSelected"
+                    :src="fileSelected.url"
+                    width="100%"
+                ></v-img>
+            </div>
+            <div class="flex-grow-1 bg-grey-lighten-4">
                 <div class="pa-2">
                     <div class="text-center py-3 text-grey" v-if="(fileSearch.resp.data||[]).length==0">
                         Nenhum arquivo encontrado
@@ -49,12 +59,17 @@ export default {
         modelValue: {default:false, type:[Boolean, Number, String, Object]},
         returnType: {default:'id', type:String}, // object, id, url
         label: {default:'Selecionar'},
-        sidebarWidth: {default:'200px'},
+        sidebarWidth: {default:'150px'},
         itemSize: {default:'80px'},
+    },
+
+    mounted() {
+        this.fileFind();
     },
 
     data() {
         return {
+            fileSelected: false,
             fileSearch: useAxios({
                 url: '/api/files/search',
                 params: {q:'', folder:'', per_page:15},
@@ -71,6 +86,9 @@ export default {
 
     methods: {
         setValue(item) {
+            this.fileSelected = {...item};
+            this.fileSelected.url += ('?'+Math.round(Math.random()*9999));
+
             if (this.returnType=='object') {
                 this.$emit('update:modelValue', item);
             }
@@ -94,6 +112,21 @@ export default {
                 return item.url==this.modelValue? selectedColor: false;
             }
             return false;
+        },
+
+        async fileFind() {
+            if (this.returnType=='object') {
+                this.fileSelected = this.modelValue;
+            }
+            else if (this.returnType=='id') {
+                const resp = await this.$axios.get(`/api/files/find/${this.modelValue}`);
+                this.fileSelected = resp.data || false;
+            }
+            else if (this.returnType=='url') {
+                const params = { url: this.modelValue };
+                const resp = await this.$axios.get('/api/files/search', { params });
+                this.fileSelected = resp.data.data[0] || false;
+            }
         },
     },
 };
