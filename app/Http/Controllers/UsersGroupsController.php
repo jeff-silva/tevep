@@ -9,7 +9,7 @@ class UsersGroupsController extends Controller
 		$this->model = new \App\Models\UsersGroups;
 
 		$this->middleware('auth:api', [
-			'except' => ['search', 'find'],
+			'except' => [],
 		]);
 
 		$this->defaultRoutes();

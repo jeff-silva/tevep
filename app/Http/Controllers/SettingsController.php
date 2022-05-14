@@ -9,7 +9,7 @@ class SettingsController extends Controller
 		$this->model = new \App\Models\Settings;
 
 		$this->middleware('auth:api', [
-			'except' => ['search'],
+			'except' => [],
 		]);
 
 		$this->defaultRoutes([

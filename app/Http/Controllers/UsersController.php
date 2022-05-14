@@ -9,7 +9,7 @@ class UsersController extends Controller
 		$this->model = new \App\Models\Users;
 
 		$this->middleware('auth:api', [
-			'except' => ['search', 'find'],
+			'except' => [],
 		]);
 
 		$this->defaultRoutes([

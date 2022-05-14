@@ -9,7 +9,7 @@ class MigrationsController extends Controller
 		$this->model = new \App\Models\Migrations;
 
 		$this->middleware('auth:api', [
-			'except' => ['search', 'find'],
+			'except' => [],
 		]);
 
 		$this->defaultRoutes();
