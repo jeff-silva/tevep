@@ -323,20 +323,20 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 // Create table places
 \DB::statement("CREATE TABLE IF NOT EXISTS `places` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `route` varchar(255) DEFAULT NULL,
-  `number` varchar(10) DEFAULT NULL,
-  `complement` varchar(255) DEFAULT NULL,
-  `zipcode` varchar(20) DEFAULT NULL,
-  `district` varchar(100) DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `route` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `complement` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zipcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `lat` decimal(10,8) DEFAULT NULL,
   `lng` decimal(11,8) DEFAULT NULL,
-  `city` varchar(100) DEFAULT NULL,
-  `state` varchar(20) DEFAULT NULL,
-  `state_short` varchar(5) DEFAULT NULL,
-  `country` varchar(50) DEFAULT NULL,
-  `country_short` varchar(5) DEFAULT NULL,
+  `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state_short` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country_short` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
@@ -352,44 +352,44 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 
 // Create/Update column places.name
 \Schema::hasColumn('places', 'name')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `name` varchar(255) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `name` varchar(255) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.description
 \Schema::hasColumn('places', 'description')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `description` varchar(255) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `description` varchar(255) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.route
 \Schema::hasColumn('places', 'route')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `route` varchar(255) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `route` varchar(255) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `route` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `route` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.number
 \Schema::hasColumn('places', 'number')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `number` varchar(10) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `number` varchar(10) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.complement
 \Schema::hasColumn('places', 'complement')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `complement` varchar(255) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `complement` varchar(255) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `complement` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `complement` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.zipcode
 \Schema::hasColumn('places', 'zipcode')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `zipcode` varchar(20) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `zipcode` varchar(20) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `zipcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `zipcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.district
 \Schema::hasColumn('places', 'district')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `district` varchar(100) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `district` varchar(100) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.lat
@@ -406,32 +406,32 @@ if (! collect(\DB::select("SELECT * FROM information_schema.REFERENTIAL_CONSTRAI
 
 // Create/Update column places.city
 \Schema::hasColumn('places', 'city')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `city` varchar(100) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `city` varchar(100) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.state
 \Schema::hasColumn('places', 'state')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `state` varchar(20) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `state` varchar(20) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `state` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `state` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.state_short
 \Schema::hasColumn('places', 'state_short')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `state_short` varchar(5) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `state_short` varchar(5) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `state_short` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `state_short` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.country
 \Schema::hasColumn('places', 'country')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `country` varchar(50) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `country` varchar(50) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.country_short
 \Schema::hasColumn('places', 'country_short')?
-	\DB::statement("ALTER TABLE places MODIFY COLUMN `country_short` varchar(5) DEFAULT NULL"):
-	\DB::statement("ALTER TABLE places ADD COLUMN `country_short` varchar(5) DEFAULT NULL");
+	\DB::statement("ALTER TABLE places MODIFY COLUMN `country_short` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL"):
+	\DB::statement("ALTER TABLE places ADD COLUMN `country_short` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL");
 
 
 // Create/Update column places.created_at

@@ -14,8 +14,8 @@
                 <template #search-table-item="{item}">
                     <td>{{ item.name }}</td>
                     <td>
-                        <div>De {{ $helpers.dateFormat(item.date_start) }}</div>
-                        <div>Até {{ $helpers.dateFormat(item.date_final) }}</div>
+                        <div>De {{ $filters.dateHuman(item.date_start) }}</div>
+                        <div>Até {{ $filters.dateHuman(item.date_final) }}</div>
                     </td>
                 </template>
 

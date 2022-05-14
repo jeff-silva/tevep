@@ -319,8 +319,9 @@ export default {
         },
 
         searchDelete(id=null) {
-            this.$helpers.confirm('Deseja deletar?').then(() => {
-                id = Array.isArray(id)? id: this.selects;
+            id = Array.isArray(id)? id: this.selects;
+            let label = this.$filters.singularPlural(id.length, this.singular, this.plural);
+            this.$confirm(`Deletar ${id.length} ${label}?`).then(() => {
                 // this.$axios.post(`/api/${this.namespace}/delete`, { id }).then(resp => {
                 // });
                 alert('aaa');

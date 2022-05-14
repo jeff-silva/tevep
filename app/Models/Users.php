@@ -132,7 +132,7 @@ class Users extends Authenticatable implements JWTSubject
 
 	public function dashboardData()
 	{
-		$return['usersTotal'] = \App\Models\Users::select(['id'])->count();
+		$return['usersTotal'] = Users::select(['id'])->count();
 		return $return;
 	}
 
