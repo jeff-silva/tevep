@@ -22,3 +22,4 @@
         - [ ] Redirecionamento recursivo
         - [x] Ao clicar em prev/next na paginação do compomente app-model-crud, a página é concatenada em vez de incrementada
         - [x] Merge de parâmetros com query na busca
+- [ ] Multilogin

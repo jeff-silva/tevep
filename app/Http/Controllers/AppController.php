@@ -82,15 +82,7 @@ class AppController extends Controller
 		$q = request('q', '');
 		$return = [];
 
-		$models = array_map('realpath', glob(base_path("/app/Models/*")));
-		$models = array_map(function($model) {
-			$model = str_replace(base_path(), '', $model);
-			$model = str_replace('\\app', '\App', $model);
-			$model = str_replace('.php', '', $model);
-			return app($model);
-		}, $models);
-
-		foreach($models as $model) {
+		foreach(\App\Utils\Utils::getModels() as $model) {
 			if (!$model->plural) continue;
 
 			$namespace = \Str::of($model->getTable())->studly()->kebab();
@@ -143,8 +135,12 @@ class AppController extends Controller
 	
 	public function dashboard()
 	{
-		$return['users'] = \App\Models\Users::select(['id'])->count();
-		$return['filesSize'] = \App\Models\Files::select(['size'])->get()->sum('size');
+		$return = [];
+		foreach(\App\Utils\Utils::getModels() as $model) {
+			foreach($model->dashboardData() as $key => $data) {
+				$return[ $key ] = $data;
+			}
+		}
 		return $return;
 	}
 

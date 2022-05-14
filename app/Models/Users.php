@@ -130,6 +130,13 @@ class Users extends Authenticatable implements JWTSubject
 	}
 
 
+	public function dashboardData()
+	{
+		$return['users'] = \App\Models\Users::select(['id'])->count();
+		return $return;
+	}
+
+
 	public function page()
 	{
 		return $this->belongsTo(App\Models\Pages::class, 'owner_id', 'id');
