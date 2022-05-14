@@ -56,14 +56,12 @@ class AppController extends Controller
 				['to'=>'/admin/teveps', 'icon'=>'mdi-database', 'label'=>'Procurar', 'children'=>[]],
 				['to'=>'/admin/teveps?id=new', 'icon'=>'mdi-database', 'label'=>'Criar', 'children'=>[]],
 			]],
-			['to'=>'', 'icon'=>'mdi-sitemap', 'label'=>'Páginas', 'children'=>[
-				['to'=>'/admin/pages', 'icon'=>'mdi-sitemap', 'label'=>'Procurar', 'children'=>[]],
-				['to'=>'/admin/pages?id=new', 'icon'=>'mdi-sitemap', 'label'=>'Criar', 'children'=>[]],
+			['to'=>'', 'icon'=>'mdi-sitemap', 'label'=>'Conteúdo', 'children'=>[
+				['to'=>'/admin/pages', 'icon'=>'mdi-sitemap', 'label'=>'Páginas', 'children'=>[]],
 				['to'=>'/admin/pages-elements', 'icon'=>'mdi-sitemap', 'label'=>'Elementos', 'children'=>[]],
 			]],
-			['to'=>'', 'icon'=>'mdi-account', 'label'=>'Usuários', 'children'=>[
-				['to'=>'/admin/users', 'icon'=>'mdi-account', 'label'=>'Procurar', 'children'=>[]],
-				['to'=>'/admin/users?id=new', 'icon'=>'mdi-account', 'label'=>'Criar', 'children'=>[]],
+			['to'=>'', 'icon'=>'mdi-account', 'label'=>'Acessos', 'children'=>[
+				['to'=>'/admin/users', 'icon'=>'mdi-account', 'label'=>'Usuários', 'children'=>[]],
 				['to'=>'/admin/users-groups', 'icon'=>'mdi-account', 'label'=>'Grupos de usuários', 'children'=>[]],
 			]],
 			['to'=>'', 'icon'=>'mdi-cog', 'label'=>'Configurações', 'children'=>[
