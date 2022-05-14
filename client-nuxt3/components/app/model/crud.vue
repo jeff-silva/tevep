@@ -28,10 +28,13 @@
         <div v-if="!$route.query.id">
             <v-container fluid :style="searchWidth? `max-width:${searchWidth}`: null">
                 <v-row>
+
+                    <!-- Search header -->
                     <v-col cols="12" v-if="$slots['search-header']">
                         <slot name="search-header" v-bind="slotBind()"></slot>
                     </v-col>
     
+                    <!-- Search table -->
                     <v-col cols="12" md="8">
                         <div class="bg-white elevation-1">
                             <slot name="search-table" v-bind="slotBind()">
@@ -73,7 +76,7 @@
                                                 Nenhum resultado encontrado
                                             </td>
                                         </tr>
-                                        <tr v-for="item in search.resp.data" v-if="search.resp && search.resp.data">
+                                        <tr v-for="item in search.resp.data" :key="item.id" v-if="search.resp && search.resp.data">
                                             <td class="pe-0">
                                                 <v-checkbox
                                                     v-model="selects"
@@ -124,7 +127,7 @@
                                         v-if="search.resp && search.resp.last_page"
                                         v-model="search.params.page"
                                         :length="search.resp.last_page"
-                                        @update:modelValue="searchRedirect()"
+                                        @update:modelValue="searchSubmit()"
                                     ></v-pagination>
                                 </div>
     
@@ -134,7 +137,7 @@
                                         :items="[5, 10, 25, 50, 100]"
                                         label="Resultados por página"
                                         :hide-details="true"
-                                        @update:modelValue="searchRedirect()"
+                                        @update:modelValue="searchSubmit()"
                                         density="compact"
                                     ></v-combobox>
                                 </div>
@@ -142,13 +145,14 @@
                         </div>
                     </v-col>
         
+                    <!-- Search filter -->
                     <v-col cols="12" md="4">
                         <v-card>
                             <v-card-header>
                                 <div>Busca</div>
                             </v-card-header>
                             <v-card-text>
-                                <form @submit.prevent="searchRedirect()">
+                                <form @submit.prevent="searchSubmit()">
                                     <v-text-field label="Buscar" v-model="search.params.q"></v-text-field>
                                     <slot name="search-fields" v-bind="slotBind()"></slot>
     
@@ -156,7 +160,7 @@
                                         {{ search.loading? 'Carregando': 'Buscar' }}
                                     </v-btn>
                                     
-                                    <v-btn type="button" color="white" block class="mt-3" @click="search.clear().then(searchRedirect)">
+                                    <v-btn type="button" color="white" block class="mt-3" @click="search.clear().then(searchSubmit)">
                                         Limpar
                                     </v-btn>
                                 </form>
@@ -209,8 +213,8 @@ export default {
     props: {
         namespace: {default:''},
         actionsExcept: {default:()=>([]), type:Array},
-        searchWidth: {default:'1200px'},
-        editWidth: {default:'1200px'},
+        searchWidth: {default:'1100px'},
+        editWidth: {default:'1100px'},
     },
 
     watch: {
@@ -227,7 +231,6 @@ export default {
                 search: this.search,
                 editUpdate: this.editUpdate,
                 searchSubmit: this.searchSubmit,
-                searchRedirect: this.searchRedirect,
                 ...merge
             };
         },
@@ -264,25 +267,18 @@ export default {
 
         async searchInit() {
             if (this.$route.query.id) return;
+            console.log('searchInit');
             this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
-            this.search.params = {...this.$route.query};
-            await this.search.submit();
+            this.search.params = this.paramsDefault(this.$route.query);
+            
+            this.search.cancel();
+            const resp = await this.search.submit();
             this.$emit('search', this.slotBind());
         },
 
-        async searchRedirect() {
-            this.$router.push({
-                query: this.search.params,
-            });
-        },
-
         async searchSubmit() {
-            this.search.cancel();
-            const params = {...this.search.params, ...this.$route.query};
-            this.search.params = params;
-            this.search.submit({ params }).then(resp => {
-                this.$emit('search', this.slotBind());
-            });
+            if (this.$route.query.id) return;
+            this.$router.push({query:this.search.params});
         },
 
         async editInit() {
@@ -302,6 +298,10 @@ export default {
                 }).click();
             });
         },
+
+        paramsDefault(merge={}) {
+            return {q:'', page:1, per_page:10, ...merge};
+        },
     },
 
     data() {
@@ -313,7 +313,7 @@ export default {
             search: useAxios({
                 method: "get",
                 url: `/api/${this.namespace}/search`,
-                params: {q:'', page:1, per_page:10, ...this.$route.query},
+                params: this.paramsDefault(this.$route.query),
             }),
             save: useAxios({
                 method: "post",

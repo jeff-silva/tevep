@@ -37,10 +37,10 @@ class FilesController extends Controller
 	}
 	
 
-	public function search()
-    {
-        $search = $this->model->search()->paginate(request('per_page', 15))->toArray();
-		$search['folders'] = \App\Models\Files::folders();
-		return $search;
-    }
+	// public function search()
+	// {
+	// 	$search = $this->model->search()->paginate(request('per_page', 15))->toArray();
+	// 	$search['folders'] = \App\Models\Files::folders();
+	// 	return $search;
+	// }
 }

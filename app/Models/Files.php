@@ -82,8 +82,6 @@ class Files extends \Illuminate\Database\Eloquent\Model
 			});
 		}
 
-		// dd($query->toRawSql());
-
 		return $query;
 	}
 
