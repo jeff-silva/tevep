@@ -2,13 +2,13 @@
     <div>
         <!-- Edit -->
         <div v-if="$route.query.id">
-            <form @submit.prevent="save.submit({data:edit}).then(saveSuccess);">
+            <form @submit.prevent="modelSave.submit({data:edit}).then(saveSuccess);">
                 <v-container fluid :style="editWidth? `max-width:${editWidth}`: null">
-                    <v-card prepend-icon="mdi-pencil" v-if="edit">
-                        <template #title>{{ edit.id? 'Editar': 'Criar' }}</template>
+                    <v-card v-if="edit">
+                        <v-alert type="success" v-if="modelSave.status==200">Dados salvos</v-alert>
                         <v-progress-linear
                             indeterminate
-                            v-if="save.loading"
+                            v-if="modelSave.loading"
                         ></v-progress-linear>
                         <v-card-text>
                             <slot name="edit-fields" v-bind="slotBind()"></slot>
@@ -67,16 +67,16 @@
                                                     indeterminate
                                                     color="primary"
                                                     height="3"
-                                                    v-if="search.loading"
+                                                    v-if="modelSearch.loading"
                                                 ></v-progress-linear>
                                             </td>
                                         </tr>
-                                        <tr v-if="search.resp && (search.resp.data && search.resp.data.length==0)">
+                                        <tr v-if="modelSearch.resp && (modelSearch.resp.data && modelSearch.resp.data.length==0)">
                                             <td class="text-center" :colspan="tableSearchCols">
                                                 Nenhum resultado encontrado
                                             </td>
                                         </tr>
-                                        <tr v-for="item in search.resp.data" :key="item.id" v-if="search.resp && search.resp.data">
+                                        <tr v-for="item in modelSearch.resp.data" :key="item.id" v-if="modelSearch.resp && modelSearch.resp.data">
                                             <td class="pe-0">
                                                 <v-checkbox
                                                     v-model="selects"
@@ -102,7 +102,7 @@
                                                             <v-btn icon="mdi-pencil" :to="`/admin/${namespace}?id=${item.id}`"></v-btn>
                                                         </template>
                                                         <template v-if="!actionsExcept.includes('delete')">
-                                                            <v-btn icon="mdi-delete"></v-btn>
+                                                            <v-btn icon="mdi-delete" @click="searchDelete([item.id])"></v-btn>
                                                         </template>
                                                         <template v-if="!actionsExcept.includes('clone')">
                                                             <v-btn icon="mdi-content-copy"></v-btn>
@@ -119,21 +119,21 @@
             
                             <div class="d-flex align-center">
                                 <div class="pa-2 d-none d-md-block">
-                                    {{ search.resp.total }} resultados
+                                    {{ modelSearch.resp.total }} resultados
                                 </div>
     
                                 <div class="flex-grow-1">
                                     <v-pagination
-                                        v-if="search.resp && search.resp.last_page"
-                                        v-model="search.params.page"
-                                        :length="search.resp.last_page"
+                                        v-if="modelSearch.resp && modelSearch.resp.last_page"
+                                        v-model="modelSearch.params.page"
+                                        :length="modelSearch.resp.last_page"
                                         @update:modelValue="searchSubmit()"
                                     ></v-pagination>
                                 </div>
     
                                 <div class="pa-2 d-none d-md-block">
                                     <v-combobox
-                                        v-model="search.params.per_page"
+                                        v-model="modelSearch.params.per_page"
                                         :items="[5, 10, 25, 50, 100]"
                                         label="Resultados por página"
                                         :hide-details="true"
@@ -153,14 +153,15 @@
                             </v-card-header>
                             <v-card-text>
                                 <form @submit.prevent="searchSubmit()">
-                                    <v-text-field label="Buscar" v-model="search.params.q"></v-text-field>
+                                    <v-text-field label="Buscar" v-model="modelSearch.params.q"></v-text-field>
+                                    
                                     <slot name="search-fields" v-bind="slotBind()"></slot>
     
-                                    <v-btn type="submit" color="primary" block :disabled="search.loading">
-                                        {{ search.loading? 'Carregando': 'Buscar' }}
+                                    <v-btn type="submit" color="primary" block :disabled="modelSearch.loading" :loading="modelSearch.loading">
+                                        Buscar
                                     </v-btn>
                                     
-                                    <v-btn type="button" color="white" block class="mt-3" @click="search.clear().then(searchSubmit)">
+                                    <v-btn type="button" color="white" block class="mt-3" @click="modelSearch.clear().then(searchSubmit)">
                                         Limpar
                                     </v-btn>
                                 </form>
@@ -172,7 +173,10 @@
             
             <v-bottom-navigation style="margin-left:-15px;">
                 <v-btn icon="mdi-magnify"></v-btn>
-                <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
+
+                <template v-if="!actionsExcept.includes('add')">
+                    <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
+                </template>
                 
                 <v-menu anchor="top">
                     <template #activator="{ props }">
@@ -182,14 +186,14 @@
                     <v-list style="width:180px;">
                         <v-list-item
                             :title="e.name"
-                            v-for="e in search.resp.exportUrls"
+                            v-for="e in modelSearch.resp.exportUrls"
                             @click="exportDownload(e)"
                         ></v-list-item>
                     </v-list>
                 </v-menu>
                 
-                <template v-if="selects.length">
-                    <v-btn icon="mdi-delete"></v-btn>
+                <template v-if="selects.length && !actionsExcept.includes('delete')">
+                    <v-btn icon="mdi-delete" @click="searchDelete()"></v-btn>
                 </template>
             </v-bottom-navigation>
         </div>
@@ -228,7 +232,7 @@ export default {
         slotBind(merge={}) {
             return {
                 edit: this.edit,
-                search: this.search,
+                search: this.modelSearch,
                 editUpdate: this.editUpdate,
                 searchSubmit: this.searchSubmit,
                 ...merge
@@ -267,24 +271,28 @@ export default {
 
         async searchInit() {
             if (this.$route.query.id) return;
-            console.log('searchInit');
+            this.edit = false;
             this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
-            this.search.params = this.paramsDefault(this.$route.query);
-            
-            this.search.cancel();
-            const resp = await this.search.submit();
+            this.modelSearch.params = this.paramsDefault(this.$route.query);
+            this.modelSearch.cancel();
+            const resp = await this.modelSearch.submit();
             this.$emit('search', this.slotBind());
         },
 
         async searchSubmit() {
             if (this.$route.query.id) return;
-            this.$router.push({query:this.search.params});
+            setTimeout(() => {
+                this.$router.push({
+                    query: this.modelSearch.params,
+                });
+            }, 100);
         },
 
         async editInit() {
             let id = this.$route.query.id || false;
             if (!id || isNaN(id)) return this.edit = {};
             this.edit = false;
+            this.modelSave.status = false;
             (await useAxios({method: "get", url: `/api/${this.namespace}/find/${id}`})).value.submit().then(resp => {
                 this.edit = resp.data;
             });
@@ -300,7 +308,16 @@ export default {
         },
 
         paramsDefault(merge={}) {
-            return {q:'', page:1, per_page:10, ...merge};
+            merge = {q:'', page:1, per_page:10, ...merge};
+            merge.page = parseInt(merge.page);
+            merge.per_page = parseInt(merge.per_page);
+            return merge;
+        },
+
+        searchDelete(id=null) {
+            id = Array.isArray(id)? id: this.selects;
+            // this.$axios.post(`/api/${this.namespace}/delete`, { id }).then(resp => {
+            // });
         },
     },
 
@@ -310,12 +327,12 @@ export default {
             backUrl: false,
             selects: [],
             edit: false,
-            search: useAxios({
+            modelSearch: useAxios({
                 method: "get",
                 url: `/api/${this.namespace}/search`,
                 params: this.paramsDefault(this.$route.query),
             }),
-            save: useAxios({
+            modelSave: useAxios({
                 method: "post",
                 url: `/api/${this.namespace}/save`,
                 data: {},

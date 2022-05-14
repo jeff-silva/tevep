@@ -33,7 +33,7 @@
                             label="País"
                             v-model="crud.search.params.country_short"
                             :items="vuetifyItems(crud.search.resp.attributes.countries, 'country_short', 'country')"
-                            @update:modelValue="crud.search.params.state_short=null; crud.searchRedirect()"
+                            @update:modelValue="crud.search.params.state_short=null; crud.searchSubmit()"
                         >
                         </v-select>
 
@@ -41,7 +41,7 @@
                             label="Estado"
                             v-model="crud.search.params.state_short"
                             :items="vuetifyItems(crud.search.resp.attributes.states, 'state_short', 'state')"
-                            @update:modelValue="crud.searchRedirect()"
+                            @update:modelValue="crud.searchSubmit()"
                             v-if="crud.search.resp.attributes.states.length"
                         >
                         </v-select>
@@ -67,17 +67,17 @@ import L from 'leaflet';
 export default {
     methods: {
 		handleFormResponse(crud) {
-            setTimeout(() => {
-                try {
-                    const map = {...this.$refs.map};
-                    const bounds = crud.search.resp.data
-                        .map(place => [place.lat, place.lng])
-                        .filter(bound => bound[0] && bound[1]);
-                    if (bounds.length==0 || !map.leafletObject) return;
-                    map.leafletObject.fitBounds(bounds);
-                }
-                catch(err) {}
-			}, 1000);
+            // setTimeout(() => {
+            //     try {
+            //         const map = {...this.$refs.map};
+            //         const bounds = crud.search.resp.data
+            //             .map(place => [place.lat, place.lng])
+            //             .filter(bound => bound[0] && bound[1]);
+            //         if (bounds.length==0 || !map.leafletObject) return;
+            //         map.leafletObject.fitBounds(bounds);
+            //     }
+            //     catch(err) {}
+            // }, 1000);
 		},
 
         vuetifyItems(items, value, title) {

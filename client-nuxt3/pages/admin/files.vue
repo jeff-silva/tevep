@@ -1,21 +1,22 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <app-model-crud namespace="files" :actions-except="['clone']">
+            <app-model-crud namespace="files" :actions-except="['clone', 'add']">
                 <template #search-table-header>
-                    <th width="50px"></th>
-                    <th>Nome</th>
+                    <th>ARquivo</th>
                     <th width="100px">Mime</th>
                 </template>
 
                 <template #search-table-item="{item}">
                     <td>
-                        <v-avatar color="primary" class="elevation-2">
-                            <img :src="item.url" alt="" v-if="item.type=='image'">
-                            <span v-else class="text-uppercase">{{ item.ext }}</span>
-                        </v-avatar>
+                        <div class="d-flex align-center">
+                            <v-avatar color="grey-lighten-4" class="elevation-2">
+                                <img :src="item.url" alt="" v-if="item.type=='image'" style="height:40px;">
+                                <span v-else class="text-uppercase">{{ item.ext }}</span>
+                            </v-avatar>
+                            <div class="ms-3">{{ item.name }}</div>
+                        </div>
                     </td>
-                    <td>{{ item.name }}</td>
                     <td>{{ item.mime }}</td>
                 </template>
                 

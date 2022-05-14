@@ -12,6 +12,7 @@ export default function(axiosParams={}) {
 
     let req = ref({
         loading: false,
+        status: false,
         axios: {
             method: (axiosParams.method||'get'),
             url: (axiosParams.url||''),
@@ -77,6 +78,7 @@ export default function(axiosParams={}) {
                 return req.value.timeout = setTimeout(() => {
                     axios(req.value.axios).then(resp => {
                         req.value.loading = false;
+                        req.value.status = resp.status;
                         req.value.resp = resp.data;
                         req.value.timeout = false;
                         resolve(resp);
@@ -87,6 +89,7 @@ export default function(axiosParams={}) {
             // Submit
             axios(req.value.axios).then(resp => {
                 req.value.loading = false;
+                req.value.status = resp.status;
                 req.value.resp = resp.data;
                 req.value.timeout = false;
                 resolve(resp);
