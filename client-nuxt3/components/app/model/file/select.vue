@@ -16,10 +16,20 @@
         <div class="d-flex">
             <div :style="`min-width:${sidebarWidth}; max-width:${sidebarWidth};`">
                 <v-img
-                    v-if="fileSelected"
+                    v-if="fileSelected && fileSelected.mime.includes('image')"
                     :src="fileSelected.url"
                     width="100%"
                 ></v-img>
+                <div
+                    v-if="fileSelected && !fileSelected.mime.includes('image')"
+                    class="d-flex align-center justify-center" style="height:150px;"
+                >
+                    <v-avatar color="primary" size="x-large">
+                        <div class="text-uppercase">
+                            {{ fileSelected.ext }}
+                        </div>
+                    </v-avatar>
+                </div>
             </div>
             <div class="flex-grow-1 bg-grey-lighten-4">
                 <div class="pa-2">
