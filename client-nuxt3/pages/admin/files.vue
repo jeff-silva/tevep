@@ -36,7 +36,7 @@
                     <template v-if="crud.search.resp.attributes">
                         <v-select
                             label="Pasta"
-                            v-model="crud.search.params.folder"
+                            v-model="crud.search.params.in_folder"
                             :items="crud.search.resp.attributes.folders.map(item => item.name)"
                             @update:modelValue="crud.searchSubmit()"
                         ></v-select>

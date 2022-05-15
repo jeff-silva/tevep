@@ -2,6 +2,15 @@
     <div class="elevation-2">
         <div class="d-flex font-weight-bold">
             <div class="flex-grow-1 pa-4">{{ label }}</div>
+            <div class="pe-1" style="width:300px;" v-if="fileSearch.resp.attributes">
+                <v-select
+                    label="Pasta"
+                    v-model="fileSearch.params.in_folder"
+                    hide-details
+                    @update:modelValue="fileSearch.submit()"
+                    :items="(fileSearch.resp.attributes.folders||[]).map(item => ({value:item.name||' ', title:item.name||'Raiz'}))"
+                ></v-select>
+            </div>
             <div class="pe-4" style="width:300px;">
                 <v-text-field
                     label="Filtro"
@@ -82,7 +91,7 @@ export default {
             fileSelected: false,
             fileSearch: useAxios({
                 url: '/api/files/search',
-                params: {q:'', folder:'', per_page:15},
+                params: {q:'', in_folder:'', per_page:15},
                 submit: true,
                 resp: {
                     data: [],

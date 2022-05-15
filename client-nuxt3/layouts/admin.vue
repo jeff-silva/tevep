@@ -138,7 +138,7 @@
 </template>
 
 <style>
-.v-container:not(.v-container--fluid) {width:1200px;}
+.v-container:not(.v-container--fluid) {max-width:1200px;}
 .layout-admin-actions-lg * {
     margin-left: 15px;
 }

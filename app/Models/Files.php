@@ -68,17 +68,17 @@ class Files extends \Illuminate\Database\Eloquent\Model
 	public function searchParams()
 	{
 		return [
-			'folder' => '',
+			'in_folder' => '',
 		];
 	}
 
 
 	public function searchQuery($query, $params)
 	{
-		if ($params->folder) {
+		if ($params->in_folder) {
 			$query->where(function($q) use($params) {
-				$q->where('folder', $params->folder);
-				$q->orWhere('folder', 'like', "{$params->folder}%");
+				$q->where('folder', $params->in_folder);
+				$q->orWhere('folder', 'like', "{$params->in_folder}/%");
 			});
 		}
 
@@ -115,8 +115,8 @@ class Files extends \Illuminate\Database\Eloquent\Model
 		}, $folders);
 	}
 
-
-	public function searchAttributes($params = [])
+	
+	public function searchAttributes($params=[])
 	{
 		$return['folders'] = static::folders();
 		return $return;
@@ -125,9 +125,9 @@ class Files extends \Illuminate\Database\Eloquent\Model
 
 	public function dashboardData()
 	{
-		$return['filesTotal'] = Files::select(['id'])->count('size') ?? 0;
-		$return['filesTotalSize'] = Files::select(['size'])->get()->sum('size') ?? 0;
-		$return['filesFormats'] = Files::query()
+		$return['filesTotal'] = \App\Models\Files::select(['id'])->count('size') ?? 0;
+		$return['filesTotalSize'] = \App\Models\Files::select(['size'])->get()->sum('size') ?? 0;
+		$return['filesFormats'] = \App\Models\Files::query()
 			->select('files.ext', \DB::raw('count(files.id) as total'))
 			->groupBy('files.ext')
 			->get()
