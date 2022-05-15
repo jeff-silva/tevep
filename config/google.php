@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'analytics' => [
+    'ga4' => [
         'id' => '',
     ],
 ];

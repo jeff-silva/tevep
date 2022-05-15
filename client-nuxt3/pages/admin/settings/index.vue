@@ -12,8 +12,9 @@
                             <v-tab value="">Gerais</v-tab>
                             <v-tab value="email">E-mail</v-tab>
                             <v-tab value="files">Arquivos</v-tab>
+                            <v-tab value="google">Google</v-tab>
                         </v-tabs>
-                        <v-card-text>
+                        <v-card-text class="pt-5">
                             <nuxt-child :settings="settings.data"></nuxt-child>
                         </v-card-text>
                     </v-card>

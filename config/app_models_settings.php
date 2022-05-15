@@ -11,6 +11,7 @@ return [
         'app.admin_layout',
         'app.icon',
         'app.logo',
+        'google.ga4.id',
     ],
     
     // Configurações disponíveis apenas para o backend
