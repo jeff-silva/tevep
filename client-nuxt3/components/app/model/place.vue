@@ -121,7 +121,12 @@ export default {
 
     methods: {
         emitValue() {
-            this.$emit('update:modelValue', {...this.placeSave.data});
+            if (this.returnType=='id') {
+                this.$emit('update:modelValue', this.placeSave.data.id);
+            }
+            else if (this.returnType=='object') {
+                this.$emit('update:modelValue', {...this.placeSave.data});
+            }
         },
 
         async setPlace(place) {
@@ -143,6 +148,7 @@ export default {
             if (this.returnType=='id') {
                 if (isNaN(this.modelValue)) return;
                 this.placeSave.data = (await this.$axios.get(`/api/places/find/${this.modelValue}`)).data;
+                console.log(this.placeSave.data);
             }
             else if (this.returnType=='object') {
                 this.placeSave.data = {...(this.modelValue||{})};

@@ -5,12 +5,15 @@
             <form @submit.prevent="modelEdit.submit().then(saveSuccess);">
                 <v-container :fluid="editFluid">
                     <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
-                    <v-card>
-                        <v-alert type="success" v-if="modelEdit.status==200">Dados salvos</v-alert>
-                        <v-card-text>
-                            <slot name="edit-fields" v-bind="slotBind()"></slot>
-                        </v-card-text>
-                    </v-card>
+                    <v-alert type="success" v-if="modelEdit.status==200">Dados salvos</v-alert>
+
+                    <slot name="edit-card" v-bind="slotBind()">
+                        <v-card>
+                            <v-card-text>
+                                <slot name="edit-fields" v-bind="slotBind()"></slot>
+                            </v-card-text>
+                        </v-card>
+                    </slot>
                 </v-container>
     
                 <v-bottom-navigation style="margin-left:-15px;">

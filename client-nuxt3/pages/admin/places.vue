@@ -60,7 +60,12 @@
                 </template> -->
 
                 <template #edit-fields="crud">
-                    <app-model-place v-model="crud.edit" :auto-save="false" @update:modelValue="crud.editUpdate($event)"></app-model-place>
+                    <app-model-place
+                        v-model="crud.edit"
+                        return-type="object"
+                        :auto-save="false"
+                        @update:modelValue="crud.editUpdate($event)"
+                    ></app-model-place>
                 </template>
             </app-model-crud>
         </nuxt-layout>
