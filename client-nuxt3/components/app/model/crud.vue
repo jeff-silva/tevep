@@ -2,14 +2,11 @@
     <div>
         <!-- Edit -->
         <div v-if="$route.query.id">
-            <form @submit.prevent="modelSave.submit({data:edit}).then(saveSuccess);">
+            <form @submit.prevent="modelEdit.submit().then(saveSuccess);">
                 <v-container :fluid="editFluid">
-                    <v-card v-if="edit">
-                        <v-alert type="success" v-if="modelSave.status==200">Dados salvos</v-alert>
-                        <v-progress-linear
-                            indeterminate
-                            v-if="modelSave.loading"
-                        ></v-progress-linear>
+                    <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
+                    <v-card>
+                        <v-alert type="success" v-if="modelEdit.status==200">Dados salvos</v-alert>
                         <v-card-text>
                             <slot name="edit-fields" v-bind="slotBind()"></slot>
                         </v-card-text>
@@ -46,7 +43,7 @@
                                         <tr class="text-uppercase">
                                             <th class="pe-0" width="30px">
                                                 <v-checkbox
-                                                    @click="selectAll($event.target.checked)"
+                                                    @click="searchSelectAll($event.target.checked)"
                                                     :hide-details="true"
                                                     class="mx-auto"
                                                 ></v-checkbox>
@@ -235,7 +232,7 @@ export default {
     methods: {
         slotBind(merge={}) {
             return {
-                edit: this.edit,
+                edit: this.modelEdit.data,
                 search: this.modelSearch,
                 editUpdate: this.editUpdate,
                 searchSubmit: this.searchSubmit,
@@ -243,23 +240,8 @@ export default {
             };
         },
 
-        selectAll(checked) {
-            if (!checked) {
-                return this.selects = [];
-            }
-
-            let selects = [];
-            this.modelSearch.resp.data.forEach(item => {
-                selects.push(item.id);
-            });
-            this.selects = selects;
-        },
-
         navigateBack() {
-            // if (this.backUrl) {
-            //     return this.$router.push(this.backUrl);
-            // }
-            this.$router.go(-1);
+            this.$router.push(`/admin/${this.namespace}`);
         },
 
         saveSuccess(resp) {
@@ -269,23 +251,38 @@ export default {
             });
         },
 
+        async editInit() {
+            this.modelEdit.status = false;
+            this.modelEdit.data = {};
+            let id = this.$route.query.id || false;
+            if (!id || isNaN(id)) return;
+            
+            let resp = await this.$axios.get(`/api/${this.namespace}/find/${id}`);
+            this.modelEdit.data = resp.data;
+            this.app.setTitle(`Editar ${this.singular} | ${resp.data.name}`);
+        },
+
         editUpdate(edit) {
-            this.edit = edit;
+            this.modelEdit.data = edit;
         },
 
         async searchInit() {
             if (this.$route.query.id) return;
-            this.edit = false;
-            this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
-            this.modelSearch.params = this.paramsDefault(this.$route.query);
-            this.modelSearch.cancel();
-            const resp = await this.modelSearch.submit();
-            this.$emit('search', this.slotBind());
-            this.app.setTitle(`Pesquisar ${this.plural}`);
+
+            if (this._searchInitTimeout) clearTimeout(this._searchInitTimeout);
+            this._searchInitTimeout = setTimeout(async () => {
+                this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
+                this.modelSearch.params = this.paramsDefault(this.$route.query);
+                this.app.setTitle(`Pesquisar ${this.plural}`);
+                this.selects = [];
+    
+                this.modelSearch.cancel();
+                const resp = await this.modelSearch.submit();
+                this.$emit('search', this.slotBind());
+            }, 10);
         },
 
         async searchSubmit() {
-            if (this.$route.query.id) return;
             setTimeout(() => {
                 this.$router.push({
                     query: this.modelSearch.params,
@@ -293,14 +290,16 @@ export default {
             }, 100);
         },
 
-        async editInit() {
-            let id = this.$route.query.id || false;
-            if (!id || isNaN(id)) return this.edit = {};
-            this.edit = false;
-            this.modelSave.status = false;
-            let resp = await useAxios({method: "get", url: `/api/${this.namespace}/find/${id}`}).value.submit();
-            this.edit = resp.data;
-            this.app.setTitle(`Editar ${this.singular} | ${resp.data.name}`);
+        searchSelectAll(checked) {
+            if (!checked) {
+                return this.selects = [];
+            }
+
+            let selects = [];
+            this.modelSearch.resp.data.forEach(item => {
+                selects.push(item.id);
+            });
+            this.selects = selects;
         },
 
         exportDownload(item) {
@@ -333,15 +332,13 @@ export default {
     data() {
         return {
             tableSearchCols: 2,
-            backUrl: false,
             selects: [],
-            edit: false,
             modelSearch: useAxios({
                 method: "get",
                 url: `/api/${this.namespace}/search`,
                 params: this.paramsDefault(this.$route.query),
             }),
-            modelSave: useAxios({
+            modelEdit: useAxios({
                 method: "post",
                 url: `/api/${this.namespace}/save`,
                 data: {},

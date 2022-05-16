@@ -25,6 +25,12 @@ export default {
         previewHeight: {default:'250px', type:String},
     },
 
+    watch: {
+        '$props.modelValue': {async handler() {
+            this.fileFind();
+        }},
+    },
+
     data() {
         return {
             fileUrlRandom: Math.round(Math.random()*9999),

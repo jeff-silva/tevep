@@ -19,6 +19,7 @@
     - [x] Select de models por ID
     - [x] Manter conteúdo principal do admin dentro de um v-container
     - [ ] Fazer com que total de resultados e paginação também fiquem dentro do componente app-model-pagination
+    - [ ] Ao alterar dados de um usuário, senha é alterada também
     - [ ] app-model-crud
         - [ ] Redirecionamento recursivo
         - [x] Ao clicar em prev/next na paginação do compomente app-model-crud, a página é concatenada em vez de incrementada

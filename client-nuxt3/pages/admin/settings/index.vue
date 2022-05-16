@@ -4,30 +4,42 @@
             <v-container>
                 <form @submit.prevent="formSubmit()" v-if="settings && settings.data && Object.keys(settings.data).length">
                     <v-card>
-                        <v-tabs
-                            v-model="tab"
-                            background-color="gray"
-                            @update:modelValue="$router.push(`/admin/settings/${$event}`)"
-                        >
-                            <v-tab value="">Gerais</v-tab>
-                            <v-tab value="email">E-mail</v-tab>
-                            <v-tab value="files">Arquivos</v-tab>
-                            <v-tab value="google">Google</v-tab>
-                        </v-tabs>
-                        <v-card-text class="pt-5">
-                            <nuxt-child :settings="settings.data"></nuxt-child>
-                        </v-card-text>
+                        <v-row>
+                            <v-col cols="2" class="pa-0 bg-grey-lighten-5 elevation-1">
+                                <v-tabs
+                                    v-model="tab"
+                                    @update:modelValue="$router.push(`/admin/settings/${$event}`)"
+                                    direction="vertical"
+                                >
+                                    <v-tab
+                                        v-for="(t, i) in tabs"
+                                        :value="t.value"
+                                        :key="i"
+                                    >
+                                        {{ t.name }}
+                                    </v-tab>
+                                </v-tabs>
+                            </v-col>
+                            <v-col cols="10" class="pa-0 pe-3">
+                                <template v-for="t in tabs">
+                                    <div v-if="t.value==tab" class="pa-3 bg-grey-lighten-5 elevation-1">{{ t.name }}</div>
+                                </template>
+                                <div class="px-3 py-5">
+                                    <nuxt-child :settings="settings.data"></nuxt-child>
+                                </div>
+                            </v-col>
+                        </v-row>
                     </v-card>
-        
-                    <v-bottom-navigation style="margin-left:-15px;">
-                        <v-btn
-                            type="submit"
-                            icon="mdi-content-save"
-                            :disable="settings.loading"
-                        ></v-btn>
-                    </v-bottom-navigation>
                 </form>
             </v-container>
+
+            <template #footer>
+                <v-btn
+                    type="submit"
+                    icon="mdi-content-save"
+                    :disable="settings.loading"
+                ></v-btn>
+            </template>
         </nuxt-layout>
     </div>
 </template>
@@ -38,6 +50,24 @@ export default {
         return {
             tab: this.$route.path.replace('/admin/settings/', ''),
             settings: useAxios({method:'post', url:'/api/settings/save', data:{}}),
+            tabs: [
+                {
+                    value: '',
+                    name: 'Gerais',
+                },
+                {
+                    value: 'email',
+                    name: 'E-mail',
+                },
+                {
+                    value: 'files',
+                    name: 'Arquivos',
+                },
+                {
+                    value: 'google',
+                    name: 'Google',
+                },
+            ],
         };
     },
 

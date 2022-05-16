@@ -108,9 +108,15 @@
 export default {
     props: {
         modelValue: {default:false, type:[Boolean, Number, String, Object]},
-        returnValue: {default:'id'},
+        returnType: {default:'id'}, // id, object
         label: {default:''},
         autoSave: {default:true},
+    },
+
+    watch: {
+        '$props.modelValue': {async handler() {
+            this.placeFind();
+        }},
     },
 
     methods: {
@@ -134,15 +140,14 @@ export default {
         },
 
         async placeFind() {
-            if (typeof this.modelValue=='object') {
-                this.placeSave.data = {...this.modelValue};
-                this.mapRecenter();
+            if (this.returnType=='id') {
+                if (isNaN(this.modelValue)) return;
+                this.placeSave.data = (await this.$axios.get(`/api/places/find/${this.modelValue}`)).data;
             }
-            else if (!isNaN(this.modelValue)) {
-                let resp = await this.$axios.get(`/api/places/find/${this.modelValue}`);
-                this.placeSave.data = resp.data;
-                this.mapRecenter();
+            else if (this.returnType=='object') {
+                this.placeSave.data = {...(this.modelValue||{})};
             }
+            this.mapRecenter();
         },
 
         placeAutosave() {

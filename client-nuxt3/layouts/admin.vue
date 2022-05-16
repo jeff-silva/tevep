@@ -124,11 +124,15 @@
             </v-app-bar>
 
             <!-- Sizes your content based upon application components -->
-            <v-main style="background:#f5f5f5;">
-                <v-container fluid>
+            <v-main class="bg-grey-lighten-4">
+                <div class="py-5">
                     <slot></slot>
-                </v-container>
+                </div>
             </v-main>
+
+            <v-bottom-navigation v-if="$slots.footer">
+                <slot name="footer"></slot>
+            </v-bottom-navigation>
 
             <!-- <v-footer app>
                 Footer
