@@ -21,6 +21,7 @@
     - [ ] Fazer com que total de resultados e paginação também fiquem dentro do componente app-model-pagination
     - [ ] Ao alterar dados de um usuário, senha é alterada também
     - [ ] Editor de código dentro do componente app-html
+    - [ ] Tornar componente app-model-file=select responsivo
     - [ ] app-model-crud
         - [ ] Redirecionamento recursivo
         - [x] Ao clicar em prev/next na paginação do compomente app-model-crud, a página é concatenada em vez de incrementada

@@ -3,7 +3,7 @@
         <nuxt-layout name="admin">
             <v-container>
                 <v-row>
-                    <v-col cols="6">    
+                    <v-col cols="12" md="6">
                         <v-card title="Arquivos enviados">
                             <template #text>
                                 <app-chart v-model="filesFormats" :loading="dashboard.loading"></app-chart>
@@ -15,7 +15,7 @@
                         </v-card>
                     </v-col>
     
-                    <v-col cols="6">
+                    <v-col cols="12" md="6">
                         <v-card title="Usuários">
                             <v-card-text>
                                 <v-table>

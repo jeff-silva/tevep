@@ -5,7 +5,7 @@
                 namespace="emails-templates"
                 singular="Template de e-mail"
                 plural="Templates de e-mails"
-                :actions-except="['clone', 'delete']"
+                :actions-except="['clone', 'delete', 'new']"
             >
                 <template #search-table-header>
                     <th>Nome</th>
@@ -27,6 +27,11 @@
                         
                         <v-col cols="12">
                             <app-html label="Corpo do e-mail" v-model="crud.edit.body"></app-html>
+                            <div class="mt-2">
+                                <template v-for="p in (crud.edit.params || [])">
+                                    <v-chip class="me-2">{{ p.source }}</v-chip>
+                                </template>
+                            </div>
                         </v-col>
                     </v-row>
                 </template>

@@ -18,7 +18,9 @@
 
                 <app-actions>
                     <v-btn icon="mdi-close" @click="navigateBack()"></v-btn>
-                    <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
+                    <template v-if="!actionsExcept.includes('new')">
+                        <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
+                    </template>
                     <v-btn icon="mdi-content-save" type="submit"></v-btn>
                 </app-actions>
             </form>
@@ -176,7 +178,7 @@
             <app-actions>
                 <v-btn icon="mdi-magnify"></v-btn>
 
-                <template v-if="!actionsExcept.includes('add')">
+                <template v-if="!actionsExcept.includes('new')">
                     <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
                 </template>
 
