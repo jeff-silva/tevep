@@ -66,6 +66,7 @@ class AppController extends Controller
 			]],
 			['to'=>'', 'icon'=>'mdi-cog', 'label'=>'Configurações', 'children'=>[
 				['to'=>'/admin/settings', 'icon'=>'mdi-cog', 'label'=>'Configurações', 'children'=>[]],
+				['to'=>'/admin/emails-templates', 'icon'=>'mdi-cog', 'label'=>'Templates de e-mail', 'children'=>[]],
 				['to'=>'/admin/files', 'icon'=>'mdi-cog', 'label'=>'Arquivos', 'children'=>[]],
 				['to'=>'/admin/places', 'icon'=>'mdi-cog', 'label'=>'Endereços', 'children'=>[]],
 			]],

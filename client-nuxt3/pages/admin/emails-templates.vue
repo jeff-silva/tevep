@@ -26,7 +26,7 @@
                         </v-col>
                         
                         <v-col cols="12">
-                            <app-code v-model="crud.edit.body"></app-code>
+                            <app-html label="Corpo do e-mail" v-model="crud.edit.body"></app-html>
                         </v-col>
                     </v-row>
                 </template>

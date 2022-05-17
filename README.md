@@ -13,13 +13,14 @@
     - [ ] Máscaras
 - [x] Conversão padrão de JSON para FormData no axios (para possibilitar upload)
     - [x] Gerenciador de arquivo
-    - [ ] Configuração: Upload de logo
-    - [ ] Configuração: Upload de favicon
+    - [x] Configuração: Upload de logo
+    - [x] Configuração: Upload de favicon
 - Bugs menores
     - [x] Select de models por ID
     - [x] Manter conteúdo principal do admin dentro de um v-container
     - [ ] Fazer com que total de resultados e paginação também fiquem dentro do componente app-model-pagination
     - [ ] Ao alterar dados de um usuário, senha é alterada também
+    - [ ] Editor de código dentro do componente app-html
     - [ ] app-model-crud
         - [ ] Redirecionamento recursivo
         - [x] Ao clicar em prev/next na paginação do compomente app-model-crud, a página é concatenada em vez de incrementada

@@ -109,7 +109,7 @@
             <v-app-bar app>
                 <v-app-bar-nav-icon
                     @click="drawer=true"
-                    class="d-lg-none"
+                    class="d-lg-none me-2"
                 ></v-app-bar-nav-icon>
     
                 <v-toolbar-title>
