@@ -33,13 +33,13 @@
                 </form>
             </v-container>
 
-            <template #footer>
+            <app-actions>
                 <v-btn
                     type="submit"
                     icon="mdi-content-save"
                     :disable="settings.loading"
                 ></v-btn>
-            </template>
+            </app-actions>
         </nuxt-layout>
     </div>
 </template>

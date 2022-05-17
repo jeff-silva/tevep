@@ -130,9 +130,6 @@
                 </div>
             </v-main>
 
-            <v-bottom-navigation v-if="$slots.footer">
-                <slot name="footer"></slot>
-            </v-bottom-navigation>
 
             <!-- <v-footer app>
                 Footer

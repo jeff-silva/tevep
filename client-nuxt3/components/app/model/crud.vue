@@ -15,12 +15,12 @@
                         </v-card>
                     </slot>
                 </v-container>
-    
-                <v-bottom-navigation style="margin-left:-15px;">
+
+                <app-actions>
                     <v-btn icon="mdi-close" @click="navigateBack()"></v-btn>
                     <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
                     <v-btn icon="mdi-content-save" type="submit"></v-btn>
-                </v-bottom-navigation>
+                </app-actions>
             </form>
         </div>
 
@@ -173,18 +173,18 @@
             </v-container>
             
             <!-- Search bottom actions -->
-            <v-bottom-navigation style="margin-left:-15px;">
+            <app-actions>
                 <v-btn icon="mdi-magnify"></v-btn>
 
                 <template v-if="!actionsExcept.includes('add')">
                     <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
                 </template>
-                
+
                 <v-menu anchor="top">
                     <template #activator="{ props }">
                         <v-btn icon="mdi-cloud-download" v-bind="props"></v-btn>
                     </template>
-    
+
                     <v-list style="width:180px;">
                         <v-list-item
                             :title="e.name"
@@ -193,11 +193,11 @@
                         ></v-list-item>
                     </v-list>
                 </v-menu>
-                
+
                 <template v-if="selects.length && !actionsExcept.includes('delete')">
                     <v-btn icon="mdi-delete" @click="searchDelete()"></v-btn>
                 </template>
-            </v-bottom-navigation>
+            </app-actions>
         </div>
     </div>
 </template>
