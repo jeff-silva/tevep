@@ -21,11 +21,13 @@
                 </template>
 
                 <template #edit-fields="crud">
-                    <v-row>
+                    <tevep-edit v-model="crud.edit"></tevep-edit>
+                    <pre>crud.edit: {{ crud.edit }}</pre>
+                    <!-- <v-row>
                         <v-col size="12">
                             <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>
                         </v-col>
-                    </v-row>
+                    </v-row> -->
                 </template>
             </app-model-crud>
         </nuxt-layout>

@@ -132,7 +132,7 @@ class Files extends \Illuminate\Database\Eloquent\Model
 			->groupBy('files.ext')
 			->get()
 			->map(function($item) { return [
-				'ext' => $item->ext,
+				'ext' => ($item->ext? $item->ext: 'Indefinido'),
 				'total' => $item->total,
 			]; });
 		return $return;

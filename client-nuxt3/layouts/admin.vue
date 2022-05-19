@@ -49,7 +49,7 @@
             <!-- userDrawer -->
             <v-navigation-drawer temporary position="right" v-model="userDrawer" width="300">
                 <v-card-header>
-                    <v-card-title>Usuário</v-card-title>
+                    <v-card-title>{{ app.user.name }}</v-card-title>
                 </v-card-header>
 
                 <v-card-text>

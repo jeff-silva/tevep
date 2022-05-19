@@ -4,10 +4,10 @@
             <v-container>
                 <v-row>
                     <v-col cols="12" md="6">
-                        <v-card title="Arquivos enviados">
+                        <v-card :title="`Arquivos enviados - ${$filters.filesizeHuman(dashboard.resp? dashboard.resp.filesTotalSize: 0)}`">
                             <template #text>
                                 <app-chart v-model="filesFormats" :loading="dashboard.loading"></app-chart>
-                                <div class="mt-2" v-if="dashboard.resp.filesTotal">
+                                <div class="mt-4 text-center" v-if="dashboard.resp.filesTotal">
                                     {{ dashboard.resp.filesTotal }} arquivos totalizando
                                     {{ $filters.filesizeHuman(dashboard.resp.filesTotalSize) }}
                                 </div>

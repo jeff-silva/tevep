@@ -86,12 +86,12 @@ class Controller extends BaseController
             ]);
         }
 
-        // if (! in_array('valid', $params->except)) {
-        //     $this->route('post', "/valid", 'valid', [
-        //         'description' => 'Verificar validação',
-        //         'body' => $body,
-        //     ]);
-        // }
+        if (! in_array('valid', $params->except)) {
+            $this->route('post', "/valid", 'valid', [
+                'description' => 'Verificar validação',
+                'body' => $body,
+            ]);
+        }
 
         if (! in_array('delete', $params->except)) {
             $this->route('post', "/delete", 'delete', [
@@ -158,7 +158,7 @@ class Controller extends BaseController
 
     public function valid()
     {
-        return ['valid'];
+        return $this->model->validate(request()->all());
     }
 
 
