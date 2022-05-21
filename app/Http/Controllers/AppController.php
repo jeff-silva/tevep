@@ -113,7 +113,10 @@ class AppController extends Controller
 		$client->setApplicationName(config('app.name'));
 		$client->setAuthConfig($serviceAccount);
 		$client->setAccessType('offline');
-		$client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
+		$client->setScopes([
+			'https://www.googleapis.com/auth/analytics.readonly',
+			'https://www.googleapis.com/auth/youtube',
+		]);
 
 		$access_token = \App\Models\Settings::getValue('google.access_token', function() use($client, $serviceAccount) {
 			$client->refreshTokenWithAssertion();
@@ -124,7 +127,6 @@ class AppController extends Controller
 
 		$client->setAccessToken($access_token);
 
-
 		// Analytics
 		call_user_func(function() use($client) {
 			return;
@@ -132,6 +134,15 @@ class AppController extends Controller
 			$accounts = $analytics->management_accounts->listManagementAccounts();
 			dd($accounts);
 		});
+
+
+		// Firebase
+		call_user_func(function() use($client) {
+			return;
+			$service = new \Google_Service_FirebaseRealtimeDatabase($client);
+			dd($service);
+		});
+
 
 		// Free books
 		call_user_func(function() use($client) {
@@ -141,6 +152,18 @@ class AppController extends Controller
 				'filter' => 'free-ebooks',
 			]);
 			dd($results->getItems());
+		});
+
+
+		// Youtube
+		call_user_func(function() use($client) {
+			return;
+			$youtube = new \Google_Service_Youtube($client);
+			$searchResponse = $youtube->search->listSearch('id,snippet', [
+				'q' => 'gorillaz',
+				'maxResults' => 10,
+			]);
+			dd($searchResponse);
 		});
 	}
 

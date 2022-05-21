@@ -1,10 +1,7 @@
 <template>
     <div>
         <v-row>
-            <v-col cols="6">
-                <v-text-field label="Google Analytics ID (GA4)" v-model="sets['google.ga4.id']"></v-text-field>
-            </v-col>
-            <v-col cols="6">
+            <v-col cols="12">
                 <div class="d-flex align-center">
                     <div class="flex-grow-1">
                         <v-alert type="success" v-if="sets['google.account_json']">
@@ -28,6 +25,31 @@
                                         Crie uma <strong>conta de serviço</strong> e depois vá na aba "chaves" dentro da conta criada,
                                         Gere uma nova chave e faça download do arquivo JSON. <br>
                                         Depois, basta inserir o arquivo aqui.
+                                    </v-card-text>
+                                </v-card>
+                            </div>
+                        </v-menu>
+                    </div>
+                </div>
+            </v-col>
+
+            <v-col cols="12">
+                <div class="d-flex align-center">
+                    <div class="flex-grow-1">
+                        <v-text-field label="Google Analytics ID (GA4)" v-model="sets['google.ga4.id']" hide-details></v-text-field>
+                    </div>
+
+                    <div class="ms-2">
+                        <v-menu anchor="start">
+                            <template #activator="{ props }">
+                                <v-btn flat icon="mdi-help-circle" v-bind="props"></v-btn>
+                            </template>
+
+                            <div class="" style="max-width:400px;">
+                                <v-card>
+                                    <v-card-text>
+                                        <strong>Onde encontrar o código do Analytics?</strong><br>
+                                        ...
                                     </v-card-text>
                                 </v-card>
                             </div>

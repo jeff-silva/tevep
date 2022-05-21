@@ -53,7 +53,12 @@
     "extra": {
         "laravel": {
             "dont-discover": []
-        }
+        },
+        "google/apiclient-services": [
+            "Analytics",
+            "FirebaseRealtimeDatabase",
+            "YouTube"
+        ]
     },
     "config": {
         "optimize-autoloader": true,
