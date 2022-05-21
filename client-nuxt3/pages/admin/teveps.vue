@@ -20,9 +20,11 @@
                     </td>
                 </template>
 
-                <template #edit-fields="crud">
-                    <tevep-edit v-model="crud.edit"></tevep-edit>
-                    <pre>crud.edit: {{ crud.edit }}</pre>
+                <template #edit-card="crud">
+                    <div class="bg-white pa-3" style="margin: -35px -20px 0 -20px;">
+                        <tevep-edit v-model="crud.edit"></tevep-edit>
+                        <pre>crud.edit: {{ crud.edit }}</pre>
+                    </div>
                     <!-- <v-row>
                         <v-col size="12">
                             <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>

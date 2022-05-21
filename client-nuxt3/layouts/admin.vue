@@ -78,32 +78,24 @@
 
                 <v-divider></v-divider>
 
-                <app-nav :items="app.adminNav">
-                    <template #append>
-                        <template v-if="app.devMode">
-                            <v-divider></v-divider>
-    
-                            <v-list-item
-                                prepend-icon="mdi-wrench"
-                                to="/admin/dev"
-                                v-if="app.devMode"
-                            >
-                                Developers
-                            </v-list-item>
-                        </template>
-
-                        <v-divider></v-divider>
-
-                        <v-list-item
-                            prepend-icon="mdi-power"
-                            @click="app.logout().then(resp => $router.push('/auth'))"
-                        >
-                            Logout
-                        </v-list-item>
-
-                        <v-divider></v-divider>
-                    </template>
-                </app-nav>
+                <app-nav :items="app.adminNav"></app-nav>
+                <v-divider></v-divider>
+                
+                <app-nav :items="[
+                    {label: 'Developers', children: [
+                        {label: 'Home', to: '/admin/dev'},
+                        {label: 'Test', to: '/admin/dev/test'},
+                    ]},
+                ]"></app-nav>
+                <v-divider></v-divider>
+                <v-list>
+                    <v-list-item
+                        prepend-icon="mdi-power"
+                        @click="app.logout().then(resp => $router.push('/auth'))"
+                    >
+                        Logout
+                    </v-list-item>
+                </v-list>
             </v-navigation-drawer>
 
             <v-app-bar app>

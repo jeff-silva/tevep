@@ -1,3 +1,8 @@
+const fs = require('fs');
+const path = require('path');
+
+// console.log( [__dirname, '..', '.vscode', 'cert', 'rec.la-bundle.crt'].join('/') );
+
 import { defineNuxtConfig } from 'nuxt';
 require('dotenv').config({ path: '../.env' });
 
