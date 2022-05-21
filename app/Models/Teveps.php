@@ -47,7 +47,7 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 	{
 		$meta = json_decode($meta, true);
 		$meta = is_array($meta)? $meta: [];
-		return array_merge([
+		$meta = array_merge([
 			'tempos' => [],
 			'pilotos' => [],
 			'convidados' => [],
@@ -70,6 +70,35 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 			'meioambientes' => [],
 			'metodos' => [],
 		], $meta);
+
+		foreach($meta as $attr => $values) {
+			foreach($values as $index => $value) {
+				$loop_is_last = $index==sizeof($values)-1;
+				$value_prev = isset($values[ $index-1 ])? $values[ $index-1 ]: false;
+				$value_next = isset($values[ $index+1 ])? $values[ $index+1 ]: false;
+				$value = array_merge([
+					'id' => '',
+					'name' => '',
+					'date_start' => '',
+					'date_final' => '',
+					'meta_ref' => uniqid(),
+					'parent_id' => $this->id,
+				], $value);
+
+				// Setando data primeiro item
+				if ($attr=='tempos' AND $index==0) {
+					$value['date_start'] = $this->date_start;
+				}
+
+				if ($value_prev AND $value_prev['date_final'] AND !$value['date_start']) {
+					$value['date_start'] = $value_prev['date_final'];
+				}
+
+				$meta[ $attr ][ $index ] = $value;
+			}
+		}
+
+		return $meta;
 	}
 
 

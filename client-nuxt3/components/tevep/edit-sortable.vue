@@ -1,43 +1,59 @@
 <template>
-    <div>
+    <div class="text-center">
+        <div><strong>{{ plural }}</strong></div>
         <div
-            class="d-flex"
             :class="{
-                'flex-column': (layout=='vertical'),
-                'align-center': (layout=='horizontal'),
+                'd-flex flex-column': (layout=='vertical'),
+                'd-inline-flex align-center': (layout=='horizontal'),
             }"
         >
             <draggable 
                 v-model="propsModelValue"
-                class="d-flex"
                 :animation="150"
                 :class="{
-                    'flex-column':layout=='vertical',
-                    'noclass':layout=='horizontal',
+                    'd-flex flex-column':layout=='vertical',
+                    'd-flex':layout=='horizontal',
                 }"
             >
                 <template #item="{ element, index }">
-                    <div class="flex-grow-1 d-flex align-center ma-1" :style="layout=='horizontal'? `min-width:${1940/7}px;`: ``">
-                        <v-icon class="mx-2" style="cursor:move;">mdi-drag</v-icon>
-                        <div class="flex-grow-1">
-                            <slot name="item" v-bind="this.slotBind({element})">
-                                <v-text-field :label="`Item ${index+1}`" hide-details v-model="element.name"></v-text-field>
-                            </slot>
+                    <div>
+                        <div class="flex-grow-1 d-flex align-center ma-1" :style="layout=='horizontal'? `width:${(areaWidth/max)-7}px;`: ``">
+                            <v-icon class="mx-2" style="cursor:move;">mdi-drag</v-icon>
+                            <div class="flex-grow-1">
+                                <slot name="item" v-bind="this.slotBind({element})">
+                                    <v-text-field :label="`${singular} ${index+1}`" hide-details v-model="element.name"></v-text-field>
+                                </slot>
+                            </div>
+                            <v-btn
+                                flat
+                                class="ms-2"
+                                icon="mdi-dots-vertical"
+                                @click="dialogItem(element)"
+                            ></v-btn>
                         </div>
-                        <v-btn
-                            class="mx-2"
-                            icon="mdi-delete"
-                            @click="remove(element)"
-                            :title="`Remover ${singular}`"
-                        ></v-btn>
+    
+                        <v-dialog :model-value="dialog && dialog.meta_ref==element.meta_ref" @click:outside="dialogItem(false)">
+                            <v-card :title="plural" :subtitle="`Gerenciador de ${singular}`">
+                                <v-card-text style="width:600px; max-width:95vw;">
+                                    <v-text-field label="Nome" v-model="element.name" hide-details class="mb-5"></v-text-field>
+                                    <v-text-field label="Data início" v-model="element.date_start" hide-details class="mb-5"></v-text-field>
+                                    <v-text-field label="Data fim" v-model="element.date_final" hide-details class="mb-5"></v-text-field>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn flat color="error" @click="remove(element)">Deletar</v-btn>
+                                    <v-btn flat color="primary" @click="dialogItem(false)">Ok</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                     </div>
                 </template>
             </draggable>
 
             <div
                 :class="{
-                    'text-center mt-3':(layout=='vertical'),
-                    'noclass':(layout=='horizontal'),
+                    'd-flex text-center mt-3':(layout=='vertical'),
+                    'd-flex':(layout=='horizontal'),
                 }"
             >
                 <v-btn
@@ -45,6 +61,7 @@
                     @click="add()"
                     v-if="propsModelValue.length<max"
                     :title="`Adicionar ${singular}`"
+                    class="mx-auto"
                 ></v-btn>
             </div>
         </div>
@@ -56,11 +73,12 @@ import draggable from 'vuedraggable';
 
 export default {
     props: {
-        layout: {default:'horizontal'}, // horizontal, vertical
         modelValue: {type: Array, default:()=>([])},
+        layout: {default:'horizontal'}, // horizontal, vertical
         max: {default:7},
         singular: {default:'Item'},
         plural: {default:'Itens'},
+        areaWidth: {default: 2000},
     },
 
     components: { draggable },
@@ -70,6 +88,12 @@ export default {
             get() { return this.modelValue; },
             set(value) { this.$emit('update:modelValue', value); },
         },
+    },
+
+    data() {
+        return {
+            dialog: false,
+        };
     },
 
     methods: {
@@ -83,6 +107,10 @@ export default {
             };
         },
 
+        dialogItem(item) {
+            this.dialog = item;
+        },
+
         add() {
             this.propsModelValue.push({
                 name: '',
@@ -90,8 +118,11 @@ export default {
         },
 
         remove(item) {
-            const index = this.propsModelValue.indexOf(item);
-            this.propsModelValue.splice(index, 1);
+            this.$confirm(`Deseja remover este ${this.singular}?`).then(resp => {
+                const index = this.propsModelValue.indexOf(item);
+                this.propsModelValue.splice(index, 1);
+                this.dialogItem(false);
+            });
         },
     },
 };

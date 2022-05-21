@@ -21,9 +21,9 @@
                 </template>
 
                 <template #edit-card="crud">
-                    <div class="bg-white pa-3" style="margin: -35px -20px 0 -20px;">
-                        <tevep-edit v-model="crud.edit"></tevep-edit>
-                        <pre>crud.edit: {{ crud.edit }}</pre>
+                    <div class="bg-white pa-3" style="margin: 0 -20px 0 -20px;">
+                        <tevep-edit v-model="crud.edit" :area-width="1700"></tevep-edit>
+                        <!-- <pre>crud.edit: {{ crud.edit }}</pre> -->
                     </div>
                     <!-- <v-row>
                         <v-col size="12">

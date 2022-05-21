@@ -66,6 +66,7 @@ export default {
             modelSearch: useAxios({
                 url: `/api/${this.namespace}/search`,
                 params: {q:''},
+                resp: {data:[]},
             }),
         };
     },

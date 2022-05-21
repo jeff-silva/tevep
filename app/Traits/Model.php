@@ -14,7 +14,7 @@ trait Model
             $model->mutatorSave();
 
             if (in_array('slug', $model->getFillable())) {
-                $model->slug = $model->slug? $model->slug: \Str::slug($model->name);
+                $model->mutatorSlug();
             }
 
             $validate = $model->validate();
@@ -25,21 +25,26 @@ trait Model
 
             foreach($model->attributes as $name => $value) {
 
-                if (in_array($value, ['null', 'false'])) {
+                if ($file = request()->file($name)) {
+                    $value = $model->upload($file);
+                }
+
+                else if (in_array($value, ['null', 'false', 'undefined', ''])) {
                     $value = null;
+                }
+                
+                else if (in_array($value, ['true'])) {
+                    $value = true;
                 }
 
                 else if (is_array($value)) {
                     $value = json_encode($value);
                 }
 
-                if ($file = request()->file($name)) {
-                    $value = $model->upload($file);
-                }
-
                 $model->attributes[ $name ] = $value;
             }
 
+            $model->mutatorRetrieve();
             return $model;
         });
     }
@@ -54,6 +59,12 @@ trait Model
     public function mutatorRetrieve()
     {
         // 
+    }
+
+
+    public function mutatorSlug()
+    {
+        $this->slug = \Str::slug($this->name);
     }
 
 

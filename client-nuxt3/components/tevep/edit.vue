@@ -1,16 +1,17 @@
 <template>
     <div style="height:70vh; max-width:100%; overflow:auto; touch-action: auto;">
-        <div style="width:2000px; height:1900px;">
+        <div :style="`width:${areaWidth}px;`">
             
             <!-- Tempos -->
             <div v-if="propsModelValue.date_start && propsModelValue.date_final">
                 <tevep-edit-sortable
                     v-model="propsModelValue.meta.tempos"
+                    :area-width="areaWidth"
                     singular="Tempo"
                     plural="Tempos"
                 >
-                    <template #right="slot">
-                        Add
+                    <template #item="{ element }">
+                        <v-text-field label="Data" v-model="element.date_start" hide-details></v-text-field>
                     </template>
                 </tevep-edit-sortable>
             </div>
@@ -18,9 +19,10 @@
             <v-row class="my-5 align-center" style="min-height:400px;">
 
                 <!-- Pilotos -->
-                <v-col cols="2">
+                <v-col cols="3">
                     <tevep-edit-sortable
                         v-model="propsModelValue.meta.pilotos"
+                        :area-width="areaWidth"
                         layout="vertical"
                         singular="Piloto"
                         plural="Pilotos"
@@ -34,7 +36,7 @@
                 </v-col>
                 
                 <!-- Nome e datas -->
-                <v-col cols="8" class="text-center">
+                <v-col cols="6" class="text-center">
                     <div class="d-flex mb-5 mx-auto" style="max-width:600px;" v-if="propsModelValue.name">
                         <div class="flex-grow-1 px-2">
                             <v-text-field label="Data início" hide-details v-model="propsModelValue.date_start"></v-text-field>
@@ -49,9 +51,10 @@
                 </v-col>
 
                 <!-- Convidados -->
-                <v-col cols="2">
+                <v-col cols="3">
                     <tevep-edit-sortable
                         v-model="propsModelValue.meta.convidados"
+                        :area-width="areaWidth"
                         layout="vertical"
                         singular="Convidado"
                         plural="Convidados"
@@ -68,6 +71,7 @@
             <div v-if="propsModelValue.meta.tempos.length">
                 <tevep-edit-sortable
                     v-model="propsModelValue.meta.lugares"
+                    :area-width="areaWidth"
                     singular="Lugar"
                     plural="Lugares"
                 >
@@ -76,8 +80,12 @@
                     </template>
                 </tevep-edit-sortable>
             </div>
+
+            <div class="text-center mt-5">
+                <tevep-edit-invites v-model="modelValue"></tevep-edit-invites>
+            </div>
         </div>
-        <!-- <pre>{{ modelValue }}</pre> -->
+        <pre>{{ modelValue }}</pre>
     </div>
 </template>
 
@@ -85,6 +93,7 @@
 export default {
     props: {
         modelValue: {type: Object},
+        areaWidth: {default: 2000},
     },
 
     computed: {
