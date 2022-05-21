@@ -7,11 +7,11 @@ trait Model
     public static function bootModel()
     {
         static::retrieved(function($model) {
-            $model->modelMutator();
+            $model->mutatorRetrieve();
         });
 
         static::saving(function($model) {
-            $model->modelMutator();
+            $model->mutatorSave();
 
             if (in_array('slug', $model->getFillable())) {
                 $model->slug = $model->slug? $model->slug: \Str::slug($model->name);
@@ -45,7 +45,13 @@ trait Model
     }
 
 
-    public function modelMutator()
+    public function mutatorSave()
+    {
+        // 
+    }
+
+
+    public function mutatorRetrieve()
     {
         // 
     }

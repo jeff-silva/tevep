@@ -26,5 +26,6 @@ return [
         'mail.from.name',
         'app_models_files.storage_type',
         'app_models_files.max_upload_size',
+        'google.account_json',
     ],
 ];

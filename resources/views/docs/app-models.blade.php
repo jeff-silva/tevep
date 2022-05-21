@@ -31,12 +31,19 @@ class Products extends \Illuminate\Database\Eloquent\Model {
    protected $fillable = ['id', 'slug', 'name', 'price', 'created_at', 'updated_at', 'deleted_at'];
 
    /*
-    * Esse método é sempre executado antes de salvar/exibir dados
+    * Os métodos mutatorRetrieve e mutatorSave são executados pela model
+    * antes de salvar ou recuperar um dado
     * para forçar que valores sigam um determinado padrão.
-    * Você ainda pode utilizar mutators normalmente, esse método
-    * foi criado apenas para simplificar a vida.
+    * Você ainda pode utilizar mutators normalmente, esses métodos
+    * foram criados apenas para simplificar a vida.
     */
-   public function modelMutator()
+   public function mutatorRetrieve()
+   {
+       $this->price = $this->price? $this->price: 0;
+   }
+
+
+   public function mutatorSave()
    {
        $this->price = $this->price? $this->price: 0;
    }

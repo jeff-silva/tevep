@@ -31,6 +31,10 @@ class AppController extends Controller
 		$this->route('post', '/mail-test', 'mailTest', [
 			'description' => 'Teste de envio de e-mail',
 		]);
+		
+		$this->route('get', '/test', 'test', [
+			'description' => 'Teste',
+		]);
 	}
 
 
@@ -103,9 +107,41 @@ class AppController extends Controller
 
 	public function test()
 	{
-		return collect(config('permissions.keys'))->map(function($name, $key) {
-			return ['key' => $key, 'name' => $name];
-		})->values();
+		$serviceAccount = json_decode(\App\Models\Settings::getValue('google.account_json'), true);
+
+		$client = new \Google_Client();
+		$client->setApplicationName(config('app.name'));
+		$client->setAuthConfig($serviceAccount);
+		$client->setAccessType('offline');
+		$client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
+
+		$access_token = \App\Models\Settings::getValue('google.access_token', function() use($client, $serviceAccount) {
+			$client->refreshTokenWithAssertion();
+			$token = $client->getAccessToken();
+			\App\Models\Settings::setValue('google.access_token', $token['access_token']);
+			return $token['access_token'];
+		});
+
+		$client->setAccessToken($access_token);
+
+
+		// Analytics
+		call_user_func(function() use($client) {
+			return;
+			$analytics = new \Google_Service_Analytics($client);
+			$accounts = $analytics->management_accounts->listManagementAccounts();
+			dd($accounts);
+		});
+
+		// Free books
+		call_user_func(function() use($client) {
+			return;
+			$service = new \Google_Service_Books($client);
+			$results = $service->volumes->listVolumes('Henry David Thoreau', [
+				'filter' => 'free-ebooks',
+			]);
+			dd($results->getItems());
+		});
 	}
 
 	

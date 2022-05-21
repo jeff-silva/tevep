@@ -97,20 +97,20 @@ class Users extends Authenticatable implements JWTSubject
 	}
 
 
-	public function modelMutator()
+	public function mutatorSave()
 	{
-		$this->photo_id = is_numeric($this->photo_id)? $this->photo_id: null;
-
 		if ($this->password) {
 			if (\Hash::needsRehash($this->password)) {
 				$this->password = \Hash::make($this->password);
 			}
 		}
 		else { unset($this->password); }
+	}
 
-		// $this->email_verified_at = strtotime($this->email_verified_at)? $this->email_verified_at: null;
-		// $this->created_at = strtotime($this->created_at)? $this->created_at: null;
-		// $this->updated_at = strtotime($this->updated_at)? $this->updated_at: null;
+
+	public function mutatorRetrieve()
+	{
+		$this->photo_id = is_numeric($this->photo_id)? $this->photo_id: null;
 	}
 
 

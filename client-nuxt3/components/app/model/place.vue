@@ -8,7 +8,9 @@
                     v-model="places.params.q"
                     @keyup="places.submit({debounce:1500})"
                     @focus="placesListShow=true"
-                    prepend-icon="mdi-magnify"
+                    prepend-inner-icon="mdi-magnify"
+                    append-icon="mdi-crosshairs"
+                    @click:append="getGeolocation"
                     :loading="places.loading"
                 ></v-text-field>
                 <div style="position:relative; z-index:2;" v-if="placesListShow">
@@ -105,6 +107,8 @@
 </template>
 
 <script>
+import { useGeolocation } from '@vueuse/core';
+
 export default {
     props: {
         modelValue: {default:false, type:[Boolean, Number, String, Object]},
@@ -148,7 +152,6 @@ export default {
             if (this.returnType=='id') {
                 if (isNaN(this.modelValue)) return;
                 this.placeSave.data = (await this.$axios.get(`/api/places/find/${this.modelValue}`)).data;
-                console.log(this.placeSave.data);
             }
             else if (this.returnType=='object') {
                 this.placeSave.data = {...(this.modelValue||{})};
@@ -167,13 +170,14 @@ export default {
 
         mapRecenter() {
             setTimeout(() => {
+                console.log('mapRecenter');
                 if (!this.$refs.map.leafletObject) return;
                 if (!this.$refs.map.leafletObject.panTo) return;
                 this.$refs.map.leafletObject.panTo([
                     (this.placeSave.data.lat || 0),
                     (this.placeSave.data.lng || 0),
                 ]);
-            }, 100);
+            }, 500);
         },
 
         updateLatLng(ev) {
@@ -189,6 +193,18 @@ export default {
                     this.setPlace(resp.data[0]);
                 });
             }, 500);
+        },
+
+        async getGeolocation() {
+            const params = {
+                lat: this.geo.coords.latitude,
+                lng: this.geo.coords.longitude,
+            };
+
+            this.$axios.get('/api/places/place-search', { params }).then(resp => {
+                if (!resp.data[0]) return;
+                this.setPlace(resp.data[0]);
+            });
         },
     },
 
@@ -210,6 +226,7 @@ export default {
                 url: '/api/places/save',
                 data: {},
             }),
+            geo: useGeolocation(),
             countries: [
                 {value:"AF", title:"Afeganistão"},
                 {value:"ZA", title:"África do Sul"},

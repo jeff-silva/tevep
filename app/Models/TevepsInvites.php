@@ -25,7 +25,7 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 	];
 
 
-	public function modelMutator()
+	public function mutatorSave()
 	{
 		if ($this->user_email AND !$this->user_id) {
 			$this->user_id = User::select(['id'])->where('email', $this->user_email)->value('id');

@@ -73,4 +73,30 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 
 		return $return;
 	}
+
+	
+	static function getValue($name, $default=null)
+	{
+		$set = static::firstOrNew(['name' => $name]);
+
+		if ($set->value===null) {
+			if (is_callable($default)) {
+				$set->value = call_user_func($default);
+			}
+			else {
+				$set->value = $default;
+			}
+		}
+
+		return $set->value;
+	}
+
+	
+	static function setValue($name, $value)
+	{
+		$set = static::firstOrNew(['name' => $name]);
+		$set->value = $value;
+		$set->save();
+		return $set;
+	}
 }

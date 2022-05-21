@@ -12,7 +12,8 @@ class AppBase extends \Illuminate\Console\Command
     public $fks = false;
 
     public function handle() {
-        $this->comment('Hello');
+        // $this->comment('Hello');
+        (new \App\Http\Controllers\AppController)->test();
     }
 
     public function isIgnoredTable($name)

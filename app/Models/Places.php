@@ -41,7 +41,7 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	}
 
 
-	public function modelMutator()
+	public function mutatorSave()
 	{
 		$this->lat = floatval($this->lat ?? 0);
 		$this->lng = floatval($this->lng ?? 0);

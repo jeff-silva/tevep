@@ -26,19 +26,28 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 		'deleted_at',
 	];
 
-	protected $casts = [
-	    'meta' => 'array',
-	];
 
-
-	public function modelMutator()
+	public function mutatorSave()
 	{
 		if (!$this->owner_id AND $user=auth()->user()) {
 			$this->owner_id = $user->id;
 		}
 
-		$this->meta = is_array($this->meta)? $this->meta: [];
-		$this->meta = array_merge([
+		$this->meta = json_encode($this->metaDefault($this->meta));
+	}
+
+
+	public function mutatorRetrieve()
+	{
+		$this->meta = $this->metaDefault($this->meta);
+	}
+
+
+	public function metaDefault($meta)
+	{
+		$meta = json_decode($meta, true);
+		$meta = is_array($meta)? $meta: [];
+		return array_merge([
 			'tempos' => [],
 			'pilotos' => [],
 			'convidados' => [],
@@ -60,7 +69,7 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 			'maodeobras' => [],
 			'meioambientes' => [],
 			'metodos' => [],
-		], $this->meta);
+		], $meta);
 	}
 
 

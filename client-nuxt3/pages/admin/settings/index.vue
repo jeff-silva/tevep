@@ -1,8 +1,8 @@
 <template>
     <div>
         <nuxt-layout name="admin">
-            <v-container>
-                <form @submit.prevent="formSubmit()" v-if="settings && settings.data && Object.keys(settings.data).length">
+            <form @submit.prevent="formSubmit()" v-if="settings && settings.data && Object.keys(settings.data).length">
+                <v-container>
                     <v-card>
                         <v-row>
                             <v-col cols="2" class="pa-0 bg-grey-lighten-5 elevation-1">
@@ -30,16 +30,16 @@
                             </v-col>
                         </v-row>
                     </v-card>
-                </form>
-            </v-container>
-
-            <app-actions>
-                <v-btn
-                    type="submit"
-                    icon="mdi-content-save"
-                    :disable="settings.loading"
-                ></v-btn>
-            </app-actions>
+                </v-container>
+                
+                <app-actions>
+                    <v-btn
+                        type="submit"
+                        icon="mdi-content-save"
+                        :disable="settings.loading"
+                    ></v-btn>
+                </app-actions>
+            </form>
         </nuxt-layout>
     </div>
 </template>

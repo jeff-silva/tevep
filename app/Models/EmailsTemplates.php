@@ -17,7 +17,7 @@ class EmailsTemplates extends \Illuminate\Database\Eloquent\Model
 	];
 
 
-	public function modelMutator()
+	public function mutatorSave()
 	{
 		if (! $this->slug) return [];
 		$this->params = call_user_func([$this->slug, 'getParamsValues']);
