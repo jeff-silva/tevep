@@ -1,5 +1,5 @@
 <template>
-    <div style="height:70vh; max-width:100%; overflow:auto; touch-action: auto;">
+    <div style="max-width:100%; overflow:auto;">
         <div :style="`width:${areaWidth}px;`">
             
             <!-- Tempos -->
@@ -37,17 +37,17 @@
                 
                 <!-- Nome e datas -->
                 <v-col cols="6" class="text-center">
-                    <div class="d-flex mb-5 mx-auto" style="max-width:600px;" v-if="propsModelValue.name">
-                        <div class="flex-grow-1 px-2">
-                            <v-text-field label="Data início" hide-details v-model="propsModelValue.date_start"></v-text-field>
-                        </div>
-                        <div class="flex-grow-1 px-2">
-                            <v-text-field label="Data fim" hide-details v-model="propsModelValue.date_final"></v-text-field>
-                        </div>
-                    </div>
-                    <div class="text-center mx-auto mt-5" style="max-width:350px;">
-                        <v-text-field label="Nome do evento" hide-details v-model="propsModelValue.name"></v-text-field>
-                    </div>
+                    <v-row class="mx-auto app-tevep-edit-center" style="max-width:350px;" v-if="propsModelValue.name">
+                        <v-col cols="12" md="6">
+                            <v-text-field label="Data início" prepend-inner-icon="mdi-calendar" hide-details v-model="propsModelValue.date_start"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <v-text-field label="Data fim" prepend-inner-icon="mdi-calendar" hide-details v-model="propsModelValue.date_final"></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field label="Nome do evento" hide-details v-model="propsModelValue.name"></v-text-field>
+                        </v-col>
+                    </v-row>
                 </v-col>
 
                 <!-- Convidados -->
@@ -81,11 +81,11 @@
                 </tevep-edit-sortable>
             </div>
 
-            <div class="text-center mt-5">
+            <div class="text-center my-5">
                 <tevep-edit-invites v-model="modelValue"></tevep-edit-invites>
             </div>
         </div>
-        <pre>{{ modelValue }}</pre>
+        <!-- <pre>{{ modelValue }}</pre> -->
     </div>
 </template>
 

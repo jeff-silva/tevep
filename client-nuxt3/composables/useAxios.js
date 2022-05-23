@@ -21,6 +21,7 @@ export default function(axiosParams={}) {
         params: (axiosParams.params||{}),
         data: (axiosParams.data||{}),
         resp: (axiosParams.resp||{}),
+        err: {message:false, fields:{}},
         timeout: false,
         cancelTokenSource: false,
     });
@@ -42,10 +43,15 @@ export default function(axiosParams={}) {
         req.value.params = {};
         req.value.data = {};
     };
+    
+    req.value.errorField = (name) => {
+        return req.value.err.fields[name] || [];
+    };
 
     req.value.submit = async (submitParams={}) => {
         return new Promise((resolve, reject) => {
             req.value.loading = true;
+            req.value.err = {message:false, fields:{}};
             
 
             if (submitParams.params) {
@@ -70,30 +76,36 @@ export default function(axiosParams={}) {
             }
             req.value.axios.data = formData;
 
+            // Axios error
+            const axiosThen = (resp) => {
+                req.value.loading = false;
+                req.value.status = resp.status;
+                req.value.resp = resp.data;
+                req.value.timeout = false;
+                resolve(resp);
+            };
+
+            const axiosCatch = (err) => {
+                req.value.loading = false;
+                req.value.err = {
+                    message: err.response.data.message,
+                    fields: err.response.data.fields,
+                };
+                // reject(err);
+            };
+
             // Debounce submit
             if (!isNaN(submitParams.debounce)) {
                 if (req.value.timeout) {
                     clearTimeout(req.value.timeout);
                 }
                 return req.value.timeout = setTimeout(() => {
-                    axios(req.value.axios).then(resp => {
-                        req.value.loading = false;
-                        req.value.status = resp.status;
-                        req.value.resp = resp.data;
-                        req.value.timeout = false;
-                        resolve(resp);
-                    }).catch(reject);
+                    axios(req.value.axios).then(axiosThen).catch(axiosCatch);
                 }, submitParams.debounce);
             }
             
             // Submit
-            axios(req.value.axios).then(resp => {
-                req.value.loading = false;
-                req.value.status = resp.status;
-                req.value.resp = resp.data;
-                req.value.timeout = false;
-                resolve(resp);
-            });
+            axios(req.value.axios).then(axiosThen).catch(axiosCatch);
         });
     };
 

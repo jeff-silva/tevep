@@ -35,6 +35,26 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 
 	public function validationRules()
 	{
+		if ($this->id) {
+			return [];
+		}
+
+		$exists = self::query()
+			->select('id')
+			->where([
+				'tevep_id' => $this->tevep_id,
+				'user_email' => $this->user_email,
+			])
+			->get();
+		
+		if (!$exists->isEmpty()) {
+			throw new \Exception("Convite já enviado para {$this->user_email}");
+		}
+
+		if ($user=auth()->user() AND $user->id==$this->tevep_id) {
+			throw new \Exception('Você não pode se convidar para um evento');
+		}
+
 		return [
 			'user_email' => ['required', 'email'],
 			'tevep_id' => ['required'],

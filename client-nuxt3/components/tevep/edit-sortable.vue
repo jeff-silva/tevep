@@ -1,6 +1,6 @@
 <template>
     <div class="text-center">
-        <div><strong>{{ plural }}</strong></div>
+        <div class="mb-3"><strong>{{ plural }}</strong></div>
         <div
             :class="{
                 'd-flex flex-column': (layout=='vertical'),
@@ -36,12 +36,13 @@
                             <v-card :title="plural" :subtitle="`Gerenciador de ${singular}`">
                                 <v-card-text style="width:600px; max-width:95vw;">
                                     <v-text-field label="Nome" v-model="element.name" hide-details class="mb-5"></v-text-field>
-                                    <v-text-field label="Data início" v-model="element.date_start" hide-details class="mb-5"></v-text-field>
-                                    <v-text-field label="Data fim" v-model="element.date_final" hide-details class="mb-5"></v-text-field>
+                                    <v-text-field label="Data início" v-model="element.date_start" prepend-inner-icon="mdi-calendar" hide-details class="mb-5"></v-text-field>
+                                    <v-text-field label="Data fim" v-model="element.date_final" prepend-inner-icon="mdi-calendar" hide-details class="mb-5"></v-text-field>
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn flat color="error" @click="remove(element)">Deletar</v-btn>
+                                    <v-btn flat @click="$log(element)">Converter em projeto</v-btn>
                                     <v-btn flat color="primary" @click="dialogItem(false)">Ok</v-btn>
                                 </v-card-actions>
                             </v-card>

@@ -2,23 +2,21 @@
     <div>
         <nuxt-layout name="admin">
             <v-container>
-                <l-map ref="map" :zoom="18" :center="placeCoords" style="height:350px;">
+                <form @submit.prevent="user.submit()">
+                    <v-text-field label="Descrição" v-model="user.data.name" :error-messages="user.errorField('name')"></v-text-field>
+                    <v-text-field label="Descrição" v-model="user.data.name" :rules="[rules.required, rules.email]" :error-messages="user.errorField('name')"></v-text-field>
+                    <v-btn type="submit" :loading="user.loading">Salvar</v-btn>
+                </form>
+
+                <!-- <l-map ref="map" :zoom="18" :center="placeCoords" style="height:350px;">
                     <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
                     <l-marker :lat-lng="placeCoords"></l-marker>
                 </l-map>
                 <pre>placeCoords: {{ placeCoords }}</pre>
-                <!-- <pre>coords.latitude: {{ {
-                    accuracy: geolocation.coords.accuracy,
-                    latitude: geolocation.coords.latitude,
-                    longitude: geolocation.coords.longitude,
-                    altitude: geolocation.coords.altitude,
-                    altitudeAccuracy: geolocation.coords.altitudeAccuracy,
-                    heading: geolocation.coords.heading,
-                    speed: geolocation.coords.speed,
-                } }}</pre> -->
-                <!-- <pre>{{ $data }}</pre> -->
                 <pre>battery: {{ battery }}</pre>
-                <pre>geolocation: {{ geolocation }}</pre>
+                <pre>geolocation: {{ geolocation }}</pre> -->
+
+                <pre>$data: {{ $data }}</pre>
             </v-container>
         </nuxt-layout>
     </div>
@@ -34,26 +32,41 @@ import {
 export default {
     data() {
         return {
-            battery: useBattery(),
-            deviceMotion: useDeviceMotion(),
-            geolocation: useGeolocation(),
-            permission: {
-                accelerometer: usePermission('accelerometer'),
-                accessibilityEvents: usePermission('accessibilityEvents'),
-                ambientLightSensor: usePermission('ambientLightSensor'),
-                backgroundSync: usePermission('backgroundSync'),
-                camera: usePermission('camera'),
-                clipboardRead: usePermission('clipboardRead'),
-                clipboardWrite: usePermission('clipboardWrite'),
-                gyroscope: usePermission('gyroscope'),
-                magnetometer: usePermission('magnetometer'),
-                microphone: usePermission('microphone'),
-                notifications: usePermission('notifications'),
-                paymentHandler: usePermission('paymentHandler'),
-                persistentStorage: usePermission('persistentStorage'),
-                push: usePermission('push'),
-                speaker: usePermission('speaker'),
+            user: useAxios({
+                method: 'post',
+                url: '/api/users/save',
+                data: {},
+            }),
+
+            rules: {
+                required: value => !!value || 'Required.',
+                counter: value => value.length <= 20 || 'Max 20 characters',
+                email: value => {
+                    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    return pattern.test(value) || 'Invalid e-mail.'
+                },
             },
+
+            // battery: useBattery(),
+            // deviceMotion: useDeviceMotion(),
+            // geolocation: useGeolocation(),
+            // permission: {
+            //     accelerometer: usePermission('accelerometer'),
+            //     accessibilityEvents: usePermission('accessibilityEvents'),
+            //     ambientLightSensor: usePermission('ambientLightSensor'),
+            //     backgroundSync: usePermission('backgroundSync'),
+            //     camera: usePermission('camera'),
+            //     clipboardRead: usePermission('clipboardRead'),
+            //     clipboardWrite: usePermission('clipboardWrite'),
+            //     gyroscope: usePermission('gyroscope'),
+            //     magnetometer: usePermission('magnetometer'),
+            //     microphone: usePermission('microphone'),
+            //     notifications: usePermission('notifications'),
+            //     paymentHandler: usePermission('paymentHandler'),
+            //     persistentStorage: usePermission('persistentStorage'),
+            //     push: usePermission('push'),
+            //     speaker: usePermission('speaker'),
+            // },
         };
     },
 
