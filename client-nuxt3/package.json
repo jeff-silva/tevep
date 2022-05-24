@@ -16,6 +16,7 @@
     "apexcharts": "^3.35.2",
     "axios": "^0.27.2",
     "dotenv": "^16.0.0",
+    "imask": "^6.4.2",
     "monaco-editor": "^0.33.0",
     "nuxt": "3.0.0-rc.1",
     "vuedraggable": "^4.1.0",

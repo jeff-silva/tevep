@@ -4,7 +4,7 @@
             <v-container>
                 <form @submit.prevent="user.submit()">
                     <v-text-field label="Descrição" v-model="user.data.name" :error-messages="user.errorField('name')"></v-text-field>
-                    <v-text-field label="Descrição" v-model="user.data.name" :rules="[rules.required, rules.email]" :error-messages="user.errorField('name')"></v-text-field>
+                    <v-text-field label="Descrição" v-model="user.data.name" :rules="[rules.required, rules.email]" :error-messages="user.errorField('name')" v-imask="'+{7}(000)000-00-00'"></v-text-field>
                     <v-btn type="submit" :loading="user.loading">Salvar</v-btn>
                 </form>
 

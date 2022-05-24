@@ -11,6 +11,8 @@ import * as vuetifyComponents from 'vuetify/components';
 import 'leaflet/dist/leaflet.css'
 import * as leafletComponents from '@vue-leaflet/vue-leaflet';
 
+import imask from 'imask';
+
 const devMode = process.env.NODE_ENV !== 'production';
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -35,6 +37,20 @@ export default defineNuxtPlugin((nuxtApp) => {
 
         return config;
     });
+
+    
+    // Vue directives
+    // https://imask.js.org/
+    nuxtApp.vueApp.directive('imask', {
+        mounted(el, bind, node, prevNode) {
+            let input = el.querySelector('input[type=text]');
+            if (! input) return;
+            // presets: phone, cellphone, money, date, time, datetime
+            let options = typeof bind.value=='object'? bind.value: {mask: bind.value};
+            imask(input, options);
+        },
+    });
+
 
     // {{ $filters.filterName(variable) }}
     nuxtApp.vueApp.config.globalProperties.$filters = {
