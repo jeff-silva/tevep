@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useAppStore } from '@/stores/app';
+// import useValidation from './useValidation';
 
 
 export default function(axiosParams={}) {
@@ -24,9 +25,23 @@ export default function(axiosParams={}) {
         err: {message:false, fields:{}},
         timeout: false,
         cancelTokenSource: false,
+        onSubmit: false,
+        onSubmited: false,
+        validation: (axiosParams.validation||false),
     });
 
     const mountedSubmit = !!axiosParams.submit;
+
+    req.value.validate = () => {
+        if (typeof req.value.validation!='function') return;
+        let data = {...(req.value.params||{}), ...(req.value.data||{})};
+        let valid = req.value.validation(useValidation().value);
+        console.log(valid, data);
+    };
+    
+    req.value.errorField = (name) => {
+        return req.value.err.fields[name] || [];
+    };
 
     req.value.cancel = () => {
         req.value.loading = false;
@@ -43,13 +58,11 @@ export default function(axiosParams={}) {
         req.value.params = {};
         req.value.data = {};
     };
-    
-    req.value.errorField = (name) => {
-        return req.value.err.fields[name] || [];
-    };
 
     req.value.submit = async (submitParams={}) => {
         return new Promise((resolve, reject) => {
+            req.value.validate();
+
             req.value.loading = true;
             req.value.err = {message:false, fields:{}};
             
@@ -76,12 +89,21 @@ export default function(axiosParams={}) {
             }
             req.value.axios.data = formData;
 
+            if (typeof req.value.onSubmit=='function') {
+                req.value.onSubmit(req.value);
+            }
+
             // Axios error
             const axiosThen = (resp) => {
                 req.value.loading = false;
                 req.value.status = resp.status;
                 req.value.resp = resp.data;
                 req.value.timeout = false;
+
+                if (typeof req.value.onSubmited=='function') {
+                    req.value.onSubmited(resp);
+                }
+
                 resolve(resp);
             };
 
