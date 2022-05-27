@@ -43,11 +43,36 @@ const nuxtServe = () => {
 };
 
 
-// Nuxt build application
-const nuxtBuild = () => {
-    const servePath = path.join(__dirname, '..', env.NUXT_PATH);
-    run(servePath, `npm run build`);
-};
+const laravel = (() => {
+    const u = new URL(env.LARAVEL_HOST);
+    return {
+        path: path.join(__dirname, '..', env.LARAVEL_PATH),
+        href: u.href,
+        protocol: u.protocol,
+        username: u.username,
+        password: u.password,
+        host: u.host,
+        hostname: u.hostname,
+        port: u.port,
+        pathname: u.pathname,
+    };
+})();
+
+
+const nuxt = (() => {
+    const u = new URL(env.NUXT_HOST);
+    return {
+        path: path.join(__dirname, '..', env.NUXT_PATH),
+        href: u.href,
+        protocol: u.protocol,
+        username: u.username,
+        password: u.password,
+        host: u.host,
+        hostname: u.hostname,
+        port: u.port,
+        pathname: u.pathname,
+    };
+})();
 
 
 // .env.example sync
@@ -60,8 +85,9 @@ const nuxtBuild = () => {
 
 module.exports = {
     run,
+    env,
+    laravel,
+    nuxt,
     laravelServe,
     nuxtServe,
-    nuxtBuild,
-    env,
 };

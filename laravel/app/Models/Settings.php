@@ -74,8 +74,8 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 		return $return;
 	}
 
-	
-	static function getValue($name, $default=null)
+
+	static function getValue($name, $default = null)
 	{
 		$set = static::firstOrNew(['name' => $name]);
 
@@ -91,7 +91,7 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 		return $set->value;
 	}
 
-	
+
 	static function setValue($name, $value)
 	{
 		$set = static::firstOrNew(['name' => $name]);

@@ -28,7 +28,7 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 	public function mutatorSave()
 	{
 		if ($this->user_email AND !$this->user_id) {
-			$this->user_id = \App\Models\Users::select(['id'])->where('email', $this->user_email)->value('id');
+			$this->user_id = Users::select(['id'])->where('email', $this->user_email)->value('id');
 		}
 	}
 
@@ -46,7 +46,7 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 				'user_email' => $this->user_email,
 			])
 			->get();
-		
+
 		if (!$exists->isEmpty()) {
 			throw new \Exception("Convite já enviado para {$this->user_email}");
 		}

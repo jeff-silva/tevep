@@ -4,7 +4,7 @@
             <div class="pa-3"><strong>Convites</strong></div>
             <div class="pa-3">
                 <a href="javascript:;" @click="inviteEditModal=true">
-                    <img style="height:40px;" :src="require('/files/icons/raquete-preta.png')" alt="">
+                    <img style="height:40px;" src="/files/icons/raquete-preta.png" alt="">
                 </a>
             </div>
             <div class="pa-3" v-for="r in invitesSearch.resp.data">
@@ -12,13 +12,13 @@
                     <template #activator="{ props }">
                         <v-btn v-bind="props" flat style="height:auto" @click="inviteViewModal=r.id">
                             <template v-if="r.status=='accepted'">
-                                <img style="height:40px;" :src="require('/files/icons/raquete-verde.png')">
+                                <img style="height:40px;" src="/files/icons/raquete-verde.png">
                             </template>
                             <template v-else-if="r.status=='denied'">
-                                <img style="height:40px;" :src="require('/files/icons/raquete-vermelha.png')">
+                                <img style="height:40px;" src="/files/icons/raquete-vermelha.png">
                             </template>
                             <template v-else>
-                                <img style="height:40px;" :src="require('/files/icons/raquete-amarela.png')">
+                                <img style="height:40px;" src="/files/icons/raquete-amarela.png">
                             </template>
                         </v-btn>
                     </template>
