@@ -10,6 +10,8 @@
     "serve": "node ./scripts/serve.js",
     "build": "node ./scripts/build.js",
     "laravel-sync": "node ./scripts/laravel-sync.js",
+    "model-create": "node ./scripts/model-create.js",
+    "model-delete": "node ./scripts/model-delete.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

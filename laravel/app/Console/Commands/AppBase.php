@@ -44,8 +44,28 @@ class AppBase extends \Illuminate\Console\Command
         $return->NameFull = "{$params->namespace}\\{$return->Name}";
         $return->File = "\\{$params->path}\\{$return->Name}.php";
         $return->FileExists = file_exists(base_path($return->File));
+        $return->Slug = (string) \Str::of($params->name)->studly()->kebab();
 
         return $return;
+    }
+
+    public function getModel($table_name)
+    {
+        return $this->classInfo([
+            'name' => $table_name,
+            'namespace' => 'App\Models',
+            'path' => 'app\Models',
+        ]);
+    }
+
+    public function getController($table_name)
+    {
+        return $this->classInfo([
+            'name' => $table_name,
+            'namespace' => 'App\Http\Controllers',
+            'path' => 'app\Http\Controllers',
+            'suffix' => 'Controller',
+        ]);
     }
 
     public function getFieldSchema($field) {
@@ -57,6 +77,31 @@ class AppBase extends \Illuminate\Console\Command
             $schema[] = ($field['Default']===NULL? 'DEFAULT NULL': "DEFAULT '{$field['Default']}'");
         }
         return implode(' ', $schema);
+    }
+
+    public function getModels()
+    {
+        $models = [];
+
+        foreach(\App\Utils::getModels() as $model) {
+            $fields = $model->getSchemaFields();
+            if (empty($fields)) continue;
+
+            $table_name = $model->getTable();
+
+            $models[ $table_name ] = [
+                'singular' => $model->getSingular(),
+                'plural' => $model->getPlural(),
+                'table' => $table_name,
+                'fields' => $fields,
+                'fks' => $model->getSchemaForeignKeys(),
+                // 'model' => get_class($model),
+                'model' => $this->getModel($table_name),
+                'controller' => $this->getController($table_name),
+            ];
+        }
+        
+        return collect($models);
     }
 
     public function getTables() {

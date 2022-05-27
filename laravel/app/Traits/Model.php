@@ -72,11 +72,82 @@ trait Model
     {
         return [];
     }
+
+
+    public function schemaFields()
+    {
+        return [
+            'id' => 'default',
+            'name' => 'default',
+            'created_at' => 'default',
+            'updated_at' => 'default',
+            'deleted_at' => 'default',
+        ];
+    }
+
+
+    public function getSchemaFields()
+    {
+        $defaults = [
+            'id' => 'BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+            'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+            'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+            'created_at' => 'DATETIME NULL DEFAULT NULL',
+            'updated_at' => 'DATETIME NULL DEFAULT NULL',
+            'deleted_at' => 'DATETIME NULL DEFAULT NULL',
+        ];
+        
+        $fields = [];
+
+        foreach($this->schemaFields() as $field => $type) {
+            if ($type=='default') {
+                $type = $defaults[ $field ];
+            }
+
+            else if (is_array($type)) {
+                $type = 'BIGINT(20) UNSIGNED NULL DEFAULT NULL';
+            }
+
+            $fields[ $field ] = $type;
+        }
+
+        return $fields;
+    }
+
+
+    public function getSchemaForeignKeys()
+    {
+        $fks = [];
+
+        foreach($this->schemaFields() as $field => $type) {
+            if (is_array($type)) {
+                $fks[ $field ] = [
+                    'class' => $type[0],
+                    'table' => app($type[0])->getTable(),
+                    'field' => $type[1],
+                ];
+            }
+        }
+
+        return $fks;
+    }
     
     
     public static function seed()
     {
         return [];
+    }
+
+
+    public function getSingular()
+    {
+        return $this->singular? $this->singular: 'Item';
+    }
+
+
+    public function getPlural()
+    {
+        return $this->plural? $this->plural: 'Ítens';
     }
 
 

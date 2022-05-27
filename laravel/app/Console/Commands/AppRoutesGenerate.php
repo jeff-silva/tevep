@@ -12,6 +12,7 @@ class AppRoutesGenerate extends AppBase
     protected $description = 'Gera arquivo de rotas';
 
     public function handle() {
+        return;
 
         $file = ['<?php', ''];
 

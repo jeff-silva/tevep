@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App;
 
 class Utils {
 
@@ -22,6 +22,6 @@ class Utils {
 			$model = str_replace('.php', '', $model);
 			return app($model);
 		}, $models);
-        return $models;
+        return collect($models);
     }
 }

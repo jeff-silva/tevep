@@ -23,4 +23,9 @@ class PersonalAccessTokens extends \Illuminate\Database\Eloquent\Model
 		'created_at',
 		'updated_at',
 	];
+
+	public function schemaFields()
+	{
+		return [];
+	}
 }

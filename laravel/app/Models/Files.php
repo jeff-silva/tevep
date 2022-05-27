@@ -7,8 +7,8 @@ class Files extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	public $singular = 'Arquivo';
-	public $plural = 'Arquivos';
+	protected $singular = 'Arquivo';
+	protected $plural = 'Arquivos';
 	protected $table = 'files';
 
 	protected $fillable = [
@@ -28,26 +28,31 @@ class Files extends \Illuminate\Database\Eloquent\Model
 		'deleted_at',
 	];
 
-	protected $fields = [
-		'id' => 'default',
-		'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'folder' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'size' => 'INT(11) NULL DEFAULT NULL',
-		'mime' => 'VARCHAR(100) NULL DEFAULT NULL',
-		'type' => 'VARCHAR(20) NULL DEFAULT NULL',
-		'ext' => 'VARCHAR(5) NULL DEFAULT NULL',
-		'is_text' => 'INT(1) NULL DEFAULT NULL',
-		'url' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'content' => 'LONGTEXT NULL DEFAULT NULL',
-		'created_at' => 'default',
-		'updated_at' => 'default',
-		'deleted_at' => 'default',
-	];
 
 	protected $hidden = [
 	    'content',
 	];
+
+
+	public function schemaFields()
+	{
+		return [
+			'id' => 'default',
+			'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'folder' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'size' => 'INT(11) NULL DEFAULT NULL',
+			'mime' => 'VARCHAR(100) NULL DEFAULT NULL',
+			'type' => 'VARCHAR(20) NULL DEFAULT NULL',
+			'ext' => 'VARCHAR(5) NULL DEFAULT NULL',
+			'is_text' => 'INT(1) NULL DEFAULT NULL',
+			'url' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'content' => 'LONGTEXT NULL DEFAULT NULL',
+			'created_at' => 'default',
+			'updated_at' => 'default',
+			'deleted_at' => 'default',
+		];
+	}
 
 
 	public function mutatorSave()

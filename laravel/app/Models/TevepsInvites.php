@@ -7,8 +7,8 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	public $singular = 'Convite de Tevep';
-	public $plural = 'Convites de Teveps';
+	protected $singular = 'Convite de Tevep';
+	protected $plural = 'Convites de Teveps';
 	protected $table = 'teveps_invites';
 
 	protected $fillable = [
@@ -24,18 +24,22 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 		'deleted_at',
 	];
 
-	protected $fields = [
-		'id' => 'default',
-		'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'user_id' => ['\App\Models\Users', 'id'],
-		'user_email' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'status' => 'ENUM(\'accepted\', \'denied\') NULL DEFAULT NULL',
-		'tevep_id' => ['\App\Models\Teveps', 'id'],
-		'created_at' => 'default',
-		'updated_at' => 'default',
-		'deleted_at' => 'default',
-	];
+	
+	public function schemaFields()
+	{
+		return [
+			'id' => 'default',
+			'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'user_id' => ['\App\Models\Users', 'id'],
+			'user_email' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'status' => 'ENUM(\'accepted\', \'denied\') NULL DEFAULT NULL',
+			'tevep_id' => ['\App\Models\Teveps', 'id'],
+			'created_at' => 'default',
+			'updated_at' => 'default',
+			'deleted_at' => 'default',
+		];
+	}
 
 
 	public function mutatorSave()

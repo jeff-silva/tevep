@@ -85,7 +85,7 @@ class AppController extends Controller
 		$q = request('q', '');
 		$return = [];
 
-		foreach(\App\Utils\Utils::getModels() as $model) {
+		foreach(\App\Utils::getModels() as $model) {
 			if (!$model->plural) continue;
 
 			$namespace = \Str::of($model->getTable())->studly()->kebab();
@@ -194,7 +194,7 @@ class AppController extends Controller
 	public function dashboard()
 	{
 		$return = [];
-		foreach(\App\Utils\Utils::getModels() as $model) {
+		foreach(\App\Utils::getModels() as $model) {
 			foreach($model->dashboardData() as $key => $data) {
 				$return[ $key ] = $data;
 			}

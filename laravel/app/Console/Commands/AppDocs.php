@@ -13,14 +13,14 @@ class AppDocs extends AppBase
 
     public function handle() {
         $content_base = file_get_contents(base_path('resources/views/docs/_base.blade.php'));
-        $content_base = \App\Utils\Utils::bladeCompile($content_base, ['command' => $this]);
+        $content_base = \App\Utils::bladeCompile($content_base, ['command' => $this]);
 
         foreach(glob(base_path('/resources/views/docs/*.blade.php')) as $file) {
             $file_basename = pathinfo($file, PATHINFO_BASENAME);
             if ($file_basename[0]=='_') continue;
             
             $content = file_get_contents($file);
-            $content = \App\Utils\Utils::bladeCompile($content, ['command' => $this]);
+            $content = \App\Utils::bladeCompile($content, ['command' => $this]);
             $content = str_replace('[php', '<?php', $content);
             $content = str_replace('php]', '?>', $content);
             

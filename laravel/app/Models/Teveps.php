@@ -7,8 +7,8 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	public $singular = 'Tevep';
-	public $plural = 'Teveps';
+	protected $singular = 'Tevep';
+	protected $plural = 'Teveps';
 	protected $table = 'teveps';
 
 	protected $fillable = [
@@ -26,20 +26,24 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 		'deleted_at',
 	];
 
-	protected $fields = [
-		'id' => 'default',
-		'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'owner_id' => ['\App\Models\Users', 'id'],
-		'parent_id' => ['\App\Models\Teveps', 'id'],
-		'meta_ref' => 'VARCHAR(50) NULL DEFAULT NULL',
-		'meta' => 'TEXT NULL DEFAULT NULL COMMENT \'Json data\'',
-		'date_start' => 'DATETIME NULL DEFAULT NULL',
-		'date_final' => 'DATETIME NULL DEFAULT NULL',
-		'created_at' => 'default',
-		'updated_at' => 'default',
-		'deleted_at' => 'default',
-	];
+
+	public function schemaFields()
+	{
+		return [
+			'id' => 'default',
+			'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'owner_id' => ['\App\Models\Users', 'id'],
+			'parent_id' => ['\App\Models\Teveps', 'id'],
+			'meta_ref' => 'VARCHAR(50) NULL DEFAULT NULL',
+			'meta' => 'TEXT NULL DEFAULT NULL COMMENT \'Json data\'',
+			'date_start' => 'DATETIME NULL DEFAULT NULL',
+			'date_final' => 'DATETIME NULL DEFAULT NULL',
+			'created_at' => 'default',
+			'updated_at' => 'default',
+			'deleted_at' => 'default',
+		];
+	}
 
 
 	public function mutatorSave()

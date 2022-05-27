@@ -9,4 +9,9 @@ class FailedJobs extends \Illuminate\Database\Eloquent\Model
 
 	protected $table = 'failed_jobs';
 	protected $fillable = ['id', 'uuid', 'connection', 'queue', 'payload', 'exception', 'failed_at'];
+
+	public function schemaFields()
+	{
+		return [];
+	}
 }

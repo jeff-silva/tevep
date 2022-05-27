@@ -9,6 +9,8 @@ class AppControllersGenerate extends AppBase
     protected $description = 'Generate controllers based on database tables';
 
     public function handle() {
+        return;
+        
         foreach($this->getTables() as $table) {
             if ($this->isIgnoredTable($table->Name)) continue;
             
@@ -26,7 +28,7 @@ class AppControllersGenerate extends AppBase
                     "]);",
                     '',
                     '// Generate default routes (search, find, save, delete, etc...)',
-                    "\$this->defaultRoutes();",
+                    "\$this->defaultRoutes(['except' => []]);",
                     '',
                     "// Custom route example: POST /api/{$table->Slug}/test/123",
                     "// \$this->route('post', '/test/{id}', '@test');",

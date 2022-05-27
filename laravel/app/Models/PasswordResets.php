@@ -12,4 +12,9 @@ class PasswordResets extends \Illuminate\Database\Eloquent\Model
 
 	protected $table = 'password_resets';
 	protected $fillable = ['email', 'token', 'created_at'];
+
+	public function schemaFields()
+	{
+		return [];
+	}
 }

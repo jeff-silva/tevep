@@ -7,8 +7,8 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	public $singular = 'Configuração';
-	public $plural = 'Configurações';
+	protected $singular = 'Configuração';
+	protected $plural = 'Configurações';
 	protected $table = 'settings';
 	protected $fillable = ['id', 'name', 'value', 'created_at', 'updated_at'];
 
@@ -28,13 +28,17 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 		'app_models_files.max_upload_size',
 	];
 
-	protected $fields = [
-		'id' => 'default',
-		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'value' => 'TEXT NULL DEFAULT NULL',
-		'created_at' => 'default',
-		'updated_at' => 'default',
-	];
+
+	public function schemaFields()
+	{
+		return [
+			'id' => 'default',
+			'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'value' => 'TEXT NULL DEFAULT NULL',
+			'created_at' => 'default',
+			'updated_at' => 'default',
+		];
+	}
 
 
 	public static function getSettingsKeys($showAll = false)

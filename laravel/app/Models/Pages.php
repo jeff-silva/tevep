@@ -7,21 +7,25 @@ class Pages extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	public $singular = 'Página';
-	public $plural = 'Páginas';
+	protected $singular = 'Página';
+	protected $plural = 'Páginas';
 	protected $table = 'pages';
 	protected $fillable = ['id', 'slug', 'name', 'content', 'owner_id', 'created_at', 'updated_at', 'deleted_at'];
 
-	protected $fields = [
-		'id' => 'default',
-		'slug' => 'VARCHAR(255) NOT NULL',
-		'name' => 'VARCHAR(255) NOT NULL',
-		'content' => 'LONGTEXT NOT NULL',
-		'owner_id' => ['\App\Models\Users', 'id'],
-		'created_at' => 'default',
-		'updated_at' => 'default',
-		'deleted_at' => 'default',
-	];
+
+	public function schemaFields()
+	{
+		return [
+			'id' => 'default',
+			'slug' => 'VARCHAR(255) NOT NULL',
+			'name' => 'VARCHAR(255) NOT NULL',
+			'content' => 'LONGTEXT NOT NULL',
+			'owner_id' => ['\App\Models\Users', 'id'],
+			'created_at' => 'default',
+			'updated_at' => 'default',
+			'deleted_at' => 'default',
+		];
+	}
 
 
 	public function getContentAttribute($value)

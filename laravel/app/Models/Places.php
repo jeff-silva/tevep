@@ -7,8 +7,8 @@ class Places extends \Illuminate\Database\Eloquent\Model
 	use \Illuminate\Database\Eloquent\Factories\HasFactory;
 	use \App\Traits\Model;
 
-	public $singular = 'Local';
-	public $plural = 'Locais';
+	protected $singular = 'Local';
+	protected $plural = 'Locais';
 	protected $table = 'places';
 
 	protected $fillable = [
@@ -32,26 +32,30 @@ class Places extends \Illuminate\Database\Eloquent\Model
 		'deleted_at',
 	];
 
-	protected $fields = [
-		'id' => 'default',
-		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'description' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'route' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'number' => 'VARCHAR(10) NULL DEFAULT NULL',
-		'complement' => 'VARCHAR(255) NULL DEFAULT NULL',
-		'zipcode' => 'VARCHAR(20) NULL DEFAULT NULL',
-		'district' => 'VARCHAR(100) NULL DEFAULT NULL',
-		'lat' => 'DECIMAL(10,8) NULL DEFAULT NULL',
-		'lng' => 'DECIMAL(11,8) NULL DEFAULT NULL',
-		'city' => 'VARCHAR(100) NULL DEFAULT NULL',
-		'state' => 'VARCHAR(20) NULL DEFAULT NULL',
-		'state_short' => 'VARCHAR(5) NULL DEFAULT NULL',
-		'country' => 'VARCHAR(50) NULL DEFAULT NULL',
-		'country_short' => 'VARCHAR(5) NULL DEFAULT NULL',
-		'created_at' => 'default',
-		'updated_at' => 'default',
-		'deleted_at' => 'default',
-	];
+
+	public function schemaFields()
+	{
+		return [
+			'id' => 'default',
+			'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'description' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'route' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'number' => 'VARCHAR(10) NULL DEFAULT NULL',
+			'complement' => 'VARCHAR(255) NULL DEFAULT NULL',
+			'zipcode' => 'VARCHAR(20) NULL DEFAULT NULL',
+			'district' => 'VARCHAR(100) NULL DEFAULT NULL',
+			'lat' => 'DECIMAL(10,8) NULL DEFAULT NULL',
+			'lng' => 'DECIMAL(11,8) NULL DEFAULT NULL',
+			'city' => 'VARCHAR(100) NULL DEFAULT NULL',
+			'state' => 'VARCHAR(20) NULL DEFAULT NULL',
+			'state_short' => 'VARCHAR(5) NULL DEFAULT NULL',
+			'country' => 'VARCHAR(50) NULL DEFAULT NULL',
+			'country_short' => 'VARCHAR(5) NULL DEFAULT NULL',
+			'created_at' => 'default',
+			'updated_at' => 'default',
+			'deleted_at' => 'default',
+		];
+	}
 
 
 	public function validationRules()

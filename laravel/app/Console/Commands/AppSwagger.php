@@ -12,6 +12,8 @@ class AppSwagger extends AppBase
     protected $description = 'Gera documentação Swagger';
 
     public function handle() {
+        return;
+        
         $json = [
             'swagger' => '2.0',
             'info' => [

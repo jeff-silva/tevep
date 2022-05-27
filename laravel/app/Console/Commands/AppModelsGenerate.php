@@ -12,6 +12,8 @@ class AppModelsGenerate extends AppBase
     protected $description = 'Generate models based on database tables';
 
     public function handle() {
+        
+        return;
         foreach($this->getTables() as $table) {
             if (! $table->Model->FileExists) {
                 $file = new \Nette\PhpGenerator\PhpFile();

@@ -9,6 +9,7 @@ class AppNuxtGenerate extends AppBase
     protected $description = 'Generate nuxt files';
 
     public function handle() {
+        return;
         $this->makeStore();
         $this->makeViews();
     }

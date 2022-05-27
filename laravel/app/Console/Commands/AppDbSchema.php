@@ -12,6 +12,8 @@ class AppDbSchema extends AppBase
     protected $description = 'Cria um dump do schema do banco de dados';
 
     public function handle() {
+        return;
+        
         $files = (object) [
             'install_php' => ['<?php', ''],
             'schema_php' => ['<?php', ''],

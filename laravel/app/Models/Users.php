@@ -13,8 +13,8 @@ class Users extends Authenticatable implements JWTSubject
 {
 	use \App\Traits\Model;
 
-	public $singular = 'Usuário';
-	public $plural = 'Usuários';
+	protected $singular = 'Usuário';
+	protected $plural = 'Usuários';
 	protected $table = 'users';
 
 	protected $fillable = [
@@ -31,19 +31,6 @@ class Users extends Authenticatable implements JWTSubject
 		'updated_at',
 	];
 
-	protected $fields = [
-		'id' => 'default',
-		'name' => 'VARCHAR(255) NOT NULL',
-		'email' => 'VARCHAR(255) NOT NULL',
-		'photo_id' => ['\App\Models\Files', 'id'],
-		'group_id' => ['\App\Models\UsersGroups', 'id'],
-		'address_id' => ['\Apps\Models\Places', 'id'],
-		'email_verified_at' => 'DATETIME NULL DEFAULT NULL',
-		'password' => 'VARCHAR(255) NOT NULL',
-		'remember_token' => 'VARCHAR(100) NULL DEFAULT NULL',
-		'created_at' => 'default',
-		'updated_at' => 'default',
-	];
 
 	public $timestamps = false;
 
@@ -67,6 +54,24 @@ class Users extends Authenticatable implements JWTSubject
 	    // 'created_at' => 'datetime',
 	    // 'updated_at' => 'datetime',
 	];
+
+
+	public function schemaFields()
+	{
+		return [
+			'id' => 'default',
+			'name' => 'VARCHAR(255) NOT NULL',
+			'email' => 'VARCHAR(255) NOT NULL',
+			'photo_id' => ['\App\Models\Files', 'id'],
+			'group_id' => ['\App\Models\UsersGroups', 'id'],
+			'address_id' => ['\App\Models\Places', 'id'],
+			'email_verified_at' => 'DATETIME NULL DEFAULT NULL',
+			'password' => 'VARCHAR(255) NOT NULL',
+			'remember_token' => 'VARCHAR(100) NULL DEFAULT NULL',
+			'created_at' => 'default',
+			'updated_at' => 'default',
+		];
+	}
 
 
 	public function getJWTIdentifier()
