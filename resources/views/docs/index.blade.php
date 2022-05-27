@@ -1,1 +1,0 @@
-Documentação do sistema {{ env('APP_NAME') }}

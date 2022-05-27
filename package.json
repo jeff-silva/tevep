@@ -1,12 +1,28 @@
 {
-    "private": true,
-    "scripts": {
-        "serve": "node client/scripts/serve.js",
-        "build": "node client/scripts/build.js",
-        "serve3": "node client-nuxt3/scripts/serve.js",
-        "build3": "node client-nuxt3/scripts/build.js"
-    },
-    "devDependencies": {
-        "dotenv": "^16.0.0"
-    }
+  "name": "tevep",
+  "version": "1.0.0",
+  "description": "<img height=\"25px\" src=\"https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white\" alt=\"\"> <img height=\"25px\" src=\"https://img.shields.io/badge/Nuxt-002E3B?style=for-the-badge&logo=nuxtdotjs&logoColor=#00DC82\" alt=\"\"> <img height=\"25px\" src=\"https://wakatime.com/badge/github/jeff-silva/tevep.svg\" alt=\"\">",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "serve": "node ./scripts/serve.js",
+    "build": "node ./scripts/build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeff-silva/tevep.git"
+  },
+  "author": "Jeferson Siqueira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeff-silva/tevep/issues"
+  },
+  "homepage": "https://github.com/jeff-silva/tevep#readme",
+  "devDependencies": {
+    "dotenv": "^16.0.1",
+    "shelljs": "^0.8.5"
+  }
 }
