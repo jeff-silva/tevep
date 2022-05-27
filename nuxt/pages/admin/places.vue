@@ -34,7 +34,7 @@
                 </template>
 
                 <template #search-fields="crud">
-                    <template v-if="crud.search.resp">
+                    <template v-if="crud.search.resp && crud.search.resp.attributes">
                         <v-select
                             label="País"
                             v-model="crud.search.params.country_short"
@@ -51,7 +51,6 @@
                             v-if="crud.search.resp.attributes.states.length"
                         >
                         </v-select>
-                        <!-- <pre>{{ crud.search.resp.attributes.states }}</pre> -->
                     </template>
                 </template>
                 

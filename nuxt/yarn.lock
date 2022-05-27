@@ -4804,10 +4804,10 @@
   dependencies:
     "sortablejs" "1.14.0"
 
-"vuetify@^3.0.0-beta.1":
-  "integrity" "sha512-698CB/Xlvxku2Tm4AsFrmQ7LzMXOjleX7A5tbyQTnhPyt0NI1OTkf5zJUoXL3TNi2TN7DglN+adI6AE69e6CeQ=="
-  "resolved" "https://registry.npmjs.org/vuetify/-/vuetify-3.0.0-beta.1.tgz"
-  "version" "3.0.0-beta.1"
+"vuetify@^3.0.0-beta.2":
+  "integrity" "sha512-mvrg8C+A8Gd3GRmtO1uidxJvd0KDTfN8vT4ARGRpXVteDHMYwbaVmGz/I4KY6gPASPkR1fVpvtz590h++2kuIA=="
+  "resolved" "https://registry.npmjs.org/vuetify/-/vuetify-3.0.0-beta.2.tgz"
+  "version" "3.0.0-beta.2"
 
 "watchpack@^2.3.1":
   "integrity" "sha512-x0t0JuydIo8qCNctdDrn1OzH/qDzk2+rdCOC3YzumZ42fiMqmQ7T3xQurykYMhYfHaPHTp4ZxAx2NfUo1K6QaA=="

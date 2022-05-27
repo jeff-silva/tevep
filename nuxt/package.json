@@ -18,7 +18,7 @@
     "monaco-editor": "^0.33.0",
     "nuxt": "^3.0.0-rc.3",
     "vuedraggable": "^4.1.0",
-    "vuetify": "^3.0.0-beta.1"
+    "vuetify": "^3.0.0-beta.2"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.1.8",

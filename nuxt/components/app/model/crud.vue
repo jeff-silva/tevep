@@ -46,7 +46,7 @@
                                 >
                                     <thead>
                                         <tr class="text-uppercase">
-                                            <th class="pe-0" width="30px">
+                                            <th class="px-2 py-1" width="40px">
                                                 <v-checkbox
                                                     @click="searchSelectAll($event.target.checked)"
                                                     :hide-details="true"
@@ -79,7 +79,7 @@
                                             </td>
                                         </tr>
                                         <tr v-for="item in modelSearch.resp.data" :key="item.id" v-if="modelSearch.resp && modelSearch.resp.data">
-                                            <td class="pe-0">
+                                            <td class="px-2 py-1">
                                                 <v-checkbox
                                                     v-model="selects"
                                                     :value="item.id"
