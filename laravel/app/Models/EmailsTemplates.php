@@ -11,6 +11,17 @@ class EmailsTemplates extends \Illuminate\Database\Eloquent\Model
 	public $plural = 'Templates de emails';
 	protected $table = 'emails_templates';
 	protected $fillable = ['id', 'slug', 'name', 'subject', 'body', 'params', 'created_at', 'updated_at', 'deleted_at'];
+	protected $fields = [
+		'id' => 'default',
+		'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'subject' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'body' => 'TEXT NULL DEFAULT NULL',
+		'params' => 'TEXT NULL DEFAULT NULL',
+		'created_at' => 'default',
+		'updated_at' => 'default',
+		'deleted_at' => 'default',
+	];
 
 	protected $casts = [
 	    'params' => 'array',

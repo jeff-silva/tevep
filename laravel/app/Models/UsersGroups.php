@@ -12,6 +12,16 @@ class UsersGroups extends \Illuminate\Database\Eloquent\Model
 	protected $table = 'users_groups';
 	protected $fillable = ['id', 'slug', 'name', 'permissions', 'created_at', 'updated_at', 'deleted_at'];
 
+	protected $fields = [
+		'id' => 'default',
+		'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'permissions' => 'LONGTEXT NULL DEFAULT NULL',
+		'created_at' => 'default',
+		'updated_at' => 'default',
+		'deleted_at' => 'default',
+	];
+
 	protected $casts = [
 	    'permissions' => 'array',
 	];

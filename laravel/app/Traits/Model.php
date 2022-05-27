@@ -72,6 +72,12 @@ trait Model
     {
         return [];
     }
+    
+    
+    public static function seed()
+    {
+        return [];
+    }
 
 
     public function userCan($pkeys)

@@ -24,6 +24,19 @@ class TevepsInvites extends \Illuminate\Database\Eloquent\Model
 		'deleted_at',
 	];
 
+	protected $fields = [
+		'id' => 'default',
+		'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'user_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'user_email' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'status' => 'ENUM(\'accepted\', \'denied\') NULL DEFAULT NULL',
+		'tevep_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'created_at' => 'default',
+		'updated_at' => 'default',
+		'deleted_at' => 'default',
+	];
+
 
 	public function mutatorSave()
 	{

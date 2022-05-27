@@ -12,6 +12,17 @@ class Pages extends \Illuminate\Database\Eloquent\Model
 	protected $table = 'pages';
 	protected $fillable = ['id', 'slug', 'name', 'content', 'owner_id', 'created_at', 'updated_at', 'deleted_at'];
 
+	protected $fields = [
+		'id' => 'default',
+		'slug' => 'VARCHAR(255) NOT NULL',
+		'name' => 'VARCHAR(255) NOT NULL',
+		'content' => 'LONGTEXT NOT NULL',
+		'owner_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'created_at' => 'default',
+		'updated_at' => 'default',
+		'deleted_at' => 'default',
+	];
+
 
 	public function getContentAttribute($value)
 	{

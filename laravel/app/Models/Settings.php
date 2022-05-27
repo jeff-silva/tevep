@@ -28,6 +28,14 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 		'app_models_files.max_upload_size',
 	];
 
+	protected $fields = [
+		'id' => 'default',
+		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'value' => 'TEXT NULL DEFAULT NULL',
+		'created_at' => 'default',
+		'updated_at' => 'default',
+	];
+
 
 	public static function getSettingsKeys($showAll = false)
 	{

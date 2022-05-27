@@ -31,6 +31,20 @@ class Users extends Authenticatable implements JWTSubject
 		'updated_at',
 	];
 
+	protected $fields = [
+		'id' => 'default',
+		'name' => 'VARCHAR(255) NOT NULL',
+		'email' => 'VARCHAR(255) NOT NULL',
+		'photo_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'group_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'address_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'email_verified_at' => 'DATETIME NULL DEFAULT NULL',
+		'password' => 'VARCHAR(255) NOT NULL',
+		'remember_token' => 'VARCHAR(100) NULL DEFAULT NULL',
+		'created_at' => 'default',
+		'updated_at' => 'default',
+	];
+
 	public $timestamps = false;
 
 	/**

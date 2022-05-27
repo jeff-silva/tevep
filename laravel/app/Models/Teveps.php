@@ -26,6 +26,21 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 		'deleted_at',
 	];
 
+	protected $fields = [
+		'id' => 'default',
+		'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'owner_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'parent_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'meta_ref' => 'VARCHAR(50) NULL DEFAULT NULL',
+		'meta' => 'TEXT NULL DEFAULT NULL COMMENT \'Json data\'',
+		'date_start' => 'DATETIME NULL DEFAULT NULL',
+		'date_final' => 'DATETIME NULL DEFAULT NULL',
+		'created_at' => 'default',
+		'updated_at' => 'default',
+		'deleted_at' => 'default',
+	];
+
 
 	public function mutatorSave()
 	{

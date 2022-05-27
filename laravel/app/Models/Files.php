@@ -28,6 +28,23 @@ class Files extends \Illuminate\Database\Eloquent\Model
 		'deleted_at',
 	];
 
+	protected $fields = [
+		'id' => 'default',
+		'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'name' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'folder' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'size' => 'INT(11) NULL DEFAULT NULL',
+		'mime' => 'VARCHAR(100) NULL DEFAULT NULL',
+		'type' => 'VARCHAR(20) NULL DEFAULT NULL',
+		'ext' => 'VARCHAR(5) NULL DEFAULT NULL',
+		'is_text' => 'INT(1) NULL DEFAULT NULL',
+		'url' => 'VARCHAR(255) NULL DEFAULT NULL',
+		'content' => 'LONGTEXT NULL DEFAULT NULL',
+		'created_at' => 'default',
+		'updated_at' => 'default',
+		'deleted_at' => 'default',
+	];
+
 	protected $hidden = [
 	    'content',
 	];

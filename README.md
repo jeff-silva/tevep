@@ -6,14 +6,14 @@
 
 #### Conversão para Vue 3 + Nuxt 3 + Vuetify 3
 
-- [] Laravel
+- [ ] Laravel
     - [x] Google Analytics (GA4)
     - [ ] CRUD: Ação de deletar
     - [ ] CRUD: Ação de clonar
     - [x] Ação de exportar
     - [ ] Ao alterar dados de um usuário, senha é alterada também
     - [x] Gerenciador de arquivo
-- [] Nuxt
+- [ ] Nuxt
     - [x] Google Analytics (GA4)
     - [ ] CRUD: Ação de deletar
     - [ ] CRUD: Ação de clonar
@@ -36,5 +36,5 @@
         - [ ] Redirecionamento recursivo
         - [x] Ao clicar em prev/next na paginação do compomente app-model-crud, a página é concatenada em vez de incrementada
         - [x] Merge de parâmetros com query na busca
-- [] Cordova
-- [] Electron
+- [ ] Cordova
+- [ ] Electron
