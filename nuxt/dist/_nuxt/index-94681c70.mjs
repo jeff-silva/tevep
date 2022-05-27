@@ -1,0 +1,1 @@
+import{_ as t,o as n,c as o,a,w as _,b as c,h as s}from"./entry-c6c6a655.mjs";const r={},d=s(" Test index ");function x(i,l){const e=c;return n(),o("div",null,[a(e,{name:"test"},{default:_(()=>[d]),_:1})])}var f=t(r,[["render",x]]);export{f as default};
