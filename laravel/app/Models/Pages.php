@@ -17,7 +17,7 @@ class Pages extends \Illuminate\Database\Eloquent\Model
 		'slug' => 'VARCHAR(255) NOT NULL',
 		'name' => 'VARCHAR(255) NOT NULL',
 		'content' => 'LONGTEXT NOT NULL',
-		'owner_id' => 'BIGINT(20) UNSIGNED NULL DEFAULT NULL',
+		'owner_id' => ['\App\Models\Users', 'id'],
 		'created_at' => 'default',
 		'updated_at' => 'default',
 		'deleted_at' => 'default',
