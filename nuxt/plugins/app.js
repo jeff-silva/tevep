@@ -7,6 +7,7 @@ import '@mdi/font/css/materialdesignicons.css';
 
 import { createVuetify } from 'vuetify';
 import * as vuetifyComponents from 'vuetify/components';
+import * as vuetifyDirectives from 'vuetify/directives';
 
 import 'leaflet/dist/leaflet.css'
 import * as leafletComponents from '@vue-leaflet/vue-leaflet';
@@ -22,6 +23,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     
     nuxtApp.vueApp.use(createVuetify({
         components: vuetifyComponents,
+        directives: vuetifyDirectives,
         icons: { defaultSet: 'mdi' },
     }));
     

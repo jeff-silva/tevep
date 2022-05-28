@@ -25,10 +25,12 @@ export default function(axiosParams={}) {
         err: {message:false, fields:{}},
         timeout: false,
         cancelTokenSource: false,
-        onSubmit: false,
-        onSubmited: false,
+        onSubmit: (axiosParams.onSubmit||false),
+        onSubmited: (axiosParams.onSubmited||false),
         validation: (axiosParams.validation||false),
     });
+
+    console.log(req.value.onSubmited);
 
     const mountedSubmit = !!axiosParams.submit;
 

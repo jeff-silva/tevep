@@ -1,4 +1,6 @@
 <template>
+
+    <!-- Edit -->
     <div v-if="!!$route.query.edit">
         <v-container>
             <v-row>
@@ -18,8 +20,15 @@
                 </v-col>
             </v-row>
         </v-container>
+
+        <app-actions>
+            <v-btn icon="mdi-close" :to="`/admin/${namespace}`"></v-btn>
+            <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
+            <v-btn icon="mdi-content-save" type="submit"></v-btn>
+        </app-actions>
     </div>
 
+    <!-- Search -->
     <div v-else>
         <v-container>
             <v-row>
@@ -87,24 +96,71 @@
                         </tbody>
                     </v-table>
                     <v-card>
-                        <app-model-pagination
-                            v-model="modelSearch.params.page"
-                            perPage="modelSearch.params.page"
-                            :response="modelSearch.resp"
-                            @update:modelValue="modelSearch.submit()"
-                            @update:per-page=""
-                        ></app-model-pagination>
+                        <div class="d-flex align-center">
+                            <div class="ps-4">{{ modelSearch.resp.total }} resultados</div>
+                            <div class="flex-grow-1">
+                                <v-pagination
+                                    v-if="modelSearch.resp.last_page"
+                                    v-model="modelSearch.params.page"
+                                    :length="modelSearch.resp.last_page"
+                                    @update:model-value="modelSearch.submit()"
+                                ></v-pagination>
+                            </div>
+                            <div class="px-4">
+                                <v-select
+                                    v-model="modelSearch.params.per_page"
+                                    :items="[5, 10, 15, 25, 50, 100]"
+                                    label="Resultados por página"
+                                    hide-details
+                                    density="compact"
+                                    @update:model-value="modelSearch.params.page=1; modelSearch.submit();"
+                                ></v-select>
+                            </div>
+                        </div>
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="4">
-                    <v-card>
-                        <v-card-text>
-                            Buscar {{ plural }}
-                        </v-card-text>
-                    </v-card>
+                    <form @submit.prevent="modelSearch.submit()">
+                        <v-card>
+                            <v-card-content>
+                                <v-text-field :label="`Buscar ${plural}`" hide-details v-model="modelSearch.params.q"></v-text-field>
+
+                                <v-card-cations>
+                                    <v-btn class="mt-3" type="submit" color="primary" block :disabled="modelSearch.loading">
+                                        Buscar
+                                    </v-btn>
+                                    
+                                    <v-btn class="mt-3" color="white" block @click="modelSearch.clear().then(searchSubmit)">
+                                        Limpar
+                                    </v-btn>
+                                </v-card-cations>
+                            </v-card-content>
+                        </v-card>
+                    </form>
                 </v-col>
             </v-row>
         </v-container>
+
+        <app-actions>
+            <v-btn icon="mdi-magnify"></v-btn>
+            <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?edit=new`"></v-btn>
+
+            <v-menu anchor="top">
+                <template #activator="{ props }">
+                    <v-btn icon="mdi-cloud-download" v-bind="props"></v-btn>
+                </template>
+
+                <v-list style="width:180px;">
+                    <v-list-item
+                        :title="e.name"
+                        v-for="e in modelSearch.resp.exportUrls"
+                        @click="exportDownload(e)"
+                    ></v-list-item>
+                </v-list>
+            </v-menu>
+
+            <!-- <v-btn icon="mdi-delete" @click="searchDelete()"></v-btn> -->
+        </app-actions>
     </div>
 </template>
 
@@ -132,20 +188,25 @@ export default {
         tableActions: {type:Object, default:()=>({})},
     },
 
-    watch: {
-        $route: {deep:true, handler() {
-            this.modelSearchInit();
-            this.modelEditInit();
-        }},
-    },
+    // watch: {
+    //     $route: {deep:true, handler() {
+    //         this.modelSearchInit();
+    //         this.modelEditInit();
+    //     }},
+    // },
 
     data() {
         return {
             modelSearch: useAxios({
                 method: "get",
                 url: `/api/${this.namespace}/search`,
-                params: {...this.$route.query},
+                params: this.searchParamsDefault(this.$route.query),
                 resp: {data:[]},
+                onSubmited: (resp) => {
+                    this.$router.push({
+                        query: this.modelSearch.params,
+                    });
+                },
             }),
             modelEdit: useAxios({
                 method: "post",
@@ -165,6 +226,13 @@ export default {
                 searchSubmit: this.searchSubmit,
                 ...merge
             };
+        },
+
+        searchParamsDefault(params={}) {
+            params = { q: '', page: 1, per_page: 10, ...params };
+            params.page = parseInt(params.page);
+            params.per_page = parseInt(params.per_page);
+            return params;
         },
 
         async modelSearchInit() {

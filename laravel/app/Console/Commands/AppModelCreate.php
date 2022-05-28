@@ -11,9 +11,13 @@ use Illuminate\Support\Facades\Schema;
 class AppModelCreate extends AppBase
 {
 
-    protected $signature = 'app:model-create {table_name : Table name to create}';
+    protected $signature = 'app:model-create {table_name} {singular} {plural}';
     protected $description = 'Criar tabela, model e controller';
+
     public $table_name = '';
+    public $singular = '';
+    public $plural = '';
+
     public $table_fields = [
         'id' => 'BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT',
         'slug' => 'VARCHAR(255) NULL DEFAULT NULL',
@@ -26,6 +30,15 @@ class AppModelCreate extends AppBase
     public function handle() {
         $this->table_name = $this->argument('table_name');
         if (!$this->table_name) return;
+        
+        $this->singular = $this->argument('singular');
+        $this->singular = $this->singular? $this->singular:
+            (string) \Str::of($this->table_name)->singular();
+        
+        $this->plural = $this->argument('plural');
+        $this->plural = $this->plural? $this->plural:
+            (string) \Str::of($this->table_name)->plural();
+
         $this->createTable();
         $this->createModel();
         $this->createController();
@@ -62,10 +75,10 @@ class AppModelCreate extends AppBase
         $class->addTrait('\App\Traits\Model');
 
         $class->addProperty('singular')->setProtected()
-            ->setValue((string) \Str::of($this->table_name)->singular());
+            ->setValue($this->singular);
 
         $class->addProperty('plural')->setProtected()
-            ->setValue((string) \Str::of($this->table_name)->plural());
+            ->setValue($this->plural);
 
         $class->addProperty('table')->setProtected()
             ->setValue($this->table_name);
