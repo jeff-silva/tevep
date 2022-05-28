@@ -1,206 +1,110 @@
 <template>
-    <div>
-        <!-- Edit -->
-        <div v-if="$route.query.id">
-            <form @submit.prevent="modelEdit.submit().then(saveSuccess);">
-                <v-container :fluid="editFluid">
-                    <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
-                    <v-alert type="success" v-if="modelEdit.status==200">Dados salvos</v-alert>
+    <div v-if="!!$route.query.edit">
+        <v-container>
+            <v-row>
+                <v-col cols="12" lg="8">
+                    <v-card>
+                        <v-card-text>
+                            <pre>modelEdit: {{ modelEdit }}</pre>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+                <v-col cols="12" lg="4">
+                    <v-card>
+                        <v-card-text>
+                            Ações
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+    </div>
 
-                    <slot name="edit-card" v-bind="slotBind()">
-                        <v-card>
-                            <v-card-text>
-                                <slot name="edit-fields" v-bind="slotBind()"></slot>
-                            </v-card-text>
-                        </v-card>
-                    </slot>
-                </v-container>
-
-                <app-actions>
-                    <v-btn icon="mdi-close" @click="navigateBack()"></v-btn>
-                    <template v-if="!actionsExcept.includes('new')">
-                        <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
-                    </template>
-                    <v-btn icon="mdi-content-save" type="submit"></v-btn>
-                </app-actions>
-            </form>
-        </div>
-
-        <!-- Search -->
-        <div v-if="!$route.query.id">
-            <v-container :fluid="searchFluid">
-                <v-row>
-
-                    <!-- Search header -->
-                    <v-col cols="12" v-if="$slots['search-header']">
-                        <slot name="search-header" v-bind="slotBind()"></slot>
-                    </v-col>
+    <div v-else>
+        <v-container>
+            <v-row>
+                <v-col cols="12" md="8">
+                    <v-table>
+                        <thead>
+                            <tr>
+                                <th class="px-2" width="40px">
+                                    <v-checkbox
+                                        hide-details
+                                    ></v-checkbox>
+                                </th>
+                                <slot name="search-table-header" v-bind="slotBind()"></slot>
+                                <th class="app-model-crud-table-actions" width="30px"></th>
+                            </tr>
+                        </thead>
     
-                    <!-- Search table -->
-                    <v-col cols="12" md="8">
-                        <div class="bg-white elevation-1">
-                            <slot name="search-table" v-bind="slotBind()">
-                                <v-table
-                                    fixed-header
-                                    class="ui-crud-search-table"
+                        <tbody>
+    
+                            <!-- Loading -->
+                            <tr>
+                                <td
+                                    colspan="100%"
+                                    class="px-0"
+                                    style="height:3px; border:none;"
                                 >
-                                    <thead>
-                                        <tr class="text-uppercase">
-                                            <th class="px-2 py-1" width="40px">
-                                                <v-checkbox
-                                                    @click="searchSelectAll($event.target.checked)"
-                                                    :hide-details="true"
-                                                    class="mx-auto"
-                                                ></v-checkbox>
-                                            </th>
-                                            <slot name="search-table-header" v-bind="slotBind()"></slot>
-                                            <th width="50px" class="app-model-crud-table-actions"></th>
-                                        </tr>
-                                    </thead>
-                
-                                    <tbody>
-                                        <tr>
-                                            <td
-                                                :colspan="tableSearchCols"
-                                                class="px-0"
-                                                style="height:3px; border:none;"
-                                            >
-                                                <v-progress-linear
-                                                    indeterminate
-                                                    color="primary"
-                                                    height="3"
-                                                    v-if="modelSearch.loading"
-                                                ></v-progress-linear>
-                                            </td>
-                                        </tr>
-                                        <tr v-if="modelSearch.resp && (modelSearch.resp.data && modelSearch.resp.data.length==0)">
-                                            <td class="text-center" :colspan="tableSearchCols">
-                                                Nenhum resultado encontrado
-                                            </td>
-                                        </tr>
-                                        <tr v-for="item in modelSearch.resp.data" :key="item.id" v-if="modelSearch.resp && modelSearch.resp.data">
-                                            <td class="px-2 py-1">
-                                                <v-checkbox
-                                                    v-model="selects"
-                                                    :value="item.id"
-                                                    :hide-details="true"
-                                                    class="mx-auto"
-                                                ></v-checkbox>
-                                            </td>
-                                            
-                                            <!-- Item -->
-                                            <slot name="search-table-item" v-bind="slotBind({item})"></slot>
+                                    <v-progress-linear
+                                        indeterminate
+                                        color="primary"
+                                        height="3"
+                                        v-if="modelSearch.loading"
+                                    ></v-progress-linear>
+                                </td>
+                            </tr>
     
-                                            <!-- Actions -->
-                                            <td class="app-model-crud-table-actions py-1">
-                                                <v-menu anchor="start">
-                                                    <template #activator="{ props }">
-                                                        <v-btn icon="mdi-dots-vertical" v-bind="props" flat></v-btn>
-                                                    </template>
-                
-                                                    <div class="search-table-item-actions">
-                                                        <slot name="search-table-item-actions" v-bind="slotBind({item})"></slot>
-                                                        <template v-if="!actionsExcept.includes('edit')">
-                                                            <v-btn icon="mdi-pencil" :to="`/admin/${namespace}?id=${item.id}`"></v-btn>
-                                                        </template>
-                                                        <template v-if="!actionsExcept.includes('delete')">
-                                                            <v-btn icon="mdi-delete" @click="searchDelete([item.id])"></v-btn>
-                                                        </template>
-                                                        <template v-if="!actionsExcept.includes('clone')">
-                                                            <v-btn icon="mdi-content-copy"></v-btn>
-                                                        </template>
-                                                    </div>
-                                                </v-menu>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </v-table>
-                            </slot>
+                            <!-- Empty -->
+                            <tr v-if="!modelSearch.loading && modelSearch.resp.data.length==0">
+                                <td colspan="100%">
+                                    <div class="text-center">Nenhum item encontrado</div>
+                                </td>
+                            </tr>
     
-                            <v-divider></v-divider>
-            
-                            <div class="d-flex align-center">
-                                <div class="pa-2 d-none d-md-block">
-                                    {{ modelSearch.resp.total }} resultados
-                                </div>
+                            <!-- Item -->
+                            <tr v-for="item in modelSearch.resp.data" :key="item.id">
+                                <td class="px-2">
+                                    <v-checkbox
+                                        hide-details
+                                    ></v-checkbox>
+                                </td>
+                                <slot name="search-table-item" v-bind="slotBind({item})"></slot>
+                                <td class="app-model-crud-table-actions pa-1">
+                                    <v-menu anchor="start">
+                                        <template #activator="{ props }">
+                                            <v-btn icon="mdi-dots-vertical" v-bind="props" flat></v-btn>
+                                        </template>
     
-                                <div class="flex-grow-1">
-                                    <!-- <app-model-pagination v-model="modelSearch"></app-model-pagination> -->
-                                    <v-pagination
-                                        v-if="modelSearch.resp && modelSearch.resp.last_page"
-                                        v-model="modelSearch.params.page"
-                                        :length="modelSearch.resp.last_page"
-                                        @update:modelValue="searchSubmit()"
-                                    ></v-pagination>
-                                </div>
-    
-                                <div class="pa-2 d-none d-md-block">
-                                    <v-combobox
-                                        v-model="modelSearch.params.per_page"
-                                        :items="[5, 10, 25, 50, 100]"
-                                        label="Resultados por página"
-                                        :hide-details="true"
-                                        @update:modelValue="searchSubmit()"
-                                        density="compact"
-                                    ></v-combobox>
-                                </div>
-                            </div>
-                        </div>
-                    </v-col>
-        
-                    <!-- Search filter -->
-                    <v-col cols="12" md="4">
-                        <v-card>
-                            <v-card-header>
-                                <div>Busca</div>
-                            </v-card-header>
-                            <v-card-text>
-                                <form @submit.prevent="searchSubmit()">
-                                    <v-text-field label="Buscar" v-model="modelSearch.params.q"></v-text-field>
-                                    
-                                    <slot name="search-fields" v-bind="slotBind()"></slot>
-    
-                                    <v-btn type="submit" color="primary" block :disabled="modelSearch.loading" :loading="modelSearch.loading">
-                                        Buscar
-                                    </v-btn>
-                                    
-                                    <v-btn type="button" color="white" block class="mt-3" @click="modelSearch.clear().then(searchSubmit)">
-                                        Limpar
-                                    </v-btn>
-                                </form>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-container>
-            
-            <!-- Search bottom actions -->
-            <app-actions>
-                <v-btn icon="mdi-magnify"></v-btn>
-
-                <template v-if="!actionsExcept.includes('new')">
-                    <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
-                </template>
-
-                <v-menu anchor="top">
-                    <template #activator="{ props }">
-                        <v-btn icon="mdi-cloud-download" v-bind="props"></v-btn>
-                    </template>
-
-                    <v-list style="width:180px;">
-                        <v-list-item
-                            :title="e.name"
-                            v-for="e in modelSearch.resp.exportUrls"
-                            @click="exportDownload(e)"
-                        ></v-list-item>
-                    </v-list>
-                </v-menu>
-
-                <template v-if="selects.length && !actionsExcept.includes('delete')">
-                    <v-btn icon="mdi-delete" @click="searchDelete()"></v-btn>
-                </template>
-            </app-actions>
-        </div>
+                                        <div class="search-table-item-actions">
+                                            <template v-for="act in getTableActions(item)">
+                                                <v-btn v-bind="act" class="me-2" @click="(typeof act.click=='function'? act.click(item, $event): null)"></v-btn>
+                                            </template>
+                                        </div>
+                                    </v-menu>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                    <v-card>
+                        <app-model-pagination
+                            v-model="modelSearch.params.page"
+                            perPage="modelSearch.params.page"
+                            :response="modelSearch.resp"
+                            @update:modelValue="modelSearch.submit()"
+                            @update:per-page=""
+                        ></app-model-pagination>
+                    </v-card>
+                </v-col>
+                <v-col cols="12" md="4">
+                    <v-card>
+                        <v-card-text>
+                            Buscar {{ plural }}
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
     </div>
 </template>
 
@@ -225,13 +129,31 @@ export default {
         plural: {default:'Itens'},
         searchFluid: {default:false},
         editFluid: {default:false},
+        tableActions: {type:Object, default:()=>({})},
     },
 
     watch: {
-        $route: {deep:true, handler(to, from) {
-            this.searchInit();
-            this.editInit();
+        $route: {deep:true, handler() {
+            this.modelSearchInit();
+            this.modelEditInit();
         }},
+    },
+
+    data() {
+        return {
+            modelSearch: useAxios({
+                method: "get",
+                url: `/api/${this.namespace}/search`,
+                params: {...this.$route.query},
+                resp: {data:[]},
+            }),
+            modelEdit: useAxios({
+                method: "post",
+                url: `/api/${this.namespace}/save`,
+                data: {},
+            }),
+            app: useApp(),
+        };
     },
 
     methods: {
@@ -245,116 +167,61 @@ export default {
             };
         },
 
-        navigateBack() {
-            this.$router.push(`/admin/${this.namespace}`);
+        async modelSearchInit() {
+            if (!!+this.$route.query.edit) return;
+            this.modelSearch.submit();
         },
 
-        saveSuccess(resp) {
-            this.editUpdate(resp.data);
-            this.$router.push({
-                query: {id: resp.data.id},
-            });
+        async modelEditInit() {
+            if (!+this.$route.query.edit) return;
+            const id = this.$route.query.edit;
+            const { data } = await this.$axios.get(`/api/${this.namespace}/find/${id}`);
+            this.modelEdit.data = data;
         },
 
-        async editInit() {
-            this.modelEdit.status = false;
-            this.modelEdit.data = {};
-            let id = this.$route.query.id || false;
-            if (!id || isNaN(id)) return;
-            
-            let resp = await this.$axios.get(`/api/${this.namespace}/find/${id}`);
-            this.modelEdit.data = resp.data;
-            this.app.setTitle(`Editar ${this.singular} | ${resp.data.name}`);
-        },
+        getTableActions(item) {
+            let actDefault = {
+                icon: false,
+                onClick: false,
+                to: false,
+            };
+            let actsDefault = {
+                edit: {
+                    icon: 'mdi-pencil',
+                    to: `/admin/${this.namespace}?edit=${item.id}`,
+                    click: (item) => {
+                        this.modelEdit.data = {...item};
+                    },
+                },
+                clone: {
+                    icon: 'mdi-content-copy',
+                    click: (item) => {},
+                },
+                delete: {
+                    icon: 'mdi-delete',
+                    click: (item) => {
+                        this.$confirm(`Deletar ${item.name}?`).then(() => {
+                            alert('aaa');
+                        });
+                    },
+                },
+            };
+            let acts = {...actsDefault, ...this.tableActions};
+            for(let i in acts) {
+                if (!acts[i]) {
+                    delete acts[i];
+                    continue;
+                }
 
-        editUpdate(edit) {
-            this.modelEdit.data = edit;
-        },
-
-        async searchInit() {
-            if (this.$route.query.id) return;
-
-            if (this._searchInitTimeout) clearTimeout(this._searchInitTimeout);
-            this._searchInitTimeout = setTimeout(async () => {
-                this.tableSearchCols = this.$el.querySelectorAll('.ui-crud-search-table thead th').length;
-                this.modelSearch.params = this.paramsDefault(this.$route.query);
-                this.app.setTitle(`Pesquisar ${this.plural}`);
-                this.selects = [];
-    
-                this.modelSearch.cancel();
-                const resp = await this.modelSearch.submit();
-                this.$emit('search', this.slotBind());
-            }, 10);
-        },
-
-        async searchSubmit() {
-            setTimeout(() => {
-                this.$router.push({
-                    query: this.modelSearch.params,
-                });
-            }, 100);
-        },
-
-        searchSelectAll(checked) {
-            if (!checked) {
-                return this.selects = [];
+                acts[i] = {...actDefault, ...acts[i]};
             }
-
-            let selects = [];
-            this.modelSearch.resp.data.forEach(item => {
-                selects.push(item.id);
-            });
-            this.selects = selects;
+            return Object.values(acts);
         },
-
-        exportDownload(item) {
-            this.$axios.get(item.url).then(resp => {
-                Object.assign(document.createElement('a'), {
-                    href: resp.data.base64,
-                    download: resp.data.name,
-                }).click();
-            });
-        },
-
-        paramsDefault(merge={}) {
-            merge = {q:'', page:1, per_page:10, ...merge};
-            merge.page = parseInt(merge.page);
-            merge.per_page = parseInt(merge.per_page);
-            return merge;
-        },
-
-        searchDelete(id=null) {
-            id = Array.isArray(id)? id: this.selects;
-            let label = this.$filters.singularPlural(id.length, this.singular, this.plural);
-            this.$confirm(`Deletar ${id.length} ${label}?`).then(() => {
-                // this.$axios.post(`/api/${this.namespace}/delete`, { id }).then(resp => {
-                // });
-                alert('aaa');
-            });
-        },
-    },
-
-    data() {
-        return {
-            tableSearchCols: 2,
-            selects: [],
-            modelSearch: useAxios({
-                method: "get",
-                url: `/api/${this.namespace}/search`,
-                params: this.paramsDefault(this.$route.query),
-            }),
-            modelEdit: useAxios({
-                method: "post",
-                url: `/api/${this.namespace}/save`,
-                data: {},
-            }),
-            app: useApp(),
-        };
     },
 
     mounted() {
-        this.editInit();
-        this.searchInit();
+        this.modelSearchInit();
+        this.modelEditInit();
     },
 }
 </script>
