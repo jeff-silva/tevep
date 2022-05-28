@@ -6,6 +6,7 @@
                 singular="Template de e-mail"
                 plural="Templates de e-mails"
                 :actions-except="['clone', 'delete', 'new']"
+                :table-actions="{test:{name:'Test', icon:'mdi-pencil'}}"
             >
                 <template #search-table-header>
                     <th>Nome</th>
