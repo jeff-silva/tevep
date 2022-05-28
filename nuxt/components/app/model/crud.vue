@@ -1,31 +1,42 @@
 <template>
 
     <!-- Edit -->
-    <div v-if="!!$route.query.edit">
-        <v-container>
-            <v-row>
-                <v-col cols="12" lg="8">
-                    <v-card>
-                        <v-card-text>
-                            <pre>modelEdit: {{ modelEdit }}</pre>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col cols="12" lg="4">
-                    <v-card>
-                        <v-card-text>
-                            Ações
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-
-        <app-actions>
-            <v-btn icon="mdi-close" :to="`/admin/${namespace}`"></v-btn>
-            <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
-            <v-btn icon="mdi-content-save" type="submit"></v-btn>
-        </app-actions>
+    <div v-if="isEditPage">
+        <form @submit.prevent="modelEdit.submit().then(saveSuccess);">
+            <v-container :fluid="editFluid">
+                <v-row>
+                    <v-col cols="12" lg="8">
+                        <v-card>
+                            <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
+                            <v-alert type="success" closable :rounded="0" v-if="modelEdit.status==200">Dados salvos</v-alert>
+    
+                            <slot name="edit-card" v-bind="slotBind()">
+                                <v-card>
+                                    <v-card-text>
+                                        <slot name="edit-fields" v-bind="slotBind()"></slot>
+                                    </v-card-text>
+                                </v-card>
+                            </slot>
+                        </v-card>
+                    </v-col>
+                    <v-col cols="12" lg="4">
+                        <v-card>
+                            <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
+                            <v-card-text>
+                                <v-btn type="submit" color="primary" block>Salvar</v-btn>
+                                <v-btn :to="modelSearchUrl()" @click="init()" block class="mt-3">Cancelar</v-btn>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-container>
+    
+            <app-actions>
+                <v-btn icon="mdi-close" :to="modelSearchUrl()" @click="init()"></v-btn>
+                <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?id=new`"></v-btn>
+                <v-btn icon="mdi-content-save" type="submit"></v-btn>
+            </app-actions>
+        </form>
     </div>
 
     <!-- Search -->
@@ -177,6 +188,8 @@
 </style>
 
 <script>
+import { useDebounceFn } from '@vueuse/core';
+
 export default {
     props: {
         namespace: {default:''},
@@ -188,23 +201,29 @@ export default {
         tableActions: {type:Object, default:()=>({})},
     },
 
-    // watch: {
-    //     $route: {deep:true, handler() {
-    //         this.modelSearchInit();
-    //         this.modelEditInit();
-    //     }},
-    // },
+    async mounted() {
+        console.log('mounted');
+        await this.init();
+    },
+
+    computed: {
+        isEditPage() {
+            return Object.keys(this.$route.query).includes('edit');
+        },
+    },
 
     data() {
         return {
+            routeWatchPreventRedirect: false,
             modelSearch: useAxios({
                 method: "get",
                 url: `/api/${this.namespace}/search`,
                 params: this.searchParamsDefault(this.$route.query),
                 resp: {data:[]},
                 onSubmited: (resp) => {
-                    this.$router.push({
-                        query: this.modelSearch.params,
+                    if (this.isEditPage) return;
+                    this.$router.push({ query: this.modelSearch.params }).then(resp => {
+                        localStorage.setItem(`app-model-crud-${this.namespace}-search-url`, this.$route.fullPath);
                     });
                 },
             }),
@@ -232,19 +251,43 @@ export default {
             params = { q: '', page: 1, per_page: 10, ...params };
             params.page = parseInt(params.page);
             params.per_page = parseInt(params.per_page);
+            if (params.edit) delete params.edit;
             return params;
         },
 
+        init: useDebounceFn(async function() {
+            console.log('init');
+            await this.modelSearchInit();
+            await this.modelEditInit();
+        }, 100),
+
         async modelSearchInit() {
-            if (!!+this.$route.query.edit) return;
-            this.modelSearch.submit();
+            if (this.isEditPage) return;
+            console.log('modelSearchInit');
+            if (this.modelSearch.loading) return;
+            await this.modelSearch.submit();
         },
 
         async modelEditInit() {
-            if (!+this.$route.query.edit) return;
-            const id = this.$route.query.edit;
-            const { data } = await this.$axios.get(`/api/${this.namespace}/find/${id}`);
-            this.modelEdit.data = data;
+            if (!this.isEditPage) return;
+            console.log('modelEditInit');
+            const id = +this.$route.query.edit;
+
+            if (isNaN(id)) {
+                this.modelEdit.data = {};
+                return;
+            }
+
+            if (this.modelEdit.loading) return;
+            this.modelEdit.loading = true;
+
+            try {
+                this.modelEdit.loading = false;
+                const { data } = await this.$axios.get(`/api/${this.namespace}/find/${id}`);
+                this.modelEdit.data = data;
+            }
+            catch(err) { this.modelEdit.loading = false; }
+            finally { this.modelEdit.loading = false; }
         },
 
         getTableActions(item) {
@@ -259,6 +302,7 @@ export default {
                     to: `/admin/${this.namespace}?edit=${item.id}`,
                     click: (item) => {
                         this.modelEdit.data = {...item};
+                        this.init();
                     },
                 },
                 clone: {
@@ -285,11 +329,11 @@ export default {
             }
             return Object.values(acts);
         },
-    },
 
-    mounted() {
-        this.modelSearchInit();
-        this.modelEditInit();
+        modelSearchUrl() {
+            let url = localStorage.getItem(`app-model-crud-${this.namespace}-search-url`);
+            return url || `/admin/${this.namespace}`;
+        },
     },
 }
 </script>

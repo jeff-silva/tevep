@@ -30,15 +30,12 @@ export default function(axiosParams={}) {
         validation: (axiosParams.validation||false),
     });
 
-    console.log(req.value.onSubmited);
-
     const mountedSubmit = !!axiosParams.submit;
 
     req.value.validate = () => {
-        if (typeof req.value.validation!='function') return;
-        let data = {...(req.value.params||{}), ...(req.value.data||{})};
-        let valid = req.value.validation(useValidation().value);
-        console.log(valid, data);
+        // if (typeof req.value.validation!='function') return;
+        // let data = {...(req.value.params||{}), ...(req.value.data||{})};
+        // let valid = req.value.validation(useValidation().value);
     };
     
     req.value.errorField = (name) => {
