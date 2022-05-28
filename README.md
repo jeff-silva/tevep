@@ -33,8 +33,10 @@
     - [ ] Alterar actions de do app-model-crud para array em vez de slot
     - [ ] Multilogin
     - [ ] app-model-crud
-        - [ ] Redirecionamento recursivo
+        - [x] Redirecionamento recursivo
         - [x] Ao clicar em prev/next na paginação do compomente app-model-crud, a página é concatenada em vez de incrementada
         - [x] Merge de parâmetros com query na busca
+        - [ ] Ao acessar tela de edição, endpoint find está sendo chamado 3 vezes
+        - [ ] Drawer buscar mobile
 - [ ] Cordova
 - [ ] Electron

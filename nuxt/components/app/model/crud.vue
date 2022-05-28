@@ -5,6 +5,8 @@
         <form @submit.prevent="modelEdit.submit().then(saveSuccess);">
             <v-container :fluid="editFluid">
                 <v-row>
+
+                    <!-- Edit form -->
                     <v-col cols="12" lg="8">
                         <v-card>
                             <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
@@ -19,7 +21,9 @@
                             </slot>
                         </v-card>
                     </v-col>
-                    <v-col cols="12" lg="4">
+
+                    <!-- Edit actions -->
+                    <v-col cols="12" lg="4" v-if="responsive.desktop">
                         <v-card>
                             <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
                             <v-card-text>
@@ -43,6 +47,8 @@
     <div v-else>
         <v-container>
             <v-row>
+
+                <!-- Search table -->
                 <v-col cols="12" md="8">
                     <v-table>
                         <thead>
@@ -50,6 +56,8 @@
                                 <th class="px-2" width="40px">
                                     <v-checkbox
                                         hide-details
+                                        v-model="selectedAll"
+                                        @click="selectAll()"
                                     ></v-checkbox>
                                 </th>
                                 <slot name="search-table-header" v-bind="slotBind()"></slot>
@@ -87,6 +95,8 @@
                                 <td class="px-2">
                                     <v-checkbox
                                         hide-details
+                                        v-model="selectedIds"
+                                        :value="item.id"
                                     ></v-checkbox>
                                 </td>
                                 <slot name="search-table-item" v-bind="slotBind({item})"></slot>
@@ -130,7 +140,9 @@
                         </div>
                     </v-card>
                 </v-col>
-                <v-col cols="12" md="4">
+
+                <!-- Search form -->
+                <v-col cols="12" md="4" v-if="responsive.desktop">
                     <form @submit.prevent="modelSearch.submit()">
                         <v-card>
                             <v-card-content>
@@ -144,6 +156,10 @@
                                     <v-btn class="mt-3" color="white" block @click="modelSearch.clear().then(searchSubmit)">
                                         Limpar
                                     </v-btn>
+                                    
+                                    <v-btn class="mt-3" color="error" block v-if="selectedIds.length">
+                                        Deletar {{ selectedIds.length }} {{ plural }}
+                                    </v-btn>
                                 </v-card-cations>
                             </v-card-content>
                         </v-card>
@@ -153,7 +169,7 @@
         </v-container>
 
         <app-actions>
-            <v-btn icon="mdi-magnify"></v-btn>
+            <v-btn icon="mdi-magnify" v-if="!responsive.desktop"></v-btn>
             <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?edit=new`"></v-btn>
 
             <v-menu anchor="top">
@@ -188,7 +204,10 @@
 </style>
 
 <script>
-import { useDebounceFn } from '@vueuse/core';
+import {
+    useDebounceFn,
+    useBreakpoints,
+} from '@vueuse/core';
 
 export default {
     props: {
@@ -202,7 +221,6 @@ export default {
     },
 
     async mounted() {
-        console.log('mounted');
         await this.init();
     },
 
@@ -214,7 +232,6 @@ export default {
 
     data() {
         return {
-            routeWatchPreventRedirect: false,
             modelSearch: useAxios({
                 method: "get",
                 url: `/api/${this.namespace}/search`,
@@ -222,6 +239,8 @@ export default {
                 resp: {data:[]},
                 onSubmited: (resp) => {
                     if (this.isEditPage) return;
+                    this.selectedAll = false;
+                    this.selectedIds = [];
                     this.$router.push({ query: this.modelSearch.params }).then(resp => {
                         localStorage.setItem(`app-model-crud-${this.namespace}-search-url`, this.$route.fullPath);
                     });
@@ -233,6 +252,9 @@ export default {
                 data: {},
             }),
             app: useApp(),
+            selectedAll: false,
+            selectedIds: [],
+            responsive: useBreakpoints({ desktop: 960 }),
         };
     },
 
@@ -256,21 +278,18 @@ export default {
         },
 
         init: useDebounceFn(async function() {
-            console.log('init');
             await this.modelSearchInit();
             await this.modelEditInit();
         }, 100),
 
         async modelSearchInit() {
             if (this.isEditPage) return;
-            console.log('modelSearchInit');
             if (this.modelSearch.loading) return;
             await this.modelSearch.submit();
         },
 
         async modelEditInit() {
             if (!this.isEditPage) return;
-            console.log('modelEditInit');
             const id = +this.$route.query.edit;
 
             if (isNaN(id)) {
@@ -334,6 +353,15 @@ export default {
             let url = localStorage.getItem(`app-model-crud-${this.namespace}-search-url`);
             return url || `/admin/${this.namespace}`;
         },
+
+        selectAll: useDebounceFn(function() {
+            this.selectedIds = [];
+            if (!this.selectedAll) return;
+
+            this.modelSearch.resp.data.forEach(item => {
+                this.selectedIds.push(item.id);
+            });
+        }, 100),
     },
 }
 </script>
