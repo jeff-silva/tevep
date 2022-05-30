@@ -117,7 +117,7 @@
 
             <!-- Sizes your content based upon application components -->
             <v-main class="bg-grey-lighten-4">
-                <div class="py-5">
+                <div class="py-0 pa-lg-5">
                     <slot></slot>
                 </div>
             </v-main>

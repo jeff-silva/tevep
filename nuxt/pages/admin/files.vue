@@ -33,12 +33,12 @@
 
                 <!-- Search fields -->
                 <template #search-fields="crud">
-                    <template v-if="crud.search.resp.attributes">
+                    <template v-if="crud.modelSearch.resp.attributes">
                         <v-select
                             label="Pasta"
-                            v-model="crud.search.params.in_folder"
-                            :items="crud.search.resp.attributes.folders.map(item => item.name)"
-                            @update:modelValue="crud.searchSubmit()"
+                            v-model="crud.modelSearch.params.in_folder"
+                            :items="crud.modelSearch.resp.attributes.folders.map(item => item.name)"
+                            @update:modelValue="crud.modelSearch.submit()"
                         ></v-select>
                     </template>
                 </template>

@@ -5,7 +5,7 @@
                 namespace="users"
                 singular="Usuário"
                 plural="Usuários"
-                :actions-except="['clone', 'delete']"
+                :table-actions="{clone:false, delete:false}"
             >
                 <template #search-table-header>
                     <th>Nome</th>

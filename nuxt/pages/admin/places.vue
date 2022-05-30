@@ -5,16 +5,16 @@
                 namespace="places"
                 singular="Endereço"
                 plural="Endereços"
-                :actions-except="['clone', 'delete']"
+                :table-actions="{delete:false}"
                 @search="handleFormResponse($event)"
             >
                 <template #search-header="crud">
-                    <v-card v-if="crud.search.resp">
+                    <v-card v-if="crud.responsive.desktop && crud.modelSearch.resp">
                         <v-card-text>
-                            <!-- <pre>{{ crud.search.resp }}</pre> -->
+                            <!-- <pre>{{ crud.search.modelSearch }}</pre> -->
                             <l-map ref="map" :zoom="18" :center="[0, 0]" style="height:300px;">
                                 <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-                                <template v-for="m in crud.search.resp.data">
+                                <template v-for="m in crud.modelSearch.data">
                                     <l-marker :lat-lng="[(m.lat||0), (m.lng||0)]"></l-marker>
                                 </template>
                             </l-map>
@@ -34,21 +34,21 @@
                 </template>
 
                 <template #search-fields="crud">
-                    <template v-if="crud.search.resp && crud.search.resp.attributes">
+                    <template v-if="crud.modelSearch.resp && crud.modelSearch.resp.attributes">
                         <v-select
                             label="País"
-                            v-model="crud.search.params.country_short"
-                            :items="vuetifyItems(crud.search.resp.attributes.countries, 'country_short', 'country')"
-                            @update:modelValue="crud.search.params.state_short=null; crud.searchSubmit()"
+                            v-model="crud.modelSearch.params.country_short"
+                            :items="vuetifyItems(crud.modelSearch.resp.attributes.countries, 'country_short', 'country')"
+                            @update:modelValue="crud.modelSearch.params.state_short=null; crud.modelSearch.submit()"
                         >
                         </v-select>
 
                         <v-select
                             label="Estado"
-                            v-model="crud.search.params.state_short"
-                            :items="vuetifyItems(crud.search.resp.attributes.states, 'state_short', 'state')"
-                            @update:modelValue="crud.searchSubmit()"
-                            v-if="crud.search.resp.attributes.states.length"
+                            v-model="crud.modelSearch.params.state_short"
+                            :items="vuetifyItems(crud.modelSearch.resp.attributes.states, 'state_short', 'state')"
+                            @update:modelValue="crud.modelSearch.submit()"
+                            v-if="crud.modelSearch.resp.attributes.states.length"
                         >
                         </v-select>
                     </template>
@@ -80,7 +80,7 @@ export default {
             // setTimeout(() => {
             //     try {
             //         const map = {...this.$refs.map};
-            //         const bounds = crud.search.resp.data
+            //         const bounds = crud.search.modelSearch.data
             //             .map(place => [place.lat, place.lng])
             //             .filter(bound => bound[0] && bound[1]);
             //         if (bounds.length==0 || !map.leafletObject) return;
