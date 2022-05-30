@@ -53,7 +53,11 @@
                 </v-card-header>
 
                 <v-card-text>
-                    <pre>{{ app.user }}</pre>
+                    <v-list v-if="app.auths.length>1">
+                        <v-list-item v-for="a in app.auths" @click="app.authSwitch(a.email)">
+                            {{ a.email }}
+                        </v-list-item>
+                    </v-list>
                 </v-card-text>
             </v-navigation-drawer>
 

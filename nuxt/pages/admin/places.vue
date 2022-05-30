@@ -53,10 +53,6 @@
                         </v-select>
                     </template>
                 </template>
-                
-                <!-- <template #search-table-item-actions="{item}">
-                    <v-btn icon="mdi-download"></v-btn>
-                </template> -->
 
                 <template #edit-fields="crud">
                     <app-model-place

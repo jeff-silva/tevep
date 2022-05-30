@@ -107,13 +107,6 @@ class Controller extends BaseController
             ]);
         }
 
-        if (! in_array('clone', $params->except)) {
-            $this->route('get', "/clone/{id}", 'clone', [
-                'description' => 'Clonar',
-                'path' => ['id' => ''],
-            ]);
-        }
-
         // if (! in_array('import', $params->except)) {
         //     $this->route('post', "/import", 'import', [
         //         'description' => 'Importar',
@@ -171,12 +164,6 @@ class Controller extends BaseController
     public function restore()
     {
         return $this->model->search()->restoreAll();
-    }
-
-
-    public function clone($id)
-    {
-        return $this->model->clone($id, request()->all());
     }
 
 

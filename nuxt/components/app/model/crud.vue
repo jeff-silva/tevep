@@ -15,9 +15,9 @@
                 position="right"
                 width="300"
             >
-                <v-card :title="`Editar ${singular}`" :elevation="0">
+                <v-card :title="`${modelEdit.data.id? 'Alterar': 'Criar'} ${singular}`" :elevation="0">
                     <v-card-content>
-                        <v-btn type="submit" color="primary" block>Salvar</v-btn>
+                        <v-btn type="submit" color="primary" block>{{ modelEdit.data.id? 'Alterar': 'Criar' }}</v-btn>
                         <v-btn :to="modelSearchUrl()" @click="init()" block class="mt-3">Cancelar</v-btn>
                     </v-card-content>
                 </v-card>
@@ -344,7 +344,13 @@ export default {
                 },
                 clone: {
                     icon: 'mdi-content-copy',
-                    click: (item) => {},
+                    click: (item) => {
+                        this.modelEdit.data = {...item};
+                        this.modelEdit.data.id = null;
+                        this.$router.push({
+                            query: {edit: 'new'},
+                        });
+                    },
                 },
                 delete: {
                     icon: 'mdi-delete',
@@ -360,6 +366,10 @@ export default {
                 if (!acts[i]) {
                     delete acts[i];
                     continue;
+                }
+
+                if (typeof acts[i]=='function') {
+                    acts[i] = acts[i](item);
                 }
 
                 acts[i] = {...actDefault, ...acts[i]};

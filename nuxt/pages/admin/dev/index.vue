@@ -35,6 +35,7 @@ export default {
                 method: 'get',
                 url: '/api/app/endpoints',
                 submit: true,
+                resp: [],
             }),
         };
     },

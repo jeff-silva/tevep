@@ -5,7 +5,7 @@
                 namespace="files"
                 singular="Arquivo"
                 plural="Arquivos"
-                :actions-except="['clone', 'add']"
+                :table-actions="tableActions"
             >
                 <template #search-table-header>
                     <th>Arquivo</th>
@@ -25,10 +25,6 @@
                     </td>
                     <td>{{ item.folder }}</td>
                     <td>{{ item.mime }}</td>
-                </template>
-                
-                <template #search-table-item-actions="{item}">
-                    <v-btn icon="mdi-download" :href="item.url" :download="`${item.slug}.${item.ext}`"></v-btn>
                 </template>
 
                 <!-- Search fields -->
@@ -58,3 +54,21 @@
         </nuxt-layout>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            tableActions: {
+                download(item) {
+                    return {
+                        icon: 'mdi-download',
+                        href: item.url,
+                        download: `${item.slug}.${item.ext}`,
+                    };
+                },
+            },
+        };
+    },
+};
+</script>
