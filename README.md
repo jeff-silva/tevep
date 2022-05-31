@@ -31,7 +31,8 @@
     - [x] Configuração: Upload de logo
     - [x] Configuração: Upload de favicon
     - [ ] Alterar actions de do app-model-crud para array em vez de slot
-    - [ ] Multilogin
+    - [x] Multilogin
+        - [ ] Load não executa novamente depois do login
     - [ ] app-model-crud
         - [x] Redirecionamento recursivo
         - [x] Ao clicar em prev/next na paginação do compomente app-model-crud, a página é concatenada em vez de incrementada

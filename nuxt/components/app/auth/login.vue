@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form @submit.prevent="app.login(credentials)">
+        <form @submit.prevent="app.login(credentials).then(resp => $router.push(redirect))">
             <v-text-field label="E-mail"
                 v-model="credentials.email"
                 variant="underlined"
@@ -21,9 +21,10 @@
             </div>
         </form>
 
-        <div v-if="app.auths.length">
+        <div class="mt-5" v-if="app.auths.length">
+            <v-divider></v-divider>
             <v-list>
-                <v-list-item>Ou continuar como</v-list-item>
+                <v-list-subheader>Ou continuar como</v-list-subheader>
                 <v-list-item v-for="(a, i) in app.auths" :key="i">
                     <div class="d-flex" style="width:100%;">
                         <div class="flex-grow-1">
@@ -35,6 +36,7 @@
                     </div>
                 </v-list-item>
             </v-list>
+            <v-divider></v-divider>
         </div>
     </div>
 </template>

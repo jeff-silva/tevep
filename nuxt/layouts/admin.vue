@@ -48,17 +48,26 @@
 
             <!-- userDrawer -->
             <v-navigation-drawer temporary position="right" v-model="userDrawer" width="300">
-                <v-card-header>
-                    <v-card-title>{{ app.user.name }}</v-card-title>
-                </v-card-header>
+                <v-card :elevation="0" :title="app.user.name" :subtitle="app.user.email">
+                    <!--  -->
+                </v-card>
 
-                <v-card-text>
-                    <v-list v-if="app.auths.length>1">
-                        <v-list-item v-for="a in app.auths" @click="app.authSwitch(a.email)">
-                            {{ a.email }}
-                        </v-list-item>
-                    </v-list>
-                </v-card-text>
+                <v-divider></v-divider>
+                <v-list>
+                    <template v-if="app.auths.length>1">
+                        <v-list-subheader>Alterar conta</v-list-subheader>
+                        <template v-for="a in app.auths">
+                            <v-list-item @click="app.authSwitch(a.email)" v-if="app.user.email!=a.email">
+                                {{ a.email }}
+                            </v-list-item>
+                        </template>
+                    </template>
+                    <v-list-item :to="`/auth?redirect=${$route.fullPath}`">
+                        Fazer login com outra conta
+                    </v-list-item>
+                </v-list>
+
+                <v-divider></v-divider>
             </v-navigation-drawer>
 
             <!-- App drawer -->
