@@ -6,7 +6,8 @@
                 singular="Template de e-mail"
                 plural="Templates de e-mails"
                 :actions-except="['clone', 'delete', 'new']"
-                :table-actions="{clone:false, delete:false}"
+                :table-actions="tableActions"
+                :form-actions="formActions"
             >
                 <template #search-table-header>
                     <th>Nome</th>
@@ -37,6 +38,64 @@
                     </v-row>
                 </template>
             </app-model-crud>
+
+            <v-dialog v-model="mailTest.dialog">
+                <v-card :title="mailTest.data.name" :subtitle="`Testar envio de ${mailTest.data.name} para:`" width="900px" max-width="90vw">
+                    <v-card-text>
+                        <v-text-field label="E-mail" hide-details :model-value="app.user.email"></v-text-field>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="primary" @click="mailTestOpen(false)">Enviar</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
         </nuxt-layout>
     </div>
 </template>
+
+<script>
+export default {
+    methods: {
+        mailTestOpen(data) {
+            if (!data) {
+                this.mailTest.dialog = false;
+                this.mailTest.data = {};
+                return;
+            }
+
+            this.mailTest.dialog = true;
+            this.mailTest.data = data;
+        },
+    },
+
+    data() {
+        return {
+            mailTest: {
+                dialog: false,
+                data: {},
+            },
+            tableActions: {
+                clone: false,
+                delete: false,
+                test: {
+                    icon: 'mdi-email-alert-outline',
+                    click: (item) => {
+                        this.mailTestOpen(item);
+                    },
+                },
+            },
+            formActions: {
+                test: {
+                    name: 'Testar e-mail',
+                    icon: 'mdi-email-alert-outline',
+                    click: (item) => {
+                        this.mailTestOpen(item);
+                    },
+                },
+            },
+            app: useApp(),
+        };
+    },
+};
+</script>

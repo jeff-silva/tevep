@@ -8,19 +8,12 @@
 
 - [ ] Laravel
     - [ ] CRUD: Ação de deletar
-    - [ ] CRUD: Ação de clonar
-    - [ ] Ao alterar dados de um usuário, senha é alterada também
 - [ ] Nuxt
     - [ ] CRUD: Ação de deletar
-    - [ ] CRUD: Ação de clonar
     - [ ] Validações
     - [ ] Máscaras
-    - [ ] Fazer com que total de resultados e paginação também fiquem dentro do componente app-model-pagination
-    - [ ] Ao alterar dados de um usuário, senha é alterada também
     - [ ] Editor de código dentro do componente app-html
     - [ ] Tornar componente app-model-file=select responsivo
-    - [ ] Alterar actions de do app-model-crud para array em vez de slot
-    - [ ] app-model-crud
-        - [ ] Ao acessar tela de edição, endpoint find está sendo chamado 3 vezes
+    - [ ] emails-templates: Testar envio de e-mails
 - [ ] Cordova
 - [ ] Electron

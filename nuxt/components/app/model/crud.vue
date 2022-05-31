@@ -4,9 +4,14 @@
     <div v-if="isEditPage">
         <form @submit.prevent="modelEdit.submit().then(saveSuccess);">
             <app-actions>
-                <v-btn icon="mdi-close" :to="modelSearchUrl()" @click="init()"></v-btn>
-                <v-btn icon="mdi-content-save" type="submit"></v-btn>
                 <v-btn icon="mdi-plus-circle" @click="modelEditDrawer=true" v-if="!responsive.desktop"></v-btn>
+
+                <template v-for="(a, i) in getFormActions()">
+                    <v-btn
+                        v-bind="a"
+                        @click="(typeof a.click=='function'? a.click(modelEdit.data, $event): null)"
+                    ></v-btn>
+                </template>
             </app-actions>
 
             <!-- Edit drawer -->
@@ -17,8 +22,17 @@
             >
                 <v-card :title="app.title" :elevation="0">
                     <v-card-content>
-                        <v-btn type="submit" color="primary" block>{{ modelEdit.data.id? 'Alterar': 'Criar' }}</v-btn>
-                        <v-btn :to="modelSearchUrl()" @click="init()" block class="mt-3">Cancelar</v-btn>
+                        <template v-for="(a, i) in getFormActions()">
+                            <v-btn
+                                v-bind="a"
+                                block
+                                @click="(typeof a.click=='function'? a.click(modelEdit.data, $event): null)"
+                                :class="{'mt-3':i}"
+                                :icon="false"
+                            >
+                                {{ a.name }}
+                            </v-btn>
+                        </template>
                     </v-card-content>
                 </v-card>
             </v-navigation-drawer>
@@ -233,6 +247,7 @@ export default {
         searchFluid: {default:false},
         editFluid: {default:false},
         tableActions: {type:Object, default:()=>({})},
+        formActions: {type:Object, default:()=>({})},
     },
 
     async mounted() {
@@ -334,12 +349,20 @@ export default {
             this.app.setTitle(`Editar ${this.singular}: ${this.modelEdit.data.name}`);
         },
 
+        mergeActions(item, formActions={}, merge={}) {
+            let acts = {...formActions, ...merge};
+            for(let i in acts) {
+                let act = acts[i];
+                if (!act) { delete acts[i]; continue; }
+                if (typeof act=='function') {
+                    act = act(item);
+                }
+                acts[i] = { name: '', ...act };
+            }
+            return Object.values(acts);
+        },
+
         getTableActions(item) {
-            let actDefault = {
-                icon: false,
-                onClick: false,
-                to: false,
-            };
             let actsDefault = {
                 edit: {
                     icon: 'mdi-pencil',
@@ -368,20 +391,28 @@ export default {
                     },
                 },
             };
-            let acts = {...actsDefault, ...this.tableActions};
-            for(let i in acts) {
-                if (!acts[i]) {
-                    delete acts[i];
-                    continue;
-                }
-
-                if (typeof acts[i]=='function') {
-                    acts[i] = acts[i](item);
-                }
-
-                acts[i] = {...actDefault, ...acts[i]};
-            }
-            return Object.values(acts);
+            
+            return this.mergeActions(item, actsDefault, this.tableActions);
+        },
+        
+        getFormActions() {
+            const item = this.modelEdit.data;
+            return this.mergeActions(item, {
+                save: {
+                    name: 'Salvar',
+                    icon: 'mdi-content-save',
+                    type: 'submit',
+                    color: 'primary',
+                },
+                cancel: {
+                    name: 'Cancelar',
+                    icon: 'mdi-close',
+                    to: this.modelSearchUrl(),
+                    click: () => {
+                        this.init();
+                    },
+                },
+            }, this.formActions);
         },
 
         modelSearchUrl() {
