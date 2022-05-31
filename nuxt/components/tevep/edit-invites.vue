@@ -50,7 +50,7 @@
             <v-card title="Convite" subtitle="Criar convite" style="width:600px; max-width:90vw;">
                 <v-card-text>
                     <v-text-field label="E-mail do usuário" v-model="inviteEdit.data.user_email" hide-details></v-text-field>
-                    <div class="text-red" v-if="inviteEdit.err">{{ inviteEdit.err.message }}</div>
+                    <div class="text-red" v-if="inviteEdit.err.message">{{ inviteEdit.err.message }}</div>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -62,11 +62,11 @@
 
         <!-- Modal aceitar convite -->
         <template v-for="r in invitesSearch.resp.data">
-            <v-dialog :model-value="(r.user_id==app.user.id && !r.status)">
+            <v-dialog :model-value="(r.user_email==app.user.email) && !r.status">
                 <v-card title="Convite" style="width:600px; max-width:90vw;">
                     <v-card-text>
                         Você foi convidado a participar deste projeto.
-                        <div class="text-red" v-if="inviteEdit.err">{{ inviteEdit.err.message }}</div>
+                        <div class="text-red" v-if="inviteEdit.err.message">{{ inviteEdit.err.message }}</div>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
