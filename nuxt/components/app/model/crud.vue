@@ -15,7 +15,7 @@
                 position="right"
                 width="300"
             >
-                <v-card :title="`${modelEdit.data.id? 'Alterar': 'Criar'} ${singular}`" :elevation="0">
+                <v-card :title="app.title" :elevation="0">
                     <v-card-content>
                         <v-btn type="submit" color="primary" block>{{ modelEdit.data.id? 'Alterar': 'Criar' }}</v-btn>
                         <v-btn :to="modelSearchUrl()" @click="init()" block class="mt-3">Cancelar</v-btn>
@@ -70,7 +70,7 @@
             position="right"
             width="300"
         >
-            <v-card :title="`Pesquisar ${plural}`" :elevation="0">
+            <v-card :title="app.title" :elevation="0">
                 <div style="height:3px;">
                     <v-progress-linear
                         indeterminate
@@ -268,6 +268,10 @@ export default {
                 method: "post",
                 url: `/api/${this.namespace}/save`,
                 data: {},
+                onSubmited: (resp) => {
+                    this.modelEdit.data = resp.data;
+                    this.app.setTitle(`Editar ${this.singular}: ${this.modelEdit.data.name}`);
+                },
             }),
             app: useApp(),
             selectedAll: false,
@@ -303,12 +307,14 @@ export default {
         async modelSearchInit() {
             if (this.isEditPage) return;
             if (this.modelSearch.loading) return;
+            this.app.setTitle(`Buscar ${this.plural}`);
             await this.modelSearch.submit();
         },
 
         async modelEditInit() {
             if (!this.isEditPage) return;
             const id = +this.$route.query.edit;
+            this.modelEdit.status = false;
 
             if (isNaN(id)) {
                 this.modelEdit.data = {};
@@ -325,6 +331,7 @@ export default {
             }
             catch(err) { this.modelEdit.loading = false; }
             finally { this.modelEdit.loading = false; }
+            this.app.setTitle(`Editar ${this.singular}: ${this.modelEdit.data.name}`);
         },
 
         getTableActions(item) {

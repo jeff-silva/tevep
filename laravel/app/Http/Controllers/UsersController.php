@@ -17,8 +17,13 @@ class UsersController extends Controller
 		]);
 	}
 
-	// public function search()
-    // {
-    //     return $this->model->search()->with(['photo'])->paginate(request('per_page', 15));
-    // }
+	
+	public function save()
+    {
+		$data = request()->all();
+		if (isset($data['password']) AND empty($data['password'])) {
+			unset($data['password']);
+		}
+        return $this->model->updateOrCreate(['id' => request('id')], $data);
+    }
 }
