@@ -28,7 +28,7 @@
                 <v-list-item v-for="(a, i) in app.auths" :key="i">
                     <div class="d-flex" style="width:100%;">
                         <div class="flex-grow-1">
-                            <v-btn @click="app.authSwitch(a.email)" block flat>
+                            <v-btn @click="app.authSwitch(a.email).then(resp => $router.push(redirect))" block flat>
                                 {{ a.email }}
                             </v-btn>
                         </div>

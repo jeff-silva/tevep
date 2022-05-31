@@ -17,9 +17,9 @@ export const useAppStore = defineStore({
     }),
 
     actions: {
-        async load() {
+        async load(forced=false) {
             try {
-                if (this.user) return;
+                if (this.user && !forced) return;
                 const resp = await useAxios({method:"post", url:"/api/app/load"}).value.submit();
                 this.devMode = resp.data.devMode;
                 this.user = resp.data.user;
@@ -75,8 +75,7 @@ export const useAppStore = defineStore({
                 const auth = this.auths[i];
                 if (auth.email==email) {
                     await this.setAccessToken(auth.token);
-                    // await this.load();
-                    location.reload();
+                    await this.load(true);
                     break;
                 }
             }

@@ -20,7 +20,6 @@
     - [ ] Editor de código dentro do componente app-html
     - [ ] Tornar componente app-model-file=select responsivo
     - [ ] Alterar actions de do app-model-crud para array em vez de slot
-    - [ ] Multilogin: Load não executa novamente depois do login
     - [ ] app-model-crud
         - [ ] Ao acessar tela de edição, endpoint find está sendo chamado 3 vezes
 - [ ] Cordova
