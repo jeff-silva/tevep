@@ -177,7 +177,7 @@
             </v-table>
 
             <!-- Pagination -->
-            <v-card>
+            <v-card elevation="0">
                 <div class="d-flex align-center">
                     <div class="ps-4" v-if="responsive.desktop">
                         {{ modelSearch.resp.total||0 }} {{ $filters.singularPlural(modelSearch.resp.total, 'resultado', 'resultados') }}
