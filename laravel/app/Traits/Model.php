@@ -13,14 +13,13 @@ trait Model
         static::saving(function($model) {
             $model->mutatorSave();
 
-            if (in_array('slug', $model->getFillable())) {
-                $model->mutatorSlug();
-            }
-
             $validate = $model->validate();
-
             if ($validate->fails()) {
                 throw new \Exception(json_encode($validate->errors()));
+            }
+
+            if (in_array('slug', $model->getFillable()) AND !$model->slug AND $model->name) {
+                $model->slug = \Str::slug($model->name);
             }
 
             foreach($model->attributes as $name => $value) {
@@ -43,8 +42,12 @@ trait Model
 
                 $model->attributes[ $name ] = $value;
             }
-
+            
             return $model;
+        });
+
+        static::saved(function($model) {
+            $model->mutatorRetrieve();
         });
     }
 
@@ -58,12 +61,6 @@ trait Model
     public function mutatorRetrieve()
     {
         // 
-    }
-
-
-    public function mutatorSlug()
-    {
-        $this->slug = \Str::slug($this->name);
     }
 
 

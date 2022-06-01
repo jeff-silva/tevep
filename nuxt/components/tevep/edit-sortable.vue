@@ -43,7 +43,7 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn flat color="error" @click="remove(element)">Deletar</v-btn>
-                                    <v-btn flat :to="`/admin/teveps?edit=${element.tevep_id}`" v-if="element.tevep_id" color="primary">Acessar projeto</v-btn>
+                                    <v-btn flat :to="`/admin/teveps?edit=${element.id}`" v-if="element.id" color="primary">Acessar projeto</v-btn>
                                     <v-btn flat @click="projectCreate(element)" v-else>Converter em novo projeto</v-btn>
                                     <v-btn flat color="primary" @click="projectUpdate(element).then(resp => dialogItem(false))">Ok</v-btn>
                                 </v-card-actions>
@@ -118,6 +118,7 @@ export default {
         },
 
         dialogItem(item) {
+            this.error = false;
             this.dialog = item;
         },
 
@@ -144,13 +145,22 @@ export default {
                 this.callMethodSave();
             }
             catch(err) {
-                this.error = err.message;
+                this.error = err.response.data.message;
             }
         },
 
         async projectUpdate(node) {
             console.log({ ...node });
             if (!node.parent_id) return;
+
+            try {
+                let { data: tevep } = await this.$axios.post('/api/teveps/save', node);
+                node.id = tevep.id;
+                this.callMethodSave();
+            }
+            catch(err) {
+                this.error = err.response.data.message;
+            }
         },
     },
 };

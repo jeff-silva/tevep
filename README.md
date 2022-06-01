@@ -15,6 +15,7 @@
     - [ ] Editor de código dentro do componente app-html
     - [ ] Tornar componente app-model-file=select responsivo
     - [ ] emails-templates: Testar envio de e-mails
+    - [ ] CRUD: Impedir bulk delete onde ação de deletar é ignorada
     - [ ] Tevep
         - [ ] Permissão através de convite
         - [ ] Ao salvar, barra de loading não some
