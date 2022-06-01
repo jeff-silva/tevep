@@ -15,5 +15,8 @@
     - [ ] Editor de código dentro do componente app-html
     - [ ] Tornar componente app-model-file=select responsivo
     - [ ] emails-templates: Testar envio de e-mails
+    - [ ] Tevep
+        - [ ] Criar sub evento
+        - [ ] Permissão através de convite
 - [ ] Cordova
 - [ ] Electron
