@@ -97,6 +97,13 @@
                         <v-text-field :label="`Buscar ${plural}`" v-model="modelSearch.params.q"></v-text-field>
     
                         <slot name="search-fields" v-bind="slotBind()"></slot>
+
+                        <v-select
+                            label="Estado"
+                            v-model="modelSearch.params.deleted"
+                            :items="[{value:'', title:'Ativo'}, {value:'1', title:'Deletado'}]"
+                            @update:model-value="modelSearch.submit()"
+                        ></v-select>
     
                         <v-btn type="submit" color="primary" block :disabled="modelSearch.loading">
                             Buscar
@@ -106,8 +113,12 @@
                             Limpar
                         </v-btn>
                         
-                        <v-btn color="error" class="mt-4" block v-if="selectedIds.length">
+                        <v-btn color="error" class="mt-4" block v-if="selectedIds.length && !modelSearch.params.deleted" @click="modelDelete(selectedIds)">
                             Deletar {{ selectedIds.length }} {{ plural }}
+                        </v-btn>
+                        
+                        <v-btn color="error" class="mt-4" block v-if="selectedIds.length && modelSearch.params.deleted" @click="modelRestore(selectedIds)">
+                            Restaurar {{ selectedIds.length }} {{ plural }}
                         </v-btn>
                     </form>
                 </v-card-content>
@@ -312,7 +323,7 @@ export default {
         },
 
         searchParamsDefault(params={}) {
-            params = { q: '', page: 1, per_page: 10, ...params };
+            params = { q: '', page: 1, per_page: 10, deleted:'', ...params };
             params.page = parseInt(params.page);
             params.per_page = parseInt(params.per_page);
             if (params.edit) delete params.edit;
@@ -354,14 +365,31 @@ export default {
             this.app.setTitle(`Editar ${this.singular}: ${this.modelEdit.data.name}`);
         },
 
+        async modelDelete(id) {
+            let message = this.modelSearch.params.deleted?
+                `Deletar estes ${this.plural} para sempre? (Esta ação não poderá ser desfeita)`:
+                `Deletar estes ${this.plural}?`;
+            this.$confirm(message).then(async resp => {
+                await this.$axios.post(`/api/${this.namespace}/delete`, { id });
+                this.init();
+            });
+        },
+        
+        async modelRestore(id) {
+            this.$confirm('Restaurar?').then(async resp => {
+                await this.$axios.post(`/api/${this.namespace}/restore`, { id });
+                this.init();
+            });
+        },
+
         mergeActions(item, formActions={}, merge={}) {
             let acts = {...formActions, ...merge};
             for(let i in acts) {
                 let act = acts[i];
-                if (!act) { delete acts[i]; continue; }
                 if (typeof act=='function') {
                     act = act(item);
                 }
+                if (!act) { delete acts[i]; continue; }
                 acts[i] = { name: '', ...act };
             }
             return Object.values(acts);
@@ -387,13 +415,27 @@ export default {
                         });
                     },
                 },
-                delete: {
-                    icon: 'mdi-delete',
-                    click: (item) => {
-                        this.$confirm(`Deletar ${item.name}?`).then(() => {
-                            alert('aaa');
-                        });
-                    },
+                delete: () => {
+                    if (this.modelSearch.params.deleted) {
+                        return null;
+                    }
+                    return {
+                        icon: 'mdi-delete',
+                        click: (item) => {
+                            this.modelDelete(item.id);
+                        },
+                    };
+                },
+                restore: () => {
+                    if (!this.modelSearch.params.deleted) {
+                        return null;
+                    }
+                    return {
+                        icon: 'mdi-delete-restore',
+                        click: (item) => {
+                            this.modelRestore(item.id);
+                        },
+                    };
                 },
             };
             

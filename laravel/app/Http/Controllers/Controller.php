@@ -163,7 +163,9 @@ class Controller extends BaseController
 
     public function restore()
     {
-        return $this->model->search()->restoreAll();
+        $params = request()->all();
+        $params['deleted'] = 1;
+        return $this->model->search($params)->restoreAll();
     }
 
 

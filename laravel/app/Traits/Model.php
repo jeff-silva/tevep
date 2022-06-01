@@ -360,6 +360,20 @@ trait Model
     }
 
 
+    public function delete()
+    {
+        if (! $this->id) return false;
+        
+        if (in_array('deleted_at', $this->fillable) AND !$this->deleted_at) {
+            $this->deleted_at = date('Y-m-d H:i:s');
+            $this->save();
+            return true;
+        }
+
+        return parent::delete();
+    }
+
+
     public function scopeExport($query, $format)
     {
         // dd(\App\Converters\Converter::format($format)->export($query));
@@ -368,28 +382,11 @@ trait Model
 
 
     public function scopeDeleteAll($query, $params=null) {
-        $params = $params===null? request()->all(): $params;
-        $params = (object) array_merge([
-            'forced' => '',
-        ], $params);
-        
         $return = [];
-        $items = $query->get();
-
-        if (\Schema::hasColumn($this->getTable(), 'deleted_at')) {
-            foreach($items as $item) {
-                if ($params->forced) {
-                    $item->delete();
-                    $return[] = $item;
-                    continue;
-                }
-
-                $item->deleted_at = date('Y-m-d H:i:s');
-                $item->save();
-                $return[] = $item;
-            }
+        foreach($query->get() as $item) {
+            $item->delete();
+            $return[] = $item->id;
         }
-
         return $return;
     }
 
@@ -400,7 +397,7 @@ trait Model
         foreach($query->get() as $item) {
             $item->deleted_at = null;
             $item->save();
-            $return[] = $item;
+            $return[] = $item->id;
         }
         return $return;
     }

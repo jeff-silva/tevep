@@ -64,7 +64,7 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 
 	public function metaDefault($meta)
 	{
-		$meta = json_decode($meta, true);
+		$meta = is_array($meta)? $meta: json_decode($meta, true);
 		$meta = is_array($meta)? $meta: [];
 		$meta = array_merge([
 			'tempos' => [],

@@ -7,11 +7,9 @@
 #### Conversão para Vue 3 + Nuxt 3 + Vuetify 3
 
 - [ ] Laravel
-    - [ ] CRUD: Ação de deletar
     - [ ] TEVEP
         - [ ] Forçar Teveps pais e filhos ficarem sincronizados ao salvar
 - [ ] Nuxt
-    - [ ] CRUD: Ação de deletar
     - [ ] Validações
     - [ ] Máscaras
     - [ ] Editor de código dentro do componente app-html

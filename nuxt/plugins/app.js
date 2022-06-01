@@ -79,6 +79,33 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.provide('devMode', devMode);
     nuxtApp.provide('log', console.log);
     
+    // this.$alert('Confirm action?')
+    nuxtApp.provide('alert', (message) => {
+        return new Promise((resolve, reject) => {
+            let modal = Object.assign(document.createElement('div'), {
+                innerHTML: `<div class="modal-confirm-no" style="position:absolute; top:0; left:0; width:100%; height:100%; background:#00000022; z-index:9999; display:flex; align-items:center; justify-content:center;">
+                    <div class="v-card v-theme--light v-card--density-default v-card--variant-contained mx-auto" style="min-width:300px; max-width:300px;">
+                        <div class="v-card-text">${message}</div>
+                        <div class="v-card-actions">
+                            <button type="button" class="modal-confirm-ok v-btn v-theme--light bg-primary v-btn--density-default v-btn--size-default v-btn--variant-text">
+                                Ok
+                            </button>
+                        </div>
+                    </div>
+                </div>`,
+            });
+
+            modal.querySelectorAll('.modal-confirm-ok').forEach(elem => {
+                elem.addEventListener('click', ev => {
+                    modal.remove();
+                });
+            });
+
+            document.body.appendChild(modal);
+        });
+    });
+
+    // this.$confirm('Confirm action?').then(...)
     nuxtApp.provide('confirm', (message) => {
         return new Promise((resolve, reject) => {
             let modal = Object.assign(document.createElement('div'), {
@@ -99,13 +126,13 @@ export default defineNuxtPlugin((nuxtApp) => {
 
             modal.querySelectorAll('.modal-confirm-no').forEach(elem => {
                 elem.addEventListener('click', ev => {
-                    document.body.removeChild(modal);
+                    modal.remove();
                 });
             });
             
             modal.querySelectorAll('.modal-confirm-yes').forEach(elem => {
                 elem.addEventListener('click', ev => {
-                    document.body.removeChild(modal);
+                    modal.remove();
                     setTimeout(() => resolve(), 500);
                 });
             });
