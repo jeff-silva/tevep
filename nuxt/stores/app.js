@@ -76,6 +76,9 @@ export const useAppStore = defineStore({
                 if (auth.email==email) {
                     await this.setAccessToken(auth.token);
                     await this.load(true);
+                    if (!this.user) {
+                        this.authRemove(auth.email);
+                    }
                     break;
                 }
             }

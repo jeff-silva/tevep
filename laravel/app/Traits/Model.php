@@ -44,7 +44,6 @@ trait Model
                 $model->attributes[ $name ] = $value;
             }
 
-            $model->mutatorRetrieve();
             return $model;
         });
     }

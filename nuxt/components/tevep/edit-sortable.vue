@@ -16,7 +16,7 @@
                 }"
             >
                 <template #item="{ element, index }">
-                    <div>
+                    <div :class="{'bg-blue-lighten-4':($route.query.meta_ref==element.meta_ref)}">
                         <div class="flex-grow-1 d-flex align-center ma-1" :style="layout=='horizontal'? `width:${(areaWidth/max)-7}px;`: ``">
                             <v-icon class="mx-2" style="cursor:move;">mdi-drag</v-icon>
                             <div class="flex-grow-1">
@@ -34,6 +34,7 @@
     
                         <v-dialog :model-value="dialog && dialog.meta_ref==element.meta_ref" @click:outside="dialogItem(false)">
                             <v-card :title="plural" :subtitle="`Gerenciador de ${singular}`">
+                                <v-alert type="error" rounded="0" v-if="error">{{ error }}</v-alert>
                                 <v-card-text style="width:600px; max-width:95vw;">
                                     <v-text-field label="Nome" v-model="element.name" hide-details class="mb-5"></v-text-field>
                                     <v-text-field label="Data início" v-model="element.date_start" prepend-inner-icon="mdi-calendar" hide-details class="mb-5"></v-text-field>
@@ -42,7 +43,8 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn flat color="error" @click="remove(element)">Deletar</v-btn>
-                                    <v-btn flat @click="$log(element)">Converter em projeto</v-btn>
+                                    <v-btn flat :to="`/admin/teveps?edit=${element.tevep_id}`" v-if="element.tevep_id" color="primary">Acessar projeto</v-btn>
+                                    <v-btn flat @click="projectCreate(element)" v-else>Converter em projeto</v-btn>
                                     <v-btn flat color="primary" @click="dialogItem(false)">Ok</v-btn>
                                 </v-card-actions>
                             </v-card>
@@ -80,6 +82,7 @@ export default {
         singular: {default:'Item'},
         plural: {default:'Itens'},
         areaWidth: {default: 2000},
+        methodSave: {default:false, type:[Boolean, Function]},
     },
 
     components: { draggable },
@@ -94,6 +97,7 @@ export default {
     data() {
         return {
             dialog: false,
+            error: false,
         };
     },
 
@@ -106,6 +110,11 @@ export default {
                 canAdd: (this.propsModelValue.length<this.max),
                 ...merge
             };
+        },
+
+        callMethodSave() {
+            if (typeof this.methodSave != 'function') return;
+            this.methodSave();
         },
 
         dialogItem(item) {
@@ -124,6 +133,19 @@ export default {
                 this.propsModelValue.splice(index, 1);
                 this.dialogItem(false);
             });
+        },
+
+        async projectCreate(node) {
+            this.error = false;
+
+            try {
+                let { data: tevep } = await this.$axios.post('/api/teveps/save', node);
+                node.tevep_id = tevep.id;
+                this.callMethodSave();
+            }
+            catch(err) {
+                this.error = err.message;
+            }
         },
     },
 };

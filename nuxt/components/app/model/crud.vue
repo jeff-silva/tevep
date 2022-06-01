@@ -39,10 +39,9 @@
 
             <!-- Edit form -->
             <v-container :fluid="editFluid">
+                <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
+                <v-alert type="success" :rounded="0" @click="modelEdit.status=false" v-if="modelEdit.status==200">Dados salvos</v-alert>
                 <v-card>
-                    <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
-                    <v-alert type="success" :rounded="0" @click="modelEdit.status=false" v-if="modelEdit.status==200">Dados salvos</v-alert>
-
                     <slot name="edit-card" v-bind="slotBind()">
                         <v-card>
                             <v-card-text>
@@ -248,6 +247,13 @@ export default {
         editFluid: {default:false},
         tableActions: {type:Object, default:()=>({})},
         formActions: {type:Object, default:()=>({})},
+    },
+
+    watch: {
+        '$route.query.edit': {deep:true, handler(value) {
+            if (!value) return;
+            this.modelEditInit();
+        }},
     },
 
     async mounted() {

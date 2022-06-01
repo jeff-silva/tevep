@@ -9,6 +9,7 @@
                     :area-width="areaWidth"
                     singular="Tempo"
                     plural="Tempos"
+                    :method-save="methodSave"
                 >
                     <template #item="{ element }">
                         <v-text-field label="Data" v-model="element.date_start" hide-details></v-text-field>
@@ -26,6 +27,7 @@
                         layout="vertical"
                         singular="Piloto"
                         plural="Pilotos"
+                        :method-save="methodSave"
                         v-if="propsModelValue.meta.lugares.length"
                     >
                         <template #bottom="slot">
@@ -47,6 +49,9 @@
                         <v-col cols="12">
                             <v-text-field label="Nome do evento" hide-details v-model="propsModelValue.name"></v-text-field>
                         </v-col>
+                        <v-col cols="12" v-if="propsModelValue.parent_id">
+                            <v-btn block :to="`/admin/teveps?edit=${propsModelValue.parent_id}&meta_ref=${propsModelValue.meta_ref}`">Acessar evento pai</v-btn>
+                        </v-col>
                     </v-row>
                 </v-col>
 
@@ -58,6 +63,7 @@
                         layout="vertical"
                         singular="Convidado"
                         plural="Convidados"
+                        :method-save="methodSave"
                         v-if="propsModelValue.meta.lugares.length"
                     >
                         <template #bottom="slot">
@@ -74,6 +80,7 @@
                     :area-width="areaWidth"
                     singular="Lugar"
                     plural="Lugares"
+                    :method-save="methodSave"
                 >
                     <template #right="slot">
                         Add
@@ -94,6 +101,7 @@ export default {
     props: {
         modelValue: {type: Object},
         areaWidth: {default: 2000},
+        methodSave: {default:false, type:[Boolean, Function]},
     },
 
     computed: {

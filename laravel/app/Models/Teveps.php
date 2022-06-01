@@ -52,7 +52,7 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 			$this->owner_id = $user->id;
 		}
 
-		$this->meta = json_encode($this->metaDefault($this->meta));
+		$this->meta = $this->metaDefault($this->meta);
 	}
 
 
@@ -102,6 +102,7 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 					'date_final' => '',
 					'meta_ref' => uniqid(),
 					'parent_id' => $this->id,
+					'tevep_id' => '',
 				], $value);
 
 				// Setando data primeiro item
