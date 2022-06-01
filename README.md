@@ -8,6 +8,8 @@
 
 - [ ] Laravel
     - [ ] CRUD: Ação de deletar
+    - [ ] TEVEP
+        - [ ] Forçar Teveps pais e filhos ficarem sincronizados ao salvar
 - [ ] Nuxt
     - [ ] CRUD: Ação de deletar
     - [ ] Validações
@@ -18,6 +20,7 @@
     - [ ] Tevep
         - [ ] Permissão através de convite
         - [ ] Ao salvar, barra de loading não some
-        - [ ] Forçar Teveps pais e filhos ficarem sincronizados ao salvar
+        - [ ] Ao abrir modal de item, sincronizar pelo ID caso exista
+        - [ ] Ao alterar dados na modal de item, salvar pelo ID caso exista
 - [ ] Cordova
 - [ ] Electron

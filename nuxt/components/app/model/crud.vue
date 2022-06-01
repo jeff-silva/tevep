@@ -250,7 +250,7 @@ export default {
     },
 
     watch: {
-        '$route.query.edit': {deep:true, handler(value) {
+        '$route.query.edit': {deep:false, handler(value) {
             this.init();
         }},
     },
@@ -322,7 +322,7 @@ export default {
         init: useDebounceFn(function() {
             this.modelSearchInit();
             this.modelEditInit();
-        }, 500),
+        }, 100),
 
         async modelSearchInit() {
             if (this.isEditPage) return;

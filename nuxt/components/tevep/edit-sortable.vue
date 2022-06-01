@@ -44,7 +44,7 @@
                                     <v-spacer></v-spacer>
                                     <v-btn flat color="error" @click="remove(element)">Deletar</v-btn>
                                     <v-btn flat :to="`/admin/teveps?edit=${element.tevep_id}`" v-if="element.tevep_id" color="primary">Acessar projeto</v-btn>
-                                    <v-btn flat @click="projectCreate(element)" v-else>Converter em projeto</v-btn>
+                                    <v-btn flat @click="projectCreate(element)" v-else>Converter em novo projeto</v-btn>
                                     <v-btn flat color="primary" @click="dialogItem(false)">Ok</v-btn>
                                 </v-card-actions>
                             </v-card>
