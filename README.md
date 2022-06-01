@@ -16,7 +16,8 @@
     - [ ] Tornar componente app-model-file=select responsivo
     - [ ] emails-templates: Testar envio de e-mails
     - [ ] Tevep
-        - [ ] Criar sub evento
         - [ ] Permissão através de convite
+        - [ ] Ao salvar, barra de loading não some
+        - [ ] Forçar Teveps pais e filhos ficarem sincronizados ao salvar
 - [ ] Cordova
 - [ ] Electron

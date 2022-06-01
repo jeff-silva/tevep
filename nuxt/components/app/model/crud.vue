@@ -251,8 +251,7 @@ export default {
 
     watch: {
         '$route.query.edit': {deep:true, handler(value) {
-            if (!value) return;
-            this.modelEditInit();
+            this.init();
         }},
     },
 
@@ -320,10 +319,10 @@ export default {
             return params;
         },
 
-        init: useDebounceFn(async function() {
-            await this.modelSearchInit();
-            await this.modelEditInit();
-        }, 100),
+        init: useDebounceFn(function() {
+            this.modelSearchInit();
+            this.modelEditInit();
+        }, 500),
 
         async modelSearchInit() {
             if (this.isEditPage) return;
@@ -415,15 +414,14 @@ export default {
                     icon: 'mdi-close',
                     to: this.modelSearchUrl(),
                     click: () => {
-                        this.init();
+                        // this.init();
                     },
                 },
             }, this.formActions);
         },
 
         modelSearchUrl() {
-            let url = localStorage.getItem(`app-model-crud-${this.namespace}-search-url`);
-            return url || `/admin/${this.namespace}`;
+            return localStorage.getItem(`app-model-crud-${this.namespace}-search-url`) || `/admin/${this.namespace}`;
         },
 
         selectAll: useDebounceFn(function() {
