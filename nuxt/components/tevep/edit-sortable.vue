@@ -151,19 +151,6 @@ export default {
                 this.error = err.response.data.message;
             }
         },
-
-        async projectUpdate(node) {
-            if (!node.id) return;
-
-            try {
-                let { data: tevep } = await this.$axios.post('/api/teveps/save', node);
-                node.id = tevep.id;
-                // this.callMethodSave();
-            }
-            catch(err) {
-                this.error = err.response.data.message;
-            }
-        },
     },
 };
 </script>

@@ -7,8 +7,7 @@
 #### Conversão para Vue 3 + Nuxt 3 + Vuetify 3
 
 - [ ] Laravel
-    - [ ] TEVEP
-        - [ ] Forçar Teveps pais e filhos ficarem sincronizados ao salvar
+    - [x] TEVEP
 - [ ] Nuxt
     - [ ] Validações
     - [ ] Máscaras
@@ -16,10 +15,8 @@
     - [ ] Tornar componente app-model-file=select responsivo
     - [ ] emails-templates: Testar envio de e-mails
     - [ ] CRUD: Impedir bulk delete onde ação de deletar é ignorada
+    - [ ] Melhorar componente de login
     - [ ] Tevep
         - [ ] Permissão através de convite
-        - [ ] Ao salvar, barra de loading não some
-        - [ ] Ao abrir modal de item, sincronizar pelo ID caso exista
-        - [ ] Ao alterar dados na modal de item, salvar pelo ID caso exista
 - [ ] Cordova
 - [ ] Electron

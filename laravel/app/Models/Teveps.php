@@ -27,6 +27,46 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 	];
 
 
+	protected static function booted()
+	{
+		static::saved(function($model) {
+
+			// Sync childs
+			foreach(['tempos', 'pilotos', 'convidados', 'lugares'] as $attr) {
+				foreach($model->meta[ $attr ] as $node) {
+					if (! $node['id']) continue;
+					$save = self::find($node['id']);
+					$save->fill($node);
+					$save->save();
+				}
+			}
+
+			// Sync parent
+			if ($model->parent_id AND $model->meta_ref AND $parent = static::find($model->parent_id)) {
+				$can_update = false;
+				$meta = json_decode(json_encode($parent->meta), true);
+				foreach($meta as $attr => $values) {
+					foreach($values as $index => $value) {
+						if ($value['meta_ref'] == $model->meta_ref) {
+							$meta[$attr][$index]['name'] = $model->name;
+							$meta[$attr][$index]['date_start'] = $model->date_start;
+							$meta[$attr][$index]['date_final'] = $model->date_final;
+							$can_update = true;
+							break;
+						}
+					}
+				}
+
+				if ($can_update) {
+					\DB::table($parent->getTable())->where('id', $parent->id)->update([
+						'meta' => json_encode($meta),
+					]);
+				}
+			}
+		});
+	}
+
+
 	public function schemaFields()
 	{
 		return [
@@ -53,15 +93,6 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 		}
 
 		$this->meta = $this->metaDefault($this->meta);
-
-		foreach(['tempos', 'pilotos', 'convidados', 'lugares'] as $attr) {
-			foreach($this->meta[ $attr ] as $node) {
-				if (! $node['id']) continue;
-				$save = self::find($node['id']);
-				$save->fill($node);
-				$save->save();
-			}
-		}
 	}
 
 
