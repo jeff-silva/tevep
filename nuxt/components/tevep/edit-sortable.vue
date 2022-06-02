@@ -32,7 +32,11 @@
                             ></v-btn>
                         </div>
     
-                        <v-dialog :model-value="dialog && dialog.meta_ref==element.meta_ref" @click:outside="dialogItem(false)">
+                        <v-dialog
+                            :model-value="dialog && dialog.meta_ref==element.meta_ref"
+                            @click:outside="dialogItem(false)"
+                            @update:model-value="projectUpdate(element)"
+                        >
                             <v-card :title="plural" :subtitle="`Gerenciador de ${singular}`">
                                 <v-alert type="error" rounded="0" v-if="error">{{ error }}</v-alert>
                                 <v-card-text style="width:600px; max-width:95vw;">
@@ -45,7 +49,7 @@
                                     <v-btn flat color="error" @click="remove(element)">Deletar</v-btn>
                                     <v-btn flat :to="`/admin/teveps?edit=${element.id}`" v-if="element.id" color="primary">Acessar projeto</v-btn>
                                     <v-btn flat @click="projectCreate(element)" v-else>Converter em novo projeto</v-btn>
-                                    <v-btn flat color="primary" @click="projectUpdate(element).then(resp => dialogItem(false))">Ok</v-btn>
+                                    <v-btn flat color="primary" @click="dialogItem(false)">Ok</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -150,13 +154,12 @@ export default {
         },
 
         async projectUpdate(node) {
-            console.log({ ...node });
-            if (!node.parent_id) return;
+            if (!node.id) return;
 
             try {
                 let { data: tevep } = await this.$axios.post('/api/teveps/save', node);
                 node.id = tevep.id;
-                this.callMethodSave();
+                // this.callMethodSave();
             }
             catch(err) {
                 this.error = err.response.data.message;
