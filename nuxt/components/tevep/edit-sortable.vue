@@ -35,7 +35,6 @@
                         <v-dialog
                             :model-value="dialog && dialog.meta_ref==element.meta_ref"
                             @click:outside="dialogItem(false)"
-                            @update:model-value="projectUpdate(element)"
                         >
                             <v-card :title="plural" :subtitle="`Gerenciador de ${singular}`">
                                 <v-alert type="error" rounded="0" v-if="error">{{ error }}</v-alert>

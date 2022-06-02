@@ -53,6 +53,15 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 		}
 
 		$this->meta = $this->metaDefault($this->meta);
+
+		foreach(['tempos', 'pilotos', 'convidados', 'lugares'] as $attr) {
+			foreach($this->meta[ $attr ] as $node) {
+				if (! $node['id']) continue;
+				$save = self::find($node['id']);
+				$save->fill($node);
+				$save->save();
+			}
+		}
 	}
 
 
