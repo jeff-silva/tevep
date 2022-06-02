@@ -87,10 +87,10 @@ export default {
     },
 
     watch: {
-        $props: {deep:true, handler(value) {
-            this.inviteEdit.data.tevep_id = value.modelValue.id || false;
-            this.inviteResponse.data.tevep_id = value.modelValue.id || false;
-            this.invitesSearch.params.tevep_id = value.modelValue.id || false;
+        '$props.modelValue': {deep:false, handler(modelValue) {
+            this.inviteEdit.data.tevep_id = modelValue.id || false;
+            this.inviteResponse.data.tevep_id = modelValue.id || false;
+            this.invitesSearch.params.tevep_id = modelValue.id || false;
             this.invitesSearch.submit();
         }},
     },
