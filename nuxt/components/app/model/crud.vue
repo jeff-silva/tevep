@@ -5,7 +5,7 @@
                 <template v-for="(a, i) in alerts">
                     <v-alert v-bind="a" :rounded="0">
                         <template #append>
-                            <v-btn icon flat size="x-small" color="transparent" @click="alertRemove(a)">
+                            <v-btn icon flat size="x-small" color="transparent" @click="alertRemove(a.id)">
                                 <v-icon>mdi-close</v-icon>
                             </v-btn>
                         </template>
@@ -52,17 +52,15 @@
                 </v-navigation-drawer>
     
                 <!-- Edit form -->
-                <v-container :fluid="editFluid">
+                <v-container class="pa-0" :fluid="editFluid">
                     <v-progress-linear indeterminate v-if="modelEdit.loading"></v-progress-linear>
-                    <v-card>
-                        <slot name="edit-card" v-bind="slotBind()">
-                            <v-card>
-                                <v-card-text>
-                                    <slot name="edit-fields" v-bind="slotBind()"></slot>
-                                </v-card-text>
-                            </v-card>
-                        </slot>
-                    </v-card>
+                    <slot name="edit-card" v-bind="slotBind()">
+                        <v-card elevation="0">
+                            <v-card-text>
+                                <slot name="edit-fields" v-bind="slotBind()"></slot>
+                            </v-card-text>
+                        </v-card>
+                    </slot>
                 </v-container>
             </form>
         </div>
@@ -182,7 +180,7 @@
                         <!-- Empty -->
                         <tr v-if="!modelSearch.loading && modelSearch.resp.data.length==0">
                             <td colspan="100%">
-                                <div class="text-center">Nenhum item encontrado</div>
+                                <div class="text-center">Nenhum {{ singular }} encontrado</div>
                             </td>
                         </tr>
     
@@ -212,6 +210,7 @@
                         </tr>
                     </tbody>
                 </v-table>
+                <v-divider></v-divider>
     
                 <!-- Pagination -->
                 <v-card elevation="0">
@@ -312,7 +311,7 @@ export default {
                 onSubmited: (resp) => {
                     this.modelEdit.data = resp.data;
                     this.app.setTitle(`Editar ${this.singular}: ${this.modelEdit.data.name}`);
-                    this.alert({type:'success', text:`${this.singular} salvo`, timeout:5000});
+                    this.alert({type:'success', text:`${this.singular} salvo`});
                 },
             }),
             app: useApp(),
@@ -384,7 +383,7 @@ export default {
                 `Deletar estes ${this.plural}?`;
             this.$confirm(message).then(async resp => {
                 await this.$axios.post(`/api/${this.namespace}/delete`, { id });
-                this.alert({type:'success', text:`${this.singular} deletado`, timeout:5000});
+                this.alert({type:'success', text:`${this.singular} deletado`});
                 this.init();
             });
         },
@@ -392,7 +391,7 @@ export default {
         async modelRestore(id) {
             this.$confirm('Restaurar?').then(async resp => {
                 await this.$axios.post(`/api/${this.namespace}/restore`, { id });
-                this.alert({type:'success', text:`${this.singular} restaurado`, timeout:5000});
+                this.alert({type:'success', text:`${this.singular} restaurado`});
                 this.init();
             });
         },
@@ -428,6 +427,7 @@ export default {
                         this.$router.push({
                             query: {edit: 'new'},
                         });
+                        this.alert({type:'warning', text:`Este ${this.singular} está sendo clonado`});
                     },
                 },
                 delete: () => {
@@ -496,23 +496,33 @@ export default {
             }
 
             message = {
+                id: ('alert-'+ Math.round(Math.random()*9999)),
                 type: 'success',
                 text: '',
+                timeout: 10000,
                 ...message
             };
-            
-            this.alerts.push(message);
 
             if (message.timeout) {
-                setTimeout(() => {
-                    this.alertRemove(message);
+                message.timeout = setTimeout(() => {
+                    this.alertRemove(message.id);
                 }, message.timeout);
             }
+
+            this.alerts.push(message);
         },
 
-        alertRemove(message) {
-            const index = this.alerts.indexOf(message);
-            this.alerts.splice(index, 1);
+        alertRemove(id) {
+            for(const i in this.alerts) {
+                const message = this.alerts[i];
+
+                if (message.id==id) {
+                    if (message.timeout) {
+                        clearTimeout(message.timeout);
+                    }
+                    this.alerts.splice(i, 1);
+                }
+            }
         },
     },
 
