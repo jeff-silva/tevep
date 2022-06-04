@@ -40,7 +40,7 @@
                 <!-- Nome e datas -->
                 <v-col cols="6" class="text-center">
                     <v-row class="mx-auto app-tevep-edit-center" style="max-width:350px;">
-                        <v-col cols="12" md="6">
+                        <v-col cols="12">
                             <v-text-field
                                 label="Data início"
                                 prepend-inner-icon="mdi-calendar"
@@ -49,7 +49,7 @@
                                 v-if="propsModelValue.name"
                             ></v-text-field>
                         </v-col>
-                        <v-col cols="12" md="6">
+                        <v-col cols="12">
                             <v-text-field
                                 label="Data fim"
                                 prepend-inner-icon="mdi-calendar"
@@ -100,11 +100,10 @@
                 </tevep-edit-sortable>
             </div>
 
-            <div class="text-center my-5">
+            <div class="text-center my-5" v-if="+$route.query.edit">
                 <tevep-edit-invites v-model="modelValue"></tevep-edit-invites>
             </div>
         </div>
-        <!-- <pre>{{ modelValue }}</pre> -->
     </div>
 </template>
 
