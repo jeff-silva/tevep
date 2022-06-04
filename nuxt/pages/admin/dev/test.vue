@@ -6,22 +6,22 @@
                     <v-text-field
                         label="name"
                         v-model="validData.name"
-                        :rules="valid.rules('name')"
+                        :rules="valid.rules('name', ['required'])"
                     ></v-text-field>
 
                     <v-text-field
                         label="email"
                         v-model="validData.email"
-                        :rules="valid.rules('email')"
+                        :rules="valid.rules('email', ['email'])"
                     ></v-text-field>
 
                     <v-text-field
                         label="subject"
                         v-model="validData.subject"
-                        :rules="valid.rules('subject')"
+                        :rules="valid.rules('subject', ['min:10', 'max:20'])"
                     ></v-text-field>
     
-                    <v-btn type="submit">validate</v-btn>
+                    <v-btn type="submit" :disabled="valid.invalid">validate</v-btn>
                 </form>
 
 
@@ -39,10 +39,6 @@ export default {
             validData: {name:''},
             valid: useValidation(),
         };
-    },
-
-    mounted() {
-        this.valid.setData(this.validData);
     },
 };
 </script>
