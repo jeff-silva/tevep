@@ -37,12 +37,12 @@
                                             <v-text-field
                                                 label="Nome"
                                                 v-model="crud.edit.name"
-                                                :rules="valid.rules('name', ['required'])"
+                                                :rules="crud.valid.rules('name', ['required'])"
                                             ></v-text-field>
                                             <v-text-field
                                                 label="E-mail"
                                                 v-model="crud.edit.email"
-                                                :rules="valid.rules('email', ['email'])"
+                                                :rules="crud.valid.rules('email', ['email'])"
                                             ></v-text-field>
                                             <app-model-select label="Grupo" v-model="crud.edit.group_id" namespace="users-groups"></app-model-select>
                                             <div class="d-flex">
@@ -69,7 +69,6 @@ export default {
     data() {
         return {
             tab: 'home',
-            valid: useValidation(),
         };
     },
 };

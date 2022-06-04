@@ -20,7 +20,7 @@
                 <app-actions>
                     <v-btn icon="mdi-plus-circle" @click="modelEditDrawer=true" v-if="!responsive.desktop"></v-btn>
     
-                    <template v-for="(a, i) in getFormActions()">
+                    <template v-for="(a, i) in getFormActions">
                         <v-btn
                             v-bind="a"
                             @click="(typeof a.click=='function'? a.click(modelEdit.data, $event): null)"
@@ -36,7 +36,7 @@
                 >
                     <v-card :title="app.title" :elevation="0">
                         <v-card-content>
-                            <template v-for="(a, i) in getFormActions()">
+                            <template v-for="(a, i) in getFormActions">
                                 <v-btn
                                     v-bind="a"
                                     block
@@ -283,6 +283,27 @@ export default {
         isEditPage() {
             return Object.keys(this.$route.query).includes('edit');
         },
+
+        getFormActions() {
+            const item = this.modelEdit.data;
+            return this.mergeActions(item, {
+                save: {
+                    name: 'Salvar',
+                    icon: 'mdi-content-save',
+                    type: 'submit',
+                    color: 'primary',
+                    disabled: this.valid.invalid,
+                },
+                cancel: {
+                    name: 'Cancelar',
+                    icon: 'mdi-close',
+                    to: this.modelSearchUrl(),
+                    click: () => {
+                        // this.init();
+                    },
+                },
+            }, this.formActions);
+        },
     },
 
     data() {
@@ -315,6 +336,7 @@ export default {
                 },
             }),
             app: useApp(),
+            valid: useValidation(),
             selectedAll: false,
             selectedIds: [],
             responsive,
@@ -330,6 +352,7 @@ export default {
                 edit: this.modelEdit.data,
                 responsive: this.responsive,
                 alert: this.alert,
+                valid: this.valid,
                 ...merge
             };
         },
@@ -455,26 +478,6 @@ export default {
             };
             
             return this.mergeActions(item, actsDefault, this.tableActions);
-        },
-        
-        getFormActions() {
-            const item = this.modelEdit.data;
-            return this.mergeActions(item, {
-                save: {
-                    name: 'Salvar',
-                    icon: 'mdi-content-save',
-                    type: 'submit',
-                    color: 'primary',
-                },
-                cancel: {
-                    name: 'Cancelar',
-                    icon: 'mdi-close',
-                    to: this.modelSearchUrl(),
-                    click: () => {
-                        // this.init();
-                    },
-                },
-            }, this.formActions);
         },
 
         modelSearchUrl() {
