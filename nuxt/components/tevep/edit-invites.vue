@@ -90,8 +90,7 @@ export default {
         '$props.modelValue': {deep:false, handler(modelValue) {
             this.inviteEdit.data.tevep_id = modelValue.id || false;
             this.inviteResponse.data.tevep_id = modelValue.id || false;
-            this.invitesSearch.params.tevep_id = modelValue.id || false;
-            this.invitesSearch.submit();
+            this.invitesSearchSubmit();
         }},
     },
 
@@ -107,6 +106,12 @@ export default {
             this.inviteResponse.data = data;
             await this.inviteResponse.submit();
             await this.invitesSearch.submit();
+        },
+        async invitesSearchSubmit(data, status) {
+            let modelValue = this.modelValue;
+            if (!+modelValue.id) return;
+            this.invitesSearch.params.tevep_id = modelValue.id || false;
+            this.invitesSearch.submit();
         },
     },
 

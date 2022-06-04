@@ -39,12 +39,24 @@
                 
                 <!-- Nome e datas -->
                 <v-col cols="6" class="text-center">
-                    <v-row class="mx-auto app-tevep-edit-center" style="max-width:350px;" v-if="propsModelValue.name">
+                    <v-row class="mx-auto app-tevep-edit-center" style="max-width:350px;">
                         <v-col cols="12" md="6">
-                            <v-text-field label="Data início" prepend-inner-icon="mdi-calendar" hide-details v-model="propsModelValue.date_start"></v-text-field>
+                            <v-text-field
+                                label="Data início"
+                                prepend-inner-icon="mdi-calendar"
+                                hide-details
+                                v-model="propsModelValue.date_start"
+                                v-if="propsModelValue.name"
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6">
-                            <v-text-field label="Data fim" prepend-inner-icon="mdi-calendar" hide-details v-model="propsModelValue.date_final"></v-text-field>
+                            <v-text-field
+                                label="Data fim"
+                                prepend-inner-icon="mdi-calendar"
+                                hide-details
+                                v-model="propsModelValue.date_final"
+                                v-if="propsModelValue.name"
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12">
                             <v-text-field label="Nome do evento" hide-details v-model="propsModelValue.name"></v-text-field>
