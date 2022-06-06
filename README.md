@@ -9,11 +9,12 @@
 - [ ] Laravel
     - [x] TEVEP
 - [ ] Nuxt
-    - [ ] Validações
     - [ ] Máscaras
     - [ ] Editor de código dentro do componente app-html
     - [ ] Tornar componente app-model-file=select responsivo
     - [ ] emails-templates: Testar envio de e-mails
+    - [ ] Dark mode
+    - [ ] User settings
     - [ ] CRUD
         - [ ] Impedir bulk delete onde ação de deletar é ignorada
         - [ ] Se não é possível deletar, não há necessidade de filtro "deletados"
