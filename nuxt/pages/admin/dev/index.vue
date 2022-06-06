@@ -2,6 +2,7 @@
     <div>
         <nuxt-layout name="admin">
             <v-container>
+                <pre>{{ endpoints }}</pre>
                 <v-text-field label="Filtrar endpoints" v-model="filter" :hide-details="true"></v-text-field>
     
                 <v-table>

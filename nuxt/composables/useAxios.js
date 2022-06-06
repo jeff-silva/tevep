@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useAppStore } from '@/stores/app';
-// import useValidation from './useValidation';
 
 
 export default function(axiosParams={}) {
@@ -10,33 +9,27 @@ export default function(axiosParams={}) {
     axiosParams.headers['Content-Type'] = 'multipart/form-data';
 
     const app = useAppStore();
+    const axiosData = {
+        method: (axiosParams.method||'get'),
+        url: (axiosParams.url||''),
+        headers: (axiosParams.headers||{}),
+    };
+
+    let cancelTokenSource = false;
+    let onSubmit = (axiosParams.onSubmit||false);
+    let onSubmited = (axiosParams.onSubmited||false);
+    let paramsTimeout = false;
 
     let req = ref({
         loading: false,
         status: false,
-        axios: {
-            method: (axiosParams.method||'get'),
-            url: (axiosParams.url||''),
-            headers: (axiosParams.headers||{}),
-        },
         params: (axiosParams.params||{}),
         data: (axiosParams.data||{}),
-        resp: (axiosParams.resp||{}),
         err: {message:false, fields:{}},
-        timeout: false,
-        cancelTokenSource: false,
-        onSubmit: (axiosParams.onSubmit||false),
-        onSubmited: (axiosParams.onSubmited||false),
-        validation: (axiosParams.validation||false),
+        resp: (axiosParams.resp||{}),
     });
 
     const mountedSubmit = !!axiosParams.submit;
-
-    req.value.validate = () => {
-        // if (typeof req.value.validation!='function') return;
-        // let data = {...(req.value.params||{}), ...(req.value.data||{})};
-        // let valid = req.value.validation(useValidation().value);
-    };
     
     req.value.errorField = (name) => {
         return req.value.err.fields[name] || [];
@@ -44,8 +37,8 @@ export default function(axiosParams={}) {
 
     req.value.cancel = () => {
         req.value.loading = false;
-        if (!req.value.cancelTokenSource) return;
-        req.value.cancelTokenSource.cancel();
+        if (!cancelTokenSource) return;
+        cancelTokenSource.cancel();
     };
     
     req.value.reset = () => {
@@ -60,8 +53,6 @@ export default function(axiosParams={}) {
 
     req.value.submit = async (submitParams={}) => {
         return new Promise((resolve, reject) => {
-            req.value.validate();
-
             req.value.loading = true;
             req.value.err = {message:false, fields:{}};
             
@@ -74,7 +65,7 @@ export default function(axiosParams={}) {
                 req.value.data = submitParams.data;
             }
 
-            req.value.axios.params = req.value.params;
+            axiosData.params = req.value.params;
 
             let formData = new FormData();
             for(let i in req.value.data) {
@@ -86,10 +77,10 @@ export default function(axiosParams={}) {
 
                 formData.append(i, value);
             }
-            req.value.axios.data = formData;
+            axiosData.data = formData;
 
-            if (typeof req.value.onSubmit=='function') {
-                req.value.onSubmit(req.value);
+            if (typeof onSubmit=='function') {
+                onSubmit(req.value);
             }
 
             // Axios error
@@ -97,10 +88,9 @@ export default function(axiosParams={}) {
                 req.value.loading = false;
                 req.value.status = resp.status;
                 req.value.resp = resp.data;
-                req.value.timeout = false;
 
-                if (typeof req.value.onSubmited=='function') {
-                    req.value.onSubmited(resp);
+                if (typeof onSubmited=='function') {
+                    onSubmited(resp);
                 }
 
                 resolve(resp);
@@ -108,6 +98,7 @@ export default function(axiosParams={}) {
 
             const axiosCatch = (err) => {
                 req.value.loading = false;
+                req.value.status = err.response.status;
                 req.value.err = {
                     message: err.response.data.message,
                     fields: err.response.data.fields,
@@ -117,16 +108,16 @@ export default function(axiosParams={}) {
 
             // Debounce submit
             if (!isNaN(submitParams.debounce)) {
-                if (req.value.timeout) {
-                    clearTimeout(req.value.timeout);
+                if (paramsTimeout) {
+                    clearTimeout(paramsTimeout);
                 }
-                return req.value.timeout = setTimeout(() => {
-                    axios(req.value.axios).then(axiosThen).catch(axiosCatch);
+                return paramsTimeout = setTimeout(() => {
+                    axios(axiosData).then(axiosThen).catch(axiosCatch);
                 }, submitParams.debounce);
             }
             
             // Submit
-            axios(req.value.axios).then(axiosThen).catch(axiosCatch);
+            axios(axiosData).then(axiosThen).catch(axiosCatch);
         });
     };
 
