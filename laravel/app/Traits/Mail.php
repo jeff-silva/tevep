@@ -76,7 +76,9 @@ trait Mail {
         $body = $this->body;
         
         \Mail::send([], [], function ($message) use ($emails, $subject, $body) {
-            $message->to($emails)->subject($subject)->setBody($template, 'text/html');
+            $message->to($emails)->subject($subject)->setBody($body, 'text/html');
         });
+
+        return $this;
     }
 }

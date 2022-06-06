@@ -7,7 +7,7 @@ class UserPasswordReset
     use \App\Traits\Mail;
 
 
-    public function __construct(\App\Models\User $user)
+    public function __construct(\App\Models\Users $user)
     {
         $this->setData(compact('user'));
     }
@@ -46,7 +46,7 @@ class UserPasswordReset
 
     static function test()
     {
-        $user = \App\Models\User::inRandomOrder()->limit(1)->first();
+        $user = \App\Models\Users::inRandomOrder()->limit(1)->first();
         return new self($user);
     }
 }

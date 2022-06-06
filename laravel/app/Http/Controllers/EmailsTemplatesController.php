@@ -27,7 +27,7 @@ class EmailsTemplatesController extends Controller
 	public function test()
 	{
 		if ($template = \App\Models\EmailsTemplates::find(request('id'))) {
-			return (array) $template->test();
+			return $template->test()->sendTo(request('email'));
 		}
 		
 		return false;

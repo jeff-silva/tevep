@@ -14,7 +14,10 @@
     - [ ] Editor de código dentro do componente app-html
     - [ ] Tornar componente app-model-file=select responsivo
     - [ ] emails-templates: Testar envio de e-mails
-    - [ ] CRUD: Impedir bulk delete onde ação de deletar é ignorada
+    - [ ] Limpar objeto useAxios
+    - [ ] CRUD
+        - [ ] Impedir bulk delete onde ação de deletar é ignorada
+        - [ ] Se não é possível deletar, não há necessidade de filtro "deletados"
     - [ ] Melhorar componente de login
     - [ ] Tevep
         - [ ] Permissão através de convite

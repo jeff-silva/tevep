@@ -39,13 +39,21 @@
                 </template>
             </app-model-crud>
 
-            <v-dialog v-model="mailTest.dialog">
-                <v-card :title="mailTest.data.name" :subtitle="`Testar envio de ${mailTest.data.name} para:`" width="900px" max-width="90vw">
+            <v-dialog v-model="mailTestDialog">
+                <v-card :title="mailTest.data.name" :subtitle="`Testar envio de ${mailTest.data.name} para:`" width="700px" max-width="90vw">
+                    <v-progress-linear
+                        indeterminate
+                        v-if="mailTest.loading"
+                    ></v-progress-linear>
+                    <v-alert type="success" rounded="0" v-if="mailTest.status==200">Teste enviado</v-alert>
+                    <v-alert type="error" rounded="0" v-if="mailTest.err.message">{{ mailTest.err.message }}</v-alert>
                     <v-card-text>
-                        <v-text-field label="E-mail" hide-details :model-value="app.user.email"></v-text-field>
+                        <v-text-field label="E-mail" hide-details v-model="mailTest.data.email"></v-text-field>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn color="primary" @click="mailTestOpen(false)">Enviar</v-btn>
+                        <v-btn @click="mailTestOpen(false)">Fechar</v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" @click="mailTest.submit()" :disabled="mailTest.loading">Enviar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -59,22 +67,20 @@ export default {
     methods: {
         mailTestOpen(data) {
             if (!data) {
-                this.mailTest.dialog = false;
-                this.mailTest.data = {};
+                this.mailTestDialog = false;
+                this.mailTest.status = false;
+                this.mailTest.data = {id:'', name:''};
                 return;
             }
 
-            this.mailTest.dialog = true;
-            this.mailTest.data = data;
+            this.mailTestDialog = true;
+            this.mailTest.data.id = data.id;
+            this.mailTest.data.email = this.app.user.email;
         },
     },
 
     data() {
         return {
-            mailTest: {
-                dialog: false,
-                data: {},
-            },
             tableActions: {
                 clone: false,
                 delete: false,
@@ -95,6 +101,19 @@ export default {
                 },
             },
             app: useApp(),
+            mailTest: {
+                dialog: false,
+                data: {},
+            },
+            mailTestDialog: false,
+            mailTest: useAxios({
+                method: 'post',
+                url: '/api/emails-templates/test',
+                data: {
+                    id: '',
+                    email: '',
+                },
+            }),
         };
     },
 };

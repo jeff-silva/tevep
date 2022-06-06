@@ -12,7 +12,7 @@ class TevepInvite
         $invite = \App\Models\TevepsInvites::find($invite_id);
         $tevep = \App\Models\Teveps::find($invite->tevep_id);
         $email = $invite->user_email;
-        $user = \App\Models\User::where('email', $invite->user_email)->first();
+        $user = \App\Models\Users::where('email', $invite->user_email)->first();
         $this->setData(compact('invite', 'tevep', 'email', 'user'));
     }
 

@@ -22,6 +22,7 @@ return [
         'mail.mailers.smtp.port',
         'mail.mailers.smtp.username',
         'mail.mailers.smtp.password',
+        'mail.mailers.smtp.timeout',
         'mail.from.address',
         'mail.from.name',
         'app_models_files.storage_type',

@@ -10,6 +10,7 @@
             <draggable 
                 v-model="propsModelValue"
                 :animation="150"
+                animation=".tevep-edit-sortable-drag"
                 :class="{
                     'd-flex flex-column':layout=='vertical',
                     'd-flex':layout=='horizontal',
@@ -18,7 +19,7 @@
                 <template #item="{ element, index }">
                     <div :class="{'bg-blue-lighten-4':($route.query.meta_ref==element.meta_ref)}">
                         <div class="flex-grow-1 d-flex align-center ma-1" :style="layout=='horizontal'? `width:${(areaWidth/max)-7}px;`: ``">
-                            <v-icon class="mx-2" style="cursor:move;">mdi-drag</v-icon>
+                            <v-icon class="mx-2 tevep-edit-sortable-drag" style="cursor:move;">mdi-drag</v-icon>
                             <div class="flex-grow-1">
                                 <slot name="item" v-bind="this.slotBind({element})">
                                     <v-text-field :label="`${singular} ${index+1}`" hide-details v-model="element.name"></v-text-field>

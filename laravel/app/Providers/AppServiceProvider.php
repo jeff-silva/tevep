@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {   
         if (\Schema::hasTable('settings')) {
-            config(\App\Models\Settings::getAll());
+            config(\App\Models\Settings::getAll(true));
             \App::setLocale(config('app.locale'));
         }
     }

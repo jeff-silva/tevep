@@ -86,6 +86,12 @@ class Users extends Authenticatable implements JWTSubject
 	}
 
 
+	public function getVerifyLink()
+	{
+		return '?verify-link';
+	}
+
+
 	public static function permissions()
 	{
 		return [
