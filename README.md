@@ -10,6 +10,7 @@
     - [x] TEVEP
 - [ ] Nuxt
     - [ ] Máscaras
+    - [ ] WYSIWYG
     - [ ] Editor de código dentro do componente app-html
     - [ ] Tornar componente app-model-file=select responsivo
     - [ ] emails-templates: Testar envio de e-mails

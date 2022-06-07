@@ -22,7 +22,7 @@ export default {
         '$props.modelValue': {handler(value) {
             let monaco = this.monacoInit();
             monaco.getModel().setValue(value);
-            this.$emit('update:modelValue', value);
+            // this.$emit('update:modelValue', value);
         }},
     },
 

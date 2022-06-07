@@ -24,9 +24,9 @@
                     <v-btn type="submit" :disabled="valid.invalid">validate</v-btn>
                 </form>
 
+                <app-html v-model="html"></app-html>
 
-                <pre>validData: {{ validData }}</pre>
-                <pre>valid: {{ valid }}</pre>
+                <pre>$data: {{ $data }}</pre>
             </v-container>
         </nuxt-layout>
     </div>
@@ -36,6 +36,7 @@
 export default {
     data() {
         return {
+            html: 'Hello world! <br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, provident repellat cupiditate doloribus explicabo quae facilis distinctio ipsum perspiciatis velit placeat quibusdam sequi aliquid temporibus in et cum asperiores quisquam!',
             validData: {name:''},
             valid: useValidation(),
         };
