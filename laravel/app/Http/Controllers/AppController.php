@@ -9,7 +9,7 @@ class AppController extends Controller
 		$this->model = new \App\Models\Settings;
 
 		$this->middleware('auth:api', [
-			'except' => ['load', 'endpoints', 'test', 'script', 'info'],
+			'except' => ['load', 'swagger', 'test', 'script', 'info'],
 		]);
 
 		$this->route('post', '/load', 'load', [
@@ -20,8 +20,8 @@ class AppController extends Controller
 			'description' => 'Busca geral do sistema',
 		]);
 		
-		$this->route('get', '/endpoints', 'endpoints', [
-			'description' => 'Lista de endpoints do sistema',
+		$this->route('get', '/swagger', 'swagger', [
+			'description' => 'Dados swagger',
 		]);
 
 		$this->route('get', '/dashboard', 'dashboard', [
@@ -167,27 +167,10 @@ class AppController extends Controller
 		});
 	}
 
-	
-	public function endpoints()
+
+	public function swagger()
 	{
-		$routes = [];
-
-		foreach(\Route::getRoutes() as $item) {
-			$route = (object) [
-				'uri' => $item->uri(),
-				'methods' => $item->methods(),
-				'parameterNames' => $item->parameterNames(),
-				'name' => $item->getName(),
-			];
-
-			if ($route->uri=='{path}') continue;
-			if (\Str::startsWith($route->uri, '_ignition')) continue;
-			if (\Str::startsWith($route->uri, 'sanctum')) continue;
-
-			$routes[] = $route;
-		}
-
-		return $routes;
+		return \App\Utils::swagger();
 	}
 
 	

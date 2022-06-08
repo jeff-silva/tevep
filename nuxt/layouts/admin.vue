@@ -97,6 +97,7 @@
                 <app-nav :items="[
                     {label: 'Developers', children: [
                         {label: 'Home', to: '/admin/dev'},
+                        {label: 'Swagger', to: '/admin/dev/swagger'},
                         {label: 'Test', to: '/admin/dev/test'},
                     ]},
                 ]"></app-nav>

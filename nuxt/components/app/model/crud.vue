@@ -20,7 +20,7 @@
                 <app-actions>
                     <v-btn icon="mdi-plus-circle" @click="modelEditDrawer=true" v-if="!responsive.desktop"></v-btn>
     
-                    <template v-for="(a, i) in getFormActions">
+                    <template v-for="a in getFormActions">
                         <v-btn
                             v-bind="a"
                             @click="(typeof a.click=='function'? a.click(modelEdit.data, $event): null)"
@@ -31,12 +31,12 @@
                 <!-- Edit drawer -->
                 <v-navigation-drawer
                     v-model="modelEditDrawer"
-                    position="right"
+                    location="right"
                     width="300"
                 >
                     <v-card :title="app.title" :elevation="0">
                         <v-card-content>
-                            <template v-for="(a, i) in getFormActions">
+                            <template v-for="a in getFormActions">
                                 <v-btn
                                     v-bind="a"
                                     block
@@ -77,11 +77,12 @@
                     </template>
     
                     <v-list style="width:180px;">
-                        <v-list-item
-                            :title="e.name"
-                            v-for="e in modelSearch.resp.exportUrls"
-                            @click="exportDownload(e)"
-                        ></v-list-item>
+                        <template v-for="e in modelSearch.resp.exportUrls">
+                            <v-list-item
+                                :title="e.name"
+                                @click="exportDownload(e)"
+                            ></v-list-item>
+                        </template>
                     </v-list>
                 </v-menu>
     
@@ -91,7 +92,7 @@
             <!-- Search drawer -->
             <v-navigation-drawer
                 v-model="modelSearchDrawer"
-                position="right"
+                location="right"
                 width="300"
             >
                 <v-card :title="app.title" :elevation="0">
@@ -195,14 +196,18 @@
                             </td>
                             <slot name="search-table-item" v-bind="slotBind({item})"></slot>
                             <td class="app-model-crud-table-actions pa-1">
-                                <v-menu anchor="start">
+                                <v-menu location="start">
                                     <template #activator="{ props }">
                                         <v-btn icon="mdi-dots-vertical" v-bind="props" flat></v-btn>
                                     </template>
     
                                     <div class="search-table-item-actions">
                                         <template v-for="act in getTableActions(item)">
-                                            <v-btn v-bind="act" class="me-2" @click="(typeof act.click=='function'? act.click(item, $event): null)"></v-btn>
+                                            <v-btn
+                                                v-bind="act"
+                                                class="me-2"
+                                                @click="(typeof act.click=='function'? act.click(item, $event): null)"
+                                            ></v-btn>
                                         </template>
                                     </div>
                                 </v-menu>
@@ -427,7 +432,7 @@ export default {
                     act = act(item);
                 }
                 if (!act) { delete acts[i]; continue; }
-                acts[i] = { name: '', ...act };
+                acts[i] = { id: i, name: '', ...act };
             }
             return Object.values(acts);
         },

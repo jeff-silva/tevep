@@ -143,6 +143,9 @@ class Controller extends BaseController
     }
 
 
+    /**
+     * Salvar dados
+     */
     public function save()
     {
         return $this->model->updateOrCreate(['id' => request('id')], request()->all());
