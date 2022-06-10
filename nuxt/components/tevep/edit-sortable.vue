@@ -1,6 +1,8 @@
 <template>
-    <div class="text-center">
-        <div class="mb-3"><strong>{{ plural }}</strong></div>
+    <v-card>
+        <v-card-header style="background:#eee;">
+            {{ plural }}
+        </v-card-header>
         <div
             :class="{
                 'd-flex flex-column': (layout=='vertical'),
@@ -10,7 +12,7 @@
             <draggable 
                 v-model="propsModelValue"
                 :animation="150"
-                animation=".tevep-edit-sortable-drag"
+                handle=".tevep-edit-sortable-drag"
                 :class="{
                     'd-flex flex-column':layout=='vertical',
                     'd-flex':layout=='horizontal',
@@ -32,7 +34,7 @@
                                 @click="dialogItem(element)"
                             ></v-btn>
                         </div>
-    
+
                         <v-dialog
                             :model-value="dialog && dialog.meta_ref==element.meta_ref"
                             @click:outside="dialogItem(false)"
@@ -59,8 +61,8 @@
 
             <div
                 :class="{
-                    'd-flex text-center mt-3':(layout=='vertical'),
-                    'd-flex':(layout=='horizontal'),
+                    'd-flex my-2 text-center':(layout=='vertical'),
+                    'd-flex my-2 ms-2':(layout=='horizontal'),
                 }"
             >
                 <v-btn
@@ -72,7 +74,12 @@
                 ></v-btn>
             </div>
         </div>
+    </v-card>
+    <!--
+    <div class="text-center">
+        <div class="mb-3"><strong>{{ plural }}</strong></div>
     </div>
+    -->
 </template>
 
 <script>

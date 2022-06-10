@@ -1,49 +1,55 @@
 <template>
     <div>
-        <div class="d-inline-flex flex-wrap align-center">
-            <div class="pa-3"><strong>Convites</strong></div>
-            <div class="pa-3">
-                <a href="javascript:;" @click="inviteEditModal=true">
-                    <img style="height:40px;" src="/files/icons/raquete-preta.png" alt="">
-                </a>
-            </div>
-            <div class="pa-3" v-for="r in invitesSearch.resp.data">
-                <v-tooltip anchor="top">
-                    <template #activator="{ props }">
-                        <v-btn v-bind="props" flat style="height:auto" @click="inviteViewModal=r.id">
-                            <template v-if="r.status=='accepted'">
-                                <img style="height:40px;" src="/files/icons/raquete-verde.png">
-                            </template>
-                            <template v-else-if="r.status=='denied'">
-                                <img style="height:40px;" src="/files/icons/raquete-vermelha.png">
-                            </template>
-                            <template v-else>
-                                <img style="height:40px;" src="/files/icons/raquete-amarela.png">
-                            </template>
-                        </v-btn>
-                    </template>
-
+        <v-card>
+            <v-card-title style="background:#eee;">
+                Convites
+            </v-card-title>
+            <v-card-text>
+                <div class="d-inline-flex flex-wrap align-center">
                     <div>
-                        {{ r.user_email }}
+                        <a href="javascript:;" @click="inviteEditModal=true">
+                            <img style="height:40px;" src="/files/icons/raquete-preta.png" alt="">
+                        </a>
                     </div>
-                </v-tooltip>
+                    <div class="ps-3" v-for="r in invitesSearch.resp.data">
+                        <v-tooltip anchor="top">
+                            <template #activator="{ props }">
+                                <v-btn v-bind="props" flat style="height:auto" @click="inviteViewModal=r.id">
+                                    <template v-if="r.status=='accepted'">
+                                        <img style="height:40px;" src="/files/icons/raquete-verde.png">
+                                    </template>
+                                    <template v-else-if="r.status=='denied'">
+                                        <img style="height:40px;" src="/files/icons/raquete-vermelha.png">
+                                    </template>
+                                    <template v-else>
+                                        <img style="height:40px;" src="/files/icons/raquete-amarela.png">
+                                    </template>
+                                </v-btn>
+                            </template>
 
-                <!-- Modal visualização de convite -->
-                <v-dialog :model-value="inviteViewModal==r.id" @click:outside="inviteViewModal=false">
-                    <v-card :title="`Convite ${r.user_email}`" subtitle="Detalhes do convite" style="width:600px; max-width:90vw;">
-                        <v-card-text>
-                            <v-alert type="success" v-if="r.status=='accepted'">{{ r.user_email }} aceitou o convite.</v-alert>
-                            <v-alert type="error" v-else-if="r.status=='denied'">{{ r.user_email }} não aceitou o convite.</v-alert>
-                            <v-alert type="warning" v-else>{{ r.user_email }} não respondeu ao convite.</v-alert>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn @click="inviteViewModal=false">Ok</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-            </div>
-        </div>
+                            <div>
+                                {{ r.user_email }}
+                            </div>
+                        </v-tooltip>
+
+                        <!-- Modal visualização de convite -->
+                        <v-dialog :model-value="inviteViewModal==r.id" @click:outside="inviteViewModal=false">
+                            <v-card :title="`Convite ${r.user_email}`" subtitle="Detalhes do convite" style="width:600px; max-width:90vw;">
+                                <v-card-text>
+                                    <v-alert type="success" v-if="r.status=='accepted'">{{ r.user_email }} aceitou o convite.</v-alert>
+                                    <v-alert type="error" v-else-if="r.status=='denied'">{{ r.user_email }} não aceitou o convite.</v-alert>
+                                    <v-alert type="warning" v-else>{{ r.user_email }} não respondeu ao convite.</v-alert>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn @click="inviteViewModal=false">Ok</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </div>
+                </div>
+            </v-card-text>
+        </v-card>
 
         <!-- Modal criar convite -->
         <v-dialog v-model="inviteEditModal">
