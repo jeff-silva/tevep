@@ -1,3 +1,4 @@
+<!-- Laravel Analytics: https://github.com/spatie/laravel-analytics -->
 <template>
     <div>
         <v-row>

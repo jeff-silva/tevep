@@ -13,7 +13,7 @@ class SettingsController extends Controller
 		]);
 
 		$this->defaultRoutes([
-			'except' => ['search', 'find', 'save', 'valid', 'delete', 'restore', 'clone'],
+			'except' => ['search', 'find', 'save', 'valid', 'delete', 'restore', 'clone', 'export'],
 		]);
 
 		$this->route('post', '/save', 'saveAll');

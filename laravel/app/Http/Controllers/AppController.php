@@ -6,7 +6,7 @@ class AppController extends Controller
 {
 	public function __construct()
 	{
-		$this->model = new \App\Models\Settings;
+		// $this->model = new \App\Models\Settings;
 
 		$this->middleware('auth:api', [
 			'except' => ['load', 'swagger', 'test', 'script', 'info'],
@@ -38,6 +38,9 @@ class AppController extends Controller
 	}
 
 
+	/**
+	 * Configurações iniciais da aplicação
+	 */
 	public function load()
 	{
 		$load = [];
@@ -80,6 +83,9 @@ class AppController extends Controller
 	}
 
 
+	/**
+	 * Pesquisa global em todos os models da aplicação
+	 */
 	public function search()
 	{
 		$q = request('q', '');
@@ -168,12 +174,18 @@ class AppController extends Controller
 	}
 
 
+	/**
+	 * JSON swagger
+	 */
 	public function swagger()
 	{
 		return \App\Utils::swagger();
 	}
 
 	
+	/**
+	 * Dados do dashboard
+	 */
 	public function dashboard()
 	{
 		$return = [];

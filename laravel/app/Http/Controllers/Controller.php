@@ -11,14 +11,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public $generatedRoutes = [];
-
-    public function getGeneratedRoutes()
-    {
-        return $this->generatedRoutes;
-    }
-    
-
     public function route($methods, $path, $callback, $info=[])
     {
         $methods = is_array($methods)? $methods: [$methods];
@@ -33,19 +25,6 @@ class Controller extends BaseController
             if (empty($except)) return false;
             return in_array($callback, $middle['options']['except']);
         }));
-
-        $this->generatedRoutes[] = (object) array_merge([
-            'description' => '',
-            'query' => false,
-            'body' => false,
-            'path' => false,
-        ], $info, [
-            'prefix' => $prefix,
-            'path' => $path,
-            'name' => $name,
-            'methods' => $methods,
-            'is_public' => $is_public,
-        ]);
 
         return \Illuminate\Support\Facades\Route
             ::match($methods, $path, [get_class($this), $callback])
@@ -86,12 +65,12 @@ class Controller extends BaseController
             ]);
         }
 
-        if (! in_array('valid', $params->except)) {
-            $this->route('post', "/valid", 'valid', [
-                'description' => 'Verificar validação',
-                'body' => $body,
-            ]);
-        }
+        // if (! in_array('valid', $params->except)) {
+        //     $this->route('post', "/valid", 'valid', [
+        //         'description' => 'Verificar validação',
+        //         'body' => $body,
+        //     ]);
+        // }
 
         if (! in_array('delete', $params->except)) {
             $this->route('post', "/delete", 'delete', [

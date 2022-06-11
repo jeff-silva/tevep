@@ -15,12 +15,17 @@ import 'swagger-ui-dist/swagger-ui.css';
 export default {
     methods: {
         async swaggerInit() {
+            const app = useApp();
             const { data } = await this.$axios.get('/api/app/swagger');
             new SwaggerUIBundle({
                 domNode: this.$refs.swagger,
                 deepLinking: true,
                 presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
                 layout: "StandaloneLayout",
+                requestInterceptor(req) {
+                    req.headers.Authorization = `Bearer ${app.access_token}`;
+                    return req;
+                },
                 spec: data,
             });
       },
