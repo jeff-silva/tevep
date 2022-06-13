@@ -6,6 +6,7 @@
                 singular="Tevep"
                 plural="Teveps"
                 :edit-fluid="true"
+                :search-params="{user_id:'me'}"
             >
                 <template #search-table-header>
                     <th>Nome</th>

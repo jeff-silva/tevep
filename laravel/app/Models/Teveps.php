@@ -162,6 +162,25 @@ class Teveps extends \Illuminate\Database\Eloquent\Model
 	}
 
 
+	public function searchParams()
+	{
+		return [
+			'user_id' => false,
+		];
+	}
+	
+	
+	public function searchQuery($query, $params)
+	{
+		if ($params->user_id) {
+			$query->where(function($q) use($params) {
+				$q->where('owner_id', $params->user_id);
+				// or teveps_invites contains and is accepted
+			});
+		}
+	}
+
+
 	public function link()
 	{
 		return $this->id? url("/admin/teveps/{$this->id}"): null;

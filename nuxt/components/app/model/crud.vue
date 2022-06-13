@@ -273,6 +273,7 @@ export default {
         singular: {default:'Item'},
         plural: {default:'Itens'},
         searchFluid: {default:false},
+        searchParams: {type:Object, default:()=>({})},
         editFluid: {default:false},
         tableActions: {type:Object, default:()=>({})},
         formActions: {type:Object, default:()=>({})},
@@ -363,7 +364,8 @@ export default {
         },
 
         searchParamsDefault(params={}) {
-            params = { q: '', page: 1, per_page: 10, deleted:'', ...params };
+            params = { q: '', page: 1, per_page: 10, deleted:'', ...this.searchParams, ...params };
+            console.log(params);
             params.page = parseInt(params.page);
             params.per_page = parseInt(params.per_page);
             if (params.edit) delete params.edit;

@@ -429,16 +429,25 @@ trait Model
     }
 
 
-    public function searchParamsDefault($merge=[]) {
-        return array_merge([
+    public function searchParamsDefault($params=null) {
+        $params = is_array($params)? $params: [];
+        $params = array_merge([
             'q' => '',
             'page' => 1,
-            'perpage' => 20,
+            'per_page' => 20,
             'orderby' => 'updated_at',
             'order' => 'desc',
             'deleted' => '',
             'limit' => '',
-        ], $this->searchParams(), $merge);
+        ], $this->searchParams(), $params);
+
+        foreach($params as $field => $value) {
+            if ('me'==$value AND $user=auth()->user()) {
+                $params[ $field ] = $user->id;
+            }
+        }
+
+        return $params;
     }
     
 
@@ -452,15 +461,13 @@ trait Model
     }
 
 
-    public function searchQuery($query) {
+    public function searchQuery($query, $params) {
         return $query;
     }
 
 
     public function scopeSearch($query, $params=null) {
-        $searchParams = $this->searchParamsDefault();
-        $params = $params? $params: request()->all();
-        $params = array_merge($searchParams, $params);
+        $params = $this->searchParamsDefault($params? $params: request()->all());
 
         if ($query2 = $this->searchQuery($query, (object) $params)) {
             $query = $query2;
@@ -471,7 +478,6 @@ trait Model
         foreach($params as $field=>$value) {
             if (! $value) continue;
             if (! in_array($field, $this->fillable)) continue;
-            // if (in_array($field, $searchParams)) continue;
             $field = "{$query_table}.{$field}";
             $operator = isset($params["{$field}_op"])? $params["{$field}_op"]: 'eq';
             
