@@ -7,7 +7,7 @@
         <v-app>
 
             <!-- searchDrawer -->
-            <v-navigation-drawer temporary position="right" v-model="searchDrawer" width="300">
+            <v-navigation-drawer temporary location="right" v-model="searchDrawer" width="300">
                 <v-card-header>
                     <v-card-title>Busca</v-card-title>
                 </v-card-header>
@@ -34,7 +34,7 @@
             </v-navigation-drawer>
             
             <!-- notificationshDrawer -->
-            <v-navigation-drawer temporary position="right" v-model="notificationshDrawer" width="300">
+            <v-navigation-drawer temporary location="right" v-model="notificationshDrawer" width="300">
                 <v-card-header>
                     <v-card-title>Notificações</v-card-title>
                 </v-card-header>
@@ -47,7 +47,7 @@
             </v-navigation-drawer>
 
             <!-- userDrawer -->
-            <v-navigation-drawer temporary position="right" v-model="userDrawer" width="300">
+            <v-navigation-drawer temporary location="right" v-model="userDrawer" width="300">
                 <v-card :elevation="0" :title="app.user.name" :subtitle="app.user.email">
                     <!--  -->
                 </v-card>

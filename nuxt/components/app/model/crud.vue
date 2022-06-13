@@ -71,12 +71,12 @@
                 <v-btn icon="mdi-magnify" v-if="!responsive.desktop" @click="modelSearchDrawer=true"></v-btn>
                 <v-btn icon="mdi-plus-circle" :to="`/admin/${namespace}?edit=new`"></v-btn>
     
-                <v-menu anchor="top">
+                <v-menu location="top">
                     <template #activator="{ props }">
                         <v-btn icon="mdi-cloud-download" v-bind="props"></v-btn>
                     </template>
     
-                    <v-list style="width:180px;">
+                    <v-list style="width:180px; margin-left:-100px;">
                         <template v-for="e in modelSearch.resp.exportUrls">
                             <v-list-item
                                 :title="e.name"
