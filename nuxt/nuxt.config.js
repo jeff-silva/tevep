@@ -42,5 +42,9 @@ export default defineNuxtConfig({
         'vite:extendConfig': (config, { isClient, isServer }) => {
             if (isClient) config.resolve.alias.vue = 'vue/dist/vue.esm-bundler';
         },
+        'builder:watch': () => {
+            const base = require('../scripts/base');
+            base.run(base.laravel.path, 'php artisan app:sync');
+        },
     },
 });

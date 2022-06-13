@@ -12,7 +12,7 @@ class AppSync extends AppBase
     protected $description = 'Synchronize database, models and controllers';
 
     public function handle() {
-        $this->call('app:permissions');
+        // $this->call('app:permissions');
         // $this->call('app:models-generate');
         // $this->call('app:controllers-generate');
         // $this->call('app:routes-generate');

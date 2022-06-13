@@ -57,13 +57,16 @@ export default defineNuxtPlugin((nuxtApp) => {
     // {{ $filters.filterName(variable) }}
     nuxtApp.vueApp.config.globalProperties.$filters = {
         dateHuman(value, format='DD/MM/YYYY ') {
-            return useDateFormat(value, format).value;
+            const formatted = useDateFormat(value, format).value;
+            return formatted.includes('NaN')? '': formatted;
         },
         timeHuman(value, format='HH:mm') {
-            return useDateFormat(value, format).value;
+            const formatted = useDateFormat(value, format).value;
+            return formatted.includes('NaN')? '': formatted;
         },
         dateTimeHuman(value, format='DD/MM/YYYY - HH:mm') {
-            return useDateFormat(value, format).value;
+            const formatted = useDateFormat(value, format).value;
+            return formatted.includes('NaN')? '': formatted;
         },
         filesizeHuman(value) {
             if (!value || isNaN(value)) return '0kB';

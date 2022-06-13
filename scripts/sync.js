@@ -1,5 +1,7 @@
-const shell = require('shelljs');
-const base = require('./base');
+console.log('sync');
 
-shell.cd(base.env.LARAVEL_PATH);
-shell.exec('php artisan app:sync');
+// const shell = require('shelljs');
+// const base = require('./base');
+
+// shell.cd(base.env.LARAVEL_PATH);
+// shell.exec('php artisan app:sync');
