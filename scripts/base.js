@@ -85,6 +85,7 @@ const nuxt = (() => {
 
 module.exports = {
     run,
+    rootPath: __dirname,
     env,
     laravel,
     nuxt,

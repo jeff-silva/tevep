@@ -70,13 +70,13 @@ export const useAppStore = defineStore({
             }
         },
 
-        async authSwitch(email) {
+        async authSwitch(email, redirect=false) {
             for(let i in this.auths) {
                 const auth = this.auths[i];
                 if (auth.email==email) {
                     await this.setAccessToken(auth.token);
                     if (!this.user) this.authRemove(auth.email);
-                    location.reload();
+                    !redirect? location.reload(): (location.href=redirect);
                     break;
                 }
             }

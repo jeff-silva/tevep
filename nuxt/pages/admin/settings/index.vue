@@ -5,11 +5,11 @@
                 <v-container>
                     <v-card>
                         <v-row>
-                            <v-col cols="2" class="pa-0 bg-grey-lighten-5 elevation-1">
+                            <v-col cols="12" lg="2" class="pa-0 bg-grey-lighten-5 elevation-1">
                                 <v-tabs
                                     v-model="tab"
                                     @update:modelValue="$router.push(`/admin/settings/${$event}`)"
-                                    direction="vertical"
+                                    :direction="$vuetify.display.mobile? 'horizontal': 'vertical'"
                                 >
                                     <v-tab
                                         v-for="(t, i) in tabs"
@@ -20,7 +20,7 @@
                                     </v-tab>
                                 </v-tabs>
                             </v-col>
-                            <v-col cols="10" class="pa-0 pe-3">
+                            <v-col cols="12" lg="10" class="pa-3 pa-lg-0 bg-white">
                                 <template v-for="t in tabs">
                                     <div v-if="t.value==tab" class="pa-3 bg-grey-lighten-5 elevation-1">{{ t.name }}</div>
                                 </template>

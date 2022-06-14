@@ -43,6 +43,7 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => 120,
             'auth_mode' => null,
+            'sendmail' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -t -i'),
         ],
 
         'ses' => [

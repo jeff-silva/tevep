@@ -44,7 +44,7 @@ export default defineNuxtConfig({
         },
         'builder:watch': () => {
             const base = require('../scripts/base');
-            base.run(base.laravel.path, 'php artisan app:sync');
+            base.run(base.rootPath, 'npm run sync');
         },
     },
 });
