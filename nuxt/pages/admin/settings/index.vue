@@ -22,7 +22,7 @@
                             </v-col>
                             <v-col cols="12" lg="10" class="pa-3 pa-lg-0 bg-white">
                                 <template v-for="t in tabs">
-                                    <div v-if="t.value==tab" class="pa-3 bg-grey-lighten-5 elevation-1">{{ t.name }}</div>
+                                    <div v-if="t.value==tab" class="pa-3 bg-grey-lighten-5 elevation-1 d-none d-lg-block">{{ t.name }}</div>
                                 </template>
                                 <div class="px-3 py-5">
                                     <nuxt-child :settings="settings.data"></nuxt-child>

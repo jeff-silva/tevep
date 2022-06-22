@@ -81,6 +81,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.provide('axios', axios);
     nuxtApp.provide('devMode', devMode);
     nuxtApp.provide('log', console.log);
+    nuxtApp.provide('key', function(value) {
+        return JSON.stringify(value);
+    });
     
     // this.$alert('Confirm action?')
     nuxtApp.provide('alert', (message) => {

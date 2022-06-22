@@ -19,12 +19,13 @@
 
                 <template #edit-fields="crud">
                     <v-row>
-                        <v-col size="12">
+                        <v-col cols="12">
                             <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>
                         </v-col>
                         
-                        <v-col size="12">
-                            <app-content-edit v-model="crud.edit.content" @update:modelValue="$log"></app-content-edit>
+                        <v-col cols="12">
+                            <app-content v-model="crud.edit.content" :edit="true" @update:modelValue="$log"></app-content>
+                            <!-- <app-content :model-value="crud.edit.content"></app-content> -->
                             <pre>{{ crud.edit }}</pre>
                         </v-col>
                     </v-row>

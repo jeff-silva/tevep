@@ -4512,7 +4512,7 @@
   dependencies:
     "@vue/devtools-api" "^6.0.0"
 
-"vue@^2.6.0 || ^3.2.0", "vue@^2.6.14 || ^3.2.0", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.1", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.36", "vue@^3.2.37", "vue@>=3", "vue@3.2.37":
+"vue@^2.6.0 || ^3.2.0", "vue@^2.6.14 || ^3.2.0", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.1", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.37", "vue@>=3", "vue@3.2.37":
   "integrity" "sha512-bOKEZxrm8Eh+fveCqS1/NkG/n6aMidsI6hahas7pa0w/l7jkbssJVsRhVDs07IdDq7h9KHswZOgItnwJAgtVtQ=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.37.tgz"
   "version" "3.2.37"
@@ -4530,10 +4530,10 @@
   dependencies:
     "sortablejs" "1.14.0"
 
-"vuetify@^3.0.0-beta.3":
-  "integrity" "sha512-as6G+6S6q4kfioc0wioJ+/DOLhIDGsA/ufaSwE8GHnxnoOmx+Usi+CLAh6UaZr1VEG7HVVtFV+gBXsk8pmljQg=="
-  "resolved" "https://registry.npmjs.org/vuetify/-/vuetify-3.0.0-beta.3.tgz"
-  "version" "3.0.0-beta.3"
+"vuetify@^3.0.0-beta.4":
+  "integrity" "sha512-saq44U5bDO5z7BNWVeBdyY37BTPOQTeuz7Tm3kyywMEDHhZKw9BhtCo/QodTndoofRSRWXfE7MI2/AEvG/1x+g=="
+  "resolved" "https://registry.npmjs.org/vuetify/-/vuetify-3.0.0-beta.4.tgz"
+  "version" "3.0.0-beta.4"
 
 "wcwidth@^1.0.1":
   "integrity" "sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g="

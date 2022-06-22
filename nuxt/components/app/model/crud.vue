@@ -365,7 +365,6 @@ export default {
 
         searchParamsDefault(params={}) {
             params = { q: '', page: 1, per_page: 10, deleted:'', ...this.searchParams, ...params };
-            console.log(params);
             params.page = parseInt(params.page);
             params.per_page = parseInt(params.per_page);
             if (params.edit) delete params.edit;
