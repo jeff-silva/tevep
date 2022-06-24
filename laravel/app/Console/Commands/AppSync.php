@@ -22,6 +22,7 @@ class AppSync extends AppBase
         // $this->call('app:seed');
         // $this->call('app:docs');
         // $this->call('app:swagger');
+        $this->call('app:sync-database');
         $this->info('Concluído');
     }
 }

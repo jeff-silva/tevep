@@ -24,7 +24,7 @@
                         </v-col>
                         
                         <v-col cols="12">
-                            <app-content v-model="crud.edit.content" :edit="true" @update:modelValue="$log"></app-content>
+                            <app-content-editor v-model="crud.edit.content" @update:modelValue="$log"></app-content-editor>
                             <!-- <app-content :model-value="crud.edit.content"></app-content> -->
                             <pre>{{ crud.edit }}</pre>
                         </v-col>

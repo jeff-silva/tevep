@@ -20,14 +20,14 @@ export default {
     },
 
     computed: {
-        propsModelValue: {
+        value: {
             get() { return this.modelValue; },
             set(value) { this.$emit('update:modelValue', value); },
         },
     },
 
     // watch: {
-    //     propsModelValue: {deep:true, handler(value) {
+    //     value: {deep:true, handler(value) {
     //         this.$emit('update:modelValue', value);
     //     }},
     // },
@@ -40,7 +40,7 @@ export default {
 
     data() {
         return {
-            // propsModelValue: this.modelValueDefault(this.modelValue),
+            // value: this.modelValueDefault(this.modelValue),
         };
     },
 };

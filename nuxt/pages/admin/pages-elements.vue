@@ -26,35 +26,58 @@
                         </v-col>
                         
                         <v-col cols="12" md="4">
-                            <v-text-field label="Tipo" v-model="crud.edit.type" :hide-details="true"></v-text-field>
-                        </v-col>
-                        
-                        <v-col cols="12">
-                            <v-row>
-                                <v-col cols="12" md="8">
-                                    <app-code label="Componente" v-model="crud.edit.comp" language="javascript"></app-code>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-input label="Preview"></v-input>
-                                </v-col>
-                            </v-row>
-                        </v-col>
-                        
-                        <v-col cols="12">
-                            <v-row>
-                                <v-col cols="12" md="8">
-                                    <app-code label="Editor" v-model="crud.edit.edit" language="javascript"></app-code>
-                                </v-col>
-                                <v-col cols="12" md="4">
-                                    <v-input label="Preview"></v-input>
-                                </v-col>
-                            </v-row>
+                            <v-select v-model="crud.edit.type" hide-details label="Tipo" :items="['layout', 'section']"></v-select>
                         </v-col>
                     </v-row>
 
-                    <!-- <pre>{{ crud }}</pre> -->
+                    <div class="my-3"></div>
+
+                    <v-tabs v-model="tabEdit">
+                        <v-tab value="view">View</v-tab>
+                        <v-tab value="edit">Editor</v-tab>
+                    </v-tabs>
+                    <v-window v-model="tabEdit">
+                        <v-window-item value="view">
+                            <v-row no-gutters>
+                                <v-col>
+                                    <div class="mt-2">Código</div>
+                                    <app-code v-model="crud.edit.view_code" language="javascript" label="Aaa"></app-code>
+                                    <div class="mt-2">Template</div>
+                                    <app-code v-model="crud.edit.view_template" language="html"></app-code>
+                                    <div class="mt-2">CSS</div>
+                                    <app-code v-model="crud.edit.view_style" language="css"></app-code>
+                                </v-col>
+                                <v-col>bbb</v-col>
+                            </v-row>
+                        </v-window-item>
+                        <v-window-item value="edit">
+                            <v-row no-gutters>
+                                <v-col>
+                                    <div>Código</div>
+                                    <app-code v-model="crud.edit.edit_code" language="javascript"></app-code>
+                                    <div>Template</div>
+                                    <app-code v-model="crud.edit.edit_template" language="html"></app-code>
+                                    <div>CSS</div>
+                                    <app-code v-model="crud.edit.edit_style" language="css"></app-code>
+                                </v-col>
+                                <v-col>bbb</v-col>
+                            </v-row>
+                        </v-window-item>
+                    </v-window>
+
+                    <pre>{{ crud.edit }}</pre>
                 </template>
             </app-model-crud>
         </nuxt-layout>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            tabEdit: 'view',
+        };
+    },
+};
+</script>

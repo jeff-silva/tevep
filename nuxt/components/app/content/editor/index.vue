@@ -1,15 +1,15 @@
 <template>
-    <div v-if="edit" class="app-content">
-        <v-btn @click="editMode=true">Editar</v-btn>
+    <div class="app-content">
+        <v-btn @click="editView=true">Editar</v-btn>
 
-        <v-overlay :model-value="editMode" class="app-content">
+        <v-overlay :model-value="editView" class="app-content">
             <v-row no-gutters style="width:100vw;">
-                <v-col cols="2" style="height:100vh; overflow:auto; background:#f5f5f5; border-right:solid 4px #eee;">
+                <v-col cols="3" style="height:100vh; overflow:auto; background:#f5f5f5; border-right:solid 4px #eee;">
                     <v-card elevation="0">
                         <v-card-title>
                             <span>Editor</span>
                             <v-spacer />
-                            <v-btn icon flat @click="editMode=false">
+                            <v-btn icon flat @click="editView=false">
                                 <v-icon>mdi-close</v-icon>
                             </v-btn>
                         </v-card-title>
@@ -18,17 +18,17 @@
                             <!-- Tab editar seção -->
                             <v-expansion-panel value="section-edit" title="Editar Seção">
                                 <v-expansion-panel-text>
-                                    <div v-if="sectionEdit">
+                                    <div v-if="sectionEditData">
                                         <v-text-field
-                                            v-model="sectionEdit.name"
+                                            v-model="sectionEditData.name"
                                             label="Nome"
                                             hide-details
                                         ></v-text-field>
                                         <component
-                                            v-bind="sectionEdit"
-                                            :is="sectionEdit.is"
+                                            v-bind="sectionEditData"
+                                            :is="sectionEditData.is"
                                             :edit="true"
-                                            v-model="sectionEdit.value"
+                                            v-model="sectionEditData.value"
                                         ></component>
                                     </div>
                                     <div v-else class="text-center">
@@ -40,7 +40,16 @@
                             <!-- Seções inseridas -->
                             <v-expansion-panel value="section-list-edit" title="Seções inseridas">
                                 <v-expansion-panel-text>
-                                    <pre>{{ propsModelValue.sections }}</pre>
+                                    <app-content-editor-reorder v-model="propsModelValue.sections">
+                                        <template #item="{ item }">
+                                            <pre>{{ item.name }}</pre>
+                                        </template>
+                                        <template #actions="{ item }">
+                                            <v-btn icon="mdi-pencil" flat @click="sectionEdit(item)"></v-btn>
+                                            <v-btn icon="mdi-delete" flat @click="sectionDelete(item)"></v-btn>
+                                        </template>
+                                    </app-content-editor-reorder>
+                                    <v-btn class="mt-2" @click="actionsView='section-list-insert'" block>Inserir seção</v-btn>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
 
@@ -82,7 +91,7 @@
                         </v-expansion-panels>
                     </v-card>
                 </v-col>
-                <v-col cols="10" style="height:100vh; overflow:auto; background:#ffffff;">
+                <v-col cols="9" style="height:100vh; overflow:auto; background:#ffffff;">
                     <template v-for="l in layouts">
                         <template v-if="l.is==propsModelValue.layout.is">
                             <component v-bind="propsModelValue.layout.is" :is="propsModelValue.layout.is" :key="$key(l)">
@@ -92,8 +101,8 @@
                                 
                                 <div
                                     v-for="s in propsModelValue.sections"
-                                    @click="sectionEdit=s; actionsView='section-edit'"
-                                    :style="sectionEdit==s? `border-left:solid 5px red;`: `border-left:solid 5px transparent;`"
+                                    @click="sectionEdit('section-edit')"
+                                    :style="sectionEditData==s? `border-left:solid 5px red;`: `border-left:solid 5px transparent;`"
                                     :key="$key(s)"
                                 >
                                     <component v-bind="s" :is="s.is" :edit="false" :model-value="s.value"></component>
@@ -105,21 +114,24 @@
             </v-row>
         </v-overlay>
     </div>
-
-    <div v-else>
-        <pre>{{ propsModelValue }}</pre>
-    </div>
 </template>
 
 <script>
-import LayoutDefault from './layouts/default.vue';
+// import aaa from '../info';
 
-import SectionTest from './sections/test.vue';
+const sections = [
+    {
+        name: 'Aaa',
+        value: {},
+        is: {
+            template: `<div>aaa</div>`,
+        },
+    },
+];
 
 export default {
     props: {
         modelValue: {default:false, type:[Boolean, Object]},
-        edit: {default:false, type:[Boolean]},
     },
 
     computed: {
@@ -143,10 +155,6 @@ export default {
             return value;
         },
 
-        componentDefault(name, is) {
-            return { name, value:{}, is };
-        },
-
         sectionAdd(section) {
             const id = 'section-'+ Math.round(Math.random()*99999);
             section = { id, ...section };
@@ -154,23 +162,29 @@ export default {
             let value = this.propsModelValue;
             value.sections.push(section);
             this.propsModelValue = value;
-            this.sectionEdit = section;
+            this.sectionEdit(section);
+        },
+
+        sectionEdit(section) {
+            this.sectionEditData = section;
             this.actionsView = 'section-edit';
+        },
+        
+        sectionDelete(section) {
+            this.propsModelValue.sections.forEach((sect, index) => {
+                if (section.id != sect.id) return;
+                this.propsModelValue.sections.splice(index, 1);
+            });
         },
     },
 
     data() {
         return {
-            editMode: false,
+            editView: true,
             actionsView: 'section-list-insert',
-            sectionEdit: false,
-            layouts: [
-                this.componentDefault('Default', LayoutDefault),
-            ],
-            sections: [
-                this.componentDefault('Test', SectionTest),
-                // this.componentDefault('Test', 'app-content-sections-test'),
-            ],
+            sectionEditData: false,
+            layouts: [],
+            sections,
         };
     },
 }

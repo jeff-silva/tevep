@@ -1,8 +1,7 @@
 <template>
     <div class="app-code">
-        <v-input :label="label" :hide-details="true">
-            <div ref="monacoRef" style="min-height:300px;"></div>
-        </v-input>
+        <div ref="monacoRef" style="min-height:300px;"></div>
+        <pre>{{ propsModelValue }}</pre>
     </div>
 </template>
 
@@ -18,11 +17,18 @@ export default {
         disabled: {default:false},
     },
 
+    computed: {
+        propsModelValue: {
+            get() { return this.modelValue; },
+            set(value) { this.$emit('update:modelValue', value); },
+        },
+    },
+
     watch: {
         '$props.modelValue': {handler(value) {
+            if (this.$el.contains(document.activeElement)) return;
             let monaco = this.monacoInit();
             monaco.getModel().setValue(value);
-            // this.$emit('update:modelValue', value);
         }},
     },
 
@@ -39,7 +45,7 @@ export default {
             if (this.monacoId) return window.monacoInstances[this.monacoId];
 
             let monacoEditor = monaco.editor.create(this.$refs.monacoRef, {
-                value: this.modelValue,
+                value: this.propsModelValue,
                 language: this.language,
                 theme: this.theme,
                 readOnly: this.disabled,
@@ -48,7 +54,8 @@ export default {
             });
             
             monacoEditor.getModel().onDidChangeContent(ev => {
-                this.$emit('update:modelValue', monacoEditor.getValue());
+                this.propsModelValue = monacoEditor.getValue();
+                // this.$emit('update:modelValue', monacoEditor.getValue());
             });
 
             this.monacoId = 'monaco-'+(Math.round(Math.random()*9999));

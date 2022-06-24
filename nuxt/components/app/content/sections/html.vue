@@ -2,17 +2,14 @@
     <div>
         <div v-if="edit">
             <v-checkbox v-model="value.fluid" label="Largura total"></v-checkbox>
-            <v-text-field v-model="value.hello" label="Hello"></v-text-field>
-            <v-color-picker v-model="value.backgroundColor" label="Cor"></v-color-picker>
+            <app-html v-model="value.content"></app-html>
         </div>
 
         <div v-else :style="`background-color:${value.backgroundColor};`">
             <v-container :fluid="value.fluid">
-                {{ value.hello }}
+                <div v-html="value.content"></div>
             </v-container>
         </div>
-
-        <!-- <pre>$props: {{ $props }}</pre> -->
     </div>
 </template>
 
@@ -26,7 +23,7 @@ export default {
         modelValueDefault(merge={}) {
             return {
                 fluid: false,
-                hello: 'Hello World',
+                content: 'Hello World',
                 ...merge
             };
         },

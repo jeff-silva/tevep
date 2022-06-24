@@ -113,42 +113,41 @@ class AppBase extends \Illuminate\Console\Command
         $tables = [];
 
         foreach(\DB::select('SHOW TABLE STATUS') as $table) {
-            $table->Slug = (string) \Str::of($table->Name)->studly()->kebab();
-
-            $deletes = [
-                'Version', 'Row_format', 'Rows', 'Avg_row_length', 'Data_length', 'Max_data_length', 'Index_length',
-                'Data_free', 'Create_time', 'Update_time', 'Check_time', 'Checksum', 'Create_options',
-            ];
-            foreach($deletes as $delete) { unset($table->$delete); }
-
-            $table->Model = $this->classInfo([
-                'name' => $table->Name,
-                'namespace' => 'App\Models',
-                'path' => 'app\Models',
-            ]);
-
-            $table->Controller = $this->classInfo([
-                'name' => $table->Name,
-                'namespace' => 'App\Http\Controllers',
-                'path' => 'app\Http\Controllers',
-                'suffix' => 'Controller',
-            ]);
-            
-
-            $statement = collect(\DB::select("SHOW CREATE TABLE `{$table->Name}`;"))->pluck('Create Table')->first();
-            $statement = str_replace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $statement);
-            $table->Sql = str_replace(["\n", "\t"], '', $statement);
-            
-            $table->Fields = [];
-            foreach(\DB::select("SHOW COLUMNS FROM {$table->Name}") as $col) {
-                $col->Sql = $this->getFieldSchema($col);
-                $table->Fields[ $col->Field ] = $col;
-            }
-
-            $tables[ $table->Name ] = $table;
+            $tables[ $table->Name ] = $this->getTable($table->Name);
         }        
 
         return $tables;
+    }
+
+    public function getTable($name) {
+        $table = new \stdClass;
+        $table->Slug = (string) \Str::of($name)->studly()->kebab();
+        $table->Name = $name;
+
+        $table->Model = $this->classInfo([
+            'name' => $table->Name,
+            'namespace' => 'App\Models',
+            'path' => 'app\Models',
+        ]);
+
+        $table->Controller = $this->classInfo([
+            'name' => $table->Name,
+            'namespace' => 'App\Http\Controllers',
+            'path' => 'app\Http\Controllers',
+            'suffix' => 'Controller',
+        ]);
+
+        $statement = collect(\DB::select("SHOW CREATE TABLE `{$table->Name}`;"))->pluck('Create Table')->first();
+        $statement = str_replace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $statement);
+        $table->Sql = str_replace(["\n", "\t"], '', $statement);
+
+        $table->Fields = [];
+        foreach(\DB::select("SHOW COLUMNS FROM {$table->Name}") as $col) {
+            $col->Sql = $this->getFieldSchema($col);
+            $table->Fields[ $col->Field ] = $col;
+        }
+        
+        return $table;
     }
 
     public function getFks() {
