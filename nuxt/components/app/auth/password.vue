@@ -1,7 +1,7 @@
 <template>
     <form action="">
         <v-text-field label="E-mail"
-            variant="underlined"
+            variant="filled"
         ></v-text-field>
 
         <div class="text-end">

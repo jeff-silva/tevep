@@ -1,20 +1,24 @@
 <template>
-    <head>
-        <title>Auth</title>
-        <!-- <Style children="@import url('https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css');"></Style> -->
-    </head>
+    <div>
+        <head>
+            <title>Auth</title>
+            <!-- <Style children="@import url('https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css');"></Style> -->
+        </head>
 
-    <div class="layout-auth v-row g-0">
-        <div class="layout-auth-background v-col-7 v-col-md-5 v-col-lg-7 d-none d-md-block">
-            <!--  -->
-        </div>
-
-        <div class="layout-auth-pattern v-col-12 v-col-md-7 v-col-lg-5 px-5 d-flex align-center justify-content-center" style="height:100vh;">
-            <div class="bg-primary pa-4 mx-auto" style="width: 500px;">
-                <v-img :src="app.settings['app.logo']" width="200px" class="mx-auto mb-5"></v-img>
-                <slot></slot>
-            </div>
-        </div>
+        <v-app>
+            <v-row no-gutters>
+                <v-col cols="12" md="5" lg="7" class="layout-auth-background d-none d-md-block">
+                    <!--  -->
+                </v-col>
+                <v-col cols="12" md="7" lg="5" class="layout-auth-pattern d-flex align-center justify-center">
+                    <div style="width:100%; max-width:500px; margin:0 40px;">
+                        <v-img :src="app.settings['app.logo']" width="200px" class="mx-auto mb-5"></v-img>
+                        <br><br>
+                        <slot />
+                    </div>
+                </v-col>
+            </v-row>
+        </v-app>
     </div>
 </template>
 

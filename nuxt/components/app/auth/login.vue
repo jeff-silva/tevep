@@ -3,14 +3,12 @@
         <form @submit.prevent="app.login(credentials).then(resp => $router.push(redirect))">
             <v-text-field label="E-mail"
                 v-model="credentials.email"
-                variant="underlined"
             ></v-text-field>
     
             <v-text-field label="Senha"
                 v-model="credentials.password"
-                variant="underlined"
                 :type="showPassword? 'text': 'password'"
-                :append-icon="showPassword? 'mdi-eye' : 'mdi-eye-off'"
+                :append-inner-icon="showPassword? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="showPassword = !showPassword"
             ></v-text-field>
     

@@ -25,6 +25,11 @@ export default defineNuxtPlugin((nuxtApp) => {
         components: vuetifyComponents,
         directives: vuetifyDirectives,
         icons: { defaultSet: 'mdi' },
+        defaults: {
+            VTextField: {
+                variant: 'outlined',
+            },
+        },
     }));
     
     // Intercept axios

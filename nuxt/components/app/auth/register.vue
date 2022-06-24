@@ -1,19 +1,19 @@
 <template>
     <form action="">
         <v-text-field label="Nome"
-            variant="underlined"
+            variant="filled"
         ></v-text-field>
 
         <v-text-field label="E-mail"
-            variant="underlined"
+            variant="filled"
         ></v-text-field>
 
         <v-text-field label="Senha"
-            variant="underlined"
+            variant="filled"
         ></v-text-field>
 
         <v-text-field label="Repita senha"
-            variant="underlined"
+            variant="filled"
         ></v-text-field>
 
         <div class="text-end">
