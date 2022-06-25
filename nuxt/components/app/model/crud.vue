@@ -228,7 +228,7 @@
     
                 <!-- Pagination -->
                 <v-card elevation="0">
-                    <div class="d-flex align-center pa-2">
+                    <div class="d-flex align-center py-2 px-5">
                         <div v-if="responsive.desktop">
                             {{ modelSearch.resp.total||0 }} {{ $filters.singularPlural(modelSearch.resp.total, 'resultado', 'resultados') }}
                         </div>

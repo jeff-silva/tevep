@@ -7,7 +7,7 @@
         </v-tabs>
         <div class="app-tabs-items">
             <template v-for="item in items">
-                <div v-if="tab==item.value" :key="$key(item)">
+                <div v-if="tab==item.value" :key="$key(item)" class="py-5">
                     <slot :name="item.value">
                         &lt;template #{{ item.value }}&gt;&lt;/template&gt;
                     </slot>

@@ -25,15 +25,13 @@
                             <app-model-file v-model="crud.edit.photo_id"></app-model-file>
                         </v-col>
                         <v-col cols="12" md="9">
-                            <v-tabs v-model="tab" class="mb-4">
-                                <v-tab value="home">Dados</v-tab>
-                                <v-tab value="address">Endereço</v-tab>
-                                <v-tab value="settings">Configurações</v-tab>
-                                <v-tab value="password">Senha</v-tab>
-                            </v-tabs>
-
-                            <v-window v-model="tab">
-                                <v-window-item value="home">
+                            <app-tabs :items="[
+                                {value:'info', text:'Dados'},
+                                {value:'address', text:'Endereço'},
+                                {value:'settings', text:'Configurações'},
+                                {value:'password', text:'Senha'},
+                            ]">
+                                <template #info>
                                     <v-text-field
                                         label="Nome"
                                         v-model="crud.edit.name"
@@ -45,13 +43,11 @@
                                         :rules="crud.valid.rules('email', ['email'])"
                                     ></v-text-field>
                                     <app-model-select label="Grupo" v-model="crud.edit.group_id" namespace="users-groups"></app-model-select>
-                                </v-window-item>
-
-                                <v-window-item value="address">
+                                </template>
+                                <template #address>
                                     <app-model-place label="Endereço" v-model="crud.edit.address_id"></app-model-place>
-                                </v-window-item>
-                                
-                                <v-window-item value="settings">
+                                </template>
+                                <template #settings>
                                     <v-row>
                                         <v-col cols="6">
                                             <v-select
@@ -61,9 +57,8 @@
                                             ></v-select>
                                         </v-col>
                                     </v-row>
-                                </v-window-item>
-
-                                <v-window-item value="password">
+                                </template>
+                                <template #password>
                                     <v-text-field
                                         label="Senha"
                                         type="password"
@@ -74,8 +69,8 @@
                                         type="password"
                                         v-model="crud.edit.password_confirmation"
                                     ></v-text-field>
-                                </v-window-item>
-                            </v-window>
+                                </template>
+                            </app-tabs>
                         </v-col>
                     </v-row>
                 </template>
