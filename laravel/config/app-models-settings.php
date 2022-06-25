@@ -23,6 +23,8 @@ return [
         'mail.mailers.smtp.username',
         'mail.mailers.smtp.password',
         'mail.mailers.smtp.encryption',
+        'mail.from.address',
+        'mail.from.name',
         // 'mail.mailers.smtp.timeout',
         'mail.from.address',
         'mail.from.name',

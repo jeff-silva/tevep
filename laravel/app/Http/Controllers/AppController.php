@@ -200,29 +200,15 @@ class AppController extends Controller
 			'subject' => '',
 			'body' => '',
 		], request()->all());
-
+		
 		// dd(config('mail'));
-
-		// \Mail::send([], [], function($message) use ($params) {
-		// 	$message->from('laravel@grr.la');
-		// 	$message->to($params['to']);
-		// 	$message->subject($params['subject']);
-		// 	$message->setBody($params['body'], 'text/html');
-		// });
 		
 		\Mail::send([], [], function($message) use ($params) {
 			$message->from('laravel@grr.la');
 			$message->to($params['to']);
 			$message->subject($params['subject']);
 			$message->setBody($params['body'], 'text/html');
-			dd($params, $message);
 		});
-		
-		// \Mail::raw([], function($message) use ($params) {
-		// 	$message->to($params['to']);
-		// 	$message->subject($params['subject']);
-		// 	$message->setBody($params['body'], 'text/html');
-		// });
 
 		return [
 			'failures' => \Mail::failures(),

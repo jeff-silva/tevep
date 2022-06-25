@@ -2,7 +2,10 @@
     <div>
         <head>
             <title>Auth</title>
-            <!-- <Style children="@import url('https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css');"></Style> -->
+            <Style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
+            html, body {font-family: 'Montserrat', sans-serif;}
+            </Style>
         </head>
 
         <v-app>
@@ -30,7 +33,7 @@
 }
 
 .layout-auth-pattern {
-    background-color: hsla(0,0%,100%,.26667);
+    background-color: #fefefe;
     background-image: radial-gradient(rgba(68,76,247,.26667) 1px,transparent 0),radial-gradient(rgba(68,76,247,.26667) 1px,hsla(0,0%,100%,.26667) 0);
     background-size: 40px 40px;
     background-position: 0 0,20px 20px;

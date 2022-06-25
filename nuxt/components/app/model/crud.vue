@@ -2,7 +2,7 @@
     <div>
         <v-container class="pa-0">
             <v-fade-transition group>
-                <v-alert v-bind="a" :rounded="0" v-for="(a, i) in alerts" :key="$key(a)">
+                <v-alert v-bind="a" :rounded="0" v-for="a in alerts" :key="$key(a)">
                     <template #append>
                         <v-btn icon flat size="x-small" color="transparent" @click="alertRemove(a.id)">
                             <v-icon>mdi-close</v-icon>
@@ -228,23 +228,25 @@
     
                 <!-- Pagination -->
                 <v-card elevation="0">
-                    <div class="d-flex align-center">
-                        <div class="ps-4" v-if="responsive.desktop">
+                    <div class="d-flex align-center pa-2">
+                        <div v-if="responsive.desktop">
                             {{ modelSearch.resp.total||0 }} {{ $filters.singularPlural(modelSearch.resp.total, 'resultado', 'resultados') }}
                         </div>
-                        <div class="flex-grow-1">
-                            <v-pagination
-                                v-if="modelSearch.resp.last_page"
-                                v-model="modelSearch.params.page"
-                                :length="modelSearch.resp.last_page"
-                                @update:model-value="modelSearch.submit()"
-                            ></v-pagination>
-                        </div>
-                        <div class="px-4 py-2" v-if="responsive.desktop">
+                        <v-spacer />
+
+                        <v-pagination
+                            v-if="modelSearch.resp.last_page"
+                            v-model="modelSearch.params.page"
+                            :length="modelSearch.resp.last_page"
+                            @update:model-value="modelSearch.submit()"
+                        ></v-pagination>
+                        
+                        <v-spacer />
+                        <div v-if="responsive.desktop">
                             <v-select
                                 v-model="modelSearch.params.per_page"
                                 :items="[5, 10, 15, 25, 50, 100]"
-                                label="Resultados por página"
+                                label="Exibir"
                                 hide-details
                                 density="compact"
                                 @update:model-value="modelSearch.params.page=1; modelSearch.submit();"
