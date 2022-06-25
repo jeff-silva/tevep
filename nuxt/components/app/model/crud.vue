@@ -2,15 +2,13 @@
     <div>
         <v-container class="pa-0">
             <v-fade-transition group>
-                <template v-for="(a, i) in alerts">
-                    <v-alert v-bind="a" :rounded="0">
-                        <template #append>
-                            <v-btn icon flat size="x-small" color="transparent" @click="alertRemove(a.id)">
-                                <v-icon>mdi-close</v-icon>
-                            </v-btn>
-                        </template>
-                    </v-alert>
-                </template>
+                <v-alert v-bind="a" :rounded="0" v-for="(a, i) in alerts" :key="$key(a)">
+                    <template #append>
+                        <v-btn icon flat size="x-small" color="transparent" @click="alertRemove(a.id)">
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                    </template>
+                </v-alert>
             </v-fade-transition>
         </v-container>
 
@@ -20,12 +18,12 @@
                 <app-actions>
                     <v-btn icon="mdi-plus-circle" @click="modelEditDrawer=true" v-if="!responsive.desktop"></v-btn>
     
-                    <template v-for="a in getFormActions">
-                        <v-btn
-                            v-bind="a"
-                            @click="(typeof a.click=='function'? a.click(modelEdit.data, $event): null)"
-                        ></v-btn>
-                    </template>
+                    <v-btn
+                        v-bind="a"
+                        @click="(typeof a.click=='function'? a.click(modelEdit.data, $event): null)"
+                        v-for="a in getFormActions"
+                        :key="$key(a)"
+                    ></v-btn>
                 </app-actions>
     
                 <!-- Edit drawer -->
@@ -35,18 +33,20 @@
                     width="300"
                 >
                     <v-card :title="app.title" :elevation="0">
+                        <v-divider />
                         <v-card-content>
-                            <template v-for="a in getFormActions">
+                            <div class="d-flex flex-column" style="gap:15px;">
                                 <v-btn
                                     v-bind="a"
                                     block
                                     @click="(typeof a.click=='function'? a.click(modelEdit.data, $event): null)"
-                                    :class="{'mt-3':i}"
                                     :icon="false"
+                                    v-for="a in getFormActions"
+                                    :key="$key(a)"
                                 >
                                     {{ a.name }}
                                 </v-btn>
-                            </template>
+                            </div>
                         </v-card-content>
                     </v-card>
                 </v-navigation-drawer>
@@ -77,12 +77,12 @@
                     </template>
     
                     <v-list style="width:180px; margin-left:-100px;">
-                        <template v-for="e in modelSearch.resp.exportUrls">
-                            <v-list-item
-                                :title="e.name"
-                                @click="exportDownload(e)"
-                            ></v-list-item>
-                        </template>
+                        <v-list-item
+                            :title="e.name"
+                            @click="exportDownload(e)"
+                            v-for="e in modelSearch.resp.exportUrls"
+                            :key="$key(e)"
+                        ></v-list-item>
                     </v-list>
                 </v-menu>
     
@@ -95,46 +95,55 @@
                 location="right"
                 width="300"
             >
-                <v-card :title="app.title" :elevation="0">
-                    <div style="height:3px;">
-                        <v-progress-linear
-                            indeterminate
-                            color="primary"
-                            height="3"
-                            :active="modelSearch.loading"
-                        ></v-progress-linear>
-                    </div>
-                    <v-card-content>
-                        <form @submit.prevent="modelSearch.submit()">
+                <form @submit.prevent="modelSearch.submit()">
+                    <v-card :title="app.title" :elevation="0">
+                        <v-divider />
+                        <div style="height:3px;">
+                            <v-progress-linear
+                                indeterminate
+                                color="primary"
+                                height="3"
+                                :active="modelSearch.loading"
+                            ></v-progress-linear>
+                        </div>
+
+                        <v-card-content>
                             <v-text-field :label="`Buscar ${plural}`" v-model="modelSearch.params.q"></v-text-field>
         
                             <slot name="search-fields" v-bind="slotBind()"></slot>
-    
+
                             <v-select
                                 label="Estado"
                                 v-model="modelSearch.params.deleted"
                                 :items="[{value:'', title:'Ativo'}, {value:'1', title:'Deletado'}]"
                                 @update:model-value="modelSearch.submit()"
+                                hide-details
                             ></v-select>
-        
-                            <v-btn type="submit" color="primary" block :disabled="modelSearch.loading">
-                                Buscar
-                            </v-btn>
-                            
-                            <v-btn color="white" class="mt-4" block @click="modelSearch.clear().then(searchSubmit)">
-                                Limpar
-                            </v-btn>
-                            
-                            <v-btn color="error" class="mt-4" block v-if="selectedIds.length && !modelSearch.params.deleted" @click="modelDelete(selectedIds)">
-                                Deletar {{ selectedIds.length }} {{ plural }}
-                            </v-btn>
-                            
-                            <v-btn color="error" class="mt-4" block v-if="selectedIds.length && modelSearch.params.deleted" @click="modelRestore(selectedIds)">
-                                Restaurar {{ selectedIds.length }} {{ plural }}
-                            </v-btn>
-                        </form>
-                    </v-card-content>
-                </v-card>
+                        </v-card-content>
+
+                        <v-divider class="my-2" />
+
+                        <v-card-content>
+                            <div class="d-flex flex-column" style="gap:15px;">    
+                                <v-btn type="submit" color="primary" block :disabled="modelSearch.loading">
+                                    Buscar
+                                </v-btn>
+                                
+                                <v-btn color="white" block @click="modelSearch.clear().then(searchSubmit)">
+                                    Limpar
+                                </v-btn>
+                                
+                                <v-btn color="error" block v-if="selectedIds.length && !modelSearch.params.deleted" @click="modelDelete(selectedIds)">
+                                    Deletar {{ selectedIds.length }} {{ plural }}
+                                </v-btn>
+                                
+                                <v-btn color="error" block v-if="selectedIds.length && modelSearch.params.deleted" @click="modelRestore(selectedIds)">
+                                    Restaurar {{ selectedIds.length }} {{ plural }}
+                                </v-btn>
+                            </div>
+                        </v-card-content>
+                    </v-card>
+                </form>
             </v-navigation-drawer>
     
             <v-container class="pa-0">
@@ -202,13 +211,13 @@
                                     </template>
     
                                     <div class="search-table-item-actions">
-                                        <template v-for="act in getTableActions(item)">
-                                            <v-btn
-                                                v-bind="act"
-                                                class="me-2"
-                                                @click="(typeof act.click=='function'? act.click(item, $event): null)"
-                                            ></v-btn>
-                                        </template>
+                                        <v-btn
+                                            v-bind="act"
+                                            class="me-2"
+                                            @click="(typeof act.click=='function'? act.click(item, $event): null)"
+                                            v-for="act in getTableActions(item)"
+                                            :key="$key(act)"
+                                        ></v-btn>
                                     </div>
                                 </v-menu>
                             </td>

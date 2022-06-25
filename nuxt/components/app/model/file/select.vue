@@ -26,22 +26,24 @@
             <v-col cols="12" lg="9" order="2" order-lg="2">
                 <div>
                     <div class="d-flex align-center">
-                        <div class="pe-1" style="width:300px;" v-if="fileSearch.resp.attributes">
+                        <div class="pa-0" style="width:300px;" v-if="fileSearch.resp.attributes">
                             <v-select
                                 label="Pasta"
                                 v-model="fileSearch.params.in_folder"
+                                variant="filled"
                                 hide-details
                                 @update:modelValue="fileSearch.submit()"
                                 :items="(fileSearch.resp.attributes.folders||[]).map(item => ({value:item.name||' ', title:item.name||'Raiz'}))"
                             ></v-select>
                         </div>
-                        <div class="flex-grow-1 pe-4" style="width:300px;">
+                        <div class="flex-grow-1 ps-1" style="width:300px;">
                             <v-text-field
                                 label="Filtro"
                                 v-model="fileSearch.params.q"
+                                variant="filled"
                                 hide-details
                                 @keyup="fileSearch.submit({debounce:1500})"
-                                append-icon="mdi-magnify"
+                                append-inner-icon="mdi-magnify"
                                 :loading="fileSearch.loading"
                             ></v-text-field>
                         </div>
@@ -51,8 +53,9 @@
                     Nenhum arquivo encontrado
                 </div>
                 <div class="d-flex flex-wrap">
-                    <div class="ma-2"
+                    <div class="mt-2 ms-2"
                         v-for="f in fileSearch.resp.data"
+                        :key="$key(f)"
                         :style="`width:${itemSize};`"
                         @click="setValue(f)"
                     >
