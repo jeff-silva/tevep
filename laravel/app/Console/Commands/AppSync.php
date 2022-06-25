@@ -24,6 +24,6 @@ class AppSync extends AppBase
         // $this->call('app:swagger');
         
         $this->call('app:sync-model-fields');
-        $this->info('Concluído');
+        $this->info('Sync finished');
     }
 }

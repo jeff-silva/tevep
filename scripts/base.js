@@ -28,18 +28,16 @@ const run = (cwd, command) => {
 
 
 // Laravel start server
-const laravelServe = () => {
+const laravelCmd = (cmd) => {
     const servePath = path.join(__dirname, '..', env.LARAVEL_PATH);
-    const serveHost = new URL(env.LARAVEL_HOST);
-    run(servePath, `php artisan serve --port=${serveHost.port}`);
+    run(servePath, cmd);
 };
 
 
 // Nuxt start server
-const nuxtServe = () => {
+const nuxtCmd = (cmd) => {
     const servePath = path.join(__dirname, '..', env.NUXT_PATH);
-    const serveHost = new URL(env.NUXT_HOST);
-    run(servePath, `npm run dev -- --port ${serveHost.port}`);
+    run(servePath, cmd);
 };
 
 
@@ -89,6 +87,6 @@ module.exports = {
     env,
     laravel,
     nuxt,
-    laravelServe,
-    nuxtServe,
+    laravelCmd,
+    nuxtCmd,
 };

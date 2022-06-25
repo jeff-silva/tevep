@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/jeff-silva/tevep#readme",
   "devDependencies": {
+    "chokidar": "^3.5.3",
     "dotenv": "^16.0.1",
     "shelljs": "^0.8.5"
   }
