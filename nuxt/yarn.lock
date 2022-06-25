@@ -2747,11 +2747,6 @@
     "pathe" "^0.2.0"
     "pkg-types" "^0.3.2"
 
-"monaco-editor@^0.33.0":
-  "integrity" "sha512-VcRWPSLIUEgQJQIE0pVT8FcGBIgFoxz7jtqctE+IiCxWugD0DwgyQBcZBhdSrdMC84eumoqMZsGl2GTreOzwqw=="
-  "resolved" "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.33.0.tgz"
-  "version" "0.33.0"
-
 "mri@^1.2.0":
   "integrity" "sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA=="
   "resolved" "https://registry.npmjs.org/mri/-/mri-1.2.0.tgz"

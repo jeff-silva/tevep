@@ -1,20 +1,18 @@
 <template>
-    <div class="app-code">
-        <div ref="monacoRef" style="min-height:300px;"></div>
-        <pre>{{ propsModelValue }}</pre>
+    <div class="app-code" style="min-height:100px;">
+        <div ref="monaco" style="width:100%; height:100%;"></div>
     </div>
 </template>
 
 <script>
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+window.require = { paths: { 'vs': '//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' } };
 
 export default {
     props: {
         modelValue: {default:''},
-        label: {default:''},
         language: {default:'html'},
         theme: {default:'vs-dark'},
-        disabled: {default:false},
+        readonly: {default:false},
     },
 
     computed: {
@@ -24,60 +22,82 @@ export default {
         },
     },
 
-    watch: {
-        '$props.modelValue': {handler(value) {
-            if (this.$el.contains(document.activeElement)) return;
-            let monaco = this.monacoInit();
-            monaco.getModel().setValue(value);
-        }},
+    methods: {
+        monacoLoad() {
+            return new Promise((resolve, reject) => {
+                if (window.monaco) {
+                    return resolve(window.monaco);
+                }
+
+                window.monacoLoadedCallback = window.monacoLoadedCallback || [];
+                window.monacoLoadedCallback.push(monaco => {
+                    resolve(monaco);
+                });
+
+                if (!window.monacoLoadStarted) {
+                    window.monacoLoadStarted = true;
+                    let assets = [
+                        {tag:'link', rel:'stylesheet', href:'//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.min.css'},
+                        {tag:'script', src:'//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js'},
+                        {tag:'script', src:'//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.nls.js'},
+                        {tag:'script', src:'//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.js'},
+                    ];
+
+                    assets = assets.map((asset, index) => {
+                        return new Promise((resolve, reject) => {
+                            document.head.appendChild(Object.assign(document.createElement(asset.tag), {
+                                ...asset,
+                                onload: () => {
+                                    console.log(`carregado: ${asset.src || asset.rel} / ${index}`);
+                                    asset.loaded = true;
+                                    resolve(asset);
+                                },
+                            }));
+                        });
+                    });
+
+                    Promise.all(assets).then(assets => {
+                        setTimeout(() => {
+                            window.monacoLoadedCallback.forEach(call => {
+                                call(window.monaco);
+                            });
+                        }, 500);
+                    });
+                }
+            });
+        },
+
+        monacoInit() {
+            if (!this.monacoId) {
+                this.monacoLoad().then(monaco => {
+                    let editor = monaco.editor.create(this.$refs.monaco, {
+                        value: this.propsModelValue,
+                        language: this.language,
+                        theme: 'vs-dark',
+                        automaticLayout: true,
+                        readOnly: this.readonly,
+                    });
+
+                    editor.getModel().onDidChangeContent(evt => {
+                        this.$emit('update:modelValue', editor.getValue());
+                    });
+
+                    this.monacoId = ('monaco-'+Math.round(Math.random()*99999));
+                    window.monacoInstance = window.monacoInstance || {};
+                    window.monacoInstance[ this.monacoId ] = editor;
+                });
+            }
+        },
     },
 
     data() {
         return {
             monacoId: false,
-            monacoEditor: false,
         };
-    },
-
-    methods: {
-        monacoInit() {
-            window.monacoInstances = window.monacoInstances||{};
-            if (this.monacoId) return window.monacoInstances[this.monacoId];
-
-            let monacoEditor = monaco.editor.create(this.$refs.monacoRef, {
-                value: this.propsModelValue,
-                language: this.language,
-                theme: this.theme,
-                readOnly: this.disabled,
-                autoIndent: true,
-                automaticLayout: true,
-            });
-            
-            monacoEditor.getModel().onDidChangeContent(ev => {
-                this.propsModelValue = monacoEditor.getValue();
-                // this.$emit('update:modelValue', monacoEditor.getValue());
-            });
-
-            this.monacoId = 'monaco-'+(Math.round(Math.random()*9999));
-            window.monacoInstances[this.monacoId] = monacoEditor;
-            return monacoEditor;
-        },
-
-        resizeHandler() {
-            let monacoEditor = this.monacoInit();
-            if (!monacoEditor) return;
-            monacoEditor.layout({width:0});
-        },
     },
 
     mounted() {
         this.monacoInit();
-        window.addEventListener('resize', this.resizeHandler);
-    },
-
-    unmounted() {
-        window.removeEventListener('resize', this.resizeHandler);
-        delete window.monacoInstances[this.monacoId];
     },
 };
 </script>

@@ -32,38 +32,48 @@
 
                     <div class="my-3"></div>
 
-                    <v-tabs v-model="tabEdit">
-                        <v-tab value="view">View</v-tab>
-                        <v-tab value="edit">Editor</v-tab>
-                    </v-tabs>
-                    <v-window v-model="tabEdit">
-                        <v-window-item value="view">
+                    <app-tabs :items="[{value:'view', text:'View'}, {value:'editor', text:'Editor'}]">
+                        <template #view>
                             <v-row no-gutters>
-                                <v-col>
-                                    <div class="mt-2">Código</div>
-                                    <app-code v-model="crud.edit.view_code" language="javascript" label="Aaa"></app-code>
-                                    <div class="mt-2">Template</div>
-                                    <app-code v-model="crud.edit.view_template" language="html"></app-code>
-                                    <div class="mt-2">CSS</div>
-                                    <app-code v-model="crud.edit.view_style" language="css"></app-code>
+                                <v-col cols="12" md="6">
+                                    <app-tabs :items="[{value:'codigo', text:'Código'}, {value:'template', text:'Template'}, {value:'css', text:'CSS'}]">
+                                        <template #codigo>
+                                            <app-code style="height:300px;" v-model="crud.edit.view_code" language="javascript" label="Aaa"></app-code>
+                                        </template>
+                                        <template #template>
+                                            <app-code style="height:300px;" v-model="crud.edit.view_template" language="html"></app-code>
+                                        </template>
+                                        <template #css>
+                                            <app-code style="height:300px;" v-model="crud.edit.view_style" language="css"></app-code>
+                                        </template>
+                                    </app-tabs>
                                 </v-col>
-                                <v-col>bbb</v-col>
+                                <v-col cols="12" md="6" class="bg-grey">
+                                    <div class="pa-3 bg-white font-weight-bold">Preview</div>
+                                </v-col>
                             </v-row>
-                        </v-window-item>
-                        <v-window-item value="edit">
+                        </template>
+                        <template #editor>
                             <v-row no-gutters>
-                                <v-col>
-                                    <div>Código</div>
-                                    <app-code v-model="crud.edit.edit_code" language="javascript"></app-code>
-                                    <div>Template</div>
-                                    <app-code v-model="crud.edit.edit_template" language="html"></app-code>
-                                    <div>CSS</div>
-                                    <app-code v-model="crud.edit.edit_style" language="css"></app-code>
+                                <v-col cols="12" md="6">
+                                    <app-tabs :items="[{value:'codigo', text:'Código'}, {value:'template', text:'Template'}, {value:'css', text:'CSS'}]">
+                                        <template #codigo>
+                                            <app-code style="height:300px;" v-model="crud.edit.editor_code" language="javascript" label="Aaa"></app-code>
+                                        </template>
+                                        <template #template>
+                                            <app-code style="height:300px;" v-model="crud.edit.editor_template" language="html"></app-code>
+                                        </template>
+                                        <template #css>
+                                            <app-code style="height:300px;" v-model="crud.edit.editor_style" language="css"></app-code>
+                                        </template>
+                                    </app-tabs>
                                 </v-col>
-                                <v-col>bbb</v-col>
+                                <v-col cols="12" md="6" class="bg-grey">
+                                    <div class="pa-3 bg-white font-weight-bold">Preview</div>
+                                </v-col>
                             </v-row>
-                        </v-window-item>
-                    </v-window>
+                        </template>
+                    </app-tabs>
 
                     <pre>{{ crud.edit }}</pre>
                 </template>
