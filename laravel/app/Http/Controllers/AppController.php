@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 class AppController extends Controller
 {
-	public function __construct()
+	public function boot()
 	{
 		// $this->model = new \App\Models\Settings;
 
@@ -46,14 +46,6 @@ class AppController extends Controller
 		$load = [];
 
 		$load['devMode'] = !\App::environment('production');
-		$load['user'] = false;
-		$load['userPermissions'] = [];
-		if ($user = auth()->user()) {
-			$load['user'] = $user;
-			if ($group = \App\Models\UsersGroups::select(['permissions'])->find($user->group_id)) {
-				$load['userPermissions'] = $group->permissions;
-			}
-		}
 
 		$load['settings'] = \App\Models\Settings::getAll(false);
 		$load['translations'] = [];
@@ -78,6 +70,10 @@ class AppController extends Controller
 				['to'=>'/admin/places', 'icon'=>'mdi-cog', 'label'=>'Endereços', 'children'=>[]],
 			]],
 		];
+
+		foreach(event('/api/app/load', [ $load ]) as $value) {
+			$load = array_merge($load, $value);
+		}
 
 		return $load;
 	}
@@ -189,11 +185,11 @@ class AppController extends Controller
 	public function dashboard()
 	{
 		$return = [];
-		foreach(\App\Utils::getModels() as $model) {
-			foreach($model->dashboardData() as $key => $data) {
-				$return[ $key ] = $data;
-			}
+
+		foreach(event('/api/app/dashboard', [ $return ]) as $value) {
+			$return = array_merge($return, $value);
 		}
+
 		return $return;
 	}
 

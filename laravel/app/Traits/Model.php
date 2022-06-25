@@ -301,12 +301,6 @@ trait Model
     }
 
 
-    public function dashboardData()
-    {
-        return [];
-    }
-
-
     public function scopeWithJoin($query, $method, $fields=[], $params=[])
     {   
         $relation = call_user_func([$this, $method]);

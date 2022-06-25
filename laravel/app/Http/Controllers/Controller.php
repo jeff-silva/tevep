@@ -11,7 +11,32 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function route($methods, $path, $callback, $info=[])
+    public function __construct()
+    {
+        $this->boot();
+
+        \Illuminate\Support\Facades\Event::listen('/api/app/load', function($data) {
+            return $this->onLoad($data);
+        });
+        
+        \Illuminate\Support\Facades\Event::listen('/api/app/dashboard', function($data) {
+            return $this->onDashboard($data);
+        });
+    }
+
+
+    public function boot() {}
+
+    public function onLoad($data) {
+        return $data;
+    }
+
+    public function onDashboard($data) {
+        return $data;
+    }
+
+
+    public function route($methods, $path, $callback)
     {
         $methods = is_array($methods)? $methods: [$methods];
         $prefix = (new \ReflectionClass($this))->getShortName();

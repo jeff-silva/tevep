@@ -145,22 +145,6 @@ class Files extends \Illuminate\Database\Eloquent\Model
 	}
 
 
-	public function dashboardData()
-	{
-		$return['filesTotal'] = Files::select(['id'])->count('size') ?? 0;
-		$return['filesTotalSize'] = Files::select(['size'])->get()->sum('size') ?? 0;
-		$return['filesFormats'] = Files::query()
-			->select('files.ext', \DB::raw('count(files.id) as total'))
-			->groupBy('files.ext')
-			->get()
-			->map(function($item) { return [
-				'ext' => ($item->ext? $item->ext: 'Indefinido'),
-				'total' => $item->total,
-			]; });
-		return $return;
-	}
-
-
 	public function user()
 	{
 		return $this->belongsTo(App\Models\Users::class, 'photo_id', 'id');

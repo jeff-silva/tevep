@@ -30,6 +30,19 @@ export default defineNuxtPlugin((nuxtApp) => {
                 variant: 'outlined',
             },
         },
+        theme: {
+            defaultTheme: 'light',
+            themes: {
+                light: {
+                    dark: false,
+                    colors: {},
+                },
+                dark: {
+                    dark: true,
+                    colors: {},
+                },
+            },
+        },
     }));
     
     // Intercept axios

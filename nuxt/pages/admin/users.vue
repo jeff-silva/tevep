@@ -25,9 +25,10 @@
                             <app-model-file v-model="crud.edit.photo_id"></app-model-file>
                         </v-col>
                         <v-col cols="12" md="9">
-                            <v-tabs v-model="tab" class="mb-4" background-color="grey-lighten-3">
+                            <v-tabs v-model="tab" class="mb-4">
                                 <v-tab value="home">Dados</v-tab>
                                 <v-tab value="address">Endereço</v-tab>
+                                <v-tab value="settings">Configurações</v-tab>
                                 <v-tab value="password">Senha</v-tab>
                             </v-tabs>
 
@@ -45,9 +46,23 @@
                                     ></v-text-field>
                                     <app-model-select label="Grupo" v-model="crud.edit.group_id" namespace="users-groups"></app-model-select>
                                 </v-window-item>
+
                                 <v-window-item value="address">
                                     <app-model-place label="Endereço" v-model="crud.edit.address_id"></app-model-place>
                                 </v-window-item>
+                                
+                                <v-window-item value="settings">
+                                    <v-row>
+                                        <v-col cols="6">
+                                            <v-select
+                                                v-model="crud.edit.settings.theme"
+                                                label="Tema"
+                                                :items="[{value:'light', title:'Light'}, {value:'dark', title:'Dark'}]"
+                                            ></v-select>
+                                        </v-col>
+                                    </v-row>
+                                </v-window-item>
+
                                 <v-window-item value="password">
                                     <v-text-field
                                         label="Senha"

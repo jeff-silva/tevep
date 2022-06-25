@@ -12,7 +12,7 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function boot()
     {
         $this->middleware('auth:api', [
             'except' => ['login', 'register', 'passwordResetStart', 'passwordResetChange'],

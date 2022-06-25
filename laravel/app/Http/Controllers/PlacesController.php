@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 class PlacesController extends Controller
 {
-	public function __construct()
+	public function boot()
 	{
 		$this->model = new \App\Models\Places;
 

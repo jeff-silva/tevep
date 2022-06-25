@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 class UsersController extends Controller
 {
-	public function __construct()
+	public function boot()
 	{
 		$this->model = new \App\Models\Users;
 
@@ -15,6 +15,31 @@ class UsersController extends Controller
 		$this->defaultRoutes([
 			'except' => ['delete', 'restore', 'clone'],
 		]);
+	}
+
+
+	public function onLoad($data)
+	{
+		$data['user'] = false;
+		$data['userPermissions'] = [];
+		$data['userSettings'] = [];
+
+		if ($user = auth()->user()) {
+			$data['user'] = $user;
+			$data['userSettings'] = $user->settings;
+			if ($group = \App\Models\UsersGroups::select(['permissions'])->find($user->group_id)) {
+				$data['userPermissions'] = $group->permissions;
+			}
+		}
+
+		return $data;
+	}
+
+
+	public function onDashboard($data)
+	{
+		$data['usersTotal'] = \App\Models\Users::select(['id'])->count();
+		return $data;
 	}
 
 	
