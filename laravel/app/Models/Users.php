@@ -27,10 +27,10 @@ class Users extends Authenticatable implements JWTSubject
 		'email_verified_at',
 		'password',
 		'remember_token',
+		'settings',
 		'created_at',
 		'updated_at',
 	];
-
 
 	public $timestamps = false;
 
@@ -68,6 +68,7 @@ class Users extends Authenticatable implements JWTSubject
 			'email_verified_at' => 'DATETIME NULL DEFAULT NULL',
 			'password' => 'VARCHAR(255) NOT NULL',
 			'remember_token' => 'VARCHAR(100) NULL DEFAULT NULL',
+			'settings' => 'LONGTEXT NULL DEFAULT NULL',
 			'created_at' => 'default',
 			'updated_at' => 'default',
 		];
@@ -136,6 +137,10 @@ class Users extends Authenticatable implements JWTSubject
 	public function mutatorRetrieve()
 	{
 		$this->photo_id = is_numeric($this->photo_id)? $this->photo_id: null;
+		
+		$this->settings = json_decode($this->settings, true);
+		$this->settings = is_array($this->settings)? $this->settings: [];
+		$this->settings = array_merge(config('app-models-users.settings', $this->settings));
 	}
 
 
@@ -176,7 +181,7 @@ class Users extends Authenticatable implements JWTSubject
 
 	public function photos()
 	{
-		return $this->hasMany(\App\Models\Files::class, 'id', 'photo_id');
+		return $this->hasMany(Files::class, 'id', 'photo_id');
 	}
 
 

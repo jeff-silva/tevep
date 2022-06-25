@@ -12,8 +12,7 @@ class AppBase extends \Illuminate\Console\Command
     public $fks = false;
 
     public function handle() {
-        $this->comment('Hello');
-        // (new \App\Http\Controllers\AppController)->test();
+        $this->comment('Hello World');
     }
 
     public function isIgnoredTable($name)
@@ -89,13 +88,13 @@ class AppBase extends \Illuminate\Console\Command
 
             $table_name = $model->getTable();
 
-            $models[ $table_name ] = [
+            $models[ $table_name ] = (object) [
                 'singular' => $model->getSingular(),
                 'plural' => $model->getPlural(),
+                'slug' => (string) \Str::of($table_name)->studly()->kebab(),
                 'table' => $table_name,
                 'fields' => $fields,
                 'fks' => $model->getSchemaForeignKeys(),
-                // 'model' => get_class($model),
                 'model' => $this->getModel($table_name),
                 'controller' => $this->getController($table_name),
             ];
@@ -124,18 +123,8 @@ class AppBase extends \Illuminate\Console\Command
         $table->Slug = (string) \Str::of($name)->studly()->kebab();
         $table->Name = $name;
 
-        $table->Model = $this->classInfo([
-            'name' => $table->Name,
-            'namespace' => 'App\Models',
-            'path' => 'app\Models',
-        ]);
-
-        $table->Controller = $this->classInfo([
-            'name' => $table->Name,
-            'namespace' => 'App\Http\Controllers',
-            'path' => 'app\Http\Controllers',
-            'suffix' => 'Controller',
-        ]);
+        $table->Model = $this->getModel($table->Name);
+        $table->Controller = $this->getController($table->Name);
 
         $statement = collect(\DB::select("SHOW CREATE TABLE `{$table->Name}`;"))->pluck('Create Table')->first();
         $statement = str_replace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $statement);

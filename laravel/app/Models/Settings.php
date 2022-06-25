@@ -43,9 +43,9 @@ class Settings extends \Illuminate\Database\Eloquent\Model
 
 	public static function getSettingsKeys($showAll = false)
 	{
-		$front = config('app_models_settings.front', []);
+		$front = config('app-models-settings.front', []);
 		if (!$showAll) return $front;
-		$back = config('app_models_settings.back', []);
+		$back = config('app-models-settings.back', []);
 		return array_merge($front, $back);
 	}
 
