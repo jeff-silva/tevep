@@ -137,7 +137,7 @@ class Users extends Authenticatable implements JWTSubject
 	public function mutatorRetrieve()
 	{
 		$this->photo_id = is_numeric($this->photo_id)? $this->photo_id: null;
-		
+
 		$this->settings = json_decode($this->settings, true);
 		$this->settings = is_array($this->settings)? $this->settings: [];
 		$this->settings = array_merge(config('app-models-users.settings', $this->settings));

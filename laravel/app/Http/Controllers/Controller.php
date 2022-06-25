@@ -68,7 +68,7 @@ class Controller extends BaseController
         $name = (new \ReflectionClass($this->model))->getShortName();
         $prefix = (string) \Str::of($name)->studly()->kebab();
         $body = collect(array_flip($this->model->getFillable()))->map(function($value, $key) { return ''; })->toArray();
-
+        
         if (! in_array('search', $params->except)) {
             $this->route('get', "/search", 'search', [
                 'description' => 'Busca',
@@ -125,7 +125,7 @@ class Controller extends BaseController
         }
     }
 
-
+    
     public function search()
     {
         $query = $this->model->search();
@@ -143,7 +143,8 @@ class Controller extends BaseController
 
     public function find($id)
     {
-        return $this->model->whereDeleted(false)->findIdOrSlug($id);
+        $model = $this->model->find($id);
+        return $model? $model: $this->model->default();
     }
 
 

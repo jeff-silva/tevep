@@ -64,6 +64,19 @@ trait Model
     }
 
 
+    public function find($id)
+    {
+        if (in_array('slug', $this->fillable)) {
+            return $this->where(function($q) use($id) {
+                $q->where('id', $id);
+                $q->orWhere('slug', $id);
+            })->first();
+        }
+        
+        return parent::find($id);
+    }
+
+
     public static function permissions()
     {
         return [];
@@ -222,6 +235,18 @@ trait Model
         }
 
         return $value;
+    }
+
+
+    public function default()
+    {
+        $data = array_map(function() { return ''; }, array_flip($this->getFillable()));
+        if (isset($data['created_at'])) unset($data['created_at']);
+        if (isset($data['updated_at'])) unset($data['updated_at']);
+        if (isset($data['deleted_at'])) unset($data['deleted_at']);
+        $new = (new static)->fill($data);
+        $new->mutatorRetrieve();
+        return $new;
     }
 
 

@@ -25,12 +25,16 @@
                             <app-model-file v-model="crud.edit.photo_id"></app-model-file>
                         </v-col>
                         <v-col cols="12" md="9">
-                            <app-tabs :items="[
-                                {value:'info', text:'Dados'},
-                                {value:'address', text:'Endereço'},
-                                {value:'settings', text:'Configurações'},
-                                {value:'password', text:'Senha'},
-                            ]">
+                            <app-tabs
+                                :model-value="$route.query.tab || 'info'"
+                                @update:model-value="$router.push({ query: { ...$route.query, tab: $event} });"
+                                :items="[
+                                    {value:'info', text:'Dados'},
+                                    {value:'address', text:'Endereço'},
+                                    {value:'settings', text:'Configurações'},
+                                    {value:'password', text:'Senha'},
+                                ]"
+                            >
                                 <template #info>
                                     <v-text-field
                                         label="Nome"
@@ -49,7 +53,7 @@
                                 </template>
                                 <template #settings>
                                     <v-row>
-                                        <v-col cols="6">
+                                        <v-col cols="6" v-if="crud.edit.settings">
                                             <v-select
                                                 v-model="crud.edit.settings.theme"
                                                 label="Tema"
@@ -83,7 +87,7 @@
 export default {
     data() {
         return {
-            tab: 'home',
+            tab: 'info',
         };
     },
 };

@@ -396,15 +396,8 @@ export default {
 
         async modelEditInit() {
             if (!this.isEditPage) return;
-            const id = +this.$route.query.edit;
+            const id = this.$route.query.edit || 'new';
             this.modelEdit.status = false;
-
-            if (isNaN(id)) {
-                this.modelEdit.data = {};
-                return;
-            }
-
-            if (this.modelEdit.loading) return;
             this.modelEdit.loading = true;
 
             try {
