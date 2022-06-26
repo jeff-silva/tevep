@@ -142,23 +142,11 @@
             </v-app-bar>
 
             <!-- Sizes your content based upon application components -->
-            <v-main class="bg-grey-lighten-4">
+            <v-main>
                 <div class="py-0 pa-lg-5">
                     <slot></slot>
-                    <!-- <div id="app-tour-step-1">Step 1</div>
-                    <div id="app-tour-step-2">Step 2</div>
-                    <app-tour store="app-tour-1">
-                        <app-tour-step target="#app-tour-step-1">Hello</app-tour-step>
-                        <app-tour-step target="#app-tour-step-2">Hello</app-tour-step>
-                        <app-tour-step target="#app-tour-step-2">aaa</app-tour-step>
-                    </app-tour> -->
                 </div>
             </v-main>
-
-
-            <!-- <v-footer app>
-                Footer
-            </v-footer> -->
         </v-app>
     </div>
 </template>

@@ -1,12 +1,12 @@
 <template>
     <v-card>
-        <v-card-header style="background:#eee;">
+        <v-card-header>
             {{ plural }}
         </v-card-header>
         <div
             :class="{
-                'd-flex flex-column': (layout=='vertical'),
-                'd-inline-flex align-center': (layout=='horizontal'),
+                'my-3 d-flex flex-column': (layout=='vertical'),
+                'my-3 d-inline-flex align-center': (layout=='horizontal'),
             }"
         >
             <draggable 

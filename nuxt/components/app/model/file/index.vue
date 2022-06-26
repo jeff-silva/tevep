@@ -1,7 +1,6 @@
 <template>
     <div>
         <v-img
-            class="bg-grey-lighten-3"
             width="100%"
             :height="previewHeight"
             :aspect-ratio="1"

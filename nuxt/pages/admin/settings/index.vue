@@ -4,8 +4,8 @@
             <form @submit.prevent="formSubmit()" v-if="settings && settings.data && Object.keys(settings.data).length">
                 <v-container>
                     <v-card>
-                        <v-row>
-                            <v-col cols="12" lg="2" class="pa-0 bg-grey-lighten-5 elevation-1">
+                        <v-row no-gutters>
+                            <v-col cols="12" lg="2" class="pa-0 elevation-1">
                                 <v-tabs
                                     v-model="tab"
                                     @update:modelValue="$router.push(`/admin/settings/${$event}`)"
@@ -20,11 +20,11 @@
                                     </v-tab>
                                 </v-tabs>
                             </v-col>
-                            <v-col cols="12" lg="10" class="pa-3 pa-lg-0 bg-white">
+                            <v-col cols="12" lg="10" class="pa-3 pa-lg-0">
                                 <template v-for="t in tabs">
                                     <div
                                         v-if="t.value==tab"
-                                        class="pa-3 bg-grey-lighten-5 elevation-1 d-none d-lg-block text-uppercase font-weight-bold"
+                                        class="pa-3 elevation-1 d-none d-lg-block text-uppercase font-weight-bold"
                                         :key="$key(t)"
                                     >{{ t.name }}</div>
                                 </template>

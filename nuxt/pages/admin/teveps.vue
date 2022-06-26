@@ -22,7 +22,7 @@
                 </template>
 
                 <template #edit-card="crud">
-                    <div class="bg-white pa-3" style="margin: 0 -20px 0 -20px;">
+                    <div class="pa-3" style="margin: 0 -20px 0 -20px;">
                         <tevep-edit v-model="crud.edit" :area-width="1700" :method-save="crud.modelEdit.submit"></tevep-edit>
                     </div>
                 </template>

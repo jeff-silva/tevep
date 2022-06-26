@@ -9,8 +9,8 @@
                     @keyup="places.submit({debounce:1500})"
                     @focus="placesListShow=true"
                     prepend-inner-icon="mdi-magnify"
-                    append-icon="mdi-crosshairs"
-                    @click:append="getGeolocation"
+                    append-inner-icon="mdi-crosshairs"
+                    @click:append-inner="getGeolocation"
                     :loading="places.loading"
                 ></v-text-field>
                 <div style="position:relative; z-index:2;" v-if="placesListShow">

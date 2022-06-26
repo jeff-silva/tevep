@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card>
-            <v-card-title style="background:#eee;">
+            <v-card-title>
                 Convites
             </v-card-title>
             <v-card-text>
@@ -11,7 +11,7 @@
                             <img style="height:40px;" src="/files/icons/raquete-preta.png" alt="">
                         </a>
                     </div>
-                    <div class="ps-3" v-for="r in invitesSearch.resp.data">
+                    <div class="ps-3" v-for="r in invitesSearch.resp.data" :key="$key(r)">
                         <v-tooltip anchor="top">
                             <template #activator="{ props }">
                                 <v-btn v-bind="props" flat style="height:auto" @click="inviteViewModal=r.id">

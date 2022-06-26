@@ -53,7 +53,7 @@ class AppController extends Controller
 			['to'=>'/admin', 'icon'=>'mdi-view-dashboard', 'label'=>'Dashboard', 'children'=>[]],
 			['to'=>'', 'icon'=>'mdi-database', 'label'=>'Tevep', 'children'=>[
 				['to'=>'/admin/teveps', 'icon'=>'mdi-database', 'label'=>'Procurar', 'children'=>[]],
-				['to'=>'/admin/teveps?id=new', 'icon'=>'mdi-database', 'label'=>'Criar', 'children'=>[]],
+				['to'=>'/admin/teveps?edit=new', 'icon'=>'mdi-database', 'label'=>'Criar', 'children'=>[]],
 			]],
 			['to'=>'', 'icon'=>'mdi-sitemap', 'label'=>'Conteúdo', 'children'=>[
 				['to'=>'/admin/pages', 'icon'=>'mdi-sitemap', 'label'=>'Páginas', 'children'=>[]],
