@@ -51,4 +51,13 @@ class UsersController extends Controller
 		}
         return $this->model->updateOrCreate(['id' => request('id')], $data);
     }
+
+
+	public function find($id)
+	{
+		if ('me'==$id AND $user = auth()->user()) {
+            $id = $user->id;
+        }
+		return parent::find($id);
+	}
 }

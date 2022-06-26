@@ -124,7 +124,7 @@ export default {
         returnType: {default:'id'}, // id, object
         label: {default:''},
         autoSave: {default:true},
-        readonly: {default:true},
+        readonly: {default:false},
     },
 
     watch: {

@@ -67,7 +67,7 @@
                     <template v-if="app.auths.length>1">
                         <v-list-subheader>Alterar conta</v-list-subheader>
                         <template v-for="a in app.auths">
-                            <v-list-item @click="app.authSwitch(a.email)" v-if="app.user.email!=a.email">
+                            <v-list-item :key="$key(a)" @click="app.authSwitch(a.email)" v-if="app.user.email!=a.email">
                                 {{ a.email }}
                             </v-list-item>
                         </template>
@@ -75,9 +75,11 @@
                     <v-list-item :to="`/auth?redirect=${$route.fullPath}`">
                         Fazer login com outra conta
                     </v-list-item>
+                    <v-divider></v-divider>
+                    <v-list-item :to="`/admin/users?edit=me`">
+                        Editar meus dados
+                    </v-list-item>
                 </v-list>
-
-                <v-divider></v-divider>
             </v-navigation-drawer>
 
             <!-- App drawer -->
