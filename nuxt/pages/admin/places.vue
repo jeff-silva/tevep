@@ -42,6 +42,7 @@
                             v-model="crud.modelSearch.params.country_short"
                             :items="vuetifyItems(crud.modelSearch.resp.attributes.countries, 'country_short', 'country')"
                             @update:modelValue="crud.modelSearch.params.state_short=null; crud.modelSearch.submit()"
+                            hide-details
                         >
                         </v-select>
 
@@ -51,6 +52,7 @@
                             :items="vuetifyItems(crud.modelSearch.resp.attributes.states, 'state_short', 'state')"
                             @update:modelValue="crud.modelSearch.submit()"
                             v-if="crud.modelSearch.resp.attributes.states.length"
+                            hide-details
                         >
                         </v-select>
                     </template>

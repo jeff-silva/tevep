@@ -35,6 +35,7 @@
                             v-model="crud.modelSearch.params.in_folder"
                             :items="crud.modelSearch.resp.attributes.folders.map(item => item.name)"
                             @update:modelValue="crud.modelSearch.submit()"
+                            hide-details
                         ></v-select>
                     </template>
                 </template>

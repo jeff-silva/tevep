@@ -108,23 +108,30 @@
                         </div>
 
                         <v-card-content>
-                            <v-text-field :label="`Buscar ${plural}`" v-model="modelSearch.params.q"></v-text-field>
-        
-                            <slot name="search-fields" v-bind="slotBind()"></slot>
+                            <div class="d-flex flex-column" style="gap:20px;">
+                                <v-text-field
+                                    :label="`Buscar ${plural}`"
+                                    v-model="modelSearch.params.q"
+                                    hide-details
+                                ></v-text-field>
 
-                            <v-select
-                                label="Estado"
-                                v-model="modelSearch.params.deleted"
-                                :items="[{value:'', title:'Ativo'}, {value:'1', title:'Deletado'}]"
-                                @update:model-value="modelSearch.submit()"
-                                hide-details
-                            ></v-select>
+                                <v-select
+                                    label="Estado"
+                                    v-if="tableActions.delete !== false"
+                                    v-model="modelSearch.params.deleted"
+                                    :items="[{value:'', title:'Ativo'}, {value:'1', title:'Deletado'}]"
+                                    @update:model-value="modelSearch.submit()"
+                                    hide-details
+                                ></v-select>
+
+                                <slot name="search-fields" v-bind="slotBind()"></slot>
+                            </div>
                         </v-card-content>
 
                         <v-divider class="my-2" />
 
                         <v-card-content>
-                            <div class="d-flex flex-column" style="gap:15px;">    
+                            <div class="d-flex flex-column" style="gap:20px;">    
                                 <v-btn type="submit" color="primary" block :disabled="modelSearch.loading">
                                     Buscar
                                 </v-btn>
@@ -133,7 +140,7 @@
                                     Limpar
                                 </v-btn>
                                 
-                                <v-btn color="error" block v-if="selectedIds.length && !modelSearch.params.deleted" @click="modelDelete(selectedIds)">
+                                <v-btn color="error" block v-if="selectedIds.length && !modelSearch.params.deleted && tableActions.delete !== false" @click="modelDelete(selectedIds)">
                                     Deletar {{ selectedIds.length }} {{ plural }}
                                 </v-btn>
                                 
