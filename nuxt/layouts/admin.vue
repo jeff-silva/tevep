@@ -6,6 +6,12 @@
             @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
             html, body {font-family: 'Montserrat', sans-serif;}
             </Style>
+
+            <Script>window.require = { paths: { 'vs': '//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' } };</Script>
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.min.css">
+            <Script src="//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></Script>
+            <Script src="//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.nls.js"></Script>
+            <Script src="//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.js"></Script>
         </head>
 
         <v-app>

@@ -7,7 +7,7 @@
         >
             <template #item="{ element:item }">
                 <div class="d-flex align-center">
-                    <div class="app-content-editor-reorder-drag">
+                    <div class="app-content-editor-reorder-drag me-2" v-if="reorder">
                         <v-icon>mdi-drag</v-icon>
                     </div>
                     <div class="flex-grow-1">
@@ -21,6 +21,10 @@
                 </div>
             </template>
         </draggable>
+
+        <div v-if="value.length==0" class="text-center">
+            <slot name="empty">Nenhum item</slot>
+        </div>
     </div>
 </template>
 
@@ -31,6 +35,7 @@ export default {
     components: { draggable },
     props: {
         modelValue: {type:Array, default:()=>([])},
+        reorder: {type:Array, default:true},
     },
     computed: {
         value: {

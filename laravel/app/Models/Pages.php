@@ -28,10 +28,15 @@ class Pages extends \Illuminate\Database\Eloquent\Model
 	}
 
 
-	public function getContentAttribute($value)
+	public function mutatorRetrieve()
 	{
-		$value = is_array($value)? $value: json_decode($value, true);
-		return is_array($value)? $value: (object) [];
+		$this->content = call_user_func(function($content) {
+			$content = is_array($content)? $content: json_decode($content, true);
+			$content = $content? $content: [];
+			$content['layout'] = isset($content['layout'])? $content['layout']: ['name'=>'', 'value'=>false, 'is'=>false];
+			$content['sections'] = isset($content['sections'])? $content['sections']: [];
+			return $content;
+		}, $this->content);
 	}
 
 

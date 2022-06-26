@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-row>
-            <v-col cols="12" md="12">
+            <v-col cols="12" md="12" v-if="!readonly">
                 <v-text-field
                     :label="placeSave.data.name || label"
                     hide-details
@@ -35,6 +35,8 @@
                     label="Rua"
                     hide-details
                     v-model="placeSave.data.route"
+                    :readonly="readonly"
+                    :variant="'outlined'"
                     @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
@@ -43,6 +45,7 @@
                     label="N°"
                     hide-details
                     v-model="placeSave.data.number"
+                    :readonly="readonly"
                     @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
@@ -51,6 +54,7 @@
                     label="Complemento"
                     hide-details
                     v-model="placeSave.data.complement"
+                    :readonly="readonly"
                     @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
@@ -59,6 +63,7 @@
                     label="CEP"
                     hide-details
                     v-model="placeSave.data.zipcode"
+                    :readonly="readonly"
                     @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
@@ -67,6 +72,7 @@
                     label="Bairro"
                     hide-details
                     v-model="placeSave.data.district"
+                    :readonly="readonly"
                     @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
@@ -75,6 +81,7 @@
                     label="Cidade"
                     hide-details
                     v-model="placeSave.data.city"
+                    :readonly="readonly"
                     @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
@@ -83,17 +90,19 @@
                     label="Estado"
                     hide-details
                     v-model="placeSave.data.state"
+                    :readonly="readonly"
                     @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
-                <v-autocomplete
+                <v-select
                     label="País"
                     hide-details 
                     v-model="placeSave.data.country_short"
+                    :readonly="readonly"
                     @update:modelValue="placeAutosave()"
                     :items="countries"
-                ></v-autocomplete>
+                ></v-select>
             </v-col>
 
             <v-col cols="12">
@@ -115,6 +124,7 @@ export default {
         returnType: {default:'id'}, // id, object
         label: {default:''},
         autoSave: {default:true},
+        readonly: {default:true},
     },
 
     watch: {
@@ -231,6 +241,7 @@ export default {
                 {value:"AF", title:"Afeganistão"},
                 {value:"ZA", title:"África do Sul"},
                 {value:"AL", title:"Albânia"},
+                {value:"BR", title:"Brasil"},
             ],
         };
     },

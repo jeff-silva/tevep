@@ -24,12 +24,18 @@
                                             label="Nome"
                                             hide-details
                                         ></v-text-field>
-                                        <component
-                                            v-bind="sectionEditData"
-                                            :is="sectionEditData.is"
-                                            :edit="true"
-                                            v-model="sectionEditData.value"
-                                        ></component>
+
+                                        <div class="my-3"></div>
+                                        <div
+                                            v-for="s in sections"
+                                            :key="$key(s)"
+                                        >
+                                            <app-content-compile
+                                                v-if="sectionEditData.id==s.id"
+                                                :is="s.edit.compiled"
+                                                v-model="sectionEditData.value"
+                                            ></app-content-compile>
+                                        </div>
                                     </div>
                                     <div v-else class="text-center">
                                         <v-btn class="my-3" @click="actionsView='section-list-insert'">Inserir seção</v-btn>
@@ -40,15 +46,15 @@
                             <!-- Seções inseridas -->
                             <v-expansion-panel value="section-list-edit" title="Seções inseridas">
                                 <v-expansion-panel-text>
-                                    <app-content-editor-reorder v-model="propsModelValue.sections">
+                                    <app-content-editor-list v-model="propsModelValue.sections">
                                         <template #item="{ item }">
-                                            <pre>{{ item.name }}</pre>
+                                            {{ item.name }}
                                         </template>
                                         <template #actions="{ item }">
                                             <v-btn icon="mdi-pencil" flat @click="sectionEdit(item)"></v-btn>
                                             <v-btn icon="mdi-delete" flat @click="sectionDelete(item)"></v-btn>
                                         </template>
-                                    </app-content-editor-reorder>
+                                    </app-content-editor-list>
                                     <v-btn class="mt-2" @click="actionsView='section-list-insert'" block>Inserir seção</v-btn>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
@@ -56,60 +62,59 @@
                             <!-- Inserir seção -->
                             <v-expansion-panel value="section-list-insert" title="Inserir seção">
                                 <v-expansion-panel-text>
-                                    <v-list dense>
-                                        <v-list-item v-for="s in sections" :key="$key(s)">
-                                            <template #title>
-                                                <v-list-item-title>
-                                                    {{ s.name }}
-                                                </v-list-item-title>
-                                            </template>
-                                            <template #append>
-                                                <v-list-item-action>
-                                                    <v-btn icon flat @click="sectionAdd(s)">
-                                                        <v-icon>mdi-plus</v-icon>
-                                                    </v-btn>
-                                                </v-list-item-action>
-                                            </template>
-                                        </v-list-item>
-                                    </v-list>
+                                    <app-content-editor-list v-model="sections" :reorder="false">
+                                        <template #item="{ item }">
+                                            {{ item.name }}
+                                        </template>
+                                        <template #actions="{ item }">
+                                            <v-btn icon="mdi-plus" flat @click="sectionAdd(item)"></v-btn>
+                                        </template>
+                                    </app-content-editor-list>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
 
                             <!-- Editar Layout -->
                             <v-expansion-panel value="layout-edit" title="Editar Layout">
                                 <v-expansion-panel-text>
-                                    Layout
+                                    <!--  -->
+                                    <div
+                                        v-for="l in layouts"
+                                        :key="$key(l)"
+                                    >
+                                        <app-content-compile
+                                            v-if="l.id==propsModelValue.layout.id"
+                                            :is="l.edit.compiled"
+                                            v-model="propsModelValue.layout.value"
+                                        ></app-content-compile>
+                                    </div>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
 
                             <!-- Layouts -->
                             <v-expansion-panel value="layout-list" title="Layouts">
                                 <v-expansion-panel-text>
-                                    <pre>{{ layouts }}</pre>
+                                    <app-content-editor-list v-model="layouts" :reorder="false">
+                                        <template #item="{ item }">
+                                            {{ item.name }}
+                                        </template>
+                                        <template #actions="{ item }">
+                                            <v-btn icon="mdi-plus" flat @click="layoutSet(item)"></v-btn>
+                                        </template>
+                                    </app-content-editor-list>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                         </v-expansion-panels>
                     </v-card>
+
+                    <slot name="sidebar"></slot>
+
+                    <pre>sectionEditData: {{ sectionEditData }}</pre>
                 </v-col>
                 <v-col cols="9" style="height:100vh; overflow:auto; background:#ffffff;">
-                    <template v-for="l in layouts">
-                        <template v-if="l.is==propsModelValue.layout.is">
-                            <component v-bind="propsModelValue.layout.is" :is="propsModelValue.layout.is" :key="$key(l)">
-                                <div v-if="propsModelValue.sections.length==0" class="text-center">
-                                    <v-btn class="my-3" @click="actionsView='section-list-insert'">Inserir seção</v-btn>
-                                </div>
-                                
-                                <div
-                                    v-for="s in propsModelValue.sections"
-                                    @click="sectionEdit('section-edit')"
-                                    :style="sectionEditData==s? `border-left:solid 5px red;`: `border-left:solid 5px transparent;`"
-                                    :key="$key(s)"
-                                >
-                                    <component v-bind="s" :is="s.is" :edit="false" :model-value="s.value"></component>
-                                </div>
-                            </component>
-                        </template>
-                    </template>
+                    <app-content
+                        v-model="propsModelValue"
+                        @section-click="sectionEdit($event)"
+                    ></app-content>
                 </v-col>
             </v-row>
         </v-overlay>
@@ -134,13 +139,6 @@ export default {
         modelValue: {default:false, type:[Boolean, Object]},
     },
 
-    computed: {
-        propsModelValue: {
-            get() { return this.modelValueParse(this.modelValue); },
-            set(value) { this.$emit('update:modelValue', value); },
-        },
-    },
-
     methods: {
         modelValueParse(value) {
             if (typeof value!='object') {
@@ -155,17 +153,40 @@ export default {
             return value;
         },
 
+        layoutSet(layout) {
+            this.propsModelValue.layout = {
+                id: layout.id,
+                name: layout.name,
+                value: {},
+                is: layout.view.compiled,
+            };
+
+            this.layoutEdit(layout);
+        },
+
+        layoutEdit(layout) {
+            this.actionsView = 'layout-edit';
+        },
+
         sectionAdd(section) {
-            const id = 'section-'+ Math.round(Math.random()*99999);
-            section = { id, ...section };
-            section.value = {...section.value};
+            const sectionNew = {
+                id: section.id,
+                name: section.name,
+                value: {},
+                is: section.view.compiled,
+            };
+
             let value = this.propsModelValue;
-            value.sections.push(section);
+            value.sections.push(sectionNew);
             this.propsModelValue = value;
-            this.sectionEdit(section);
+            this.sectionEdit(sectionNew);
         },
 
         sectionEdit(section) {
+            if (Array.isArray(section.value)) {
+                section.value = {};
+            }
+
             this.sectionEditData = section;
             this.actionsView = 'section-edit';
         },
@@ -178,13 +199,38 @@ export default {
         },
     },
 
+    computed: {
+        propsModelValue: {
+            get() { return this.modelValueParse(this.modelValue); },
+            set(value) { this.$emit('update:modelValue', value); },
+        },
+        layouts() {
+            if (this.elements.resp && this.elements.resp.data) {
+                return this.elements.resp.data.filter(item => item.type=='layout');
+            }
+
+            return [];
+        },
+        sections() {
+            if (this.elements.resp && this.elements.resp.data) {
+                return this.elements.resp.data.filter(item => item.type=='section');
+            }
+
+            return [];
+        },
+    },
+
     data() {
         return {
             editView: true,
             actionsView: 'section-list-insert',
             sectionEditData: false,
-            layouts: [],
-            sections,
+            elements: useAxios({
+                method: 'get',
+                url: '/api/pages-elements/search',
+                submit: true,
+                params: {per_page:100},
+            }),
         };
     },
 }

@@ -14,9 +14,11 @@
                             <!-- <pre>{{ crud.search.modelSearch }}</pre> -->
                             <l-map ref="map" :zoom="18" :center="[0, 0]" style="height:300px;">
                                 <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-                                <template v-for="m in crud.modelSearch.data">
-                                    <l-marker :lat-lng="[(m.lat||0), (m.lng||0)]"></l-marker>
-                                </template>
+                                <l-marker
+                                    v-for="m in crud.modelSearch.data"
+                                    :key="$key(m)"
+                                    :lat-lng="[(m.lat||0), (m.lng||0)]"
+                                ></l-marker>
                             </l-map>
                         </v-card-text>
                     </v-card>

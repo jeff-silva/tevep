@@ -32,49 +32,77 @@
 
                     <div class="my-3"></div>
 
-                    <app-tabs :items="[{value:'view', text:'View'}, {value:'editor', text:'Editor'}]">
-                        <template #view>
-                            <v-row no-gutters>
-                                <v-col cols="12" md="6">
-                                    <app-tabs :items="[{value:'codigo', text:'Código'}, {value:'template', text:'Template'}, {value:'css', text:'CSS'}]">
-                                        <template #codigo>
-                                            <app-code style="height:300px;" v-model="crud.edit.view_code" language="javascript" label="Aaa"></app-code>
-                                        </template>
-                                        <template #template>
-                                            <app-code style="height:300px;" v-model="crud.edit.view_template" language="html"></app-code>
-                                        </template>
-                                        <template #css>
-                                            <app-code style="height:300px;" v-model="crud.edit.view_style" language="css"></app-code>
-                                        </template>
-                                    </app-tabs>
-                                </v-col>
-                                <v-col cols="12" md="6" class="bg-grey">
-                                    <div class="pa-3 bg-white font-weight-bold">Preview</div>
-                                </v-col>
-                            </v-row>
-                        </template>
-                        <template #editor>
-                            <v-row no-gutters>
-                                <v-col cols="12" md="6">
-                                    <app-tabs :items="[{value:'codigo', text:'Código'}, {value:'template', text:'Template'}, {value:'css', text:'CSS'}]">
-                                        <template #codigo>
-                                            <app-code style="height:300px;" v-model="crud.edit.editor_code" language="javascript" label="Aaa"></app-code>
-                                        </template>
-                                        <template #template>
-                                            <app-code style="height:300px;" v-model="crud.edit.editor_template" language="html"></app-code>
-                                        </template>
-                                        <template #css>
-                                            <app-code style="height:300px;" v-model="crud.edit.editor_style" language="css"></app-code>
-                                        </template>
-                                    </app-tabs>
-                                </v-col>
-                                <v-col cols="12" md="6" class="bg-grey">
-                                    <div class="pa-3 bg-white font-weight-bold">Preview</div>
-                                </v-col>
-                            </v-row>
-                        </template>
-                    </app-tabs>
+                    <v-row v-if="crud.edit.edit && crud.edit.view">
+                        <v-col cols="12" md="6">
+                            <div class="font-weight-bold">Edição</div>
+                            <app-tabs :items="[{value:'template', text:'Template'}, {value:'script', text:'Script'}, {value:'style', text:'CSS'}]">
+                                <template #template>
+                                    <app-code
+                                        v-model="crud.edit.edit.template"
+                                        style="height:300px;"
+                                        language="html"
+                                        :filter="filterTemplate"
+                                    ></app-code>
+                                </template>
+                                <template #script>
+                                    <app-code
+                                        v-model="crud.edit.edit.script"
+                                        style="height:300px;"
+                                        language="javascript"
+                                    ></app-code>
+                                </template>
+                                <template #style>
+                                    <app-code
+                                        v-model="crud.edit.edit.style"
+                                        style="height:300px;"
+                                        language="css"
+                                    ></app-code>
+                                </template>
+                            </app-tabs>
 
+                            <app-content-compile
+                                :is="crud.edit.edit.compiled"
+                                :onthefly="crud.edit.edit"
+                                v-model="valueEdit"
+                            ></app-content-compile>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                            <div class="font-weight-bold">View</div>
+                            <app-tabs :items="[{value:'template', text:'Template'}, {value:'script', text:'Script'}, {value:'style', text:'CSS'}]">
+                                <template #template>
+                                    <app-code
+                                        v-model="crud.edit.view.template"
+                                        style="height:300px;"
+                                        language="html"
+                                        :filter="filterTemplate"
+                                    ></app-code>
+                                </template>
+                                <template #script>
+                                    <app-code
+                                        v-model="crud.edit.view.script"
+                                        style="height:300px;"
+                                        language="javascript"
+                                    ></app-code>
+                                </template>
+                                <template #style>
+                                    <app-code
+                                        v-model="crud.edit.view.style"
+                                        style="height:300px;"
+                                        language="css"
+                                    ></app-code>
+                                </template>
+                            </app-tabs>
+
+                            <app-content-compile
+                                :is="crud.edit.view.compiled"
+                                :onthefly="crud.edit.view"
+                                v-model="valueEdit"
+                            ></app-content-compile>
+                        </v-col>
+                    </v-row>
+
+                    <pre>{{ valueEdit }}</pre>
                     <pre>{{ crud.edit }}</pre>
                 </template>
             </app-model-crud>
@@ -83,11 +111,20 @@
 </template>
 
 <script>
+import VRuntimeTemplate from 'vue3-runtime-template';
+
 export default {
+    components: { VRuntimeTemplate },
     data() {
         return {
             tabEdit: 'view',
+            valueEdit: {},
         };
+    },
+    methods: {
+        filterTemplate(value) {
+            return value.replace(/`/g, '\\`');
+        },
     },
 };
 </script>

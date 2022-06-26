@@ -24,9 +24,13 @@
                         </v-col>
                         
                         <v-col cols="12">
-                            <app-content-editor v-model="crud.edit.content" @update:modelValue="$log"></app-content-editor>
-                            <!-- <app-content :model-value="crud.edit.content"></app-content> -->
-                            <pre>{{ crud.edit }}</pre>
+                            <app-content-editor
+                                v-model="crud.edit.content"
+                            >
+                                <template #sidebar>
+                                    Hello
+                                </template>
+                            </app-content-editor>
                         </v-col>
                     </v-row>
                 </template>

@@ -13,6 +13,7 @@ export default {
         language: {default:'html'},
         theme: {default:'vs-dark'},
         readonly: {default:false},
+        filter: {type:[Boolean, Function], default:false},
     },
 
     computed: {
@@ -23,70 +24,33 @@ export default {
     },
 
     methods: {
-        monacoLoad() {
-            return new Promise((resolve, reject) => {
-                if (window.monaco) {
-                    return resolve(window.monaco);
-                }
-
-                window.monacoLoadedCallback = window.monacoLoadedCallback || [];
-                window.monacoLoadedCallback.push(monaco => {
-                    resolve(monaco);
-                });
-
-                if (!window.monacoLoadStarted) {
-                    window.monacoLoadStarted = true;
-                    let assets = [
-                        {tag:'link', rel:'stylesheet', href:'//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.min.css'},
-                        {tag:'script', src:'//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js'},
-                        {tag:'script', src:'//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.nls.js'},
-                        {tag:'script', src:'//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/editor/editor.main.js'},
-                    ];
-
-                    assets = assets.map((asset, index) => {
-                        return new Promise((resolve, reject) => {
-                            document.head.appendChild(Object.assign(document.createElement(asset.tag), {
-                                ...asset,
-                                onload: () => {
-                                    console.log(`carregado: ${asset.src || asset.rel} / ${index}`);
-                                    asset.loaded = true;
-                                    resolve(asset);
-                                },
-                            }));
-                        });
-                    });
-
-                    Promise.all(assets).then(assets => {
-                        setTimeout(() => {
-                            window.monacoLoadedCallback.forEach(call => {
-                                call(window.monaco);
-                            });
-                        }, 500);
-                    });
-                }
-            });
-        },
-
         monacoInit() {
             if (!this.monacoId) {
-                this.monacoLoad().then(monaco => {
-                    let editor = monaco.editor.create(this.$refs.monaco, {
-                        value: this.propsModelValue,
-                        language: this.language,
-                        theme: 'vs-dark',
-                        automaticLayout: true,
-                        readOnly: this.readonly,
-                    });
-
-                    editor.getModel().onDidChangeContent(evt => {
-                        this.$emit('update:modelValue', editor.getValue());
-                    });
-
-                    this.monacoId = ('monaco-'+Math.round(Math.random()*99999));
-                    window.monacoInstance = window.monacoInstance || {};
-                    window.monacoInstance[ this.monacoId ] = editor;
+                let editor = monaco.editor.create(this.$refs.monaco, {
+                    value: this.propsModelValue,
+                    language: this.language,
+                    theme: 'vs-dark',
+                    automaticLayout: true,
+                    readOnly: this.readonly,
                 });
+
+                editor.getModel().onDidChangeContent(evt => {
+                    let value = this.filtered(editor.getValue());
+                    this.$emit('update:modelValue', value);
+                });
+
+                this.monacoId = ('monaco-'+Math.round(Math.random()*99999));
+                window.monacoInstance = window.monacoInstance || {};
+                window.monacoInstance[ this.monacoId ] = editor;
             }
+
+            return window.monacoInstance[ this.monacoId ];
+        },
+        filtered(value) {
+            if (typeof this.filter=='function') {
+                value = this.filter(value);
+            }
+            return value;
         },
     },
 
