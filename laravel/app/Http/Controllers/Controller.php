@@ -131,6 +131,8 @@ class Controller extends BaseController
         $query = $this->model->search();
         $search = $query->paginate(request('per_page', 15))->toArray();
         $search['params'] = $this->model->searchParamsDefault(request()->all());
+        $search['params']['page'] = intval($search['params']['page']);
+        $search['params']['per_page'] = intval($search['params']['per_page']);
         $search['attributes'] = $this->model->searchAttributes(request()->all());
         $search['exportUrls'] = $this->model->exportUrls(request()->all());
 

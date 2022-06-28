@@ -5,7 +5,7 @@
                 namespace="files"
                 singular="Arquivo"
                 plural="Arquivos"
-                :table-actions="tableActions"
+                :item-actions="itemActions"
             >
                 <template #search-table-header>
                     <th>Arquivo</th>
@@ -60,14 +60,16 @@
 export default {
     data() {
         return {
-            tableActions: {
-                download(item) {
-                    return {
-                        icon: 'mdi-download',
-                        href: item.url,
-                        download: `${item.slug}.${item.ext}`,
-                    };
-                },
+            itemActions(item) {
+                return {
+                    download() {
+                        return {
+                            icon: 'mdi-download',
+                            href: item.url,
+                            download: `${item.slug}.${item.ext}`,
+                        };
+                    },
+                };
             },
         };
     },

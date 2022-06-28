@@ -5,7 +5,7 @@
                 namespace="users-groups"
                 singular="Grupo de usuário"
                 plural="Grupos de usuários"
-                :table-actions="{delete:false}"
+                :item-actions="{delete:false}"
             >
                 <template #search-table-header>
                     <th>Nome</th>

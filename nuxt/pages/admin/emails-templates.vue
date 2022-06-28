@@ -5,8 +5,7 @@
                 namespace="emails-templates"
                 singular="Template de e-mail"
                 plural="Templates de e-mails"
-                :actions-except="['clone', 'delete', 'new']"
-                :table-actions="tableActions"
+                :item-actions="itemActions"
                 :form-actions="formActions"
             >
                 <template #search-table-header>
@@ -30,9 +29,11 @@
                         <v-col cols="12">
                             <app-html label="Corpo do e-mail" v-model="crud.edit.body"></app-html>
                             <div class="mt-2">
-                                <template v-for="p in (crud.edit.params || [])">
-                                    <v-chip class="me-2">{{ p.source }}</v-chip>
-                                </template>
+                                <v-chip
+                                    v-for="p in (crud.edit.params || [])"
+                                    :key="$key(p)"
+                                    class="me-2"
+                                >{{ p.source }}</v-chip>
                             </div>
                         </v-col>
                     </v-row>
@@ -81,6 +82,12 @@ export default {
 
     data() {
         return {
+            itemActions(item) {
+                return {
+                    delete: false,
+                    clone: false,
+                };
+            },
             tableActions: {
                 clone: false,
                 delete: false,

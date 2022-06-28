@@ -47,6 +47,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     
     // Intercept axios
     axios.interceptors.request.use(config => {
+        config.headers['Content-Type'] = 'multipart/form-data';
+
         if (devMode && (config.url||'').startsWith('/api')) {
             const access_token = localStorage.getItem('access_token') || false;
             if (access_token) {
@@ -100,7 +102,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.provide('devMode', devMode);
     nuxtApp.provide('log', console.log);
     nuxtApp.provide('key', function(value) {
-        return JSON.stringify(value);
+        return typeof value=='object'? JSON.stringify(value): value;
     });
     
     // this.$alert('Confirm action?')

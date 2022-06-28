@@ -14,9 +14,9 @@ export default function(compParams={}) {
         resp: {},
         err: {message:false, fields:{}},
         submit: false,
-        onSubmit: (req) => {},
+        onSubmit: (resp) => {},
         onSuccess: (resp) => {},
-        onError: (err) => {},
+        onError: (resp) => {},
         onResponse: (resp) => {},
         ...compParams
     };
@@ -24,8 +24,8 @@ export default function(compParams={}) {
     let req = ref({
         loading: false,
         status: false,
-        params: compParams.params,
-        data: compParams.data,
+        params: JSON.parse(JSON.stringify(compParams.params)),
+        data: JSON.parse(JSON.stringify(compParams.data)),
         resp: compParams.resp,
         err: compParams.err,
     });
@@ -46,8 +46,8 @@ export default function(compParams={}) {
             axios({
                 method: compParams.method,
                 url: compParams.url,
-                params: compParams.params,
-                data: compParams.data,
+                params: JSON.parse(JSON.stringify(compParams.params)),
+                data: JSON.parse(JSON.stringify(compParams.data)),
                 cancelToken: axiosCancelSource.token,
             })
             .then(resp => {
@@ -76,8 +76,9 @@ export default function(compParams={}) {
     };
 
     req.value.reset = () => {
-        req.value.params = compParams.params;
-        req.value.data = compParams.data;
+        console.log(compParams);
+        req.value.params = JSON.parse(JSON.stringify(compParams.params));
+        req.value.data = JSON.parse(JSON.stringify(compParams.data));
     };
 
     req.value.clear = () => {

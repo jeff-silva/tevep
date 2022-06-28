@@ -5,7 +5,7 @@
                 namespace="users"
                 singular="Usuário"
                 plural="Usuários"
-                :table-actions="{clone:false, delete:false}"
+                :item-actions="{clone:false, delete:false, restore:false}"
             >
                 <template #search-table-header>
                     <th>Nome</th>
@@ -58,6 +58,7 @@
                                                 v-model="crud.edit.settings.theme"
                                                 label="Tema"
                                                 :items="[{value:'light', title:'Light'}, {value:'dark', title:'Dark'}]"
+                                                @update:model-value="changeTheme($event, crud.edit.id)"
                                             ></v-select>
                                         </v-col>
                                     </v-row>
@@ -88,7 +89,14 @@ export default {
     data() {
         return {
             tab: 'info',
+            app: useApp(),
         };
+    },
+    methods: {
+        changeTheme(theme, userId) {
+            if (userId != this.app.user.id) return;
+            this.$vuetify.theme.name = theme;
+        },
     },
 };
 </script>
