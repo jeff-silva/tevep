@@ -23,11 +23,9 @@ export default {
                     icon: 'mdi-pencil',
                     to: `/admin/${namespace}?edit=${item.id}`,
                 }),
-                clone: ({ item }) => ({
+                clone: ({ namespace, item }) => ({
                     icon: 'mdi-content-copy',
-                    click(ev) {
-                        alert('Em desenvolvimento');
-                    },
+                    to: `/admin/${namespace}?clone=${item.id}`,
                 }),
                 delete: (item) => ({
                     icon: 'mdi-delete',

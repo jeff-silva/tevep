@@ -28,13 +28,13 @@
                 </template>
 
                 <!-- Search fields -->
-                <template #search-fields="crud">
-                    <template v-if="crud.modelSearch.resp.attributes">
+                <template #search-drawer="crud">
+                    <template v-if="crud.search.resp.attributes">
                         <v-select
                             label="Pasta"
-                            v-model="crud.modelSearch.params.in_folder"
-                            :items="crud.modelSearch.resp.attributes.folders.map(item => item.name)"
-                            @update:modelValue="crud.modelSearch.submit()"
+                            v-model="crud.search.params.in_folder"
+                            :items="crud.search.resp.attributes.folders.map(item => item.name)"
+                            @update:modelValue="crud.search.submit()"
                             hide-details
                         ></v-select>
                     </template>

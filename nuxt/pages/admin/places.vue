@@ -9,7 +9,7 @@
                 @search-result="searchResult($event)"
             >
                 <template #search-header="crud">
-                    <l-map ref="map" :zoom="18" :center="[0, 0]" style="height:300px;">
+                    <l-map ref="searchMap" :zoom="0" :center="[0, 0]" style="height:300px;">
                         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
                         <l-marker
                             v-for="m in crud.search.resp.data"
@@ -67,8 +67,6 @@
 </template>
 
 <script>
-import L from 'leaflet';
-
 export default {
     methods: {
         vuetifyItems(items, value, title) {
@@ -89,15 +87,20 @@ export default {
         },
 
         mapCenter(items) {
-            const bounds = items.map(place => [+place.lat, +place.lng])
-                .filter(bound => !!bound[0] && !!bound[1]);
-            if (bounds.length==0 || !map.leafletObject) return;
-            console.log(JSON.stringify(bounds, ' ', 2));
             try {
-                const map = {...this.$refs.map};
-                map.leafletObject.fitBounds(bounds);
+                const bounds = items.map(place => ([+place.lat, +place.lng]))
+                    .filter(bound => !!bound[0] && !!bound[1]);
+                const searchMap = this.$refs.searchMap;
+                if (bounds.length==0 || !searchMap.leafletObject) return;
+                if (bounds.length==1) {
+                    searchMap.leafletObject.panTo(bounds[0]);
+                    return;
+                }
+                searchMap.leafletObject.flyToBounds(bounds);
             }
-            catch(err) {}
+            catch(err) {
+                console.log(err, JSON.stringify(bounds));
+            }
         },
 	},
 }

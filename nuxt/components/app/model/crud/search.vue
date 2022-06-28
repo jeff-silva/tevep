@@ -109,7 +109,7 @@
                                             v-for="act in i.actions"
                                             :key="$key(act)"
                                             v-bind="act"
-                                            @click="act.click(i.item)"
+                                            @click="act.click? act.click(i.item): null"
                                         ></v-btn>
                                     </div>
                                 </v-menu>
@@ -117,6 +117,7 @@
                         </tr>
                     </tbody>
                 </v-table>
+                <v-divider />
                 <div class="d-flex align-center py-1 px-5">
                     <div class="d-none d-md-flex">
                         {{ search.resp.total||0 }} {{ $filters.singularPlural(search.resp.total, 'resultado', 'resultados') }}
@@ -187,7 +188,6 @@ export default {
                     data: [],
                 },
                 onResponse: (resp) => {
-                    console.log(this.search.params, resp);
                     this.search.paramns = resp.data.params;
                     this.$emit('search-result', this.slotBind({ resp }));
                     this.$router.push({ query: resp.data.params });
@@ -197,6 +197,7 @@ export default {
     },
     methods: {
         slotBind(merge={}) {
+            // console.log('slotBind', merge);
             return {
                 ...merge,
                 ...this.$props,

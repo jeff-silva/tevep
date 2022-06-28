@@ -2,7 +2,7 @@
     <div>
         <!-- Edit -->
         <app-model-crud-edit
-            v-if="$route.query.edit"
+            v-if="$route.query.edit || $route.query.clone"
             v-bind="$props"
         >
             <template #edit-drawer="bind">
@@ -16,7 +16,7 @@
 
         <!-- Search -->
         <app-model-crud-search
-            v-if="!$route.query.edit"
+            v-else
             v-bind="$props"
             @search-result="$emit('search-result', $event)"
         >   

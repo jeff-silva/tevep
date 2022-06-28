@@ -30,12 +30,6 @@
                         </v-card>
                     </v-col>
                 </v-row>
-                <v-text-field label="Aaa" v-model="test.params.test" />
-                <v-btn @click="test.submit()">submit</v-btn>
-                <v-btn @click="test.cancel()">cancel</v-btn>
-                <v-btn @click="test.reset()">reset</v-btn>
-                <v-btn @click="test.clear()">clear</v-btn>
-                <pre>test: {{ test }}</pre>
             </v-container>
         </nuxt-layout>
     </div>
@@ -62,20 +56,6 @@ export default {
                 url: '/api/app/dashboard',
                 resp: {},
                 submit: true,
-            }),
-            test: useAxios2({
-                method: 'get',
-                url: '/api/app/dashboard',
-                params: {test:1},
-                resp: {},
-                submit: true,
-                onResponse(resp) {
-                    console.log('resp:', resp);
-                },
-                onSubmit(req) {
-                    req.params.test = Math.round(Math.random()*999);
-                    req.resp = {};
-                },
             }),
         };
     },

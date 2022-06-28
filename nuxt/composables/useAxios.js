@@ -75,9 +75,11 @@ export default function(compParams={}) {
         req.value.status = false;
     };
 
+    const defaultParams = JSON.parse(JSON.stringify(compParams.params));
+    const defaultData = JSON.parse(JSON.stringify(compParams.data));
     req.value.reset = () => {
-        req.value.params = compParams.params;
-        req.value.data = compParams.data;
+        req.value.params = defaultParams;
+        req.value.data = defaultData;
     };
 
     req.value.clear = () => {
