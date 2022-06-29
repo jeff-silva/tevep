@@ -4,7 +4,7 @@ export default {
         namespace: {default:''},
         singular: {default:'Item'},
         plural: {default:'Itens'},
-        editFluid: {default:false},
+        fluid: {default:false},
         actions: {type:Object, default:()=>({})},
         itemActions: {type:Object, default:()=>({})},
         itemsActions: {type:Object, default:()=>({})},

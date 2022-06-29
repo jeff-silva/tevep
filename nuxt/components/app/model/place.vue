@@ -2,116 +2,113 @@
     <div>
         <v-row>
             <v-col cols="12" md="12" v-if="!readonly">
-                <v-text-field
-                    :label="placeSave.data.name || label"
-                    hide-details
-                    v-model="places.params.q"
-                    @keyup="places.submit({debounce:1500})"
-                    @focus="placesListShow=true"
-                    prepend-inner-icon="mdi-magnify"
-                    append-inner-icon="mdi-crosshairs"
-                    @click:append-inner="getGeolocation"
-                    :loading="places.loading"
-                ></v-text-field>
-                <div style="position:relative; z-index:2;" v-if="placesListShow">
-                    <v-card style="background:#fff; position:absolute; width:100%;">
-                        <v-list max-height="300px">
-                            <v-list-item v-if="places.loading && places.resp.length==0">
-                                Carregando resultados
+                <v-menu>
+                    <template #activator="{ props }">
+                        <v-text-field
+                            v-bind="props"
+                            v-model="places.params.q"
+                            :loading="places.loading"
+                            hide-details
+                            label="Pesquisar endereço"
+                            prepend-inner-icon="mdi-magnify"
+                            append-inner-icon="mdi-crosshairs"
+                            @click:append-inner="getGeolocation()"
+                            @keyup="places.submit({debounce:1500})"
+                        />
+                    </template>
+                    <div style="position:relative; z-index:-1; margin:10px 0 0 -40px; width:calc(100% + 80px);">
+                        <v-list elevation="5">
+                            <v-list-item v-if="places.resp.length==0">
+                                Pesquisar endereço
                             </v-list-item>
-                            <v-list-item v-if="!places.loading && places.resp.length==0">
-                                Nenhum item
-                            </v-list-item>
-                            <v-list-item v-for="(p, i) in places.resp" :key="i" @click="setPlace(p)">
-                                {{ [p.route, p.district, p.city, p.state, p.country].filter(item => item).join(', ') }}
+                            <v-list-item
+                                v-for="a in places.resp"
+                                :key="$key(a)"
+                                @click="placeUpdate(a)"
+                            >
+                                {{ [a.route, a.district, a.city, a.state].filter(item => !!item).join(', ') }}
                             </v-list-item>
                         </v-list>
-                    </v-card>
-                </div>
+                    </div>
+                </v-menu>
             </v-col>
 
             <v-col cols="12" md="8">
                 <v-text-field
                     label="Rua"
                     hide-details
-                    v-model="placeSave.data.route"
+                    v-model="propsModelValue.route"
                     :readonly="readonly"
                     :variant="'outlined'"
-                    @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
                 <v-text-field
                     label="N°"
                     hide-details
-                    v-model="placeSave.data.number"
+                    v-model="propsModelValue.number"
                     :readonly="readonly"
-                    @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
                 <v-text-field
                     label="Complemento"
                     hide-details
-                    v-model="placeSave.data.complement"
+                    v-model="propsModelValue.complement"
                     :readonly="readonly"
-                    @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
                 <v-text-field
                     label="CEP"
                     hide-details
-                    v-model="placeSave.data.zipcode"
+                    v-model="propsModelValue.zipcode"
                     :readonly="readonly"
-                    @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
                 <v-text-field
                     label="Bairro"
                     hide-details
-                    v-model="placeSave.data.district"
+                    v-model="propsModelValue.district"
                     :readonly="readonly"
-                    @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
                 <v-text-field
                     label="Cidade"
                     hide-details
-                    v-model="placeSave.data.city"
+                    v-model="propsModelValue.city"
                     :readonly="readonly"
-                    @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
                 <v-text-field
                     label="Estado"
                     hide-details
-                    v-model="placeSave.data.state"
+                    v-model="propsModelValue.state"
                     :readonly="readonly"
-                    @update:modelValue="placeAutosave()"
                 ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
                 <v-select
                     label="País"
                     hide-details 
-                    v-model="placeSave.data.country_short"
+                    v-model="propsModelValue.country_short"
                     :readonly="readonly"
-                    @update:modelValue="placeAutosave()"
                     :items="countries"
                 ></v-select>
             </v-col>
 
             <v-col cols="12">
-                <l-map ref="map" :zoom="18" :center="[(placeSave.data.lat||0), (placeSave.data.lng||0)]" style="height:350px;">
+                <l-map ref="map" :zoom="18" :center="[(propsModelValue.lat||0), (propsModelValue.lng||0)]" style="height:350px;">
                     <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-                    <l-marker :lat-lng="[(placeSave.data.lat||0), (placeSave.data.lng||0)]" :draggable="true" @dragend="updateLatLng($event)"></l-marker>
+                    <l-marker :lat-lng="[(propsModelValue.lat||0), (propsModelValue.lng||0)]" :draggable="true" @dragend="updateLatLng($event)"></l-marker>
                 </l-map>
             </v-col>
         </v-row>
+        <pre>propsModelValue: {{ propsModelValue }}</pre>
+        <pre>placeSave: {{ placeSave }}</pre>
     </div>
 </template>
 
@@ -127,35 +124,23 @@ export default {
         readonly: {default:false},
     },
 
-    watch: {
-        '$props.modelValue': {async handler() {
-            this.placeFind();
-        }},
+    computed: {
+        propsModelValue: {
+            get() { return this.modelValue; },
+            set(value) { this.$emit('update:modelValue', value); },
+        },
     },
 
     methods: {
         emitValue() {
-            if (this.returnType=='id') {
-                this.$emit('update:modelValue', this.placeSave.data.id);
-            }
-            else if (this.returnType=='object') {
-                this.$emit('update:modelValue', {...this.placeSave.data});
-            }
+            // 
         },
 
-        async setPlace(place) {
+        async placeUpdate(place) {
             let id = (typeof this.modelValue=='object')? (this.modelValue.id): this.modelValue;
-            
-            if (id) {
-                this.placeSave.data = {...place, id};
-                this.placeSave.submit();
-            }
-            else {
-                this.placeSave.data = place;
-            }
-
-            this.placesListShow = false;
-            this.emitValue();
+            for(let i in place) this.propsModelValue[i] = place[i];
+            this.propsModelValue.id = id;
+            this.placeSave.submit();
         },
 
         async placeFind() {
@@ -200,7 +185,7 @@ export default {
             this._updateLatLngTimeout = setTimeout(() => {
                 this.$axios.get('/api/places/place-search', {params:coords}).then(resp => {
                     if (!resp.data[0]) return;
-                    this.setPlace(resp.data[0]);
+                    this.placeUpdate(resp.data[0]);
                 });
             }, 500);
         },
@@ -213,7 +198,7 @@ export default {
 
             this.$axios.get('/api/places/place-search', { params }).then(resp => {
                 if (!resp.data[0]) return;
-                this.setPlace(resp.data[0]);
+                this.placeUpdate(resp.data[0]);
             });
         },
     },
@@ -224,17 +209,20 @@ export default {
 
     data() {
         return {
-            placesListShow: false,
             places: useAxios({
                 method: 'get',
                 url: '/api/places/place-search',
-                params: {q:''},
+                params: {q:'rua dos americanos milionários'},
+                submit: true,
                 resp: [],
             }),
             placeSave: useAxios({
                 method: 'post',
                 url: '/api/places/save',
                 data: {},
+                onSubmit: (placeSave) => {
+                    placeSave.data = this.propsModelValue;
+                },
             }),
             geo: useGeolocation(),
             countries: [

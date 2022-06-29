@@ -15,27 +15,25 @@
                 <v-divider />
                 <v-card-content>
                     <div class="d-flex flex-column" style="gap:15px;">
-                        Drawer
+                        <v-btn color="primary">Salvar</v-btn>
+                        <v-btn :to="`/admin/${namespace}`">Voltar</v-btn>
                     </div>
                 </v-card-content>
             </v-card>
         </v-navigation-drawer>
 
         <!-- Main -->
-        <v-container class="pa-0" :fluid="editFluid">
+        <v-container class="pa-0" :fluid="fluid">
             <div style="height:3px;">
                 <v-progress-linear
-                    v-if="search.loading"
+                    v-if="edit.loading"
                     indeterminate
                 />
             </div>
-            <slot name="edit-card" v-bind="slotBind()">
-                <v-card elevation="0">
-                    <v-card-text>
-                        <slot name="edit-fields" v-bind="slotBind()"></slot>
-                    </v-card-text>
-                </v-card>
-            </slot>
+            <v-sheet elevation="5" class="py-5 px-3">
+                <slot name="edit-form" v-bind="slotBind({ edit: edit.data })"></slot>
+                <!-- <pre>{{ edit }}</pre> -->
+            </v-sheet>
         </v-container>
     </form>
 </template>
@@ -59,11 +57,39 @@ export default {
                     this.app.setTitle(`Editar ${this.singular}: ${this.edit.data.name}`);
                     this.alert({type:'success', text:`${this.singular} salvo`});
                 },
+                onMounted: (req) => {
+                    if (this.$route.query.clone) {
+                        return this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.clone}`).then(resp => {
+                            resp.data.id = 0;
+                            for(let i in resp.data) req.data[i] = resp.data[i];
+                            this.$router.push({ query: {edit:'new'} });
+                        });
+                    }
+
+                    this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.edit}`).then(resp => {
+                        for(let i in resp.data) req.data[i] = resp.data[i];
+                    });
+                },
             }),
         };
     },
     methods: {
-        // 
+        init() {
+            if (this.$route.query.clone) {
+                return this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.clone}`).then(resp => {
+                    resp.data.id = 0;
+                    this.edit.data = resp.data;
+                    this.$router.push({ query: {edit:'new'} });
+                });
+            }
+
+            this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.edit}`).then(resp => {
+                this.edit.data = resp.data;
+            });
+        },
+    },
+    mounted() {
+        this.init();
     },
 };
 </script>

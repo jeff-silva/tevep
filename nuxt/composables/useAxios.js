@@ -14,6 +14,7 @@ export default function(compParams={}) {
         resp: {},
         err: {message:false, fields:{}},
         submit: false,
+        onMounted: (req) => {},
         onSubmit: (req) => {},
         onSuccess: (resp) => {},
         onError: (err) => {},
@@ -33,38 +34,51 @@ export default function(compParams={}) {
     const axiosCancelToken = axios.CancelToken;
     let axiosCancelSource;
 
-    req.value.submit = () => {
+    let submitTimeout = false;
+    req.value.submit = (submitParams={}) => {
         return new Promise((resolve, reject) => {
+            submitParams = {
+                debounce: 10,
+                ...submitParams
+            };
+
             req.value.cancel();
     
             req.value.loading = true;
             req.value.status = false;
+            
             compParams.onSubmit(req.value);
-    
             axiosCancelSource = axiosCancelToken.source();
-    
-            axios({
-                method: compParams.method,
-                url: compParams.url,
-                params: compParams.params,
-                data: compParams.data,
-                cancelToken: axiosCancelSource.token,
-            })
-            .then(resp => {
-                req.value.loading = false;
-                req.value.status = resp.status;
-                req.value.resp = resp.data;
-                compParams.onSuccess(resp);
-                compParams.onResponse(resp);
-                axiosCancelSource = false;
-                resolve(resp);
-            })
-            .catch(err => {
-                req.value.loading = false;
-                compParams.onError(err);
-                compParams.onResponse(err.response);
-                reject(err);
-            });
+
+            if (submitTimeout) {
+                clearTimeout(submitTimeout);
+            }
+
+            submitTimeout = setTimeout(() => {
+                axios({
+                    method: compParams.method,
+                    url: compParams.url,
+                    params: req.value.params,
+                    data: req.value.data,
+                    cancelToken: axiosCancelSource.token,
+                })
+                .then(resp => {
+                    req.value.loading = false;
+                    req.value.status = resp.status;
+                    req.value.resp = resp.data;
+                    compParams.onSuccess(resp);
+                    compParams.onResponse(resp);
+                    axiosCancelSource = false;
+                    resolve(resp);
+                })
+                .catch(err => {
+                    req.value.loading = false;
+                    compParams.onError(err);
+                    compParams.onResponse(err.response);
+                    reject(err);
+                });
+            }, submitParams.debounce);
+
         });
     };
 
@@ -87,6 +101,7 @@ export default function(compParams={}) {
         req.value.data = {};
     };
 
+    compParams.onMounted(req.value);
     if (compParams.submit) {
         req.value.submit();
     }

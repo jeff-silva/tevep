@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
+import * as nuxt from '#app';
 
 export const useAppStore = defineStore({
     id: 'app',
@@ -20,7 +21,8 @@ export const useAppStore = defineStore({
         async load(forced=false) {
             try {
                 if (this.user && !forced) return;
-                const resp = await useAxios({method:"post", url:"/api/app/load"}).value.submit();
+                const { $axios } = nuxt.useNuxtApp();
+                const resp = await $axios({method:"post", url:"/api/app/load"});
                 this.devMode = resp.data.devMode;
                 this.user = resp.data.user;
                 this.userPermissions = resp.data.userPermissions;
@@ -33,17 +35,21 @@ export const useAppStore = defineStore({
 
         async login(params={}) {
             try {
+                const { $axios } = nuxt.useNuxtApp();
                 const data = JSON.parse(JSON.stringify(params));
-                const resp = await useAxios({method:"post", url:"/api/auth/login", data}).value.submit();
+                const resp = await $axios({method:"post", url:"/api/auth/login", data});
                 this.authAdd(params.email, resp.data.access_token);
                 this.setAccessToken(resp.data.access_token);
                 this.load();
             }
-            catch(err) {}
+            catch(err) {
+                console.log(err);
+            }
         },
 
         async logout() {
-            const resp = await useAxios({method:"post", url:"/api/auth/logout"}).value.submit();
+            const { $axios } = nuxt.useNuxtApp();
+            const resp = await $axios({method:"post", url:"/api/auth/logout"});
             this.setAccessToken(false);
             this.user = false;
             this.authRemove(this.user.email);
@@ -85,7 +91,8 @@ export const useAppStore = defineStore({
         async me() {
             if (!this.access_token || this.user) return;
             try {
-                const resp = await useAxios({method:"post", url:"/api/auth/me"}).value.submit();
+                const { $axios } = nuxt.useNuxtApp();
+                const resp = await $axios({method:"post", url:"/api/auth/me"});
                 this.user = resp.data;
             }
             catch(err) {}

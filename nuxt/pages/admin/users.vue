@@ -19,7 +19,7 @@
                 </template>
 
                 <!-- Edit -->
-                <template #edit-fields="crud">
+                <template #edit-form="crud">
                     <v-row>
                         <v-col cols="12" md="3">
                             <app-model-file v-model="crud.edit.photo_id"></app-model-file>

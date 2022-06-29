@@ -53,13 +53,13 @@
                     </template>
                 </template>
 
-                <template #edit-fields="crud">
+                <template #edit-form="crud">
                     <app-model-place
                         v-model="crud.edit"
                         return-type="object"
                         :auto-save="false"
-                        @update:modelValue="crud.editUpdate($event)"
                     ></app-model-place>
+                    <!-- @update:modelValue="crud.editUpdate($event)" -->
                 </template>
             </app-model-crud>
         </nuxt-layout>
@@ -98,9 +98,7 @@ export default {
                 }
                 searchMap.leafletObject.flyToBounds(bounds);
             }
-            catch(err) {
-                console.log(err, JSON.stringify(bounds));
-            }
+            catch(err) {}
         },
 	},
 }

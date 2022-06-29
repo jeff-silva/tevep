@@ -40,7 +40,7 @@
                     </template>
                 </template>
 
-                <template #edit-fields="crud">
+                <template #edit-form="crud">
                     <v-row>
                         <v-col cols="12" md="4">
                             <app-model-file return-type="object" v-model="crud.edit" @update:modelValue="$router.push(`/admin/files?id=${event.id}`);"></app-model-file>

@@ -19,7 +19,7 @@
                     <td>{{ item.type }}</td>
                 </template>
 
-                <template #edit-fields="crud">
+                <template #edit-form="crud">
                     <v-row>
                         <v-col cols="12" md="8">
                             <v-text-field label="Nome" v-model="crud.edit.name" :hide-details="true"></v-text-field>

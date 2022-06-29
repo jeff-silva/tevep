@@ -58,7 +58,7 @@
         </v-navigation-drawer>
 
         <!-- Main -->
-        <v-container class="pa-0" :fluid="editFluid">
+        <v-container class="pa-0" :fluid="fluid">
             <div style="height:3px;">
                 <v-progress-linear
                     v-if="search.loading"

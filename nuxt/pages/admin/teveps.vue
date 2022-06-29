@@ -21,7 +21,7 @@
                     </td>
                 </template>
 
-                <template #edit-card="crud">
+                <template #edit-form="crud">
                     <div class="pa-3" style="margin: 0 -20px 0 -20px;">
                         <tevep-edit v-model="crud.edit" :area-width="1700" :method-save="crud.modelEdit.submit"></tevep-edit>
                     </div>
