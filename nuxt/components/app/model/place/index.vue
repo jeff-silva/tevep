@@ -37,7 +37,7 @@
                 <v-text-field
                     label="Rua"
                     hide-details
-                    v-model="propsPlace.route"
+                    v-model="propsModelValue.route"
                     :readonly="readonly"
                     :variant="'outlined'"
                 ></v-text-field>
@@ -46,7 +46,7 @@
                 <v-text-field
                     label="N°"
                     hide-details
-                    v-model="propsPlace.number"
+                    v-model="propsModelValue.number"
                     :readonly="readonly"
                 ></v-text-field>
             </v-col>
@@ -54,7 +54,7 @@
                 <v-text-field
                     label="Complemento"
                     hide-details
-                    v-model="propsPlace.complement"
+                    v-model="propsModelValue.complement"
                     :readonly="readonly"
                 ></v-text-field>
             </v-col>
@@ -62,7 +62,7 @@
                 <v-text-field
                     label="CEP"
                     hide-details
-                    v-model="propsPlace.zipcode"
+                    v-model="propsModelValue.zipcode"
                     :readonly="readonly"
                 ></v-text-field>
             </v-col>
@@ -70,7 +70,7 @@
                 <v-text-field
                     label="Bairro"
                     hide-details
-                    v-model="propsPlace.district"
+                    v-model="propsModelValue.district"
                     :readonly="readonly"
                 ></v-text-field>
             </v-col>
@@ -78,7 +78,7 @@
                 <v-text-field
                     label="Cidade"
                     hide-details
-                    v-model="propsPlace.city"
+                    v-model="propsModelValue.city"
                     :readonly="readonly"
                 ></v-text-field>
             </v-col>
@@ -86,7 +86,7 @@
                 <v-text-field
                     label="Estado"
                     hide-details
-                    v-model="propsPlace.state"
+                    v-model="propsModelValue.state"
                     :readonly="readonly"
                 ></v-text-field>
             </v-col>
@@ -94,16 +94,16 @@
                 <v-select
                     label="País"
                     hide-details 
-                    v-model="propsPlace.country_short"
+                    v-model="propsModelValue.country_short"
                     :readonly="readonly"
                     :items="countries"
                 ></v-select>
             </v-col>
 
             <v-col cols="12">
-                <l-map ref="map" :zoom="18" :center="[(propsPlace.lat||0), (propsPlace.lng||0)]" style="height:350px;">
+                <l-map ref="map" :zoom="18" :center="[(propsModelValue.lat||0), (propsModelValue.lng||0)]" style="height:350px;">
                     <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
-                    <l-marker :lat-lng="[(propsPlace.lat||0), (propsPlace.lng||0)]" :draggable="true" @dragend="markerDragend($event)"></l-marker>
+                    <l-marker :lat-lng="[(propsModelValue.lat||0), (propsModelValue.lng||0)]" :draggable="true" @dragend="markerDragend($event)"></l-marker>
                 </l-map>
             </v-col>
         </v-row>
@@ -115,44 +115,23 @@ import { useGeolocation } from '@vueuse/core';
 
 export default {
     props: {
-        modelValue: {type:Number, default:false},
-        place: {type:Object, default:()=>({})},
+        modelValue: {type:Object, default:()=>({})},
         label: {default:'Pesquisar endereço'},
         autoSave: {default:true},
         readonly: {default:false},
-        placeFind: {default:true},
     },
 
-    watch: {
-        propsPlace: {deep:true, handler(value) {
-            this.$emit('place', value);
-        }},
-        
-        place: {deep:true, handler(value) {
-            this.placeUpdate(value);
-            this.placeFindLoad(value.id || false);
-        }},
-
-        modelValue(value) {
-            this.placeFindLoad(value);
+    computed: {
+        propsModelValue: {
+            get() { return this.modelValue; },
+            set(value) { this.$emit('update:modelValue', value); },
         },
     },
 
     methods: {
         async placeUpdate(place) {
-            for(let i in place) this.propsPlace[i] = place[i];
-            this.propsPlace.id = this.modelValue || null;
+            for(let i in place) this.propsModelValue[i] = place[i];
             this.mapCenter();
-        },
-
-        async placeFindLoad(id) {
-            if (!id || !this.placeFind) return;
-            if (this.placeFindTimeout) clearTimeout(this.placeFindTimeout);
-            this.placeFindTimeout = setTimeout(async () => {
-                let resp = await this.$axios.get(`/api/places/find/${id}`);
-                this.placeUpdate(resp.data);
-                this.mapCenter();
-            }, 200);
         },
 
         mapCenter() {
@@ -160,8 +139,8 @@ export default {
                 if (!this.$refs.map.leafletObject) return;
                 if (!this.$refs.map.leafletObject.panTo) return;
                 this.$refs.map.leafletObject.panTo([
-                    (this.propsPlace.lat || 0),
-                    (this.propsPlace.lng || 0),
+                    (this.propsModelValue.lat || 0),
+                    (this.propsModelValue.lng || 0),
                 ]);
             }, 100);
         },
@@ -205,8 +184,6 @@ export default {
 
     data() {
         return {
-            placeFindTimeout: false,
-            propsPlace: JSON.parse(JSON.stringify(this.place)),
             places: useAxios({
                 method: 'get',
                 url: '/api/places/place-search',
@@ -218,7 +195,7 @@ export default {
                 url: '/api/places/save',
                 data: {},
                 onSubmit: (placeSave) => {
-                    placeSave.data = this.propsPlace;
+                    placeSave.data = this.propsModelValue;
                 },
             }),
             geo: useGeolocation(),
@@ -229,10 +206,6 @@ export default {
                 {value:"BR", title:"Brasil"},
             ],
         };
-    },
-
-    mounted() {
-        this.placeFindLoad(this.modelValue);
     },
 };
 </script>

@@ -57,19 +57,6 @@ export default {
                     this.app.setTitle(`Editar ${this.singular}: ${this.edit.data.name}`);
                     this.alert({type:'success', text:`${this.singular} salvo`});
                 },
-                onMounted: (req) => {
-                    if (this.$route.query.clone) {
-                        return this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.clone}`).then(resp => {
-                            resp.data.id = 0;
-                            for(let i in resp.data) req.data[i] = resp.data[i];
-                            this.$router.push({ query: {edit:'new'} });
-                        });
-                    }
-
-                    this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.edit}`).then(resp => {
-                        for(let i in resp.data) req.data[i] = resp.data[i];
-                    });
-                },
             }),
         };
     },
@@ -78,8 +65,9 @@ export default {
             return {
                 ...merge,
                 ...this.$props,
-                edit: this.edit,
+                edit: this.edit.data,
                 editFill: this.editFill,
+                valid: this.valid,
             };
         },
 
@@ -87,13 +75,13 @@ export default {
             if (this.$route.query.clone) {
                 return this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.clone}`).then(resp => {
                     resp.data.id = 0;
-                    this.edit.data = resp.data;
+                    this.edit.fillData(resp.data);
                     this.$router.push({ query: {edit:'new'} });
                 });
             }
 
             this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.edit}`).then(resp => {
-                this.edit.data = resp.data;
+                this.edit.fillData(resp.data);
             });
         },
 

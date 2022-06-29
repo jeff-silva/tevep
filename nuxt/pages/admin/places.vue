@@ -55,9 +55,7 @@
 
                 <template #edit-form="crud">
                     <app-model-place
-                        :place="crud.edit.data"
-                        :place-find="false"
-                        @place="crud.editFill($event)"
+                        v-model="crud.edit"
                     ></app-model-place>
                 </template>
             </app-model-crud>

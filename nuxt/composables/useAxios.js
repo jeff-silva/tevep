@@ -101,6 +101,14 @@ export default function(compParams={}) {
         req.value.data = {};
     };
 
+    req.value.fillData = (data={}) => {
+        req.value.data = data;
+    };
+
+    req.value.fillParam = (data={}) => {
+        req.value.param = data;
+    };
+
     compParams.onMounted(req.value);
     if (compParams.submit) {
         req.value.submit();

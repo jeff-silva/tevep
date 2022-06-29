@@ -49,7 +49,10 @@
                                     <app-model-select label="Grupo" v-model="crud.edit.group_id" namespace="users-groups"></app-model-select>
                                 </template>
                                 <template #address>
-                                    <app-model-place label="Endereço" v-model="crud.edit.address_id"></app-model-place>
+                                    <app-model-place-id
+                                        v-model="crud.edit.address_id"
+                                        label="Endereço"
+                                    ></app-model-place-id>
                                 </template>
                                 <template #settings>
                                     <v-row>
