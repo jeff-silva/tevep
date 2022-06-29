@@ -1,5 +1,5 @@
 <template>
-    <form>
+    <form @submit.prevent="edit.submit()">
         <!-- Footer actions -->
         <app-actions>
             Ações rodapé
@@ -15,7 +15,7 @@
                 <v-divider />
                 <v-card-content>
                     <div class="d-flex flex-column" style="gap:15px;">
-                        <v-btn color="primary">Salvar</v-btn>
+                        <v-btn color="primary" type="submit">Salvar</v-btn>
                         <v-btn :to="`/admin/${namespace}`">Voltar</v-btn>
                     </div>
                 </v-card-content>
@@ -32,7 +32,6 @@
             </div>
             <v-sheet elevation="5" class="py-5 px-3">
                 <slot name="edit-form" v-bind="slotBind({ edit: edit.data })"></slot>
-                <!-- <pre>{{ edit }}</pre> -->
             </v-sheet>
         </v-container>
     </form>
@@ -48,6 +47,7 @@ export default {
     },
     data() {
         return {
+            valid: useValidation(),
             edit: useAxios({
                 method: "post",
                 url: `/api/${this.namespace}/save`,
@@ -74,6 +74,15 @@ export default {
         };
     },
     methods: {
+        slotBind(merge={}) {
+            return {
+                ...merge,
+                ...this.$props,
+                edit: this.edit,
+                editFill: this.editFill,
+            };
+        },
+
         init() {
             if (this.$route.query.clone) {
                 return this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.clone}`).then(resp => {
@@ -86,6 +95,11 @@ export default {
             this.$axios.get(`/api/${this.namespace}/find/${this.$route.query.edit}`).then(resp => {
                 this.edit.data = resp.data;
             });
+        },
+
+        editFill(data) {
+            // console.log('editFill', data);
+            this.edit.data = data;
         },
     },
     mounted() {

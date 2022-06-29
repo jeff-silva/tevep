@@ -55,11 +55,10 @@
 
                 <template #edit-form="crud">
                     <app-model-place
-                        v-model="crud.edit"
-                        return-type="object"
-                        :auto-save="false"
+                        :place="crud.edit.data"
+                        :place-find="false"
+                        @place="crud.editFill($event)"
                     ></app-model-place>
-                    <!-- @update:modelValue="crud.editUpdate($event)" -->
                 </template>
             </app-model-crud>
         </nuxt-layout>
