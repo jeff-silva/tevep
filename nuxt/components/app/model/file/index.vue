@@ -41,10 +41,8 @@
 <script>
 export default {
     props: {
-        modelValue: {default:'', type:[Boolean, Number, String, Object]},
+        modelValue: {default:()=>({}), type:Object},
         label: {default:'Arquivo', type:String},
-        returnType: {default:'id', type:String}, // object, id, url
-        previewHeight: {default:'250px', type:String},
     },
 
     computed: {
@@ -57,15 +55,14 @@ export default {
     data() {
         return {
             fileUrlRandom: ('?'+Math.round(Math.random()*9999)),
-            fileSave: useAxios({
-                method: "post",
-                url: "/api/files/save",
-                data: {content:false},
-            }),
         };
     },
 
     methods: {
+        fileUpdate(file) {
+            for(let i in file) this.propsModelValue[i] = file[i];
+        },
+
         fileBrowser() {
             Object.assign(document.createElement('input'), {
                 type: 'file',
@@ -77,7 +74,7 @@ export default {
             }).click();
         },
 
-        async fileUpload() {
+        fileUpload() {
             if (!this.propsModelValue.content) return;
             
             const formData = new FormData();
@@ -85,8 +82,10 @@ export default {
                 formData.append(i, this.propsModelValue[i]);
             }
 
-            const resp = await this.$axios.post('/api/files/save', formData);
-            this.propsModelValue = resp.data;
+            this.$axios.post('/api/files/save', formData).then(resp => {
+                this.fileUrlRandom = ('?'+Math.round(Math.random()*9999));
+                this.propsModelValue = resp.data;
+            });
         },
 
         fileRemove() {

@@ -2,7 +2,8 @@
     <form @submit.prevent="edit.submit()">
         <!-- Footer actions -->
         <app-actions>
-            Ações rodapé
+            <v-btn icon="mdi-close" :to="`/admin/${namespace}`"></v-btn>
+            <v-btn icon="mdi-content-save"></v-btn>
         </app-actions>
 
         <!-- Drawer actions -->
@@ -30,6 +31,8 @@
                     indeterminate
                 />
             </div>
+            <v-alert v-if="edit.status==200" type="success" rounded="0">Dados de {{ plural }} salvos</v-alert>
+            <v-alert v-if="edit.err.message" type="error" rounded="0">{{ edit.err.message }}</v-alert>
             <v-sheet elevation="5" class="py-5 px-3">
                 <slot name="edit-form" v-bind="slotBind({ edit: edit.data })"></slot>
             </v-sheet>
