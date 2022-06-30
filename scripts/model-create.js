@@ -10,7 +10,7 @@ const inter = readline.createInterface({
 inter.question('Database table name: ', (table_name) => {
     inter.question('Table singular name: ', (singular) => {
         inter.question('Table plural name: ', (plural) => {
-            shell.cd(base.env.LARAVEL_PATH);
+            shell.cd(base.env.SERVER_PATH);
             shell.exec(`php artisan app:model-create ${table_name} ${singular} ${plural}`);
             inter.close();
         });

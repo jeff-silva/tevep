@@ -7,7 +7,7 @@ const envDefault = {
     APP_NAME: 'AppName',
     SERVER_PATH: 'laravel',
     SERVER_HOST: 'http://localhost:4999',
-    CLIENT_PATH: 'nuxt',
+    CLIENT_PATH: 'nuxt3',
     CLIENT_HOST: 'http://localhost:5000',
     CORDOVA_PATH: 'cordova',
     ELECTRON_PATH: 'electron',
@@ -27,7 +27,7 @@ const run = (cwd, command) => {
 };
 
 
-// Laravel start server
+// Backend start server
 const serverCmd = (cmd) => {
     const servePath = path.join(__dirname, '..', env.SERVER_PATH);
     run(servePath, cmd);
@@ -83,7 +83,6 @@ const client = (() => {
 
 module.exports = {
     run,
-    rootPath: __dirname,
     env,
     server,
     serverCmd,

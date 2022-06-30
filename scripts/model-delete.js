@@ -8,7 +8,7 @@ const inter = readline.createInterface({
 });
 
 inter.question('Database table name: ', function (table_name) {
-    shell.cd(base.env.LARAVEL_PATH);
+    shell.cd(base.env.SERVER_PATH);
     shell.exec(`php artisan app:model-delete ${table_name}`);
     inter.close();
 });
