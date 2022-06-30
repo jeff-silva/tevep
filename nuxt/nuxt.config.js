@@ -31,9 +31,9 @@ export default defineNuxtConfig({
         },
         server: {
             proxy: {
-                '/api/': { target: env.LARAVEL_HOST },
-                '/uploads/': { target: env.LARAVEL_HOST },
-                '/files/': { target: env.LARAVEL_HOST },
+                '/api/': { target: env.SERVER_HOST },
+                '/uploads/': { target: env.SERVER_HOST },
+                '/files/': { target: env.SERVER_HOST },
             },
         },
     },

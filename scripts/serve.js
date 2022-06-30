@@ -1,18 +1,14 @@
-const chokidar = require('chokidar');
 const base = require('./base');
+base.serverCmd(`php artisan serve --port=${base.server.port}`);
+base.clientCmd(`npm run dev -- --port ${base.client.port}`);
 
-const laravelPort = (new URL(base.laravel.href)).port;
-base.laravelCmd(`php artisan serve --port=${laravelPort}`);
-
+const chokidar = require('chokidar');
 chokidar.watch([
-    `${base.laravel.path}/app/Console/Commands`,
-    `${base.laravel.path}/app/Http/Controllers`,
-    `${base.laravel.path}/app/Models`,
-    `${base.laravel.path}/app/Traits`,
-    `${base.laravel.path}/config`,
+    `${base.server.path}/app/Console/Commands`,
+    `${base.server.path}/app/Http/Controllers`,
+    `${base.server.path}/app/Models`,
+    `${base.server.path}/app/Traits`,
+    `${base.server.path}/config`,
 ]).on('change', (path) => {
-    base.laravelCmd(`php artisan app:sync`);
+    base.serverCmd(`php artisan app:sync`);
 });
-
-const nuxtPort = (new URL(base.nuxt.href)).port;
-base.nuxtCmd(`npm run dev -- --port ${nuxtPort}`);

@@ -5,12 +5,12 @@ require('dotenv').config({ path: '../.env' });
 
 const envDefault = {
     APP_NAME: 'AppName',
+    SERVER_PATH: 'laravel',
+    SERVER_HOST: 'http://localhost:4999',
+    CLIENT_PATH: 'nuxt',
+    CLIENT_HOST: 'http://localhost:5000',
     CORDOVA_PATH: 'cordova',
     ELECTRON_PATH: 'electron',
-    LARAVEL_PATH: 'laravel',
-    LARAVEL_HOST: 'http://localhost:4999',
-    NUXT_PATH: 'nuxt',
-    NUXT_HOST: 'http://localhost:5000',
 };
 
 let env = {};
@@ -28,23 +28,23 @@ const run = (cwd, command) => {
 
 
 // Laravel start server
-const laravelCmd = (cmd) => {
-    const servePath = path.join(__dirname, '..', env.LARAVEL_PATH);
+const serverCmd = (cmd) => {
+    const servePath = path.join(__dirname, '..', env.SERVER_PATH);
     run(servePath, cmd);
 };
 
 
 // Nuxt start server
-const nuxtCmd = (cmd) => {
-    const servePath = path.join(__dirname, '..', env.NUXT_PATH);
+const clientCmd = (cmd) => {
+    const servePath = path.join(__dirname, '..', env.CLIENT_PATH);
     run(servePath, cmd);
 };
 
 
-const laravel = (() => {
-    const u = new URL(env.LARAVEL_HOST);
+const server = (() => {
+    const u = new URL(env.SERVER_HOST);
     return {
-        path: path.join(__dirname, '..', env.LARAVEL_PATH),
+        path: path.join(__dirname, '..', env.SERVER_PATH),
         href: u.href,
         protocol: u.protocol,
         username: u.username,
@@ -57,10 +57,10 @@ const laravel = (() => {
 })();
 
 
-const nuxt = (() => {
-    const u = new URL(env.NUXT_HOST);
+const client = (() => {
+    const u = new URL(env.CLIENT_HOST);
     return {
-        path: path.join(__dirname, '..', env.NUXT_PATH),
+        path: path.join(__dirname, '..', env.CLIENT_PATH),
         href: u.href,
         protocol: u.protocol,
         username: u.username,
@@ -85,8 +85,8 @@ module.exports = {
     run,
     rootPath: __dirname,
     env,
-    laravel,
-    nuxt,
-    laravelCmd,
-    nuxtCmd,
+    server,
+    serverCmd,
+    client,
+    clientCmd,
 };
