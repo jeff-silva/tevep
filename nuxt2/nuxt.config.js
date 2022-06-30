@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors';
+// import colors from 'vuetify/es5/util/colors';
 const { env } = require('../scripts/base');
 
 export default {
@@ -42,50 +42,60 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    // Axios module configuration: https://go.nuxtjs.dev/config-axios
+    ['@nuxtjs/axios', {
+      // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+      baseURL: '/',
+      proxy: true,
+    }],
+
+    // https://dev.auth.nuxtjs.org
+    ['@nuxtjs/auth-next', {
+      strategies: {
+        local: {
+          endpoints: {
+            login: { url: '/api/auth/login', method: 'post' },
+            logout: { url: '/api/auth/logout', method: 'post' },
+            user: { url: '/api/auth/me', method: 'get' },
+          },
+        },
+      },
+    }],
+
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    ['@nuxtjs/pwa', {
+      manifest: {
+        lang: 'en'
+      }
+    }],
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
-    proxy: true,
-  },
-
-  // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      lang: 'en'
-    }
-  },
-
-  roxy: {
+  proxy: {
     '/api/': { target: env.SERVER_HOST },
     '/uploads/': { target: env.SERVER_HOST },
     '/files/': { target: env.SERVER_HOST },
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
-  },
+  // vuetify: {
+  //   customVariables: ['~/assets/variables.scss'],
+  //   theme: {
+  //     dark: true,
+  //     themes: {
+  //       dark: {
+  //         primary: colors.blue.darken2,
+  //         accent: colors.grey.darken3,
+  //         secondary: colors.amber.darken3,
+  //         info: colors.teal.lighten1,
+  //         warning: colors.amber.base,
+  //         error: colors.deepOrange.accent4,
+  //         success: colors.green.accent3
+  //       }
+  //     }
+  //   }
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
