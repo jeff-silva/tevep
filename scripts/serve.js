@@ -1,4 +1,5 @@
 const base = require('./base');
+
 base.serverCmd(`php artisan serve --port=${base.server.port}`);
 base.clientCmd(`npm run dev -- --port ${base.client.port}`);
 

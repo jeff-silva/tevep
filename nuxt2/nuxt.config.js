@@ -1,4 +1,5 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
+const { env } = require('../scripts/base');
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -51,6 +52,7 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
+    proxy: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -58,6 +60,12 @@ export default {
     manifest: {
       lang: 'en'
     }
+  },
+
+  roxy: {
+    '/api/': { target: env.SERVER_HOST },
+    '/uploads/': { target: env.SERVER_HOST },
+    '/files/': { target: env.SERVER_HOST },
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

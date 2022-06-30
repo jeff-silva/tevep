@@ -1,7 +1,7 @@
 const p = require('child_process');
 const path = require('path');
 const fs = require('fs');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 
 const envDefault = {
     APP_NAME: 'AppName',
