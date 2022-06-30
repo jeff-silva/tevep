@@ -454,10 +454,10 @@ trait Model
             'q' => '',
             'page' => 1,
             'per_page' => 20,
-            'orderby' => 'updated_at',
-            'order' => 'desc',
+            'order' => 'updated_at:desc',
             'deleted' => '',
             'limit' => '',
+            'op' => 'and',
         ], $this->searchParams(), $params);
 
         foreach($params as $field => $value) {
@@ -493,108 +493,126 @@ trait Model
         }
 
         $query_table = $query->getModel()->getTable();
-
+        
         foreach($params as $field=>$value) {
-            if (! $value) continue;
-            if (! in_array($field, $this->fillable)) continue;
-            $field = "{$query_table}.{$field}";
-            $operator = isset($params["{$field}_op"])? $params["{$field}_op"]: 'eq';
-            
+            $whereCallback = $params['op']=='and'? [$query, 'where']: [$query, 'orWhere'];
 
-            // ?status[]=progress&term[]=payment
-            // where status in ('progress', 'payment')
-            if (is_array($value)) {
-                $query->whereIn($field, $value);
-            }
-
-            // ?price=1000&price_op=lt
-            // where price < 1000
-            else if ($operator=='lt') {
-                $query->where($field, '<', $value);
-            }
-            
-            // ?price=1000&price_op=lte
-            // where price <= 1000
-            else if ($operator=='lte') {
-                $query->where($field, '<=', $value);
-            }
-
-            // ?price=1000&price_op=gt
-            // where price > 1000
-            else if ($operator=='gt') {
-                $query->where($field, '>', $value);
-            }
-
-            // ?price=1000&price_op=gte
-            // where price >= 1000
-            else if ($operator=='gte') {
-                $query->where($field, '>=', $value);
-            }
-
-            // ?status=finished&status_op=neq
-            // where status != 'finished'
-            else if ($operator=='neq') {
-                $query->where($field, '!=', $value);
-            }
-
-            // ?title=search&title_op=like
-            // where title like '%search%'
-            else if ($operator=='like') {
-                $query->where($field, 'like', "%{$value}%");
-            }
-
-            // ?title=search&title_op=nlike
-            // where title not like '%search%'
-            else if ($operator=='nlike') {
-                $query->where($field, 'not like', "%{$value}%");
-            }
-
-            // ?stars[]=3&stars[]=4&stars_op=between
-            // where stars between(3, 4)
-            else if ($operator=='between') {
-                $query->whereBetween($field, $value);
-            }
-
-            // ?stars[]=3&stars[]=4&stars_op=nbetween
-            // where stars not between(3, 4)
-            else if ($operator=='nbetween') {
-                $query->whereNotBetween($field, $value);
-            }
-
-            // ?status=finished
-            // where status='finished'
-            else {
-                $query->where($field, $value);
-            }
-        }
-
-        // ?orderby=id&order=desc
-        $order_by = "{$query_table}.{$params['orderby']}";
-        $query->orderBy($order_by, $params['order']);
-
-        // ?q=term+search
-        if ($params['q']) {
-            $terms = preg_split('/[^a-zA-Z0-9]/', $params['q']);
-            $whereLikes = [];
-            foreach($terms as $q) {
-                foreach($this->fillable as $field) {
-                    $field = "{$query_table}.{$field}";
-                    $whereLikes[] = [$field, 'like', "%{$q}%"];
+            // ?orderby=id&order=desc
+            if ($field=='order') {
+                $orders = is_array($value)? $value: [$value];
+                foreach($orders as $order) {
+                    list($orderby, $order) = explode(':', $order);
+                    $orderby = "{$query_table}.{$orderby}";
+                    $query->orderBy($orderby, $order);
                 }
+                continue;
             }
-            $query = $query->where(function($q) use($whereLikes) {
-                foreach($whereLikes as $w) {
-                    $q->orWhere($w[0], $w[1], $w[2]);
+
+            // ?per_page=10
+            else if ($field=='per_page') {
+                $query->limit($value);
+            }
+            
+            call_user_func($whereCallback, function($query) use($query_table, $field, $value, $params) {
+                $is_fillable = in_array($field, $this->fillable);
+                $field = $is_fillable? "{$query_table}.{$field}": $field;
+                $operator = isset($params["{$field}_op"])? $params["{$field}_op"]: 'eq';
+
+                // ?q=term+search
+                if ($field=='q') {
+                    if ($value) {
+                        $terms = preg_split('/[^a-zA-Z0-9]/', $value);
+                        $whereLikes = [];
+                        foreach($terms as $q) {
+                            foreach($this->fillable as $field) {
+                                $field = "{$query_table}.{$field}";
+                                $whereLikes[] = [$field, 'like', "%{$q}%"];
+                            }
+                        }
+                        $query = $query->where(function($q) use($whereLikes) {
+                            foreach($whereLikes as $w) {
+                                $q->orWhere($w[0], $w[1], $w[2]);
+                            }
+                        });
+                    }
+                }
+
+                // ?deleted=1
+                else if ($field=='deleted') {
+                    $query->whereDeleted($value);
+                }
+
+                else if ($is_fillable) {
+
+                    // ?status[]=progress&term[]=payment
+                    // where status in ('progress', 'payment')
+                    if (is_array($value)) {
+                        $query->whereIn($field, $value);
+                    }
+        
+                    // ?price=1000&price_op=lt
+                    // where price < 1000
+                    else if ($operator=='lt') {
+                        $query->where($field, '<', $value);
+                    }
+                    
+                    // ?price=1000&price_op=lte
+                    // where price <= 1000
+                    else if ($operator=='lte') {
+                        $query->where($field, '<=', $value);
+                    }
+        
+                    // ?price=1000&price_op=gt
+                    // where price > 1000
+                    else if ($operator=='gt') {
+                        $query->where($field, '>', $value);
+                    }
+        
+                    // ?price=1000&price_op=gte
+                    // where price >= 1000
+                    else if ($operator=='gte') {
+                        $query->where($field, '>=', $value);
+                    }
+        
+                    // ?status=finished&status_op=neq
+                    // where status != 'finished'
+                    else if ($operator=='neq') {
+                        $query->where($field, '!=', $value);
+                    }
+        
+                    // ?title=search&title_op=like
+                    // where title like '%search%'
+                    else if ($operator=='like') {
+                        $query->where($field, 'like', "%{$value}%");
+                    }
+        
+                    // ?title=search&title_op=nlike
+                    // where title not like '%search%'
+                    else if ($operator=='nlike') {
+                        $query->where($field, 'not like', "%{$value}%");
+                    }
+        
+                    // ?stars[]=3&stars[]=4&stars_op=between
+                    // where stars between(3, 4)
+                    else if ($operator=='between') {
+                        $query->whereBetween($field, $value);
+                    }
+        
+                    // ?stars[]=3&stars[]=4&stars_op=nbetween
+                    // where stars not between(3, 4)
+                    else if ($operator=='nbetween') {
+                        $query->whereNotBetween($field, $value);
+                    }
+        
+                    // ?status=finished
+                    // where status='finished'
+                    else {
+                        if ($value) {
+                            $query->where($field, $value);
+                        }
+                    }
                 }
             });
-        }
-
-        // ?deleted=1
-        $query->whereDeleted($params['deleted']);
-
-        // ?limit=3
-        if ($params['limit']) {
-            $query->limit($params['limit']);
         }
 
         return $query;

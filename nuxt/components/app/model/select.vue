@@ -39,9 +39,15 @@ export default {
         fieldName: {default:"name"},
     },
 
+    watch: {
+        modelValue(value) {
+            this.modelFind(value);
+        },
+    },
+
     methods: {
-        modelFind() {
-            useAxios({url:`/api/${this.namespace}/search`, params:{id:this.modelValue}})
+        modelFind(id) {
+            useAxios({url:`/api/${this.namespace}/search`, params:{ id, slug:id, op:'or' }})
                 .value.submit().then(resp => {
                     if (!resp.data.data[0]) return;
                     this.modelSearch.params.q = resp.data.data[0][ this.fieldName ];
@@ -79,7 +85,7 @@ export default {
     },
 
     mounted() {
-        this.modelFind();
+        this.modelFind(this.modelValue);
         this.focus = useFocusWithin(this.$el);
     },
 };
