@@ -43,7 +43,7 @@
                 <template #edit-form="crud">
                     <v-row>
                         <v-col cols="12" md="4">
-                            <app-model-file return-type="object" v-model="crud.edit" @update:modelValue="$router.push(`/admin/files?id=${event.id}`);"></app-model-file>
+                            <app-model-file v-model="crud.edit" @update:modelValue="$router.push(`/admin/files?id=${event.id}`);"></app-model-file>
                         </v-col>
                         <v-col cols="12" md="8">
                             <v-text-field label="Nome" v-model="crud.edit.name"></v-text-field>

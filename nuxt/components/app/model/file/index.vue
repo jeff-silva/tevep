@@ -1,18 +1,41 @@
 <template>
-    <div>
-        <v-img
-            width="100%"
-            :height="previewHeight"
-            :aspect-ratio="1"
-            :src="fileSave.data.url +'?'+ fileUrlRandom"
-        ></v-img>
+    <v-sheet elevation="2" style="width:100%; height:auto;">
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <v-btn block variant="outlined" color="primary" rounded="0" @click="fileBrowser()">
+                    <v-icon>mdi-upload</v-icon>
+                </v-btn>
+            </div>
+            <div class="flex-grow-1" v-if="propsModelValue.id">
+                <v-btn block variant="outlined" color="error" rounded="0" @click="fileRemove()">
+                    <v-icon>mdi-delete</v-icon>
+                </v-btn>
+            </div>
+        </div>
 
-        <v-file-input
-            :label="label"
-            hide-details
-            @update:modelValue="fileUpload(fileSave.data.content=$event[0])"
-        ></v-file-input>
-    </div>
+        <div style="position:relative; height:calc(100% - 36px); min-height:200px; display:flex; align-items:center; justify-content:center;">
+
+            <!-- Image cover -->
+            <v-img
+                v-if="propsModelValue.id && propsModelValue.type=='image'"
+                :src="propsModelValue.url"
+                style="height:100%;"
+                cover
+            />
+
+            <!-- Ext -->
+            <div
+                v-if="propsModelValue.id && propsModelValue.type!='image'"
+            >
+                {{ propsModelValue.ext }}
+            </div>
+
+            <!-- No image -->
+            <div v-if="!propsModelValue.id">
+                <v-btn icon="mdi-upload" @click="fileBrowser()"></v-btn>
+            </div>
+        </div>
+    </v-sheet>
 </template>
 
 <script>
@@ -24,15 +47,16 @@ export default {
         previewHeight: {default:'250px', type:String},
     },
 
-    watch: {
-        '$props.modelValue': {async handler() {
-            this.fileFind();
-        }},
+    computed: {
+        propsModelValue: {
+            get() { return this.modelValue; },
+            set(value) { this.$emit('update:modelValue', value); },
+        },
     },
 
     data() {
         return {
-            fileUrlRandom: Math.round(Math.random()*9999),
+            fileUrlRandom: ('?'+Math.round(Math.random()*9999)),
             fileSave: useAxios({
                 method: "post",
                 url: "/api/files/save",
@@ -42,44 +66,32 @@ export default {
     },
 
     methods: {
-        emitValue() {
-            if (this.returnType=='object') {
-                this.$emit('update:modelValue', {...this.fileSave.data});
-                return;
-            }
-            let value = this.fileSave.data[ this.returnType ] || false;
-            this.$emit('update:modelValue', value);
+        fileBrowser() {
+            Object.assign(document.createElement('input'), {
+                type: 'file',
+                onchange: (ev) => {
+                    const file = ev.target.files[0];
+                    this.propsModelValue.content = file;
+                    this.fileUpload();
+                },
+            }).click();
         },
 
-        async fileUpload(file) {
-            this.fileUrlRandom = Math.round(Math.random()*9999);
-            this.fileSave.data.content = file;
-            let resp = await this.fileSave.submit();
-            this.fileSave.data = resp.data;
-            this.fileSave.data.url = resp.data.url;
-            this.emitValue();
-        },
-
-        async fileFind() {
-            if (this.returnType=='object') {
-                if (isNaN(this.modelValue.id)) return;
-                this.fileSave.data = (await this.$axios.get(`/api/files/find/${this.modelValue.id}`)).data;
-            }
-
-            else if (this.returnType=='id') {
-                this.fileSave.data = (await this.$axios.get(`/api/files/find/${this.modelValue}`)).data;
-            }
+        async fileUpload() {
+            if (!this.propsModelValue.content) return;
             
-            else if (this.returnType=='url') {
-                const params = { url: this.modelValue };
-                const resp = (await this.$axios.get(`/api/files/search/`, { params })).data;
-                if (resp.data[0]) this.fileSave.data = resp.data[0];
+            const formData = new FormData();
+            for(let i in this.propsModelValue) {
+                formData.append(i, this.propsModelValue[i]);
             }
-        },
-    },
 
-    mounted() {
-        this.fileFind();
+            const resp = await this.$axios.post('/api/files/save', formData);
+            this.propsModelValue = resp.data;
+        },
+
+        fileRemove() {
+            this.propsModelValue = {};
+        },
     },
 };
 </script>
