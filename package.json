@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/jeff-silva/tevep#readme",
   "devDependencies": {
+    "@nuxt/bridge": "npm:@nuxt/bridge-edge@^3.0.0-27566698.2b0045e",
     "chokidar": "^3.5.3",
     "dotenv": "^16.0.1",
     "shelljs": "^0.8.5"
