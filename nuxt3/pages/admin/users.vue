@@ -6,6 +6,7 @@
                 singular="Usuário"
                 plural="Usuários"
                 :item-actions="{clone:false, delete:false, restore:false}"
+                @edit-success="editSuccess($event)"
             >
                 <template #search-table-header>
                     <th>Nome</th>
@@ -101,6 +102,10 @@ export default {
         changeTheme(theme, userId) {
             if (userId != this.app.user.id) return;
             this.$vuetify.theme.name = theme;
+        },
+        editSuccess(resp) {
+            if (resp.data.id != this.app.user.id) return;
+            setTimeout(() => location.reload(), 2000);
         },
     },
 };

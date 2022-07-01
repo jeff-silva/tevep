@@ -55,11 +55,18 @@ export default function(compParams={}) {
             }
 
             submitTimeout = setTimeout(() => {
+                let data = JSON.parse(JSON.stringify(req.value.data));
+                for(let i in data) {
+                    if (typeof data[i]=='object') {
+                        data[i] = JSON.stringify(data[i]);
+                    }
+                }
+
                 axios({
                     method: compParams.method,
                     url: compParams.url,
                     params: req.value.params,
-                    data: req.value.data,
+                    data,
                     cancelToken: axiosCancelSource.token,
                 })
                 .then(resp => {

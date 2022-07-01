@@ -155,6 +155,7 @@ class Controller extends BaseController
      */
     public function save()
     {
+        // dd(request()->all());
         return $this->model->updateOrCreate(['id' => request('id')], request()->all());
     }
 

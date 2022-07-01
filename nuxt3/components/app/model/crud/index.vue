@@ -4,6 +4,9 @@
         <app-model-crud-edit
             v-if="$route.query.edit || $route.query.clone"
             v-bind="$props"
+            @success="$emit('edit-success', $event)"
+            @error="$emit('edit-error', $event)"
+            @response="$emit('edit-response', $event)"
         >
             <template #edit-drawer="bind">
                 <slot name="edit-drawer" v-bind="bind"></slot>

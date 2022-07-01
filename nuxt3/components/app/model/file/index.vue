@@ -1,18 +1,5 @@
 <template>
-    <v-sheet elevation="2" style="width:100%; height:auto;">
-        <div class="d-flex">
-            <div class="flex-grow-1">
-                <v-btn block variant="outlined" color="primary" rounded="0" @click="fileBrowser()">
-                    <v-icon>mdi-upload</v-icon>
-                </v-btn>
-            </div>
-            <div class="flex-grow-1" v-if="propsModelValue.id">
-                <v-btn block variant="outlined" color="error" rounded="0" @click="fileRemove()">
-                    <v-icon>mdi-delete</v-icon>
-                </v-btn>
-            </div>
-        </div>
-
+    <v-sheet elevation="1" style="width:100%; height:auto;">
         <div style="position:relative; height:calc(100% - 36px); min-height:200px; display:flex; align-items:center; justify-content:center;">
 
             <!-- Image cover -->
@@ -33,6 +20,18 @@
             <!-- No image -->
             <div v-if="!propsModelValue.id">
                 <v-btn icon="mdi-upload" @click="fileBrowser()"></v-btn>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="flex-grow-1">
+                <v-btn block variant="text" color="primary" rounded="0" @click="fileBrowser()">
+                    <v-icon>mdi-upload</v-icon>
+                </v-btn>
+            </div>
+            <div class="flex-grow-1" v-if="propsModelValue.id">
+                <v-btn block variant="text" color="error" rounded="0" @click="fileRemove()">
+                    <v-icon>mdi-delete</v-icon>
+                </v-btn>
             </div>
         </div>
     </v-sheet>

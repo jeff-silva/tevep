@@ -14,12 +14,12 @@
         >
             <v-card :title="app.title" :elevation="0">
                 <v-divider />
-                <v-card-content>
+                <v-card-text>
                     <div class="d-flex flex-column" style="gap:15px;">
                         <v-btn color="primary" type="submit">Salvar</v-btn>
                         <v-btn :to="`/admin/${namespace}`">Voltar</v-btn>
                     </div>
-                </v-card-content>
+                </v-card-text>
             </v-card>
         </v-navigation-drawer>
 
@@ -59,6 +59,15 @@ export default {
                     this.edit.data = resp.data;
                     this.app.setTitle(`Editar ${this.singular}: ${this.edit.data.name}`);
                     this.alert({type:'success', text:`${this.singular} salvo`});
+                },
+                onSuccess: (resp) => {
+                    this.$emit('success', resp);
+                },
+                onError: (resp) => {
+                    this.$emit('error', resp);
+                },
+                onResponse: (resp) => {
+                    this.$emit('response', resp);
                 },
             }),
         };

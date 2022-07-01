@@ -14,7 +14,7 @@
         >
             <v-card :title="app.title" :elevation="0">
                 <v-divider />
-                <v-card-content>
+                <v-card-text>
                     <div class="d-flex flex-column" style="gap:25px;">
                         <v-text-field
                             :label="`Buscar ${plural}`"
@@ -33,9 +33,9 @@
 
                         <slot name="search-drawer" v-bind="slotBind()"></slot>
                     </div>
-                </v-card-content>
+                </v-card-text>
                 <v-divider class="my-2" />
-                <v-card-content>
+                <v-card-text>
                     <div class="d-flex flex-column" style="gap:20px;">    
                         <v-btn type="submit" color="primary" block :disabled="search.loading">
                             Buscar
@@ -53,7 +53,7 @@
                             Restaurar {{ selectedIds.length }} {{ plural }}
                         </v-btn>
                     </div>
-                </v-card-content>
+                </v-card-text>
             </v-card>
         </v-navigation-drawer>
 

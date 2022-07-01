@@ -173,5 +173,8 @@ export default {
             }),
         };
     },
+    mounted() {
+        this.$vuetify.theme.name = this.app.user.settings.theme;
+    },
 }
 </script>
