@@ -35,9 +35,13 @@
                         <template v-for="i in search.resp">
                             <v-list-item :to="i.url">{{ i.name }}</v-list-item>
     
-                            <template v-for="ii in i.data">
-                                <v-list-item :to="ii.url">{{ ii.name || 'name' }}</v-list-item>
-                            </template>
+                            <v-list-item
+                                v-for="ii in i.data"
+                                :key="$key(ii)"
+                                :to="ii.url"
+                            >
+                                {{ ii.name || 'name' }}
+                            </v-list-item>
                         </template>
                     </v-list>
                 </div>
@@ -79,6 +83,13 @@
                     <v-list-item :to="`/admin/users?edit=me`">
                         Editar meus dados
                     </v-list-item>
+                    <v-divider></v-divider>
+                    <v-list-item
+                        prepend-icon="mdi-power"
+                        @click="app.logout().then(resp => $router.push('/auth'))"
+                    >
+                        Logout
+                    </v-list-item>
                 </v-list>
             </v-navigation-drawer>
 
@@ -114,14 +125,6 @@
                     ]},
                 ]"></app-nav>
                 <v-divider></v-divider>
-                <v-list>
-                    <v-list-item
-                        prepend-icon="mdi-power"
-                        @click="app.logout().then(resp => $router.push('/auth'))"
-                    >
-                        Logout
-                    </v-list-item>
-                </v-list>
             </v-navigation-drawer>
 
             <v-app-bar app>

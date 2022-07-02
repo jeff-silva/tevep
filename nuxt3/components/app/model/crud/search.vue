@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="search.submit()">
+    <form @submit.prevent="search.submit()" class="app-model-crud-search">
         <!-- Footer actions -->
         <app-actions>
             <v-btn icon="mdi-plus" :to="`/admin/${namespace}?edit=new`"></v-btn>
@@ -213,3 +213,10 @@ export default {
     },
 };
 </script>
+
+<style>
+.app-model-crud-search table th {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+</style>
